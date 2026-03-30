@@ -1,0 +1,2318 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación interactiva: ingeniería de prompts para búsqueda laboral - Caso Isabella Andrea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            background: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+
+            --verde-light: #E6F5EB;
+            --amarillo-light: #FFF9E6;
+            --rojo-light: #FFE6E8;
+            --azul-light: #E6F2FF;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal */
+        #app-container {
+            width: 100%;
+            height: 100vh;
+            background: white;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header mejorado */
+        #header {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        #header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            flex: 1;
+            min-width: 250px;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Progress bar */
+        #progress-container {
+            background: rgba(0, 0, 0, 0.2);
+            height: 6px;
+            position: relative;
+        }
+
+        #progress-bar {
+            background: linear-gradient(90deg, var(--verde), var(--amarillo));
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(0, 168, 89, 0.5);
+        }
+
+        /* Controls */
+        #controls {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn.active {
+            background: var(--verde);
+            border-color: var(--verde);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        /* Main content */
+        #main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* Slide container */
+        #slide-container {
+            flex: 1;
+            width: 100%;
+            position: relative;
+            background: white;
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            animation: fadeIn 0.5s ease-out;
+            padding-top: 3rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--azul-dark);
+            margin-bottom: 2rem;
+            text-align: center;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .slide-subtitle {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--verde);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 4px solid var(--amarillo);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .slide-content {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--gris-800);
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .slide-content * {
+            max-width: 100%;
+        }
+
+        /* Accesibilidad para neurodivergentes */
+        .text-high-contrast {
+            color: var(--gris-800);
+            font-weight: 500;
+        }
+
+        strong {
+            color: var(--azul-dark);
+            font-weight: 700;
+        }
+
+        /* Lista animada mejorada */
+        .animated-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .animated-list li {
+            padding: 1.25rem 1.75rem;
+            margin: 1rem 0;
+            background: linear-gradient(135deg, var(--gris-50) 0%, white 100%);
+            border-left: 5px solid var(--verde);
+            border-radius: 12px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideIn 0.5s ease forwards;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1.05rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .animated-list li:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+            border-left-color: var(--azul);
+        }
+
+        .animated-list li:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .animated-list li:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .animated-list li:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .animated-list li:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .animated-list li:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .animated-list li:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        /* Highlight boxes mejorados */
+        .highlight-box {
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 1.5rem 0;
+            border: 3px solid;
+            animation: scaleIn 0.4s ease-out;
+            font-weight: 500;
+            font-size: 1.05rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .highlight-box.info {
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.05), rgba(0, 85, 165, 0.1));
+            border-color: var(--azul);
+            color: var(--gris-800);
+        }
+
+        .highlight-box.info h3,
+        .highlight-box.info h4 {
+            color: var(--azul-dark);
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, rgba(0, 168, 89, 0.05), rgba(0, 168, 89, 0.1));
+            border-color: var(--verde);
+            color: var(--gris-800);
+        }
+
+        .highlight-box.success h3,
+        .highlight-box.success h4 {
+            color: var(--gris-800);
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, rgba(255, 209, 0, 0.1), rgba(255, 209, 0, 0.15));
+            border-color: var(--amarillo-dark);
+            color: var(--gris-800);
+        }
+
+        .highlight-box.warning h3,
+        .highlight-box.warning h4 {
+            color: var(--gris-800);
+        }
+
+        .highlight-box.danger {
+            background: linear-gradient(135deg, rgba(227, 0, 15, 0.05), rgba(227, 0, 15, 0.1));
+            border-color: var(--rojo);
+            color: var(--gris-800);
+        }
+
+        .highlight-box.danger h3,
+        .highlight-box.danger h4 {
+            color: var(--gris-800);
+        }
+
+        /* Asegurar visibilidad del contenido */
+        .highlight-box p,
+        .highlight-box ul,
+        .highlight-box li {
+            color: var(--gris-800);
+        }
+
+        .highlight-box strong {
+            color: var(--azul-dark);
+            font-weight: 700;
+        }
+
+        /* Botones interactivos mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.35);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--azul);
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--azul);
+        }
+
+        .btn-secondary:hover {
+            background: var(--azul);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Navigation buttons mejorados */
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem;
+            background: linear-gradient(180deg, white, var(--gris-50));
+            border-top: 2px solid var(--gris-200);
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        #prev-btn {
+            background: white;
+            color: var(--azul);
+            border: 2px solid var(--azul);
+        }
+
+        #prev-btn:not(:disabled):hover {
+            background: var(--azul);
+            color: white;
+        }
+
+        #next-btn {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.25);
+        }
+
+        #slide-counter {
+            font-weight: 700;
+            color: var(--azul-dark);
+            font-size: 1.1rem;
+            background: var(--gris-100);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--gris-200);
+        }
+
+        /* Modal mejorado */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.show,
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.3s ease-out;
+            position: relative;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul), var(--verde));
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-body p {
+            color: var(--gris-800);
+        }
+
+        .modal-body ul {
+            color: var(--gris-800);
+        }
+
+        .modal-body h4 {
+            color: inherit;
+        }
+
+        .modal-body .highlight-box p,
+        .modal-body .highlight-box ul,
+        .modal-body .highlight-box li {
+            color: inherit;
+        }
+
+        .modal-footer {
+            padding: 1rem 2rem;
+            background: var(--gris-50);
+            border-top: 1px solid var(--gris-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Loading overlay mejorado */
+        #loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Footer mejorado */
+        #footer {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1.25rem 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-top: 3px solid var(--verde);
+        }
+
+        /* Checkbox personalizado */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--gris-50);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 1rem;
+        }
+
+        .checkbox-container:hover {
+            background: var(--gris-100);
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--verde);
+        }
+
+        .checkbox-container label {
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gris-700);
+        }
+
+        /* Tarjetas interactivas */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            max-width: 100%;
+        }
+
+        .card {
+            background: white;
+            border: 3px solid var(--gris-200);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.25);
+            border-color: var(--azul);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h4 {
+            color: var(--azul-dark);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            font-size: 1.25rem;
+        }
+
+        .card p {
+            color: var(--gris-800);
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .card strong {
+            color: var(--azul-dark);
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 2rem 1.5rem;
+            }
+
+            .slide-title {
+                font-size: 1.85rem;
+            }
+
+            .slide-subtitle {
+                font-size: 1.4rem;
+            }
+
+            .slide-content {
+                font-size: 1rem;
+                max-width: 100%;
+            }
+
+            .highlight-box {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #header {
+                padding: 1rem 1rem;
+            }
+
+            #header h1 {
+                font-size: 1.1rem;
+            }
+
+            .control-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            .slide {
+                padding: 1.5rem 1rem;
+            }
+
+            .slide-title {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .slide-subtitle {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .slide-content {
+                font-size: 0.95rem;
+            }
+
+            #navigation {
+                padding: 1rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .nav-btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            #slide-counter {
+                font-size: 0.95rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .highlight-box {
+                padding: 1.25rem;
+                font-size: 0.95rem;
+                margin: 1rem 0;
+            }
+
+            .card {
+                padding: 1.25rem;
+                min-height: 150px;
+            }
+
+            .animated-list li {
+                padding: 1rem 1.25rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Mejoras de accesibilidad */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Focus visible para teclado */
+        *:focus-visible {
+            outline: 3px solid var(--amarillo);
+            outline-offset: 2px;
+        }
+
+        /* Alto contraste para texto */
+        .slide-content p,
+        .slide-content li {
+            color: var(--gris-800);
+            font-weight: 500;
+        }
+
+        .slide-content em {
+            color: var(--gris-700);
+            font-style: italic;
+        }
+
+        .slide-content strong {
+            color: var(--azul-dark);
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📚 Cómo usar esta presentación interactiva</h2>
+                <button class="close-modal" onclick="closeInstructions()" aria-label="Cerrar modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="highlight-box info">
+                    <h4 style="font-weight: 700; margin-bottom: 0.75rem; color: var(--azul-dark);">🎯 Objetivo</h4>
+                    <p style="margin-bottom: 0; color: var(--gris-800);">Esta presentación interactiva te guiará a
+                        través del caso de <strong>Isabella Andrea</strong>, una profesional en transición laboral que
+                        aprenderá a usar herramientas de IA generativa. Descubrirás técnicas de ingeniería de prompts
+                        aplicadas a búsqueda laboral mediante su historia.</p>
+                </div>
+
+                <div class="highlight-box success">
+                    <h4 style="font-weight: 700; margin-bottom: 0.75rem; color: var(--gris-800);">🖱️ Navegación</h4>
+                    <ul style="list-style-position: inside; line-height: 1.8; margin: 0; color: var(--gris-800);">
+                        <li><strong>Botones de navegación:</strong> Usa "Anterior" y "Siguiente" en la parte inferior
+                        </li>
+                        <li><strong>Teclado:</strong> Teclas de flecha izquierda/derecha para cambiar diapositivas</li>
+                        <li><strong>Barra de progreso:</strong> Visualiza tu avance en la parte superior</li>
+                        <li><strong>Contador de slides:</strong> Indica tu posición actual (ejemplo: 5/16)</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box warning">
+                    <h4 style="font-weight: 700; margin-bottom: 0.75rem; color: var(--gris-800);">⚡ Funciones especiales
+                    </h4>
+                    <ul style="list-style-position: inside; line-height: 1.8; margin: 0; color: var(--gris-800);">
+                        <li><strong>Exportar PDF:</strong> Descarga toda la presentación en un archivo PDF</li>
+                        <li><strong>Tarjetas interactivas:</strong> Haz clic en las tarjetas para ver detalles
+                            adicionales</li>
+                        <li><strong>Modales informativos:</strong> Obtén análisis profundos de cada técnica</li>
+                    </ul>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="dontShowAgain" name="dontShowAgain">
+                    <label for="dontShowAgain">No volver a mostrar estas instrucciones</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeInstructions()">
+                    <span>¡Entendido, comenzar!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de detalles -->
+    <div id="detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button class="close-modal" onclick="closeModal()" aria-label="Cerrar modal">×</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">
+                    <span>Cerrar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Generando PDF...</div>
+            <div
+                style="color: white; margin-top: 1rem; font-size: 0.9rem; opacity: 0.8; text-align: center; max-width: 400px;">
+                Capturando cada diapositiva con alta calidad. Este proceso puede tomar varios minutos.
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div id="app-container">
+        <!-- Header -->
+        <div id="header">
+            <h1>🤖 Presentación interactiva: ingeniería de prompts - Caso Isabella Andrea</h1>
+            <div id="controls">
+                <button class="control-btn" onclick="openInstructions()" title="Instrucciones">
+                    📚 Ayuda
+                </button>
+                <button class="control-btn" onclick="exportToPDF()" title="Exportar a PDF">
+                    📄 PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+
+        <!-- Main content -->
+        <div id="main-content">
+            <!-- Slide container -->
+            <div id="slide-container">
+                <!-- Slide 1: Portada -->
+                <div class="slide active" data-slide="0">
+                    <div style="text-align: center;">
+                        <div style="font-size: 5rem; margin-bottom: 1rem;">🤖</div>
+                        <h1 class="slide-title">Ingeniería de prompts para búsqueda laboral</h1>
+                        <h2 class="slide-subtitle" style="text-align: center; border: none;">Caso de estudio: Isabella
+                            Andrea</h2>
+                        <div class="highlight-box info" style="max-width: 700px; margin: 2rem auto;">
+                            <p style="font-size: 1.1rem; text-align: center; margin: 0;">
+                                Un recorrido práctico por las técnicas de ingeniería de prompts aplicadas al diagnóstico
+                                de competencias y búsqueda laboral
+                            </p>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <button class="btn btn-primary" onclick="nextSlide()" style="font-size: 1.1rem;">
+                                <span>Comenzar el recorrido →</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Video introductorio -->
+                <div class="slide" data-slide="1">
+                    <h1 class="slide-title">🎥 Video introductorio</h1>
+                    <div class="slide-content">
+                        <div class="highlight-box info" style="margin-bottom: 1.5rem;">
+                            <p class="text-high-contrast" style="text-align: center; margin: 0;">
+                                Conoce el contexto de ingeniería de prompts aplicado a la búsqueda laboral
+                            </p>
+                        </div>
+                        <div
+                            style="padding:56.25% 0 0 0;position:relative;border-radius:12px;overflow:hidden;box-shadow: 0 8px 24px rgba(0, 85, 165, 0.25);">
+                            <iframe
+                                src="https://player.vimeo.com/video/1133329645?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                                frameborder="0"
+                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                                title="course-v1:openuchile+VTI-AIA+2025_1_Ingenieria_de_prompts"></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Introducción al caso -->
+                <div class="slide" data-slide="2">
+                    <h1 class="slide-title">📌 Conoce a Isabella Andrea</h1>
+                    <div class="slide-content">
+                        <div class="highlight-box info">
+                            <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--azul-dark);">¿Quién es
+                                Isabella Andrea?</h3>
+                            <p class="text-high-contrast">
+                                <strong>Isabella Andrea</strong> es el personaje protagonista de nuestro caso de
+                                estudio. Es una profesional con 15 años de experiencia en administración que está en
+                                transición laboral y necesita aprender a usar herramientas de IA generativa para mejorar
+                                su comunicación profesional y realizar un diagnóstico efectivo de sus competencias.
+                            </p>
+                        </div>
+
+                        <div class="highlight-box warning">
+                            <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--gris-800);">Su desafío
+                                principal</h3>
+                            <p class="text-high-contrast">
+                                Isabella Andrea tiene <strong>experiencia valiosa</strong> pero no sabe cómo
+                                "traducirla" al lenguaje que entienden los sistemas ATS (Applicant Tracking Systems) y
+                                los reclutadores. A través de este caso, aprenderás las técnicas de ingeniería de
+                                prompts que ella usará para cerrar esta brecha comunicacional.
+                            </p>
+                        </div>
+
+                        <div class="highlight-box success">
+                            <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--gris-800);">El valor del caso
+                            </h3>
+                            <p class="text-high-contrast">
+                                Este caso representa la <strong>democratización del acceso</strong> a herramientas de
+                                desarrollo profesional mediante IA generativa. Isabella Andrea demuestra que estas
+                                herramientas no son solo para expertos técnicos, sino que pueden ser un recurso de
+                                <strong>equidad</strong> que amplifica las oportunidades de quienes buscan crecer
+                                profesionalmente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: El contexto de Isabella Andrea -->
+                <div class="slide" data-slide="3">
+                    <h1 class="slide-title">🎯 El contexto de Isabella Andrea</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Perfil profesional</h2>
+                        <div class="card-grid">
+                            <div class="card">
+                                <h4>👤 Experiencia</h4>
+                                <p class="text-high-contrast">15 años en administración de pequeñas empresas, con fuerte
+                                    experiencia en gestión de equipos y procesos operativos.</p>
+                            </div>
+                            <div class="card">
+                                <h4>🎓 Formación</h4>
+                                <p class="text-high-contrast">Técnico en administración con certificaciones en gestión
+                                    de proyectos y herramientas digitales básicas.</p>
+                            </div>
+                            <div class="card">
+                                <h4>🚀 Objetivo</h4>
+                                <p class="text-high-contrast">Transitar hacia roles de coordinación en empresas medianas
+                                    o grandes, especialmente en áreas de operaciones.</p>
+                            </div>
+                            <div class="card">
+                                <h4>❌ Obstáculo</h4>
+                                <p class="text-high-contrast">No sabe cómo expresar su experiencia en términos de
+                                    competencias que buscan las ofertas laborales actuales.</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box danger" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">⚠️ La brecha comunicacional</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                Isabella Andrea tiene las competencias pero no el lenguaje. Sabe gestionar equipos, pero
+                                no sabe que eso se llama "liderazgo colaborativo". Ha resuelto crisis, pero no sabe que
+                                eso es "gestión del cambio bajo presión".
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Fundamentos de ingeniería de prompts -->
+                <div class="slide" data-slide="4">
+                    <h1 class="slide-title">🔧 Fundamentos de ingeniería de prompts</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">¿Qué es un prompt efectivo?</h2>
+                        <div class="highlight-box info">
+                            <p class="text-high-contrast">
+                                Un <strong>prompt</strong> es una instrucción o conjunto de instrucciones que le das a
+                                una IA generativa para obtener una respuesta específica. La calidad del prompt determina
+                                directamente la calidad de la respuesta.
+                            </p>
+                        </div>
+
+                        <h3 style="font-weight: 700; color: var(--azul-dark); margin: 1.5rem 0 1rem;">Los 4 pilares de
+                            un buen prompt</h3>
+                        <ul class="animated-list">
+                            <li><strong>Contexto:</strong> Proporciona información de fondo relevante (quién eres, qué
+                                necesitas, en qué situación estás)</li>
+                            <li><strong>Tarea específica:</strong> Define claramente qué quieres que la IA haga
+                                (analizar, redactar, sugerir, comparar)</li>
+                            <li><strong>Formato deseado:</strong> Indica cómo quieres la respuesta (lista, párrafo,
+                                tabla, puntos clave)</li>
+                            <li><strong>Restricciones o criterios:</strong> Establece límites o requisitos específicos
+                                (longitud, tono, palabras clave a incluir)</li>
+                        </ul>
+
+                        <div class="highlight-box warning" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">💡 Principio fundamental</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                La IA generativa no lee tu mente. Cuanto más específico y estructurado sea tu prompt,
+                                más útil y precisa será la respuesta. <strong>La claridad en la pregunta genera claridad
+                                    en la respuesta.</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 6: Técnica 1 - Contexto rico -->
+                <div class="slide" data-slide="5">
+                    <h1 class="slide-title">📝 Técnica 1: contexto rico</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Proporcionar contexto relevante y específico</h2>
+
+                        <div class="highlight-box danger">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">❌ Prompt pobre (sin contexto)</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                "Ayúdame a mejorar mi CV."
+                            </p>
+                        </div>
+
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">✅ Prompt con contexto rico</h4>
+                            <p class="text-high-contrast">
+                                "Soy Isabella Andrea, tengo 15 años de experiencia en administración de pequeñas
+                                empresas, principalmente gestionando equipos de 5-10 personas y supervisando procesos
+                                operativos diarios. He manejado inventarios, coordinado con proveedores y resuelto
+                                problemas urgentes de forma regular.
+                                <br><br>
+                                Quiero postular a un cargo de <strong>Coordinador de Operaciones</strong> en una empresa
+                                mediana. La descripción del puesto menciona: 'gestión de equipos multifuncionales',
+                                'optimización de procesos', 'resolución de conflictos' y 'toma de decisiones bajo
+                                presión'.
+                                <br><br>
+                                Mi objetivo: reescribir mi experiencia laboral para que refleje estas competencias
+                                usando ejemplos concretos de mi trabajo."
+                            </p>
+                        </div>
+
+                        <div class="card" onclick="showTechniqueDetail('contexto')"
+                            style="margin-top: 1.5rem; cursor: pointer;">
+                            <h4>📖 Ver análisis detallado →</h4>
+                            <p class="text-high-contrast">Haz clic para ver cómo el contexto rico transforma la calidad
+                                de la respuesta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 7: Técnica 2 - Instrucciones estructuradas -->
+                <div class="slide" data-slide="6">
+                    <h1 class="slide-title">🎯 Técnica 2: instrucciones estructuradas</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Usar formato claro y numerado</h2>
+
+                        <div class="highlight-box info">
+                            <p class="text-high-contrast">
+                                Las instrucciones estructuradas ayudan a la IA a seguir un proceso paso a paso,
+                                asegurando que no omita elementos importantes de tu solicitud.
+                            </p>
+                        </div>
+
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">✅ Ejemplo de prompt estructurado para
+                                Isabella Andrea</h4>
+                            <p class="text-high-contrast">
+                                "Necesito analizar esta oferta laboral para Coordinador de Operaciones. Por favor,
+                                realiza lo siguiente:
+                                <br><br>
+                                <strong>1. Identifica y lista</strong> todas las competencias técnicas mencionadas
+                                (ejemplo: manejo de Excel, conocimiento de sistemas ERP)
+                                <br>
+                                <strong>2. Identifica y lista</strong> todas las competencias blandas mencionadas
+                                (ejemplo: liderazgo, comunicación)
+                                <br>
+                                <strong>3. Para cada competencia identificada, proporciona</strong>:
+                                <br>&nbsp;&nbsp;&nbsp;• Una definición breve (1-2 líneas)
+                                <br>&nbsp;&nbsp;&nbsp;• Un ejemplo concreto de cómo Isabella Andrea podría demostrar esa
+                                competencia basándose en su experiencia
+                                <br>
+                                <strong>4. Prioriza</strong> las 5 competencias más críticas para esta posición
+                                <br>
+                                <strong>5. Sugiere</strong> 3 palabras clave que Isabella Andrea debería incluir en su
+                                CV para pasar los filtros ATS"
+                            </p>
+                        </div>
+
+                        <div class="card" onclick="showTechniqueDetail('estructura')"
+                            style="margin-top: 1.5rem; cursor: pointer;">
+                            <h4>📖 Ver análisis detallado →</h4>
+                            <p class="text-high-contrast">Descubre por qué las instrucciones numeradas mejoran
+                                exponencialmente los resultados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 8: Técnica 3 - Ejemplos concretos -->
+                <div class="slide" data-slide="7">
+                    <h1 class="slide-title">📚 Técnica 3: ejemplos concretos (few-shot)</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Mostrar ejemplos del resultado esperado</h2>
+
+                        <div class="highlight-box info">
+                            <p class="text-high-contrast">
+                                La técnica <strong>few-shot</strong> consiste en proporcionar ejemplos específicos de
+                                cómo quieres que la IA responda. Es como mostrarle un modelo a seguir.
+                            </p>
+                        </div>
+
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">✅ Prompt con ejemplos para Isabella
+                                Andrea</h4>
+                            <p class="text-high-contrast">
+                                "Necesito reescribir mis experiencias laborales para resaltar competencias específicas.
+                                Sigue este formato:
+                                <br><br>
+                                <strong>Ejemplo 1:</strong>
+                                <br><strong>Antes:</strong> 'Manejé el inventario de la empresa'
+                                <br><strong>Después:</strong> 'Implementé y supervisé sistema de control de inventario
+                                que redujo pérdidas en 15% y mejoró la trazabilidad de 200+ productos mediante Excel y
+                                seguimiento semanal'
+                                <br><br>
+                                <strong>Ejemplo 2:</strong>
+                                <br><strong>Antes:</strong> 'Coordiné con proveedores'
+                                <br><strong>Después:</strong> 'Negocié y gestioné relaciones con 15+ proveedores
+                                estratégicos, logrando reducción de 12% en costos y mejora de 20% en tiempos de entrega
+                                mediante comunicación proactiva y seguimiento de KPIs'
+                                <br><br>
+                                Ahora, reescribe estas experiencias siguiendo el mismo patrón..."
+                            </p>
+                        </div>
+
+                        <div class="card" onclick="showTechniqueDetail('ejemplos')"
+                            style="margin-top: 1.5rem; cursor: pointer;">
+                            <h4>📖 Ver análisis detallado →</h4>
+                            <p class="text-high-contrast">Comprende el poder de aprender por ejemplos en ingeniería de
+                                prompts</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 9: Técnica 4 - Especificar formato -->
+                <div class="slide" data-slide="8">
+                    <h1 class="slide-title">📐 Técnica 4: especificar formato de salida</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Definir cómo quieres recibir la información</h2>
+
+                        <div class="highlight-box warning">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">⚠️ Sin formato específico</h4>
+                            <p class="text-high-contrast">
+                                "Dame información sobre cómo preparar una entrevista de trabajo."
+                                <br><br>
+                                <em>Resultado: La IA puede dar una respuesta genérica, muy larga o poco
+                                    estructurada.</em>
+                            </p>
+                        </div>
+
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">✅ Con formato específico para Isabella
+                                Andrea</h4>
+                            <p class="text-high-contrast">
+                                "Prepárame para una entrevista de Coordinador de Operaciones. Proporciona tu respuesta
+                                en el siguiente formato:
+                                <br><br>
+                                <strong>TABLA 1 - Preguntas conductuales probables:</strong>
+                                <br>| Pregunta | Competencia evaluada | Mi respuesta sugerida |
+                                <br><br>
+                                <strong>TABLA 2 - Preguntas técnicas probables:</strong>
+                                <br>| Pregunta | Área de conocimiento | Mi respuesta sugerida |
+                                <br><br>
+                                <strong>LISTA - Preguntas inteligentes para hacer al entrevistador:</strong>
+                                <br>1. [pregunta sobre cultura organizacional]
+                                <br>2. [pregunta sobre el equipo]
+                                <br>3. [pregunta sobre expectativas del rol]
+                                <br><br>
+                                Incluye 5 preguntas conductuales, 3 preguntas técnicas y 5 preguntas para hacer."
+                            </p>
+                        </div>
+
+                        <div class="card" onclick="showTechniqueDetail('formato')"
+                            style="margin-top: 1.5rem; cursor: pointer;">
+                            <h4>📖 Ver análisis detallado →</h4>
+                            <p class="text-high-contrast">Descubre cómo el formato estructurado facilita el uso práctico
+                                de la información</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 10: Técnica 5 - Roles y perspectivas -->
+                <div class="slide" data-slide="9">
+                    <h1 class="slide-title">🎭 Técnica 5: asignar roles y perspectivas</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Pedir a la IA que adopte un punto de vista específico</h2>
+
+                        <div class="highlight-box info">
+                            <p class="text-high-contrast">
+                                Cuando asignas un rol específico a la IA, sus respuestas reflejan la perspectiva y
+                                conocimiento especializado de ese rol, volviéndose más relevantes y accionables.
+                            </p>
+                        </div>
+
+                        <div class="card-grid">
+                            <div class="card">
+                                <h4>👔 Rol: reclutador experto</h4>
+                                <p class="text-high-contrast">"Actúa como un reclutador con 10 años de experiencia.
+                                    Revisa mi CV y dame feedback honesto sobre qué cambiaría para aumentar mis
+                                    posibilidades."</p>
+                            </div>
+                            <div class="card">
+                                <h4>🎯 Rol: coach de carrera</h4>
+                                <p class="text-high-contrast">"Eres un coach profesional. Ayúdame a identificar mis
+                                    competencias transferibles que no son evidentes en mi historial laboral."</p>
+                            </div>
+                            <div class="card">
+                                <h4>💼 Rol: gerente contratante</h4>
+                                <p class="text-high-contrast">"Imagina que eres el gerente que publicó esta oferta. ¿Qué
+                                    te haría elegir mi perfil sobre otros candidatos?"</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box success" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">✅ Ejemplo aplicado a Isabella Andrea
+                            </h4>
+                            <p class="text-high-contrast">
+                                "Actúa como un <strong>reclutador senior especializado en roles de operaciones</strong>
+                                en empresas de retail. Has revisado miles de CVs y sabes exactamente qué hace que un
+                                candidato destaque.
+                                <br><br>
+                                Revisa mi experiencia: [experiencia de Isabella Andrea]
+                                <br><br>
+                                Desde tu perspectiva profesional:
+                                <br>1. ¿Qué fortalezas ves inmediatamente?
+                                <br>2. ¿Qué red flags o debilidades detectas?
+                                <br>3. ¿Qué debería cambiar urgentemente?
+                                <br>4. ¿Cómo me comparo con el candidato promedio para este rol?"
+                            </p>
+                        </div>
+
+                        <div class="card" onclick="showTechniqueDetail('roles')"
+                            style="margin-top: 1.5rem; cursor: pointer;">
+                            <h4>📖 Ver análisis detallado →</h4>
+                            <p class="text-high-contrast">Explora cómo los roles transforman la calidad y aplicabilidad
+                                del feedback</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 11: Técnica 6 - Iteración y refinamiento -->
+                <div class="slide" data-slide="10">
+                    <h1 class="slide-title">🔄 Técnica 6: iteración y refinamiento</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Mejorar progresivamente las respuestas</h2>
+
+                        <div class="highlight-box info">
+                            <p class="text-high-contrast">
+                                La primera respuesta rara vez es perfecta. La técnica de iteración consiste en refinar
+                                progresivamente el resultado mediante prompts de seguimiento específicos.
+                            </p>
+                        </div>
+
+                        <h3 style="font-weight: 700; color: var(--azul-dark); margin: 1.5rem 0 1rem;">Secuencia de
+                            refinamiento para Isabella Andrea</h3>
+
+                        <ul class="animated-list">
+                            <li>
+                                <strong>Prompt inicial:</strong> "Analiza esta oferta laboral y extrae las competencias
+                                clave"
+                                <br><em>→ Respuesta: Lista genérica de 15 competencias</em>
+                            </li>
+                            <li>
+                                <strong>Refinamiento 1:</strong> "Ahora prioriza solo las 5 más críticas según la
+                                descripción"
+                                <br><em>→ Respuesta: Lista reducida y priorizada</em>
+                            </li>
+                            <li>
+                                <strong>Refinamiento 2:</strong> "Para cada una, dame un ejemplo específico de cómo
+                                podría demostrarla basándome en mi experiencia en [contexto]"
+                                <br><em>→ Respuesta: Ejemplos contextualizados</em>
+                            </li>
+                            <li>
+                                <strong>Refinamiento 3:</strong> "Convierte estos ejemplos en bullet points para mi CV
+                                usando verbos de acción y resultados cuantificables"
+                                <br><em>→ Respuesta: Contenido listo para usar en CV</em>
+                            </li>
+                        </ul>
+
+                        <div class="highlight-box success" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">💡 Principio clave</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                No tengas miedo de pedir modificaciones. Frases como "hazlo más conciso", "agrega
+                                ejemplos específicos", "cambia el tono a más profesional" o "enfócate solo en X aspecto"
+                                son herramientas poderosas de refinamiento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 12: Comparación de modelos -->
+                <div class="slide" data-slide="11">
+                    <h1 class="slide-title">🤖 Modelos de IA para Isabella Andrea</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">¿Cuál elegir según la tarea?</h2>
+
+                        <div class="highlight-box info">
+                            <p class="text-high-contrast">
+                                Diferentes modelos de IA tienen distintas fortalezas. Conocerlas le permitirá a Isabella
+                                Andrea elegir la herramienta óptima para cada necesidad específica de su búsqueda
+                                laboral.
+                            </p>
+                        </div>
+
+                        <div class="card-grid">
+                            <div class="card" onclick="showModelDetail('gpt4')">
+                                <h4>🔷 GPT-4 (OpenAI)</h4>
+                                <p class="text-high-contrast">Ideal para análisis de ofertas, estructuración de
+                                    experiencias con metodología STAR y redacción de cartas de presentación.</p>
+                            </div>
+                            <div class="card" onclick="showModelDetail('claude')">
+                                <h4>🟣 Claude (Anthropic)</h4>
+                                <p class="text-high-contrast">Excelente para análisis profundos de múltiples documentos,
+                                    identificar patrones en ofertas y crear planes de acción personalizados.</p>
+                            </div>
+                            <div class="card" onclick="showModelDetail('gemini')">
+                                <h4>🔶 Gemini (Google)</h4>
+                                <p class="text-high-contrast">Perfecto para brainstorming creativo, generar múltiples
+                                    versiones de textos y explorar enfoques diversos.</p>
+                            </div>
+                            <div class="card" onclick="showModelDetail('notebooklm')">
+                                <h4>📓 NotebookLM (Google)</h4>
+                                <p class="text-high-contrast">Especializado en organizar información de múltiples
+                                    fuentes y crear bases de conocimiento personalizadas.</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box warning" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">💡 Estrategia multimodelo</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                Isabella Andrea puede combinar herramientas: usar <strong>Claude</strong> para analizar
+                                10 ofertas e identificar patrones, luego <strong>GPT-4</strong> para estructurar sus
+                                experiencias con metodología STAR, y finalmente <strong>Gemini</strong> para generar 5
+                                versiones diferentes de su párrafo de presentación.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 13: Caso práctico completo -->
+                <div class="slide" data-slide="12">
+                    <h1 class="slide-title">💼 Caso práctico: diagnóstico de competencias</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Isabella Andrea analiza una oferta laboral real</h2>
+
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">📄 Oferta: coordinador de operaciones
+                            </h4>
+                            <p class="text-high-contrast">
+                                <strong>Requisitos mencionados:</strong>
+                                <br>• "Experiencia liderando equipos multifuncionales"
+                                <br>• "Capacidad de optimizar procesos operativos"
+                                <br>• "Habilidades analíticas para toma de decisiones basadas en datos"
+                                <br>• "Gestión de múltiples proyectos simultáneos"
+                                <br>• "Resolución de conflictos y comunicación efectiva"
+                            </p>
+                        </div>
+
+                        <div class="highlight-box warning">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">❌ Respuesta de Isabella Andrea sin
+                                preparación</h4>
+                            <p class="text-high-contrast">
+                                "Tengo 15 años de experiencia en administración. He trabajado con equipos y he manejado
+                                varias tareas al mismo tiempo. Soy buena comunicándome."
+                                <br><br>
+                                <em>Problema: Vago, sin evidencia concreta, no conecta con las competencias específicas
+                                    de la oferta.</em>
+                            </p>
+                        </div>
+
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">✅ Respuesta después de usar ingeniería
+                                de prompts</h4>
+                            <p class="text-high-contrast">
+                                <strong>"Liderazgo de equipos multifuncionales:"</strong> Coordiné equipo de 8 personas
+                                entre áreas de ventas, logística y atención al cliente, logrando reducir tiempos de
+                                respuesta en 30% mediante reuniones semanales de sincronización y asignación clara de
+                                responsabilidades.
+                                <br><br>
+                                <strong>"Optimización de procesos:"</strong> Identifiqué y rediseñé proceso de gestión
+                                de pedidos, eliminando 3 pasos redundantes, lo que redujo errores en 25% y aceleró
+                                entregas en 2 días promedio.
+                                <br><br>
+                                <strong>"Toma de decisiones basadas en datos:"</strong> Implementé sistema de
+                                seguimiento en Excel de KPIs operacionales (ventas, inventario, satisfacción),
+                                permitiendo decisiones informadas que aumentaron eficiencia en 18%.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 14: Errores comunes -->
+                <div class="slide" data-slide="13">
+                    <h1 class="slide-title">⚠️ Errores comunes a evitar</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Aprende de los errores más frecuentes</h2>
+
+                        <div class="card-grid">
+                            <div class="card">
+                                <h4>❌ Prompts demasiado vagos</h4>
+                                <p class="text-high-contrast">
+                                    <strong>Error:</strong> "Ayúdame con mi CV"
+                                    <br><strong>Mejor:</strong> "Analiza mi CV para el rol de [X], identifica
+                                    competencias faltantes y sugiere 3 mejoras concretas"
+                                </p>
+                            </div>
+                            <div class="card">
+                                <h4>❌ Esperar magia sin contexto</h4>
+                                <p class="text-high-contrast">
+                                    <strong>Error:</strong> Pedir una carta de presentación sin dar detalles
+                                    <br><strong>Mejor:</strong> Proporcionar tu experiencia, la oferta laboral y 2-3
+                                    logros clave
+                                </p>
+                            </div>
+                            <div class="card">
+                                <h4>❌ No iterar ni refinar</h4>
+                                <p class="text-high-contrast">
+                                    <strong>Error:</strong> Aceptar la primera respuesta sin cuestionarla
+                                    <br><strong>Mejor:</strong> Pedir versiones alternativas, más concisas o con
+                                    diferente enfoque
+                                </p>
+                            </div>
+                            <div class="card">
+                                <h4>❌ Olvidar el factor humano</h4>
+                                <p class="text-high-contrast">
+                                    <strong>Error:</strong> Usar respuestas de IA sin personalizarlas
+                                    <br><strong>Mejor:</strong> Revisar, ajustar con tu voz y agregar detalles
+                                    auténticos
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box danger" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">🚨 Advertencia crítica</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                La IA es una herramienta de <strong>apoyo</strong>, no un reemplazo. Tu experiencia
+                                real, tus logros genuinos y tu personalidad son insustituibles. Usa la IA para
+                                <strong>traducir y estructurar</strong> tu valor, no para inventarlo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 15: Mejores prácticas -->
+                <div class="slide" data-slide="14">
+                    <h1 class="slide-title">✨ Mejores prácticas para Isabella Andrea</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Cómo maximizar el valor de la IA generativa</h2>
+
+                        <ul class="animated-list">
+                            <li>
+                                <strong>1. Mantén un "banco de prompts" efectivos:</strong>
+                                <br>Guarda los prompts que te dieron buenos resultados. Modifícalos según necesites. Con
+                                el tiempo, tendrás una biblioteca personal de prompts probados.
+                            </li>
+                            <li>
+                                <strong>2. Usa la metodología STAR en tus prompts:</strong>
+                                <br>Al describir tu experiencia, estructura: <strong>S</strong>ituación inicial,
+                                <strong>T</strong>area que enfrentaste, <strong>A</strong>cción que tomaste,
+                                <strong>R</strong>esultado obtenido. Esto genera respuestas más concretas.
+                            </li>
+                            <li>
+                                <strong>3. Experimenta con diferentes modelos:</strong>
+                                <br>No te cases con una sola herramienta. Prueba el mismo prompt en GPT-4, Claude y
+                                Gemini. Compara resultados y aprende cuál funciona mejor para cada tipo de tarea.
+                            </li>
+                            <li>
+                                <strong>4. Pide feedback específico, no genérico:</strong>
+                                <br>En lugar de "¿está bien mi CV?", pregunta: "¿Qué 3 elementos específicos deberían
+                                destacarse más? ¿Qué secciones están débiles y cómo mejorarlas?"
+                            </li>
+                            <li>
+                                <strong>5. Documenta tu progreso:</strong>
+                                <br>Lleva registro de las versiones de tu CV, qué cambios hiciste y qué resultados
+                                obtuviste. Esto te ayudará a identificar qué funciona mejor.
+                            </li>
+                        </ul>
+
+                        <div class="highlight-box success" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">🎯 El objetivo final</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                No se trata de "engañar al sistema" o de aparentar competencias que no tienes. Se trata
+                                de <strong>comunicar efectivamente el valor real que ya posees</strong> pero que no
+                                sabías cómo expresar en el lenguaje del mercado laboral actual.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 16: Resumen y próximos pasos -->
+                <div class="slide" data-slide="15">
+                    <h1 class="slide-title">🎓 Resumen y próximos pasos</h1>
+                    <div class="slide-content">
+                        <h2 class="slide-subtitle">Lo que aprendimos con Isabella Andrea</h2>
+
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">📝 Conceptos clave</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8; margin: 0;">
+                                <li>La calidad del prompt determina la calidad de la respuesta</li>
+                                <li>Contexto + Estructura + Ejemplos = Resultados óptimos</li>
+                                <li>Diferentes modelos tienen diferentes fortalezas</li>
+                                <li>La iteración y refinamiento son esenciales</li>
+                                <li>La IA es una herramienta de traducción y estructuración, no de invención</li>
+                            </ul>
+                        </div>
+
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">🚀 Plan de acción para Isabella Andrea
+                            </h4>
+                            <ol style="list-style-position: inside; line-height: 1.8; margin: 0;">
+                                <li><strong>Recopilar:</strong> Juntar 5-10 ofertas del rol objetivo y analizar patrones
+                                    de competencias</li>
+                                <li><strong>Mapear:</strong> Listar experiencias propias y conectarlas con competencias
+                                    identificadas</li>
+                                <li><strong>Traducir:</strong> Usar IA para convertir experiencias en lenguaje
+                                    profesional con metodología STAR</li>
+                                <li><strong>Optimizar:</strong> Ajustar CV con palabras clave para pasar filtros ATS
+                                </li>
+                                <li><strong>Preparar:</strong> Generar respuestas para entrevistas usando prompts
+                                    estructurados</li>
+                                <li><strong>Iterar:</strong> Probar, obtener feedback, refinar y mejorar continuamente
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div class="highlight-box warning" style="margin-top: 1.5rem;">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">💡 Recuerda</h4>
+                            <p class="text-high-contrast" style="margin: 0;">
+                                La IA generativa no es un atajo mágico. Es una <strong>herramienta de
+                                    empoderamiento</strong> que democratiza el acceso a técnicas de comunicación
+                                profesional efectiva. Tu experiencia es valiosa; ahora tienes las herramientas para
+                                comunicarla de manera que el mercado laboral la reconozca.
+                            </p>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button class="btn btn-primary" onclick="goToSlide(0)" style="font-size: 1.1rem;">
+                                <span>🔄 Revisar presentación</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div id="navigation">
+            <button id="prev-btn" class="nav-btn" onclick="prevSlide()">
+                ← Anterior
+            </button>
+            <div id="slide-counter"></div>
+            <button id="next-btn" class="nav-btn" onclick="nextSlide()">
+                Siguiente →
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div id="footer">
+            Oficina de Inteligencia Artificial • Vicerrectoría de Tecnologías de la Información • Universidad de Chile ©
+            2025 • Todos los derechos reservados
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                try {
+                    localStorage.setItem('ppt_instructions_seen', 'true');
+                } catch (e) {
+                    console.log('No se pudo guardar en localStorage:', e);
+                }
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function () {
+            try {
+                const hasSeenInstructions = localStorage.getItem('ppt_instructions_seen');
+                if (!hasSeenInstructions) {
+                    setTimeout(() => {
+                        openInstructions();
+                    }, 500);
+                }
+            } catch (e) {
+                console.log('No se pudo acceder a localStorage:', e);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Inicialización
+        function init() {
+            updateSlide();
+            updateProgress();
+        }
+
+        // Actualizar slide
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+
+            updateProgress();
+            updateCounter();
+            updateNavigationButtons();
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        // Actualizar contador
+        function updateCounter() {
+            document.getElementById('slide-counter').textContent =
+                `${currentSlide + 1} / ${slides.length}`;
+        }
+
+        // Actualizar botones de navegación
+        function updateNavigationButtons() {
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === slides.length - 1;
+        }
+
+        // Ir a slide específico
+        function goToSlide(index) {
+            if (index >= 0 && index < slides.length) {
+                currentSlide = index;
+                updateSlide();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Siguiente slide
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Slide anterior
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'Escape') {
+                closeInstructions();
+                closeModal();
+            }
+        });
+
+        // Funciones para mostrar detalles de técnicas
+        function showTechniqueDetail(technique) {
+            const techniques = {
+                contexto: {
+                    title: 'Análisis: contexto rico',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">¿Por qué funciona el contexto rico?</h4>
+                            <p class="text-high-contrast">
+                                El prompt con contexto rico proporciona:<br>
+                                • <strong>Perfil específico:</strong> 15 años, pequeñas empresas, equipos de 5-10 personas<br>
+                                • <strong>Experiencia concreta:</strong> Inventarios, proveedores, resolución de problemas<br>
+                                • <strong>Objetivo claro:</strong> Coordinador de Operaciones en empresa mediana<br>
+                                • <strong>Palabras clave del target:</strong> Gestión multifuncional, optimización, toma de decisiones<br>
+                                • <strong>Resultado esperado:</strong> Reescribir experiencia con ejemplos concretos
+                            </p>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Resultado</h4>
+                            <p class="text-high-contrast">
+                                La IA puede generar respuestas altamente personalizadas y relevantes porque entiende:<br>
+                                1. Quién es Isabella Andrea (su background real)<br>
+                                2. Qué busca (el rol específico)<br>
+                                3. Qué necesita (traducción de experiencia a competencias)<br>
+                                4. Cómo presentarlo (ejemplos concretos alineados con la oferta)
+                            </p>
+                        </div>
+                    `
+                },
+                estructura: {
+                    title: 'Análisis: instrucciones estructuradas',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Ventajas de la estructura numerada</h4>
+                            <p class="text-high-contrast">
+                                • <strong>Claridad absoluta:</strong> La IA sabe exactamente qué hacer y en qué orden<br>
+                                • <strong>Completitud:</strong> Es menos probable que omita elementos importantes<br>
+                                • <strong>Verificación fácil:</strong> Isabella Andrea puede revisar si la IA cumplió todos los puntos<br>
+                                • <strong>Iteración eficiente:</strong> Si algo falta, es fácil identificar qué paso refinar<br>
+                                • <strong>Replicabilidad:</strong> El mismo formato funciona para otras ofertas
+                            </p>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Resultado</h4>
+                            <p class="text-high-contrast">
+                                La IA responde de forma organizada, completa y estructurada, facilitando que Isabella Andrea use directamente la información sin tener que reorganizarla o adivinar qué falta.
+                            </p>
+                        </div>
+                    `
+                },
+                ejemplos: {
+                    title: 'Análisis: técnica few-shot (ejemplos)',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">¿Por qué los ejemplos son tan poderosos?</h4>
+                            <p class="text-high-contrast">
+                                Los ejemplos funcionan como "plantillas" que la IA aprende a replicar:<br>
+                                • <strong>Estilo específico:</strong> La IA entiende el nivel de detalle deseado<br>
+                                • <strong>Formato consistente:</strong> Mantiene la estructura mostrada<br>
+                                • <strong>Tono apropiado:</strong> Replica el balance entre formal y accesible<br>
+                                • <strong>Nivel de especificidad:</strong> Sabe cuántos datos y métricas incluir
+                            </p>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Resultado</h4>
+                            <p class="text-high-contrast">
+                                La IA genera respuestas que coinciden en estilo, formato y nivel de detalle con los ejemplos proporcionados, ahorrando tiempo de edición y asegurando consistencia en todo el documento.
+                            </p>
+                        </div>
+                    `
+                },
+                formato: {
+                    title: 'Análisis: especificar formato de salida',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Ventajas de definir el formato</h4>
+                            <p class="text-high-contrast">
+                                • <strong>Usabilidad inmediata:</strong> La información viene lista para usar<br>
+                                • <strong>Organización visual:</strong> Tablas y listas facilitan la comprensión<br>
+                                • <strong>Comparación eficiente:</strong> Formatos estructurados permiten análisis rápido<br>
+                                • <strong>Ahorro de tiempo:</strong> No hay que reorganizar la información después<br>
+                                • <strong>Enfoque preciso:</strong> El formato guía la profundidad de cada elemento
+                            </p>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Resultado</h4>
+                            <p class="text-high-contrast">
+                                Isabella Andrea recibe la información organizada de manera que puede usar directamente para estudiar, practicar o copiar en sus documentos de preparación para entrevistas.
+                            </p>
+                        </div>
+                    `
+                },
+                roles: {
+                    title: 'Análisis: asignar roles y perspectivas',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">¿Por qué los roles mejoran las respuestas?</h4>
+                            <p class="text-high-contrast">
+                                Cuando la IA adopta un rol específico:<br>
+                                • <strong>Perspectiva experta:</strong> Responde desde conocimiento especializado<br>
+                                • <strong>Vocabulario apropiado:</strong> Usa términos del campo profesional<br>
+                                • <strong>Prioridades correctas:</strong> Enfoca lo que realmente importa para ese rol<br>
+                                • <strong>Feedback honesto:</strong> Da crítica constructiva desde experiencia simulada<br>
+                                • <strong>Consejos accionables:</strong> Proporciona recomendaciones prácticas del área
+                            </p>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Resultado</h4>
+                            <p class="text-high-contrast">
+                                La IA responde desde la perspectiva de un reclutador experto, proporcionando feedback específico, profesional y accionable que Isabella Andrea puede implementar inmediatamente.
+                            </p>
+                        </div>
+                    `
+                }
+            };
+
+            const data = techniques[technique];
+            showModal(data.title, data.content);
+        }
+
+        // Funciones para mostrar detalles de modelos
+        function showModelDetail(model) {
+            const models = {
+                gpt4: {
+                    title: 'GPT-4 (OpenAI) - Aplicación en el caso de Isabella Andrea',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Características principales</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>Excelente comprensión de contexto e instrucciones complejas</li>
+                                <li>Muy bueno siguiendo metodologías específicas (STAR, SMART, etc.)</li>
+                                <li>Mantiene coherencia en textos largos</li>
+                                <li>Buena capacidad de razonamiento lógico</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Ideal para cuando Isabella Andrea necesite:</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>✅ Reescribir experiencias laborales usando metodología STAR</li>
+                                <li>✅ Estructurar cartas de presentación siguiendo formato específico</li>
+                                <li>✅ Analizar descripciones de trabajo y extraer competencias clave</li>
+                                <li>✅ Generar respuestas para entrevistas conductuales</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                gemini: {
+                    title: 'Gemini (Google) - Aplicación en el caso de Isabella Andrea',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Características principales</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>Alta creatividad y generación de opciones diversas</li>
+                                <li>Excelente para brainstorming y exploración de ideas</li>
+                                <li>Buena integración con servicios de Google</li>
+                                <li>Propone múltiples enfoques para el mismo problema</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Ideal para cuando Isabella Andrea necesite:</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>✅ Generar 5-10 versiones diferentes de un párrafo de presentación</li>
+                                <li>✅ Explorar formas creativas de describir sus logros</li>
+                                <li>✅ Idear preguntas interesantes para hacerle al entrevistador</li>
+                                <li>✅ Crear títulos profesionales atractivos para LinkedIn</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                claude: {
+                    title: 'Claude (Anthropic) - Aplicación en el caso de Isabella Andrea',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Características principales</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>Excelente para análisis detallados y profundos</li>
+                                <li>Muy bueno identificando patrones y conexiones</li>
+                                <li>Capaz de procesar documentos largos eficientemente</li>
+                                <li>Respuestas bien estructuradas y organizadas</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Ideal para cuando Isabella Andrea necesite:</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>✅ Analizar su CV completo junto con 10 ofertas laborales</li>
+                                <li>✅ Identificar competencias comunes más demandadas en su sector</li>
+                                <li>✅ Comparar y contrastar diferentes estrategias de búsqueda</li>
+                                <li>✅ Generar un plan de acción personalizado para su búsqueda laboral</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                notebooklm: {
+                    title: 'NotebookLM (Google) - Aplicación en el caso de Isabella Andrea',
+                    content: `
+                        <div class="highlight-box info">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Características principales</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>Especializado en organizar y sintetizar información</li>
+                                <li>Excelente para trabajar con múltiples documentos fuente</li>
+                                <li>Genera resúmenes y conexiones entre documentos</li>
+                                <li>Mantiene la trazabilidad de la información</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box success">
+                            <h4 style="font-weight: 700; margin-bottom: 0.75rem;">Ideal para cuando Isabella Andrea necesite:</h4>
+                            <ul style="list-style-position: inside; line-height: 1.8;">
+                                <li>✅ Organizar información de múltiples ofertas laborales</li>
+                                <li>✅ Crear una base de conocimiento sobre empresas objetivo</li>
+                                <li>✅ Sintetizar requisitos comunes de varias posiciones</li>
+                                <li>✅ Generar un compendio de sus certificaciones y logros</li>
+                            </ul>
+                        </div>
+                    `
+                }
+            };
+
+            const data = models[model];
+            showModal(data.title, data.content);
+        }
+
+        // Función para mostrar modal
+        function showModal(title, content) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').innerHTML = content;
+            document.getElementById('detail-modal').classList.add('show');
+        }
+
+        // Función para cerrar modal
+        function closeModal() {
+            document.getElementById('detail-modal').classList.remove('show');
+        }
+
+        // Exportar a PDF optimizado con JPEG y renderizado off-screen
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+
+            if (!jsPDF) {
+                alert('Error: La biblioteca jsPDF no se cargó correctamente.');
+                return;
+            }
+
+            // Mostrar overlay de carga
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingText = document.querySelector('.loading-text');
+            loadingOverlay.classList.add('show');
+
+            try {
+                // Configuración del PDF (A4 vertical)
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pageWidth = 210;
+                const pageHeight = 297;
+                const margin = 10;
+                const contentWidth = pageWidth - (margin * 2);
+
+                // Crear un contenedor temporal para renderizado "off-screen"
+                // Esto evita problemas con las animaciones y visibilidad de los slides originales
+                const container = document.createElement('div');
+                container.style.position = 'absolute';
+                container.style.top = '-9999px';
+                container.style.left = '0';
+                container.style.width = '1200px'; // Ancho fijo para consistencia
+                container.style.backgroundColor = '#ffffff';
+                document.body.appendChild(container);
+
+                const slides = document.querySelectorAll('.slide');
+
+                for (let i = 0; i < slides.length; i++) {
+                    // Actualizar texto de progreso
+                    if (loadingText) {
+                        loadingText.textContent = `Procesando diapositiva ${i + 1} de ${slides.length}...`;
+                    }
+
+                    // Clonar el nodo del slide para manipularlo sin afectar la UI
+                    const clone = slides[i].cloneNode(true);
+
+                    // Forzar estilos en el clon para asegurar visibilidad completa
+                    clone.classList.remove('active'); // Quitar clases de estado
+                    clone.style.position = 'relative';
+                    clone.style.opacity = '1';
+                    clone.style.visibility = 'visible';
+                    clone.style.display = 'block';
+                    clone.style.transform = 'none';
+                    clone.style.animation = 'none';
+                    clone.style.transition = 'none';
+                    clone.style.width = '100%';
+                    clone.style.height = 'auto'; // Permitir que crezca según contenido
+                    clone.style.overflow = 'visible'; // Mostrar todo el contenido (sin scrollbars)
+                    clone.style.padding = '40px'; // Padding consistente para el PDF
+
+                    // Asegurar que las listas animadas sean visibles
+                    const listItems = clone.querySelectorAll('li');
+                    listItems.forEach(li => {
+                        li.style.opacity = '1';
+                        li.style.transform = 'none';
+                        li.style.animation = 'none';
+                    });
+
+                    // Asegurar que las cajas resaltadas sean visibles
+                    const highlightBoxes = clone.querySelectorAll('.highlight-box');
+                    highlightBoxes.forEach(box => {
+                        box.style.opacity = '1';
+                        box.style.transform = 'none';
+                        box.style.animation = 'none';
+                    });
+
+                    // Limpiar el contenedor y añadir el clon
+                    container.innerHTML = '';
+                    container.appendChild(clone);
+
+                    // Esperar un momento para asegurar renderizado de fuentes/imágenes
+                    await new Promise(resolve => setTimeout(resolve, 100));
+
+                    // Capturar con html2canvas
+                    const canvas = await html2canvas(clone, {
+                        scale: 1.5, // Reducido de 2.5 a 1.5 (Suficiente calidad, mucho menor peso)
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: '#ffffff',
+                        windowWidth: 1200
+                    });
+
+                    // Conversión a JPEG con compresión (Clave para reducir peso)
+                    // 0.75 ofrece buena calidad visual con gran reducción de tamaño
+                    const imgData = canvas.toDataURL('image/jpeg', 0.75);
+
+                    // Calcular dimensiones para ajustar a A4
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfImgHeight = (imgProps.height * contentWidth) / imgProps.width;
+
+                    // Añadir página (excepto la primera que ya existe)
+                    if (i > 0) {
+                        pdf.addPage();
+                    }
+
+                    // Si la imagen es más alta que una página, centrar verticalmente o ajustar
+                    let yPos = margin;
+                    // Centrado vertical si el contenido es corto
+                    if (pdfImgHeight < (pageHeight - (margin * 2))) {
+                        yPos = (pageHeight - pdfImgHeight) / 2;
+                    }
+
+                    pdf.addImage(imgData, 'JPEG', margin, yPos, contentWidth, pdfImgHeight);
+
+                    // Pie de página
+                    pdf.setFontSize(9);
+                    pdf.setTextColor(150, 150, 150);
+                    pdf.text(`Página ${i + 1} de ${slides.length} - Caso Isabella Andrea`, pageWidth / 2, pageHeight - 5, { align: 'center' });
+                }
+
+                // Limpieza final
+                document.body.removeChild(container);
+                if (loadingText) loadingText.textContent = 'Guardando archivo...';
+
+                // Metadata
+                pdf.setProperties({
+                    title: 'Caso Isabella Andrea - Ingeniería de Prompts',
+                    subject: 'Presentación interactiva',
+                    author: 'Universidad de Chile'
+                });
+
+                // Descargar
+                const fecha = new Date().toISOString().split('T')[0];
+                pdf.save(`Caso_Isabella_Andrea_Prompts_${fecha}.pdf`);
+
+                // Restaurar UI
+                loadingOverlay.classList.remove('show');
+                alert('✅ PDF generado exitosamente.\nEl archivo ha sido optimizado para facilitar su envío y visualización.');
+
+            } catch (error) {
+                console.error('Error detallado:', error);
+                document.getElementById('loading-overlay').classList.remove('show');
+
+                // Intento de limpieza en caso de error
+                const container = document.querySelector('div[style*="-9999px"]');
+                if (container) document.body.removeChild(container);
+
+                alert('❌ Error al generar el PDF: ' + error.message);
+            }
+        }
+
+        // Inicializar al cargar
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>

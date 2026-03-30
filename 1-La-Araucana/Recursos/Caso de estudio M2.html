@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso de estudio interactivo: Módulo 2 - El arte del prompt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        :root {
+            --verde-pantone: #008751;
+            --amarillo-pantone: #FCD116;
+            --rojo-pantone: #EF3340;
+            --azul-pantone: #003087;
+        }
+        .bg-azul { background-color: var(--azul-pantone); }
+        .text-azul { color: var(--azul-pantone); }
+        .border-azul { border-color: var(--azul-pantone); }
+        
+        .sidebar-button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .sidebar-button.active {
+            background-color: white;
+            color: var(--azul-pantone);
+        }
+
+        .sidebar-button.inactive {
+            background-color: transparent;
+            color: #D1D5DB; /* gray-300 */
+        }
+        .sidebar-button.inactive:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-icon {
+            background-color: var(--azul-pantone);
+        }
+        .question-card {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--verde-pantone);
+        }
+        .justified-text {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex flex-col md:flex-row">
+        
+        <!-- Barra Lateral de Navegación (Fija en desktop) -->
+        <aside class="w-full md:w-1/4 lg:w-1/5 bg-azul text-white p-6 shadow-lg md:h-screen md:sticky md:top-0 flex flex-col">
+            <div class="text-center mb-10 border-b border-white/20 pb-6">
+                <img src="https://franciscosereno.cl/nextcloud/index.php/s/ccBogeNS6dHzyec/preview" alt="Logo VTI-IA" class="mx-auto w-auto max-h-16" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;" class="text-white font-bold text-2xl">VTI-IA Uchile</div>
+            </div>
+            
+            <nav id="tabs" class="flex-grow flex flex-col space-y-2">
+                <button data-tab="introduccion" class="sidebar-button active">1. Introducción</button>
+                <button data-tab="diagnostico" class="sidebar-button inactive">2. Analizando las tareas</button>
+                <button data-tab="oportunidades" class="sidebar-button inactive">3. El arte del prompt</button>
+                <button data-tab="riesgos" class="sidebar-button inactive">4. Prompts en acción</button>
+                <button data-tab="plan" class="sidebar-button inactive">5. Desafíos</button>
+                <button data-tab="metricas" class="sidebar-button inactive">6. Conclusiones</button>
+            </nav>
+
+            <div class="mt-6">
+                 <button id="instructions-button" class="sidebar-button inactive">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    Instrucciones
+                </button>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal (Scrollable en desktop) -->
+        <div class="w-full md:w-3/4 lg:w-4/5 p-6 md:p-10 bg-gray-50 md:h-screen md:overflow-y-auto">
+            <header class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-azul">El arte del prompt: hablando con la IA</h1>
+                <p class="text-lg text-gray-600 mt-2">Un análisis interactivo para optimizar la comunicación con IA</p>
+            </header>
+            
+            <main id="tab-content" class="bg-white rounded-xl shadow-xl p-6 md:p-10">
+                <!-- Contenido se cargará aquí dinámicamente -->
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Instrucciones -->
+    <div id="instructions-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full transform transition-all" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-2xl text-azul" id="modal-headline">Instrucciones de uso</h3>
+                <button id="close-instructions-button-x" class="text-gray-400 hover:text-gray-600 text-3xl leading-none">&times;</button>
+            </div>
+            <p class="text-gray-700 mb-6 justified-text">¡Bienvenido/a! Este es un caso de estudio interactivo. Utilice la **barra de navegación a su izquierda** para explorar las diferentes secciones del caso. Cada sección presenta una parte del desafío de Isabella y termina con preguntas para fomentar su reflexión y análisis.</p>
+            <button id="close-instructions-button" class="w-full bg-azul text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors">Entendido</button>
+        </div>
+    </div>
+
+
+    <script>
+        const contentData = {
+            introduccion: {
+                title: "1. Bienvenida al módulo 2",
+                content: `
+                    <div class="bg-blue-50 border-l-4 border-azul p-6 rounded-lg mb-8">
+                        <h3 class="font-bold text-xl text-azul mb-2">Una nueva habilidad clave</h3>
+                        <p class="text-gray-800 justified-text">Le damos la bienvenida al segundo módulo. Si en el módulo anterior descubrimos el "qué", ahora nos enfocaremos en el "cómo". La habilidad más importante para colaborar con una inteligencia artificial es saber comunicarse con ella de forma efectiva.</p>
+                        <p class="text-gray-800 mt-2 justified-text">A este proceso se le conoce como <strong>ingeniería de prompts</strong>, que no es más que el arte de dar instrucciones claras y precisas para obtener los mejores resultados posibles. A través del caso de Isabella y la kermesse, aprenderemos a construir estas instrucciones paso a paso.</p>
+                    </div>
+
+                    <h3 class="font-bold text-2xl text-gray-800 mb-4 border-b pb-2">El desafío de Isabella: de la teoría a la práctica</h3>
+                    <p class="text-gray-700 mb-4 justified-text"><strong>Isabella Andrea</strong> ya usó la IA para organizar la kermesse y le fue de gran ayuda. Sin embargo, se dio cuenta de que a menudo los resultados eran genéricos: los correos sonaban un poco robóticos y las ideas para los juegos no siempre eran adecuadas para la edad de los niños. Se da cuenta de que no basta con "pedir", sino que debe aprender a "instruir" a la IA como si fuera un voluntario más del equipo.</p>
+                    <p class="text-gray-700 mb-6 justified-text">Su objetivo en este módulo es pasar de ser una usuaria casual a una experta en dar instrucciones, logrando que la IA le entregue resultados que reflejen el espíritu familiar y alegre de la kermesse del colegio.</p>
+                    
+                    <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas iniciales para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Alguna vez ha sentido frustración al no obtener la respuesta que esperaba de un buscador o un asistente virtual? ¿Por qué cree que ocurrió?</li>
+                            <li>¿Qué diferencia cree que existe entre "pedir" algo y "dar una instrucción" detallada?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            diagnostico: {
+                title: "2. Analizando las tareas: ¿dónde mejorar?",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Para construir mejores instrucciones, Isabella primero analiza en qué tareas de la kermesse los resultados de la IA fueron más débiles:</p>
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-gray-100 p-4 rounded-lg"><strong>Correos a apoderados:</strong> El tono era demasiado formal y no transmitía la emoción del evento.</div>
+                        <div class="bg-gray-100 p-4 rounded-lg"><strong>Ideas para juegos:</strong> Sugirió juegos muy complejos o para niños más grandes.</div>
+                        <div class="bg-gray-100 p-4 rounded-lg"><strong>Diseño de afiches:</strong> Las imágenes eran genéricas y no incluían elementos típicos chilenos.</div>
+                        <div class="bg-gray-100 p-4 rounded-lg"><strong>Posts para redes sociales:</strong> Los textos eran informativos pero no motivaban a los apoderados a participar como voluntarios.</div>
+                    </div>
+                    <p class="text-gray-700 mb-6 justified-text">Isabella reflexiona sobre por qué la IA no acertó: le faltaba contexto sobre la cultura del colegio, la edad de los niños y el objetivo real de cada comunicación. Este análisis es el primer paso para saber dónde una mejor instrucción puede tener el mayor impacto.</p>
+                    <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>Si tuviera que elegir una de las tareas de Isabella para mejorar con una instrucción más detallada, ¿cuál sería y por qué?</li>
+                            <li>¿Por qué es importante entender un proceso propio antes de intentar automatizarlo o delegarlo (incluso a una IA)?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            oportunidades: {
+                title: "3. El arte del prompt: los ingredientes clave",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Isabella descubre que una instrucción efectiva (o "prompt") no es una simple pregunta, sino que se compone de varios elementos clave. Es como una receta de cocina: si falta un ingrediente, el resultado no es el esperado.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-azul text-white">
+                                    <th class="p-3 font-bold uppercase">Ingrediente del prompt</th>
+                                    <th class="p-3 font-bold uppercase">Pregunta que debe hacerse Isabella</th>
+                                    <th class="p-3 font-bold uppercase">Ejemplo para la kermesse</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                <tr class="border-b"><td class="p-3"><strong>Rol</strong></td><td class="p-3 justified-text">¿Quién quiero que sea la IA?</td><td class="p-3">"Actúa como un entusiasta organizador de eventos escolares..."</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="p-3"><strong>Contexto</strong></td><td class="p-3 justified-text">¿Qué información de fondo necesita?</td><td class="p-3">"...para la kermesse anual de un colegio familiar en Chile."</td></tr>
+                                <tr class="border-b"><td class="p-3"><strong>Tarea</strong></td><td class="p-3 justified-text">¿Cuál es la acción específica que debe realizar?</td><td class="p-3">"Redacta un mensaje para el grupo de WhatsApp de los apoderados..."</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="p-3"><strong>Formato</strong></td><td class="p-3 justified-text">¿Cómo quiero que me entregue el resultado?</td><td class="p-3">"...que sea breve, use 3 emojis y termine con un link para inscribirse como voluntario."</td></tr>
+                                 <tr class="border-b"><td class="p-3"><strong>Tono y Audiencia</strong></td><td class="p-3 justified-text">¿A quién le hablamos y cómo?</td><td class="p-3">"El tono debe ser alegre y motivador, dirigido a los padres y madres del colegio."</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Cuál de estos "ingredientes" cree que se olvida con más frecuencia al interactuar con una IA?</li>
+                            <li>¿Cómo cambiaría el resultado si Isabella omitiera el ingrediente "Tono y Audiencia"?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            riesgos: {
+                title: "4. Prompts en acción: antes y después",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Veamos la diferencia que marcan estos ingredientes en una tarea real de Isabella: crear el afiche para la kermesse.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+                            <h4 class="font-bold text-red-800 mb-2 text-xl">Prompt Básico (Antes)</h4>
+                            <p class="text-gray-700 italic mb-4">"Una imagen para una kermesse de colegio."</p>
+                            <h5 class="font-semibold text-gray-800">Resultado probable:</h5>
+                            <p class="text-gray-600 mt-2 justified-text">Una imagen genérica, probablemente con estética norteamericana, sin elementos culturales propios y que no refleja el espíritu del colegio.</p>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-bold text-green-800 mb-2 text-xl">Prompt Avanzado (Después)</h4>
+                            <p class="text-gray-700 italic mb-4 justified-text">"Genera una imagen para el afiche de una kermesse escolar en Chile. El estilo debe ser como el de un dibujo animado, muy colorido y alegre. Debe mostrar a niños y niñas de diversas apariencias jugando en stands de juegos típicos chilenos, como tirar la argolla y la pesca milagrosa. De fondo, una guirnalda con banderines chilenos."</p>
+                            <h5 class="font-semibold text-gray-800">Resultado probable:</h5>
+                            <p class="text-gray-600 mt-2 justified-text">Una imagen mucho más específica y culturalmente relevante, que captura la esencia del evento y que Isabella puede usar directamente.</p>
+                        </div>
+                    </div>
+                     <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Qué elementos específicos del prompt avanzado marcan la mayor diferencia en la calidad del resultado?</li>
+                            <li>¿Cuánto tiempo de búsqueda de imágenes o de edición cree que se ahorra Isabella al pasar del prompt básico al avanzado?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            plan: {
+                title: "5. Desafíos comunes al crear prompts",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">A medida que Isabella practica, se encuentra con desafíos comunes. Aprender a superarlos es clave para dominar la ingeniería de prompts.</p>
+                    <ol class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="card-icon text-white font-bold rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-azul">El desafío del contexto</h4>
+                                <p class="text-gray-600 justified-text"><strong>Problema:</strong> La IA no conoce las tradiciones específicas de la kermesse de este colegio. <br><strong>Solución:</strong> Isabella puede empezar sus conversaciones con la IA dándole un breve resumen: "Vamos a organizar la kermesse del Colegio Los Copihues. Es un evento familiar donde lo más importante son los juegos típicos y la comida casera."</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="card-icon text-white font-bold rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-azul">El desafío de la especificidad</h4>
+                                <p class="text-gray-600 justified-text"><strong>Problema:</strong> A veces, por querer ser muy detallada, el prompt se vuelve demasiado largo y confuso. <br><strong>Solución:</strong> Isabella aprende a usar viñetas y a separar las instrucciones en párrafos para estructurar sus peticiones, haciendo el prompt más fácil de "leer" para la IA.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="card-icon text-white font-bold rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-azul">El desafío de la iteración</h4>
+                                <p class="text-gray-600 justified-text"><strong>Problema:</strong> El primer resultado no siempre es perfecto. <br><strong>Solución:</strong> En lugar de empezar de cero, Isabella aprende a "iterar", es decir, a pedirle a la IA que refine el resultado anterior con instrucciones como: "Me gusta la imagen, pero ahora haz que los colores sean más vivos" o "El correo está bien, pero reescríbelo en un tono más urgente".</p>
+                            </div>
+                        </li>
+                    </ol>
+                     <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Cuál de estos desafíos le parece el más difícil de superar al principio?</li>
+                            <li>La solución de "iterar", ¿se parece a cómo interactuamos y damos feedback a otras personas en un equipo?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            metricas: {
+                title: "6. Conclusiones y el futuro de la comunicación",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Al dominar la ingeniería de prompts, Isabella no solo optimiza su tiempo, sino que transforma la calidad y la pertinencia de sus comunicaciones para la kermesse. Los beneficios se pueden medir de forma concreta.</p>
+                    <div>
+                        <canvas id="metricsChart"></canvas>
+                    </div>
+                    <div class="mt-8">
+                        <h4 class="font-bold text-xl text-azul mb-2">Conclusión del caso</h4>
+                        <p class="text-gray-700 justified-text">La capacidad de comunicarse efectivamente con sistemas de inteligencia artificial se está convirtiendo en una de las competencias definitorias del siglo XXI. Para personas como Isabella, dominar esta disciplina no es una opción, sino una forma de potenciar su creatividad y eficiencia. Al aprender a "hablar" el idioma de la IA, no solo organiza una mejor kermesse con menos estrés, sino que adquiere una habilidad que le servirá en muchísimos otros aspectos de su vida personal y profesional.</p>
+                    </div>
+                     <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>Después de este análisis, ¿considera que la ingeniería de prompts es una habilidad técnica o una habilidad de comunicación?</li>
+                            <li>¿Cómo cree que esta nueva habilidad podría impactar su propia área de trabajo o estudio?</li>
+                        </ul>
+                    </div>
+                `
+            }
+        };
+
+        const tabContainer = document.getElementById('tab-content');
+        const tabs = document.querySelectorAll('.sidebar-button');
+        const instructionsButton = document.getElementById('instructions-button');
+        const instructionsModal = document.getElementById('instructions-modal');
+        const closeInstructionsButton = document.getElementById('close-instructions-button');
+        const closeInstructionsButtonX = document.getElementById('close-instructions-button-x');
+
+        function renderContent(tabName) {
+            const data = contentData[tabName];
+            if (!data) return;
+
+            tabContainer.innerHTML = `
+                <div class="fade-in">
+                    <h2 class="text-2xl md:text-3xl font-bold text-azul mb-6">${data.title}</h2>
+                    ${data.content}
+                </div>
+            `;
+            
+            if (tabName === 'metricas') {
+                loadChart();
+            }
+        }
+        
+        function loadChart() {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+            script.onload = () => {
+                const ctx = document.getElementById('metricsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Calidad del afiche (1-7)', 'Tiempo de edición (min)', 'Interacción en WhatsApp (%)'],
+                        datasets: [{
+                            label: 'Antes (prompts básicos)',
+                            data: [4, 25, 30],
+                            backgroundColor: 'rgba(0, 48, 135, 0.6)', // Azul
+                            borderColor: 'rgba(0, 48, 135, 1)',
+                            borderWidth: 1
+                        }, {
+                            label: 'Después (prompts avanzados)',
+                            data: [6.5, 5, 75],
+                            backgroundColor: 'rgba(0, 135, 81, 0.6)', // Verde
+                            borderColor: 'rgba(0, 135, 81, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        scales: {
+                            x: { beginAtZero: true }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Impacto de la ingeniería de prompts en la calidad',
+                                font: { size: 16, family: 'Montserrat' }
+                            },
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            };
+            document.head.appendChild(script);
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.classList.add('inactive');
+                });
+                
+                tab.classList.add('active');
+                tab.classList.remove('inactive');
+                
+                renderContent(tabName);
+            });
+        });
+
+        // Funcionalidad del modal de instrucciones
+        function showInstructionsModal() {
+            instructionsModal.classList.remove('hidden');
+        }
+
+        function hideInstructionsModal() {
+            instructionsModal.classList.add('hidden');
+        }
+
+        instructionsButton.addEventListener('click', showInstructionsModal);
+        closeInstructionsButton.addEventListener('click', hideInstructionsModal);
+        closeInstructionsButtonX.addEventListener('click', hideInstructionsModal);
+
+        instructionsModal.addEventListener('click', (e) => {
+            if (e.target === instructionsModal) {
+                hideInstructionsModal();
+            }
+        });
+
+        // Carga inicial
+        renderContent('introduccion');
+    </script>
+</body>
+</html>

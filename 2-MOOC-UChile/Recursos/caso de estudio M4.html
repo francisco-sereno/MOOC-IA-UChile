@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso de estudio: El dilema de Isabella</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f7fafc;
+        }
+        .story-step {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+        .story-step.active {
+            display: block;
+            opacity: 1;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            z-index: 1000;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .choice-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .choice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <main id="interactive-case" class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-lg">
+        
+        <div id="step-1" class="story-step active">
+            <header class="text-center border-b-2 border-gray-200 pb-4 mb-6">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">El dilema de Isabella</h1>
+                <p class="text-lg text-blue-600 font-semibold mt-1">IA generativa y desarrollo profesional</p>
+            </header>
+            <div class="text-gray-700 text-lg leading-relaxed space-y-4">
+                <p><strong>Isabella Andrea</strong> es una profesional competente con valiosa experiencia, pero se siente estancada. El proceso de postulación moderno, dominado por <strong>sistemas automáticos (ATS)</strong> que filtran currículos, le resulta frustrante.</p>
+                <p>Ha oído hablar de la <strong>inteligencia artificial generativa</strong> como una posible solución para optimizar su CV, pero le preocupan la complejidad y la autenticidad. ¿Debería explorarla?</p>
+            </div>
+            <div class="text-center mt-8">
+                <button onclick="showStep('step-2', 'modal-1')" class="choice-btn bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-blue-700">
+                    Sí, decide probar la IA <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="step-2" class="story-step">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">El primer intento</h2>
+            <div class="text-gray-700 text-lg leading-relaxed space-y-4">
+                <p>Isabella prueba una herramienta de IA generativa. Ingresa su experiencia y le pide que la adapte para un cargo de «Gerente de proyectos júnior».</p>
+                <p class="p-4 bg-gray-100 rounded-lg">El resultado es impresionante: el texto es elocuente y utiliza todas las palabras clave de la industria, presentando sus logros de forma muy atractiva.</p>
+                <p>Sin embargo, al leerlo, nota algo inquietante. La IA ha <strong>«embellecido»</strong> algunas responsabilidades. Donde ella «colaboró en la planificación», la IA redactó <span class="font-semibold text-red-600">«lideró la fase de planificación estratégica»</span>.</p>
+                <p>Este cambio, aunque sutil, le genera un profundo conflicto ético.</p>
+            </div>
+            <div class="text-center mt-8">
+                 <button onclick="showModal('modal-2')" class="choice-btn bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-gray-800">
+                    Analizar el conflicto <i class="fas fa-balance-scale ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="step-3" class="story-step">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">La decisión y el futuro</h2>
+            <div class="text-gray-700 text-lg leading-relaxed space-y-4">
+                <p>Isabella se da cuenta de que la IA generativa es una <strong>herramienta de asistencia, no un sustituto de su juicio.</strong></p>
+                <p>Decide usar el texto de la IA como un borrador o una fuente de inspiración. Edita las frases exageradas para que reflejen fielmente su experiencia, pero manteniendo la estructura profesional y el vocabulario clave que la herramienta le sugirió.</p>
+                <p class="p-4 bg-green-100 border-l-4 border-green-500 rounded-lg">Ha encontrado un equilibrio: aprovechar la potencia de la IA para superar los filtros ATS sin comprometer su integridad profesional. Ahora se siente más segura para enfrentar su búsqueda de empleo, usando la tecnología de forma <strong>ética y responsable.</strong></p>
+            </div>
+            <div class="text-center mt-8">
+                 <button onclick="location.reload()" class="choice-btn bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-700">
+                    Finalizar y reiniciar caso <i class="fas fa-redo ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+    </main>
+
+    <div id="modal-1" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fas fa-brain text-4xl text-blue-500 mb-4"></i>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3">Reflexiona un momento...</h3>
+            <p class="text-gray-600 mb-6">¿Qué oportunidades y riesgos ves en la decisión de Isabella? Piensa en la delgada línea entre optimizar tu perfil y perder la autenticidad.</p>
+            <button onclick="hideModal('modal-1')" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg">Continuar</button>
+        </div>
+    </div>
+
+    <div id="modal-2" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fas fa-balance-scale text-4xl text-red-500 mb-4"></i>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3">Un dilema ético</h3>
+            <p class="text-gray-600 mb-2">¿Dónde trazarías la línea entre «mejorar» y «mentir»?</p>
+            <p class="text-gray-600 mb-6">Piensa en la responsabilidad. Si Isabella usa el texto sin editar, ¿de quién es la exageración? ¿De ella o de la IA?</p>
+            <button onclick="hideModal('modal-2'); showStep('step-3')" class="bg-red-600 text-white font-bold py-2 px-6 rounded-lg">Tomar una decisión</button>
+        </div>
+    </div>
+
+    <script>
+        function showStep(stepId, modalIdToShow) {
+            document.querySelectorAll('.story-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(stepId).classList.add('active');
+            
+            if (modalIdToShow) {
+                setTimeout(() => showModal(modalIdToShow), 500);
+            }
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+    </script>
+
+</body>
+</html>

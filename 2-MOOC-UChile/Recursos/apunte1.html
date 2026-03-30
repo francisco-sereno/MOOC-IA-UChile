@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RJSF7BSNXP');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apunte interactivo: Fundamentos de la IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #0033A0;
+            --amarillo: #FFD100;
+            --verde: #009639;
+            --rojo: #E3000F;
+            --gris-claro: #f0f2f5;
+            --gris-oscuro: #334155;
+            --texto-principal: #1e293b;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--texto-principal);
+        }
+        .text-justify { text-align: justify; }
+        .bg-azul { background-color: var(--azul); }
+        .text-azul { color: var(--azul); }
+        .border-azul { border-color: var(--azul); }
+        .bg-amarillo { background-color: var(--amarillo); }
+        .text-amarillo { color: var(--amarillo); }
+        .bg-verde { background-color: var(--verde); }
+        .text-verde { color: var(--verde); }
+        .bg-rojo { background-color: var(--rojo); }
+        .text-rojo { color: var(--rojo); }
+
+        .sidebar { transition: transform 0.3s ease-in-out; }
+        .main-content { transition: margin-left 0.3s ease-in-out; }
+
+        .accordion-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary:hover { background-color: #f8fafc; }
+        .accordion-item[open] summary {
+            background-color: var(--azul);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+        .accordion-item[open] summary::after { transform: rotate(45deg); }
+        .accordion-item .content {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-radius: 0 0 0.5rem 0.5rem;
+            margin-top: -0.5rem;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .idea-destacada, .card-reflexion {
+            background-color: #FFF9E6; /* yellow-50 */
+            border-left: 4px solid var(--amarillo);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-practica, .card-conexion {
+            background-color: #E6F5EB; /* green-50 */
+            border-left: 4px solid var(--verde);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-definicion {
+            background-color: #E6EAF6; /* blue-50 */
+            border-left: 4px solid var(--azul);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+
+        .nav-link.active {
+            background-color: var(--azul);
+            color: white;
+            font-weight: 700;
+        }
+        .sub-nav-link.active {
+            color: var(--azul);
+            font-weight: 700;
+        }
+
+        .info-button {
+            position: fixed; bottom: 2rem; right: 2rem; background-color: var(--azul); color: white; width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); cursor: pointer; transition: transform 0.2s ease; z-index: 50;
+        }
+        .info-button:hover { transform: scale(1.1); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 0.75rem; max-width: 500px; width: 90%; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+    </style>
+</head>
+<body class="bg-gris-claro">
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white w-72 h-full shadow-lg p-6 fixed lg:relative transform -translate-x-full lg:translate-x-0 z-40 flex flex-col">
+            <div class="bg-azul p-4 rounded-lg mb-6">
+                <img src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo VTIA" class="h-16 mx-auto" onerror="this.style.display='none'">
+            </div>
+            <h1 class="text-xl font-bold text-azul mb-4 text-center">Fundamentos de la IA generativa</h1>
+            <nav id="table-of-contents" class="flex-grow overflow-y-auto">
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#introduccion" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">Introducción</a></li>
+                    <li>
+                        <a href="#cap1" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">1. Fundamentos conceptuales</a>
+                        <ul class="pl-4 mt-1 space-y-1">
+                            <li><a href="#cap1-1" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">1.1. ¿Qué es la IA?</a></li>
+                            <li><a href="#cap1-2" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">1.2. IA tradicional vs. generativa</a></li>
+                            <li><a href="#cap1-3" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">1.3. El concepto de "generatividad"</a></li>
+                            <li><a href="#cap1-4" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">1.4. Predicción vs. razonamiento</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#cap2" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">2. Ecosistema de herramientas</a>
+                         <ul class="pl-4 mt-1 space-y-1">
+                            <li><a href="#cap2-1" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">2.1. Tipos de herramientas</a></li>
+                            <li><a href="#cap2-2" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">2.2. Mitos y limitaciones</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#cap3" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">3. Metodología práctica</a></li>
+                    <li><a href="#cap4" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">4. Conclusiones</a></li>
+                    <li><a href="#referencias" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">5. Referencias</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content flex-1 p-4 md:p-8 lg:p-12 overflow-y-auto">
+            <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-md shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+
+            <header class="mb-12">
+                <p class="text-azul font-semibold">Módulo 1</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-gris-oscuro mt-2">El diagnóstico: Fundamentos de la IA generativa</h1>
+            </header>
+
+            <section id="introduccion" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Introducción</h2>
+                <p class="text-lg leading-relaxed text-justify">La inteligencia artificial (IA) generativa representa uno de los desarrollos tecnológicos más significativos de la última década, con implicaciones profundas para el mundo laboral y, particularmente, para el contexto de la administración pública y la educación superior en Chile. La relevancia de abordar esta temática se fundamenta en datos empíricos contundentes: <strong>Chile lidera la adopción de inteligencia artificial en Latinoamérica</strong>, alcanzando 73.07 puntos en el Índice Latinoamericano de Inteligencia Artificial (ILIA) 2024. Más aún, el <strong>43% de las empresas chilenas</strong> ya han implementado alguna forma de IA generativa, según el reporte de Deloitte (2024), lo que evidencia una transformación acelerada del panorama laboral nacional.</p>
+                <div class="idea-destacada">
+                    <p><strong>Idea clave:</strong> Este módulo no busca formar expertos en programación, sino entregar una base conceptual sólida para que profesionales de cualquier área puedan comprender, evaluar y utilizar estas nuevas herramientas de forma estratégica y responsable.</p>
+                </div>
+                <p class="text-lg leading-relaxed text-justify mt-4">Para ilustrar la aplicación práctica de estos conceptos, este apunte utilizará un caso de estudio central que guiará el aprendizaje a través de los distintos módulos.</p>
+                <div class="card-conexion">
+                    <h4 class="font-bold text-verde mb-2">Caso de estudio central: el desafío de Isabella Andrea</h4>
+                    <p class="text-sm"><strong>Personaje:</strong> Isabella Andrea, una profesional competente que busca una transición de carrera.</p>
+                    <p class="text-sm mt-2"><strong>Situación:</strong> A pesar de poseer valiosas habilidades, se siente profesionalmente estancada y abrumada por el proceso de postulación laboral. Su principal obstáculo es traducir su experiencia al lenguaje corporativo que exigen los sistemas de selección automatizados (ATS).</p>
+                    <p class="text-sm mt-2"><strong>Problemática central:</strong> ¿Cómo puede Isabella utilizar la IA generativa como un asistente profesional para analizar sus competencias, optimizar su CV y prepararse para entrevistas de manera eficiente y auténtica?</p>
+                </div>
+            </section>
+
+            <section id="cap1" class="mb-12 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-azul mb-6 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>1. Fundamentos conceptuales</h2>
+                <div class="space-y-4">
+                    <details id="cap1-1" class="accordion-item scroll-mt-20"><summary>1.1. ¿Qué es la inteligencia artificial?</summary>
+                        <div class="content space-y-4 text-justify">
+                            <div class="card-definicion">
+                                <p><strong>Definición clave:</strong> La inteligencia artificial es una rama de la informática que permite a las computadoras realizar tareas que normalmente requieren inteligencia humana. Estas tareas incluyen entender el lenguaje, reconocer patrones, tomar decisiones y resolver problemas complejos.</p>
+                            </div>
+                            <p>A diferencia de los programas tradicionales que siguen instrucciones fijas (si ocurre A, hacer B), la IA puede aprender de grandes cantidades de información y aplicar ese aprendizaje a situaciones nuevas y no previstas.</p>
+                        </div>
+                    </details>
+                    <details id="cap1-2" class="accordion-item scroll-mt-20"><summary>1.2. Distinguiendo paradigmas: IA tradicional vs. IA generativa</summary>
+                        <div class="content space-y-4 text-justify">
+                           <div class="card-conexion">
+                                <h4 class="font-bold text-verde mb-2">Analogía: el archivador vs. el asesor de carrera</h4>
+                                <p>La <strong>IA tradicional</strong> es como un archivador digital experto: clasifica y encuentra información que ya existe (por ejemplo, filtra CVs por palabras clave). La <strong>IA generativa</strong> es como un asesor de carrera: después de analizar su experiencia y la oferta laboral, puede redactar un borrador de su CV completamente nuevo, destacando sus competencias de forma estratégica.</p>
+                            </div>
+                            <p><strong>Inteligencia artificial tradicional (o discriminativa):</strong> Se enfoca en clasificar y predecir basándose en patrones de datos históricos. Un ejemplo son los sistemas de selección automatizados (ATS) que clasifican CVs. Estos sistemas operan dentro de parámetros bien definidos y no pueden crear contenido nuevo.</p>
+                            <p><strong>Inteligencia artificial generativa:</strong> Representa un cambio de paradigma. Estos sistemas no se limitan a clasificar, sino que pueden sintetizar contenido completamente nuevo (texto, ideas, respuestas a preguntas de entrevista) que, aunque inspirado en patrones aprendidos, no existe en sus datos de entrenamiento. Su función principal es crear, no solo organizar.</p>
+                        </div>
+                    </details>
+                    <details id="cap1-3" class="accordion-item scroll-mt-20"><summary>1.3. El concepto de "generatividad"</summary>
+                        <div class="content space-y-4 text-justify">
+                            <p>La generatividad es la capacidad de un sistema para crear contenido original mediante la recombinación creativa de patrones aprendidos de vastos conjuntos de datos. Al igual que un músico de jazz improvisa una melodía nueva combinando escalas y armonías conocidas, los modelos generativos combinan patrones lingüísticos y conceptuales para crear contenido coherente y de alta calidad.</p>
+                            <table class="w-full text-left border-collapse mt-4">
+                                <thead class="bg-azul text-white">
+                                    <tr>
+                                        <th class="p-3 font-bold uppercase">Característica</th>
+                                        <th class="p-3 font-bold uppercase">Descripción</th>
+                                        <th class="p-3 font-bold uppercase">Ejemplo (caso de Isabella)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <tr class="border-b"><td class="p-3"><strong>Creatividad sintética</strong></td><td class="p-3">Combina elementos conocidos de formas nuevas.</td><td class="p-3">Proponer 3 formas de reformular la "organización de eventos" como la competencia "gestión de proyectos de alto impacto".</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="p-3"><strong>Adaptabilidad contextual</strong></td><td class="p-3">Ajusta el contenido según la situación específica.</td><td class="p-3">Generar un resumen de 100 palabras de sus competencias para su CV y un párrafo de 30 palabras para su perfil de LinkedIn.</td></tr>
+                                    <tr class="border-b"><td class="p-3"><strong>Escalabilidad</strong></td><td class="p-3">Genera grandes volúmenes de contenido manteniendo calidad.</td><td class="p-3">Crear 5 versiones de una carta de presentación, cada una adaptada a una oferta de "Coordinadora de Proyectos" distinta.</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="p-3"><strong>Multimodalidad</strong></td><td class="p-3">Trabaja con diferentes tipos de contenido (texto, imagen, etc.).</td><td class="p-3">A partir de la descripción de un proyecto en su CV, generar una diapositiva visual que resuma el impacto del proyecto.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                    <details id="cap1-4" class="accordion-item scroll-mt-20"><summary>1.4. Predicción versus razonamiento: cómo "piensa" la IA</summary>
+                        <div class="content space-y-4 text-justify">
+                            <p>Una distinción fundamental es la diferencia entre predicción y razonamiento. Los modelos de lenguaje grandes (LLM) como ChatGPT no "razonan" en el sentido humano. Simulan el razonamiento a través de una <strong>predicción estadística</strong> extremadamente sofisticada.</p>
+                            <p>Cuando se le pide analizar un problema, el modelo no comprende la lógica subyacente; en cambio, predice la secuencia de palabras que constituiría una respuesta coherente, basándose en los millones de ejemplos de razonamiento humano presentes en sus datos de entrenamiento.</p>
+                            <div class="idea-destacada">
+                                <p><strong>Implicación práctica:</strong> La IA puede generar respuestas que parecen lógicas, pero carece de comprensión genuina. Por ello, la supervisión y el juicio crítico humano son indispensables para validar cualquier resultado.</p>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section id="cap2" class="mb-12 scroll-mt-20">
+                 <h2 class="text-3xl font-bold text-azul mb-6 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /></svg>2. El ecosistema de herramientas y sus limitaciones</h2>
+                <div class="space-y-4">
+                    <details id="cap2-1" class="accordion-item scroll-mt-20"><summary>2.1. Tipos de herramientas generativas</summary>
+                        <div class="content space-y-4 text-justify">
+                            <p>El ecosistema de IA generativa es diverso. Para un profesional como Isabella, las plataformas se pueden clasificar según el tipo de contenido que generan:</p>
+                            <ul class="list-disc pl-5 mt-4 space-y-3">
+                                <li><strong>Texto a texto:</strong> Generan, traducen, resumen o corrigen texto. Son las más comunes para tareas administrativas.
+                                    <br><em>Herramientas: ChatGPT, Google Gemini, Claude, Perplexity.</em></li>
+                                <li><strong>Texto a imagen:</strong> Crean imágenes originales a partir de descripciones textuales.
+                                    <br><em>Herramientas: Midjourney, DALL-E 3 (integrado en ChatGPT Plus), Stable Diffusion, Adobe Firefly.</em></li>
+                                <li><strong>Texto a audio/video:</strong> Generan narraciones, música o secuencias de video a partir de texto.
+                                    <br><em>Herramientas: ElevenLabs (audio), Synthesia (video), Sora (video, de OpenAI).</em></li>
+                                <li><strong>Análisis de documentos:</strong> Permiten "conversar" con documentos (PDF, Word, etc.) para resumirlos o extraer información clave.
+                                    <br><em>Herramientas: ChatPDF, Humata AI.</em></li>
+                                <li><strong>Texto a código:</strong> Asisten en la escritura, depuración y documentación de código de programación.
+                                    <br><em>Herramientas: GitHub Copilot, Replit.</em></li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details id="cap2-2" class="accordion-item scroll-mt-20"><summary>2.2. Desmitificación y limitaciones críticas</summary>
+                        <div class="content space-y-4 text-justify">
+                            <div class="card-reflexion">
+                                <h4 class="font-bold text-amarillo mb-2">Mitos comunes vs. realidad</h4>
+                                <ul class="list-disc pl-5 text-sm">
+                                    <li><strong>Mito:</strong> La IA "comprende" lo que escribe. <strong>Realidad:</strong> No comprende, predice. Es un sistema estadístico que calcula la siguiente palabra más probable en una secuencia. No hay razonamiento real.</li>
+                                    <li><strong>Mito:</strong> La IA es objetiva y neutral. <strong>Realidad:</strong> Es un reflejo de los datos con los que fue entrenada, por lo que hereda y puede amplificar sesgos humanos (de género, culturales, etc.).</li>
+                                    <li><strong>Mito:</strong> La IA causará desempleo masivo. <strong>Realidad:</strong> La evidencia apunta a una transformación y aumento de las capacidades humanas, más que a una eliminación masiva de empleos.</li>
+                                </ul>
+                            </div>
+                            <p>Limitaciones que Isabella (y todo profesional) debe conocer:</p>
+                            <table class="w-full text-left border-collapse mt-4">
+                                <thead class="bg-rojo text-white"><tr><th class="p-2">Limitación</th><th class="p-2">Descripción</th><th class="p-2">Ejemplo en el caso de Isabella</th></tr></thead>
+                                <tbody>
+                                    <tr class="border-b"><td class="p-2"><strong>Alucinaciones</strong></td><td class="p-2">Inventa información que suena creíble pero es falsa.</td><td class="p-2">Puede inventar certificaciones o experiencias laborales que Isabella no posee.</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="p-2"><strong>Conocimiento desactualizado</strong></td><td class="p-2">Su información tiene una fecha límite de entrenamiento.</td><td class="p-2">No conocerá las últimas tendencias en entrevistas o las competencias más demandadas en 2025.</td></tr>
+                                    <tr class="border-b"><td class="p-2"><strong>Sesgos inherentes</strong></td><td class="p-2">Refleja los sesgos presentes en sus datos de entrenamiento.</td><td class="p-2">Podría generar descripciones de sus habilidades que perpetúen estereotipos de género (ej. enfocarse solo en habilidades 'blandas').</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="p-2"><strong>Confidencialidad</strong></td><td class="p-2">Las herramientas públicas pueden usar sus entradas para re-entrenar el modelo.</td><td class="p-2">¡Nunca debe introducir datos personales sensibles como su RUT, dirección o referencias al analizar su CV!</td></tr>
+                                </tbody>
+                            </table>
+                             <p class="mt-4 font-semibold">La implicación es clara: todo contenido generado por una IA, especialmente en un contexto institucional, debe ser rigurosamente verificado, editado y validado por un ser humano antes de su uso.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section id="cap3" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>3. Metodología práctica para la adopción de la IA generativa</h2>
+                <div class="space-y-4 text-justify">
+                    <p>La adopción exitosa requiere un enfoque estructurado que va más allá de la simple elección de una herramienta. Un proceso efectivo sigue cinco fases iterativas:</p>
+                    <ol class="list-decimal list-inside space-y-2 mt-4">
+                        <li><strong>Diagnóstico:</strong> Mapear competencias actuales y compararlas con los requisitos de los roles deseados (el desafío actual de Isabella).</li>
+                        <li><strong>Diseño:</strong> Seleccionar herramientas, diseñar *prompts* efectivos y establecer protocolos de uso ético para la búsqueda laboral.</li>
+                        <li><strong>Pilotaje:</strong> Iniciar con postulaciones a roles específicos para probar y refinar los CVs y cartas de presentación generadas.</li>
+                        <li><strong>Escalamiento:</strong> Aplicar el método de forma sistemática a todas las postulaciones.</li>
+                        <li><strong>Optimización continua:</strong> Medir el impacto (ej. tasa de respuestas) y refinar constantemente la estrategia.</li>
+                    </ol>
+                    <div class="card-practica">
+                        <h4 class="font-bold text-verde mb-2">Ingeniería de <i>prompts</i>: de lo vago a lo efectivo</h4>
+                        <p class="mb-2">El uso efectivo de la IA generativa es una habilidad que se desarrolla. La formulación de instrucciones (o *prompts*) es clave. Veamos una secuencia de mejora para el caso de Isabella:</p>
+                        <ul class="list-decimal pl-5 text-sm space-y-2 mt-2">
+                             <li><strong>Prompt básico (vago):</strong> "Mejora mi CV."<br><em>Resultado: genérico e inútil.</em></li>
+                             <li><strong>Prompt mejorado (específico):</strong> "Analiza mi CV y la oferta de 'Coordinadora de Proyectos' y dime cómo puedo mejorar mi CV."<br><em>Resultado: estructurado pero sin detalles accionables.</em></li>
+                             <li><strong>Prompt avanzado (contexto completo):</strong> "Actúa como un experto en reclutamiento. Te daré mi CV y una oferta para 'Coordinadora de Proyectos'. <strong>Objetivo:</strong> reescribe la sección de 'Experiencia' de mi CV para destacar mis logros en términos de gestión de proyectos, comunicación y resolución de problemas, usando el método STAR (Situación, Tarea, Acción, Resultado). <strong>Entregable:</strong> una lista de 3 a 5 viñetas reescritas que pueda copiar y pegar."<br><em>Resultado: altamente específico, relevante y accionable.</em></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cap4" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>4. Conclusiones del Módulo 1</h2>
+                <div class="space-y-4 text-justify">
+                    <p>La inteligencia artificial generativa no es una solución mágica ni una amenaza existencial, sino una herramienta de productividad cuyo valor reside en su capacidad para actuar como un <strong>"copiloto" profesional</strong>. Su función no es reemplazar el juicio humano, sino aumentarlo, acelerando tareas repetitivas y liberando a los profesionales para que puedan enfocarse en actividades de mayor valor estratégico: la planificación, el pensamiento crítico, la empatía y la resolución creativa de problemas, habilidades que la IA, en su estado actual, no posee.</p>
+                    <div class="idea-destacada">
+                        <p><strong>Conclusión clave:</strong> El imperativo para profesionales como Isabella no es convertirse en expertos técnicos, sino desarrollar una <strong>alfabetización en IA</strong> que permita una colaboración eficaz y ética con estos sistemas. El primer paso para una adopción exitosa no es tecnológico, sino analítico. Consiste en un autodiagnóstico riguroso para identificar dónde estas herramientas pueden generar el mayor impacto.</p>
+                    </div>
+                    <p>Con este diagnóstico fundamental, Isabella está ahora en condiciones de avanzar al siguiente módulo, donde aprenderá a "hablar" el lenguaje de la IA para darle instrucciones claras y efectivas, pasando del concepto a la aplicación práctica en la optimización de su CV y carta de presentación.</p>
+                </div>
+            </section>
+
+            <section id="referencias" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>5. Referencias</h2>
+                <div class="space-y-4 text-justify">
+                    <ul class="list-disc pl-5 space-y-2 text-sm">
+                        <li>Cevallos, A., et al. (2023). <i>IA Generativa</i>. Banco Interamericano de Desarrollo (BID).</li>
+                        <li>Comisión Económica para América Latina y el Caribe (CEPAL). (2024). <i>Índice Latinoamericano de Inteligencia Artificial (ILIA)</i>.</li>
+                        <li>Deloitte. (2025). <i>State of Generative AI in the Enterprise: Quarter four report</i>.</li>
+                        <li>García Llamas, J. J. (2024). Inteligencia artificial generativa (IAG): el nuevo paradigma en el diseño y producción de contenido. En <i>Aprendizaje y enseñanza en la era digital</i>.</li>
+                        <li>Sebastià Oriol, I. (2024). <i>Inteligencia artificial generativa</i>. Universitat Oberta de Catalunya (UOC).</li>
+                        <li>Vaswani, A., et al. (2017). Attention is all you need. <i>Advances in neural information processing systems, 30</i>.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Info Button & Modal -->
+    <div id="info-button" class="info-button" title="Información del recurso">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    </div>
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-azul">Información del recurso</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <div><h4 class="font-semibold text-gris-oscuro">Descripción</h4><p>Apunte interactivo para el Módulo 1 del curso de IA Generativa de la Universidad de Chile, actualizado en agosto de 2025.</p></div>
+                <div><h4 class="font-semibold text-gris-oscuro">Licenciamiento</h4><p>Este material se distribuye bajo una licencia Creative Commons (CC BY-NC-SA 4.0).</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const infoButton = document.getElementById('info-button');
+            const infoModal = document.getElementById('info-modal');
+            const closeModal = document.getElementById('close-modal');
+            const allLinks = document.querySelectorAll('.nav-link, .sub-nav-link');
+            const sections = document.querySelectorAll('section, .accordion-item');
+
+            // --- Sidebar Toggle ---
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
+            
+            // --- Modal Logic ---
+            infoButton.addEventListener('click', () => infoModal.classList.add('active'));
+            closeModal.addEventListener('click', () => infoModal.classList.remove('active'));
+            infoModal.addEventListener('click', (e) => {
+                if (e.target === infoModal) infoModal.classList.remove('active');
+            });
+
+            // --- Active Nav Link on Scroll ---
+            function changeNav() {
+                let index = sections.length;
+                while(--index && mainContent.scrollTop + 100 < sections[index].offsetTop) {}
+                allLinks.forEach((link) => link.classList.remove('active'));
+                let activeLink = document.querySelector(`a[href="#${sections[index].id}"]`);
+                if(activeLink) {
+                    activeLink.classList.add('active');
+                    let parentNavLink = activeLink.closest('ul.pl-4')?.previousElementSibling;
+                    if(parentNavLink?.classList.contains('nav-link')) {
+                        parentNavLink.classList.add('active');
+                    }
+                }
+            }
+            mainContent.addEventListener('scroll', changeNav);
+            changeNav();
+
+            // --- Smooth Scroll & Mobile Menu Close ---
+            allLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if(targetElement.tagName === 'DETAILS' && !targetElement.open) {
+                            // Close others before opening
+                            document.querySelectorAll('.accordion-item[open]').forEach(d => {
+                                if(d !== targetElement) d.removeAttribute('open');
+                            });
+                            targetElement.open = true;
+                        }
+                    }
+                    if (window.innerWidth < 1024) sidebar.classList.add('-translate-x-full');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

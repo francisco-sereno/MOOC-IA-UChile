@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZZWQZR8VQ');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente Caso - IA Generativa (Módulos 1 y 2)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Aplicar la fuente Montserrat a todo el cuerpo del documento */
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        /* Clases para los colores Pantone */
+        .border-pantone-blue { border-color: #0033A0; }
+        .bg-pantone-blue { background-color: #0033A0; }
+        .bg-pantone-blue-light { background-color: #E6EAF6; }
+        .text-pantone-blue { color: #0033A0; }
+        
+        .border-pantone-yellow { border-color: #FFD100; }
+        .bg-pantone-yellow { background-color: #FFD100; }
+        .bg-pantone-yellow-light { background-color: #FFF9E6; }
+        .text-pantone-yellow { color: #E6A200; }
+
+        .border-pantone-green { border-color: #009639; }
+        .bg-pantone-green { background-color: #009639; }
+        .bg-pantone-green-light { background-color: #E6F5EB; }
+        .text-pantone-green { color: #009639; }
+
+        .border-pantone-red { border-color: #E3000F; }
+        .bg-pantone-red { background-color: #E3000F; }
+        .bg-pantone-red-light { background-color: #FDE6E7; }
+        .text-pantone-red { color: #E3000F; }
+
+        /* Estilos para la navegación principal por pestañas */
+        .main-nav-btn {
+            transition: all 0.3s ease;
+        }
+        .main-nav-btn.active {
+            border-color: #0033A0; /* Pantone Blue */
+            color: #0033A0;
+            background-color: #E6EAF6; /* Pantone Blue Light */
+        }
+
+        /* Estilos para la presentación interactiva del curso */
+        .presentation-nav-btn {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .presentation-nav-btn.active {
+            font-weight: 600;
+        }
+        .presentation-content-pane {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .presentation-content-pane.hidden {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+        
+        /* Estilos para los módulos del viaje de aprendizaje */
+        .module-button {
+            transition: all 0.3s ease-in-out;
+        }
+        .module-button.active {
+            transform: translateX(10px);
+            font-weight: 700;
+        }
+        .module-content {
+            transition: all 0.4s ease-in-out;
+            border-left-width: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        
+        <!-- Encabezado -->
+        <header class="text-center mb-8">
+            <div class="inline-block bg-pantone-blue p-3 rounded-xl shadow-md mx-auto mb-4">
+                <img src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo Oficina de Inteligencia Artificial" class="h-20">
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Expediente caso</h1>
+        </header>
+
+        <!-- INSTRUCCIONES DE USO -->
+        <section id="instructions-box" class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg relative mb-8 shadow-sm transition-opacity duration-500">
+            <div class="flex items-start">
+                <i class="fas fa-info-circle text-2xl mr-3 mt-1"></i>
+                <div>
+                    <strong class="font-bold">Instrucciones de uso</strong>
+                    <p class="block sm:inline text-sm ml-2">Utilice las pestañas superiores ("Presentación", "Viaje de aprendizaje") para navegar entre las secciones principales del recurso. Dentro de cada sección, encontrará elementos interactivos para explorar el contenido en detalle.</p>
+                </div>
+                <button id="close-instructions" class="ml-auto -mt-2 -mr-2 p-2" aria-label="Cerrar instrucciones">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- NAVEGACIÓN PRINCIPAL POR PESTAÑAS -->
+        <nav class="flex flex-wrap justify-center border-b-2 border-gray-200 mb-8">
+            <button class="main-nav-btn text-lg font-semibold py-3 px-6 border-b-4" data-target="view-presentacion">
+                <i class="fas fa-chalkboard-teacher mr-2"></i>Presentación
+            </button>
+            <button class="main-nav-btn text-lg font-semibold py-3 px-6 border-b-4" data-target="view-viaje">
+                <i class="fas fa-route mr-2"></i>Viaje de aprendizaje
+            </button>
+        </nav>
+
+        <!-- CONTENEDOR DE VISTAS -->
+        <div id="views-container">
+
+            <!-- VISTA 1: PRESENTACIÓN DEL CURSO -->
+            <section id="view-presentacion" class="view">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <nav id="presentation-nav" class="flex flex-wrap justify-center border-b border-gray-200 mb-6">
+                        <!-- Botones de navegación de la presentación -->
+                    </nav>
+                    <div id="presentation-content-container" class="min-h-[150px]">
+                        <!-- Contenido de la presentación -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA 2: VIAJE DE APRENDIZAJE -->
+            <section id="view-viaje" class="view hidden">
+                <main class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                    <nav class="md:col-span-4 lg:col-span-3">
+                        <h2 class="text-xl font-bold mb-4 text-gray-700">Módulos</h2>
+                        <div id="module-navigation" class="space-y-2">
+                            <!-- Botones de navegación de módulos -->
+                        </div>
+                    </nav>
+                    <section id="module-content-area" class="md:col-span-8 lg:col-span-9 min-h-[400px]">
+                        <div id="module-content" class="bg-white p-6 md:p-8 rounded-lg shadow-lg module-content">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 id="module-title" class="text-2xl font-bold"></h3>
+                            </div>
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Situación:</h4>
+                                    <p id="module-challenge" class="text-gray-600 leading-relaxed text-justify"></p>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Tarea:</h4>
+                                    <p id="module-application" class="text-gray-600 leading-relaxed text-justify"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </section>
+        </div>
+
+        <!-- Pie de página -->
+        <footer class="text-center mt-12 pt-8 border-t border-gray-200">
+            <p class="text-gray-500">&copy; 2025 Oficina de Inteligencia Artificial - Universidad de Chile</p>
+            <p class="text-gray-400 text-sm">Vicerrectoría de Tecnologías de la Información</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- LÓGICA DE INSTRUCCIONES ---
+            const instructionsBox = document.getElementById('instructions-box');
+            const closeInstructionsBtn = document.getElementById('close-instructions');
+            if (closeInstructionsBtn) {
+                closeInstructionsBtn.addEventListener('click', () => {
+                    instructionsBox.style.opacity = '0';
+                    setTimeout(() => {
+                        instructionsBox.style.display = 'none';
+                    }, 500);
+                });
+            }
+
+            // --- LÓGICA DE NAVEGACIÓN PRINCIPAL ---
+            const mainNavButtons = document.querySelectorAll('.main-nav-btn');
+            const views = document.querySelectorAll('.view');
+
+            function switchView(targetId) {
+                views.forEach(view => {
+                    view.classList.toggle('hidden', view.id !== targetId);
+                });
+                mainNavButtons.forEach(button => {
+                    button.classList.toggle('active', button.dataset.target === targetId);
+                });
+            }
+
+            mainNavButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchView(button.dataset.target);
+                });
+            });
+
+            // Activar la primera vista por defecto
+            switchView('view-presentacion');
+
+            // --- DATOS Y LÓGICA PARA "PRESENTACIÓN DEL CURSO" ---
+            const presentationData = [
+                { id: 'caso', title: 'Presentación del caso: la kermesse del colegio', icon: 'fa-briefcase', color: 'blue', content: 'Isabella Andrea, además de ser una trabajadora, es apoderada y la principal organizadora de la kermesse anual del colegio de sus hijos. Es una tarea que le gusta, pero que le consume muchísimo tiempo y energía: debe enviar correos a todos los apoderados, crear afiches, buscar ideas para los juegos, organizar a los voluntarios y planificar el presupuesto. Isabella tiene un trabajo demandante y poco tiempo libre. Este año, ha oído hablar de la "inteligencia artificial generativa" y decide probar si esta nueva tecnología puede ayudarla a organizar una kermesse increíble sin tener que sacrificar sus fines de semana.' },
+                { id: 'logro', title: '¿Qué queremos lograr con este caso?', icon: 'fa-bullseye', color: 'yellow', content: 'Que los participantes del curso aprendan, de manera sencilla y práctica, a ayudar a Isabella a usar la IA generativa para hacer más eficiente su trabajo. Esto incluye aprender a usar herramientas, crear soluciones prácticas y manejar los aspectos éticos relacionados con la tecnología.' },
+                { id: 'metodologia', title: '¿Cómo vamos a trabajar durante el curso?', icon: 'fa-sitemap', color: 'green', content: 'Usaremos el Aprendizaje Basado en Casos (ABC), organizados en dos módulos, cada uno con situaciones claras y concretas.' }
+            ];
+            const presentationNav = document.getElementById('presentation-nav');
+            const presentationContentContainer = document.getElementById('presentation-content-container');
+
+            presentationData.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.className = `presentation-nav-btn px-4 py-3 text-sm md:text-base text-gray-600 hover:text-gray-900 border-pantone-${item.color}`;
+                button.textContent = item.title;
+                button.dataset.target = item.id;
+                presentationNav.appendChild(button);
+
+                const contentPane = document.createElement('div');
+                contentPane.id = item.id;
+                contentPane.className = 'presentation-content-pane';
+                if (index !== 0) contentPane.classList.add('hidden');
+                contentPane.innerHTML = `<div class="flex items-start"><i class="fas ${item.icon} text-3xl text-pantone-${item.color} mr-4 mt-1"></i><div><h3 class="font-bold text-xl mb-2 text-gray-800">${item.title}</h3><p class="text-gray-600 leading-relaxed text-justify">${item.content}</p></div></div>`;
+                presentationContentContainer.appendChild(contentPane);
+
+                button.addEventListener('click', () => {
+                    presentationNav.querySelectorAll('.presentation-nav-btn').forEach(btn => {
+                        const itemData = presentationData.find(d => d.id === btn.dataset.target);
+                        if (itemData) {
+                            const colorClass = itemData.color;
+                            btn.classList.remove('active', `text-pantone-${colorClass}`, `border-pantone-${colorClass}`);
+                        }
+                    });
+                    button.classList.add('active', `text-pantone-${item.color}`, `border-pantone-${item.color}`);
+                    presentationContentContainer.querySelectorAll('.presentation-content-pane').forEach(pane => pane.classList.add('hidden'));
+                    document.getElementById(item.id).classList.remove('hidden');
+                });
+            });
+            const firstPresentationButton = presentationNav.querySelector('.presentation-nav-btn');
+            if(firstPresentationButton) {
+                firstPresentationButton.classList.add('active', `text-pantone-blue`, `border-pantone-blue`);
+            }
+
+
+            // --- DATOS Y LÓGICA PARA "VIAJE DE APRENDIZAJE" ---
+            const modules = [
+                { id: 1, title: "Módulo 1: El diagnóstico", situation: "Isabella se siente abrumada con la cantidad de tareas para la kermesse y no sabe por dónde empezar a usar la IA generativa. Necesita identificar qué tareas (correos, afiches, ideas de juegos) son las más adecuadas para optimizar.", task: "Aprenderemos los conceptos básicos de la IA generativa y la aplicaremos para analizar las tareas de la kermesse, identificando cuáles tienen el mayor potencial de ser automatizadas o mejoradas.", color: "blue" },
+                { id: 2, title: "Módulo 2: La primera herramienta", situation: "Isabella intentó usar IA para escribir un correo a los apoderados solicitando voluntarios, pero el resultado fue un texto muy formal y poco motivador.", task: "Aprenderemos a escribir instrucciones claras y efectivas ('prompts') para que la IA generativa genere un correo con un tono cercano y convincente, además de ideas creativas para los afiches y juegos de la kermesse.", color: "yellow" }
+            ];
+
+            const navigationContainer = document.getElementById('module-navigation');
+            const contentArea = document.getElementById('module-content');
+            const titleEl = document.getElementById('module-title');
+            const challengeEl = document.getElementById('module-challenge');
+            const applicationEl = document.getElementById('module-application');
+
+            function displayModule(moduleId) {
+                const module = modules.find(m => m.id === moduleId);
+                if (!module) return;
+
+                titleEl.textContent = module.title;
+                challengeEl.textContent = module.situation;
+                applicationEl.textContent = module.task;
+                contentArea.className = `bg-white p-6 md:p-8 rounded-lg shadow-lg module-content border-pantone-${module.color}`;
+                titleEl.className = `text-2xl font-bold text-pantone-${module.color}`;
+
+                navigationContainer.querySelectorAll('.module-button').forEach(btn => {
+                    const btnModule = modules.find(m => m.id === parseInt(btn.dataset.moduleId));
+                    if (btnModule) {
+                       btn.classList.remove('active', `bg-pantone-${btnModule.color}-light`, `text-pantone-${btnModule.color}`);
+                    }
+                    if (parseInt(btn.dataset.moduleId) === moduleId) {
+                        btn.classList.add('active', `bg-pantone-${module.color}-light`, `text-pantone-${module.color}`);
+                    }
+                });
+            }
+
+            modules.forEach((module) => {
+                // Poblar navegación del viaje de aprendizaje
+                const button = document.createElement('button');
+                button.className = 'w-full text-left p-4 rounded-lg module-button hover:bg-gray-100 hover:font-bold';
+                button.dataset.moduleId = module.id;
+                button.innerHTML = `<span class="font-semibold">Módulo ${module.id}:</span> <span class="block text-sm text-gray-600">${module.title.split(':')[1].trim()}</span>`;
+                button.addEventListener('click', () => displayModule(module.id));
+                navigationContainer.appendChild(button);
+            });
+
+            displayModule(1);
+        });
+    </script>
+
+</body>
+</html>

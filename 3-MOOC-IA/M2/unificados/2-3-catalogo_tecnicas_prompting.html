@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de técnicas de prompting - Isabella Andrea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+        
+            --verde-light: #E6F5EB;
+            --amarillo-light: #FFF9E6;
+            --rojo-light: #FFE6E8;
+            --azul-light: #E6F2FF;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal - Adaptado a 100% x 850px */
+        .main-container {
+            max-width: 100%;
+            max-height: 850px;
+            margin: 0 auto;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        /* Scrollbar personalizada para accesibilidad */
+        .main-container::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .main-container::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 10px;
+        }
+
+        .main-container::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 10px;
+            border: 2px solid var(--gris-100);
+        }
+
+        .main-container::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Modal de instrucciones - Accesible */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 9999;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            line-height: 1.8;
+            color: var(--gris-800);
+        }
+
+        .modal-body h3 {
+            color: var(--azul-dark);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .modal-body ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--gris-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Tarjetas de técnicas mejoradas */
+        .technique-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid var(--gris-200);
+            background: white;
+            border-radius: 16px;
+            padding: 1.25rem;
+            position: relative;
+            overflow: visible;
+        }
+
+        .technique-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: 16px;
+        }
+
+        .technique-card:hover::before {
+            opacity: 1;
+        }
+        
+        .technique-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.25);
+            border-color: var(--azul);
+        }
+
+        /* Detalle de técnica estilo FAQ */
+        .technique-detail {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--gris-200);
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+        }
+
+        .technique-detail-header {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .technique-section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--gris-50);
+            border-radius: 12px;
+            border-left: 4px solid var(--azul);
+        }
+
+        .technique-section h3 {
+            color: var(--azul-dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--azul);
+            border: 2px solid var(--azul);
+        }
+
+        .btn-secondary:hover {
+            background: var(--azul);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--verde);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: var(--verde-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Badge de nivel - Alto contraste */
+        .level-badge {
+            display: inline-block;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .level-badge.basico {
+            background: #DCFCE7;
+            color: #166534;
+            border: 2px solid #16A34A;
+        }
+
+        .level-badge.intermedio {
+            background: #FEF3C7;
+            color: #92400E;
+            border: 2px solid #F59E0B;
+        }
+
+        .level-badge.avanzado {
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 2px solid #DC2626;
+        }
+
+        /* Panel de progreso */
+        .progress-panel {
+            background: linear-gradient(135deg, white 0%, #E6F5EB 100%);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.15);
+            border: 2px solid var(--verde);
+        }
+
+        .progress-bar-container {
+            background: var(--gris-200);
+            border-radius: 12px;
+            height: 32px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--verde), #00D76E);
+            border-radius: 12px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        /* Filtros y búsqueda */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.25rem;
+            border: 2px solid var(--gris-300);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--azul);
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.1);
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--azul);
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .suggestion-item {
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--gris-200);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: var(--gris-50);
+            padding-left: 1.5rem;
+        }
+
+        /* Grid responsive */
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 51, 160, 0.25);
+        }
+
+        .footer p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Accesibilidad para neurodivergencias */
+        .text-high-contrast {
+            color: var(--gris-800);
+            line-height: 1.8;
+        }
+
+        .focus-visible:focus {
+            outline: 3px solid var(--amarillo);
+            outline-offset: 2px;
+        }
+
+        /* Estados de interacción claros */
+        button:active {
+            transform: scale(0.97);
+        }
+
+        /* Espaciado generoso para facilitar lectura */
+        p {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+
+        /* Ocultar elementos */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Vista de comparador */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .comparison-column {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--gris-200);
+        }
+
+        .comparison-section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--gris-50);
+            border-radius: 8px;
+        }
+
+        .comparison-section-title {
+            font-weight: 700;
+            color: var(--azul-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .techniques-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+            }
+        }
+
+        /* Ejemplos expandibles */
+        .example-box {
+            background: linear-gradient(135deg, #FFF9E6, #FFFBF0);
+            border: 2px solid var(--amarillo-dark);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .example-box strong {
+            color: var(--azul-dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Iconos de estado */
+        .status-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-icon.favorite {
+            background: #FEE2E2;
+            color: var(--rojo);
+        }
+
+        .status-icon.mastered {
+            background: #DCFCE7;
+            color: var(--verde);
+        }
+
+        .status-icon:hover {
+            transform: scale(1.1);
+            animation: pulse 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner">
+            <div class="text-center relative z-10">
+                <h1 class="text-3xl font-extrabold text-white mb-2">
+                    🤖 Catálogo de técnicas de prompting
+                </h1>
+                <p class="text-lg text-white/90 font-medium">
+                    Caso de estudio: Isabella Andrea | Asistente de transición profesional
+                </p>
+            </div>
+        </div>
+
+        <!-- Panel de progreso -->
+        <div class="progress-panel animate-fadeIn">
+            <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+                <h2 class="text-xl font-bold" style="color: var(--verde);">
+                    📊 Tu progreso
+                </h2>
+                <button onclick="openInstructions()" class="btn btn-secondary text-sm">
+                    ℹ️ Ver instrucciones
+                </button>
+            </div>
+            
+            <div class="progress-bar-container mb-3">
+                <div id="progressBar" class="progress-bar-fill" style="width: 0%;">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span id="progressText" class="text-white font-bold text-sm z-10">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3 text-center text-sm">
+                <div class="bg-white rounded-lg p-2 shadow-sm">
+                    <div class="font-bold text-2xl" style="color: var(--azul);" id="totalTechniques">15</div>
+                    <div class="text-gray-600 text-xs">Total</div>
+                </div>
+                <div class="bg-white rounded-lg p-2 shadow-sm">
+                    <div class="font-bold text-2xl" style="color: var(--verde);" id="masteredCount">0</div>
+                    <div class="text-gray-600 text-xs">Dominadas</div>
+                </div>
+                <div class="bg-white rounded-lg p-2 shadow-sm">
+                    <div class="font-bold text-2xl" style="color: var(--rojo);" id="favoritesCount">0</div>
+                    <div class="text-gray-600 text-xs">Favoritas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="search-input focus-visible" 
+                placeholder="🔍 Buscar técnicas por nombre o descripción..."
+                aria-label="Buscar técnicas de prompting"
+            >
+            <div id="searchSuggestions" class="search-suggestions" style="display: none;"></div>
+        </div>
+
+        <!-- Filtros rápidos -->
+        <div class="flex gap-2 mb-4 flex-wrap">
+            <button onclick="filterTechniques('all')" id="filterAll" class="btn btn-primary text-sm">
+                📚 Todas
+            </button>
+            <button onclick="filterTechniques('favorites')" id="filterFavorites" class="btn btn-secondary text-sm">
+                ❤️ Favoritas
+            </button>
+            <button onclick="filterTechniques('mastered')" id="filterMastered" class="btn btn-secondary text-sm">
+                ⭐ Dominadas
+            </button>
+            <button onclick="filterTechniques('basico')" id="filterBasico" class="btn btn-secondary text-sm">
+                🟢 Básicas
+            </button>
+            <button onclick="filterTechniques('intermedio')" id="filterIntermedio" class="btn btn-secondary text-sm">
+                🟡 Intermedias
+            </button>
+            <button onclick="filterTechniques('avanzado')" id="filterAvanzado" class="btn btn-secondary text-sm">
+                🔴 Avanzadas
+            </button>
+        </div>
+
+        <!-- Vista de navegación -->
+        <div id="navigationView">
+            <div class="techniques-grid" id="techniquesGrid">
+                <!-- Las técnicas se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Vista de detalle -->
+        <div id="detailView" class="hidden">
+            <button onclick="backToNavigation()" class="btn btn-secondary mb-4">
+                ← Volver al catálogo
+            </button>
+            <div id="techniqueDetail"></div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex gap-3 mb-4 flex-wrap">
+            <button onclick="openComparator()" class="btn btn-primary">
+                🔄 Comparar técnicas
+            </button>
+            <button onclick="resetProgress()" class="btn btn-secondary">
+                🔄 Reiniciar progreso
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="font-semibold text-base mb-1">Oficina de Inteligencia Artificial</p>
+            <p>Vicerrectoría de Tecnologías de la Información</p>
+            <p>Universidad de Chile © 2025</p>
+            <p class="text-sm opacity-90 mt-1">Todos los derechos reservados</p>
+        </div>
+    </div>
+
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="text-2xl font-bold mb-2">
+                    📖 Instrucciones de uso
+                </h2>
+                <p class="text-white/90">Aprende a usar el catálogo de técnicas de prompting</p>
+            </div>
+            
+            <div class="modal-body text-high-contrast">
+                <h3>🎯 ¿Qué es este recurso?</h3>
+                <p>
+                    Este catálogo interactivo te permite explorar y dominar 15 técnicas esenciales de prompting 
+                    aplicadas al caso de <strong>Isabella Andrea</strong>, un asistente de IA generativa especializado en 
+                    transición profesional.
+                </p>
+
+                <h3>🔍 ¿Cómo navegar?</h3>
+                <ul>
+                    <li><strong>Explorar técnicas:</strong> Haz clic en cualquier tarjeta para ver su descripción completa, ejemplos y aplicaciones al caso de Isabella Andrea</li>
+                    <li><strong>Buscar:</strong> Usa la barra de búsqueda para encontrar técnicas específicas por nombre o descripción</li>
+                    <li><strong>Filtrar:</strong> Usa los botones de filtro para ver técnicas por nivel (básico, intermedio, avanzado) o estado (favoritas, dominadas)</li>
+                </ul>
+
+                <h3>⭐ Sistema de progreso</h3>
+                <ul>
+                    <li><strong>Marcar como dominada:</strong> Indica que has practicado y comprendes la técnica</li>
+                    <li><strong>Agregar a favoritas:</strong> Guarda las técnicas que más te interesan para acceso rápido</li>
+                    <li><strong>Tu progreso se guarda automáticamente</strong> en tu navegador</li>
+                </ul>
+
+                <h3>🔄 Comparador de técnicas</h3>
+                <p>
+                    Usa el comparador para analizar lado a lado dos técnicas diferentes y entender cuándo usar cada una.
+                </p>
+
+                <h3>♿ Accesibilidad</h3>
+                <ul>
+                    <li>Alto contraste para facilitar la lectura</li>
+                    <li>Navegación clara con teclado (Tab, Enter, Esc)</li>
+                    <li>Espaciado generoso entre elementos</li>
+                    <li>Botones grandes y visibles</li>
+                </ul>
+            </div>
+
+            <div class="modal-footer">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="dontShowAgain" class="w-4 h-4 cursor-pointer focus-visible">
+                    <span class="text-sm text-gray-700">No mostrar de nuevo</span>
+                </label>
+                <button onclick="closeInstructions()" class="btn btn-primary">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal comparador -->
+    <div id="comparatorModal" class="modal-overlay" role="dialog" aria-labelledby="comparatorTitle" aria-modal="true">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2 id="comparatorTitle" class="text-2xl font-bold">
+                    🔄 Comparador de técnicas
+                </h2>
+            </div>
+            
+            <div class="modal-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block mb-2 font-semibold text-gray-700">Técnica 1:</label>
+                        <select id="compareSelect1" class="w-full p-3 border-2 border-gray-300 rounded-lg focus-visible">
+                            <option value="">Selecciona una técnica...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-semibold text-gray-700">Técnica 2:</label>
+                        <select id="compareSelect2" class="w-full p-3 border-2 border-gray-300 rounded-lg focus-visible">
+                            <option value="">Selecciona una técnica...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="comparisonResult" class="comparison-grid">
+                    <!-- La comparación se mostrará aquí -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="closeComparator()" class="btn btn-secondary">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // DATOS DE LAS TÉCNICAS
+        // ========================================
+        const TECHNIQUES_DATA = [
+            {
+                id: 1,
+                title: "Zero-shot prompting",
+                icon: "🎯",
+                level: "Básico",
+                whatIs: "Es pedir directamente a la IA que realice una tarea sin darle ejemplos previos, confiando en su conocimiento general.",
+                whenToUse: [
+                    "Cuando la tarea es simple y directa",
+                    "Cuando no tienes ejemplos disponibles",
+                    "Para tareas generales que la IA puede inferir de su entrenamiento"
+                ],
+                advantages: [
+                    "Rápido y directo",
+                    "No requiere preparación",
+                    "Útil para explorar capacidades de la IA"
+                ],
+                disadvantages: [
+                    "Menos preciso para tareas complejas",
+                    "Puede producir resultados inconsistentes",
+                    "Limitado para contextos muy específicos"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, analiza mi CV y dime qué competencias puedo destacar para un puesto de Product Manager.",
+                    explanation: "Le pedimos directamente que analice sin darle un formato específico o ejemplos de cómo hacerlo."
+                }
+            },
+            {
+                id: 2,
+                title: "Few-shot prompting",
+                icon: "📚",
+                level: "Básico",
+                whatIs: "Es proporcionar algunos ejemplos del tipo de respuesta que esperas antes de hacer tu pregunta principal.",
+                whenToUse: [
+                    "Cuando necesitas un formato específico",
+                    "Para tareas que requieren un estilo particular",
+                    "Cuando zero-shot no da resultados satisfactorios"
+                ],
+                advantages: [
+                    "Mayor consistencia en las respuestas",
+                    "La IA entiende mejor el formato esperado",
+                    "Mejora la calidad sin requerir fine-tuning"
+                ],
+                disadvantages: [
+                    "Consume más tokens",
+                    "Requiere tiempo para crear buenos ejemplos",
+                    "Los ejemplos pobres pueden sesgar la respuesta"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, traduce estas experiencias laborales a competencias técnicas siguiendo este formato:\n\nEjemplo 1:\nExperiencia: 'Coordiné equipo de 5 personas en proyecto de migración'\nCompetencia: 'Gestión de equipos multidisciplinarios y liderazgo de proyectos'\n\nEjemplo 2:\nExperiencia: 'Implementé sistema de tickets que redujo tiempos en 30%'\nCompetencia: 'Optimización de procesos y análisis de eficiencia operativa'\n\nAhora traduce mi experiencia:\n'Manejé la comunicación con clientes durante crisis de servicio'",
+                    explanation: "Damos dos ejemplos claros del formato y estilo que queremos, ayudando a Isabella Andrea a replicar el patrón."
+                }
+            },
+            {
+                id: 3,
+                title: "Chain-of-thought (CoT)",
+                icon: "🔗",
+                level: "Intermedio",
+                whatIs: "Es pedirle a la IA que muestre su razonamiento paso a paso antes de dar una respuesta final.",
+                whenToUse: [
+                    "Para problemas que requieren múltiples pasos de razonamiento",
+                    "Cuando necesitas entender cómo llegó a la conclusión",
+                    "Para validar la lógica detrás de una respuesta"
+                ],
+                advantages: [
+                    "Mejora la precisión en tareas complejas",
+                    "Permite verificar el razonamiento",
+                    "Ayuda a identificar errores en la lógica"
+                ],
+                disadvantages: [
+                    "Genera respuestas más largas",
+                    "Consume más tokens",
+                    "Puede ser innecesario para tareas simples"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, analiza paso a paso si mi perfil es adecuado para esta oferta laboral. Razona así:\n\n1. Primero identifica las competencias clave que pide la oferta\n2. Luego mapea qué experiencias de mi CV se relacionan\n3. Evalúa el nivel de match (alto/medio/bajo) para cada competencia\n4. Finalmente dame tu conclusión sobre mi compatibilidad\n\n[Aquí iría el CV y la oferta]",
+                    explanation: "Le pedimos que desglose su análisis en pasos claros, lo que nos permite seguir su razonamiento y validar cada etapa."
+                }
+            },
+            {
+                id: 4,
+                title: "Role prompting",
+                icon: "🎭",
+                level: "Básico",
+                whatIs: "Es asignarle a la IA un rol específico (experto, profesor, consultor) para que responda desde esa perspectiva.",
+                whenToUse: [
+                    "Cuando necesitas expertise específico",
+                    "Para obtener respuestas en un tono particular",
+                    "Cuando quieres simular una consulta con un profesional"
+                ],
+                advantages: [
+                    "Las respuestas se adaptan al contexto del rol",
+                    "Mejora la relevancia del contenido",
+                    "Facilita obtener perspectivas especializadas"
+                ],
+                disadvantages: [
+                    "El rol debe estar bien definido",
+                    "Puede generar respuestas demasiado formales o técnicas",
+                    "No garantiza expertise real en el área"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, actúa como un reclutador senior de tecnología con 15 años de experiencia. Revisa mi CV y carta de presentación como si fueras el encargado de selección para un puesto de Product Manager en una startup. Dame feedback honesto y específico sobre qué mejorar.",
+                    explanation: "Al definir el rol claramente (reclutador senior de tech), Isabella Andrea adaptará su análisis a lo que realmente buscaría ese perfil."
+                }
+            },
+            {
+                id: 5,
+                title: "Self-consistency",
+                icon: "🎲",
+                level: "Avanzado",
+                whatIs: "Es generar múltiples respuestas con razonamiento independiente y luego seleccionar la respuesta más consistente entre todas.",
+                whenToUse: [
+                    "Para problemas complejos con múltiples soluciones posibles",
+                    "Cuando la precisión es crítica",
+                    "Para validar respuestas en contextos de incertidumbre"
+                ],
+                advantages: [
+                    "Aumenta la confiabilidad de las respuestas",
+                    "Reduce errores por razonamiento incorrecto único",
+                    "Útil para decisiones importantes"
+                ],
+                disadvantages: [
+                    "Muy costoso en términos de tokens",
+                    "Requiere múltiples llamadas a la IA",
+                    "Puede ser excesivo para tareas simples"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, genera 3 versiones diferentes de análisis de mi perfil profesional, cada una con un enfoque distinto. Luego identifica qué competencias aparecen consistentemente en las 3 versiones como mis fortalezas principales.",
+                    explanation: "Al generar múltiples análisis independientes, las competencias que aparecen en todos probablemente sean las más sólidas y verificables."
+                }
+            },
+            {
+                id: 6,
+                title: "Prompt chaining",
+                icon: "⛓️",
+                level: "Avanzado",
+                whatIs: "Es dividir una tarea compleja en una secuencia de prompts más simples, donde la salida de uno alimenta al siguiente.",
+                whenToUse: [
+                    "Para tareas multi-etapa complejas",
+                    "Cuando cada paso requiere procesamiento diferente",
+                    "Para mantener contexto claro en cada etapa"
+                ],
+                advantages: [
+                    "Mayor control sobre cada etapa del proceso",
+                    "Más fácil debuggear dónde falla",
+                    "Permite optimizar cada paso individualmente"
+                ],
+                disadvantages: [
+                    "Requiere diseñar la secuencia completa",
+                    "Más complejo de implementar",
+                    "Puede perder contexto entre pasos si no se maneja bien"
+                ],
+                exampleNatalia: {
+                    prompt: "Paso 1: Isabella Andrea, extrae de mi CV todas mis responsabilidades laborales en formato de lista.\n\n[Respuesta de Isabella Andrea]\n\nPaso 2: Ahora toma esa lista y traduce cada responsabilidad a una competencia profesional.\n\n[Respuesta de Isabella Andrea]\n\nPaso 3: Finalmente, agrupa esas competencias en las categorías: Técnicas, Blandas, y de Liderazgo.",
+                    explanation: "Dividimos el análisis en 3 pasos claros, cada uno construyendo sobre el anterior, lo que nos da más control y claridad."
+                }
+            },
+            {
+                id: 7,
+                title: "Tree of thoughts",
+                icon: "🌳",
+                level: "Avanzado",
+                whatIs: "Es explorar múltiples caminos de razonamiento simultáneamente, evaluando cada rama antes de continuar por la más prometedora.",
+                whenToUse: [
+                    "Para problemas con múltiples soluciones posibles",
+                    "Cuando necesitas explorar alternativas antes de decidir",
+                    "En situaciones que requieren análisis estratégico"
+                ],
+                advantages: [
+                    "Explora el espacio de soluciones sistemáticamente",
+                    "Encuentra soluciones no obvias",
+                    "Permite comparar enfoques alternativos"
+                ],
+                disadvantages: [
+                    "Muy demandante computacionalmente",
+                    "Complejo de implementar",
+                    "Puede ser excesivo para problemas simples"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, quiero transitar desde Ingeniería a Product Management. Explora 3 rutas diferentes:\n\nRuta A: Transición inmediata enfocándome en mis habilidades técnicas\nRuta B: Primero obtener certificación en gestión de productos\nRuta C: Buscar rol híbrido como Technical Product Manager\n\nPara cada ruta, evalúa: probabilidad de éxito, tiempo estimado, inversión necesaria. Luego recomienda cuál seguir basándote en mi perfil actual.",
+                    explanation: "Exploramos múltiples caminos de carrera simultáneamente, evaluando cada uno antes de recomendar el mejor."
+                }
+            },
+            {
+                id: 8,
+                title: "ReAct (Reasoning + Acting)",
+                icon: "🤔",
+                level: "Avanzado",
+                whatIs: "Es alternar entre razonamiento (pensar) y acción (hacer), permitiendo que la IA ajuste su enfoque basándose en resultados intermedios.",
+                whenToUse: [
+                    "Para tareas que requieren búsqueda de información",
+                    "Cuando el problema requiere iteración y ajuste",
+                    "En flujos de trabajo adaptativos"
+                ],
+                advantages: [
+                    "Permite corrección de curso en tiempo real",
+                    "Combina pensamiento y acción efectivamente",
+                    "Útil para tareas exploratorias"
+                ],
+                disadvantages: [
+                    "Requiere capacidad de ejecutar acciones reales",
+                    "Más complejo de implementar",
+                    "Puede generar muchas iteraciones"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, ayúdame a optimizar mi LinkedIn siguiendo este proceso:\n\nPensamiento: Analiza mi perfil actual e identifica la brecha principal\nAcción: Sugiere 3 cambios específicos\nPensamiento: Evalúa cómo estos cambios mejorarían mi visibilidad\nAcción: Prioriza los cambios por impacto\nPensamiento: Identifica qué recursos necesito para implementarlos",
+                    explanation: "Alternamos entre pensar (analizar) y actuar (sugerir cambios), ajustando según los resultados de cada paso."
+                }
+            },
+            {
+                id: 9,
+                title: "Constitutional AI",
+                icon: "📜",
+                level: "Intermedio",
+                whatIs: "Es incorporar principios o reglas éticas explícitas que la IA debe seguir al generar respuestas.",
+                whenToUse: [
+                    "Cuando necesitas respuestas alineadas con valores específicos",
+                    "Para contenido sensible o que impacta personas",
+                    "Cuando quieres evitar sesgos particulares"
+                ],
+                advantages: [
+                    "Mayor control sobre el sesgo de las respuestas",
+                    "Asegura alineamiento con valores específicos",
+                    "Útil para contextos profesionales sensibles"
+                ],
+                disadvantages: [
+                    "Requiere definir principios claros",
+                    "Puede limitar creatividad de las respuestas",
+                    "Necesita balance entre restricción y utilidad"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, analiza mi CV siguiendo estos principios:\n1. No hagas suposiciones sobre mi género, edad o ubicación\n2. Enfócate solo en habilidades verificables, no en 'potencial'\n3. Si identificas brechas, ofrece soluciones concretas y accesibles\n4. Evita jerga exclusiva que pueda alienar candidatos diversos\n\nAhora procede con el análisis.",
+                    explanation: "Establecemos principios éticos claros para que el análisis sea inclusivo y evite sesgos comunes en procesos de selección."
+                }
+            },
+            {
+                id: 10,
+                title: "Contrastive prompting",
+                icon: "⚖️",
+                level: "Intermedio",
+                whatIs: "Es mostrar explícitamente qué quieres y qué NO quieres en la respuesta mediante ejemplos contrastantes.",
+                whenToUse: [
+                    "Cuando las respuestas tienden a desviarse",
+                    "Para evitar formatos o tonos no deseados",
+                    "Cuando necesitas ser muy específico sobre las expectativas"
+                ],
+                advantages: [
+                    "Clarifica expectativas mediante contraste",
+                    "Reduce ambigüedad significativamente",
+                    "Ayuda a prevenir respuestas indeseadas"
+                ],
+                disadvantages: [
+                    "Requiere crear buenos contra-ejemplos",
+                    "Puede hacer el prompt muy largo",
+                    "Necesita balance entre lo que sí y no se quiere"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, reescribe mi descripción de experiencia laboral.\n\n❌ NO quiero: 'Responsable de múltiples tareas y proyectos importantes'\n✅ SÍ quiero: 'Lideré equipo de 5 personas en la implementación de CRM que aumentó conversión de leads en 25% en 6 meses'\n\n❌ NO quiero: 'Excelentes habilidades de comunicación'\n✅ SÍ quiero: 'Presenté reportes mensuales a C-level y facilitó talleres de capacitación para 50+ empleados'\n\nAhora reescribe mi experiencia siguiendo el estilo SÍ:",
+                    explanation: "Mostramos ejemplos claros de qué evitar (genérico) y qué buscar (específico, cuantificable), guiando a Isabella Andrea hacia el estilo correcto."
+                }
+            },
+            {
+                id: 11,
+                title: "Iterative refinement",
+                icon: "🔄",
+                level: "Intermedio",
+                whatIs: "Es mejorar progresivamente una respuesta mediante múltiples rondas de feedback y refinamiento.",
+                whenToUse: [
+                    "Para contenido que requiere alta calidad",
+                    "Cuando la primera respuesta está cerca pero no es perfecta",
+                    "En procesos creativos que necesitan pulido"
+                ],
+                advantages: [
+                    "Permite convergir hacia la solución óptima",
+                    "Cada iteración mejora sobre la anterior",
+                    "Útil cuando no sabes exactamente qué quieres hasta verlo"
+                ],
+                disadvantages: [
+                    "Requiere múltiples interacciones",
+                    "Consume más tokens",
+                    "Puede no tener un punto final claro"
+                ],
+                exampleNatalia: {
+                    prompt: "Iteración 1: Isabella Andrea, escribe mi resumen profesional para LinkedIn\n\n[Respuesta 1]\n\nIteración 2: Bien, pero hazlo más conciso (máximo 3 líneas) y enfócate en mi transición a PM\n\n[Respuesta 2]\n\nIteración 3: Perfecto, ahora agrega una cifra de impacto de mi experiencia anterior\n\n[Respuesta 3: versión final]",
+                    explanation: "Refinamos la respuesta en múltiples pasos, cada uno mejorando aspectos específicos hasta lograr el resultado deseado."
+                }
+            },
+            {
+                id: 12,
+                title: "Metacognitive prompting",
+                icon: "🧠",
+                level: "Avanzado",
+                whatIs: "Es pedirle a la IA que reflexione sobre su propio proceso de pensamiento y evalúe la calidad de sus respuestas.",
+                whenToUse: [
+                    "Para aumentar la confiabilidad de respuestas complejas",
+                    "Cuando necesitas que la IA identifique sus propias limitaciones",
+                    "En situaciones donde la autocorrección es valiosa"
+                ],
+                advantages: [
+                    "La IA puede detectar y corregir sus errores",
+                    "Genera respuestas más reflexivas",
+                    "Aumenta transparencia sobre incertidumbres"
+                ],
+                disadvantages: [
+                    "Agrega complejidad al prompt",
+                    "Puede generar respuestas excesivamente largas",
+                    "No garantiza identificación perfecta de errores"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, después de analizar mi CV, reflexiona sobre tu propio análisis:\n\n1. ¿Qué tan confiable es tu mapeo de competencias? (escala 1-10)\n2. ¿Qué información adicional te ayudaría a dar un análisis más preciso?\n3. ¿Hay alguna suposición que estés haciendo que podría ser incorrecta?\n4. ¿Qué aspectos de mi experiencia son más difíciles de interpretar y por qué?\n\nSolo después de esta reflexión, dame tus recomendaciones finales.",
+                    explanation: "Pedimos autoevaluación antes de la respuesta final, lo que puede revelar limitaciones o áreas donde necesitamos dar más contexto."
+                }
+            },
+            {
+                id: 13,
+                title: "Context stuffing",
+                icon: "📦",
+                level: "Intermedio",
+                whatIs: "Es proporcionar todo el contexto relevante de forma estructurada en el prompt para maximizar la calidad de la respuesta.",
+                whenToUse: [
+                    "Cuando tienes mucha información relevante que compartir",
+                    "Para tareas que requieren contexto completo",
+                    "Cuando la precisión depende de detalles específicos"
+                ],
+                advantages: [
+                    "La IA tiene toda la información necesaria",
+                    "Reduce suposiciones incorrectas",
+                    "Mejora relevancia de las respuestas"
+                ],
+                disadvantages: [
+                    "Consume muchos tokens",
+                    "Requiere organizar información claramente",
+                    "Puede ser contraproducente si hay información irrelevante"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, analiza mi situación completa:\n\n=== PERFIL ACTUAL ===\nCargo: Ingeniero de Software Senior\nExperiencia: 5 años en backend\nEducación: Ingeniería Civil Informática\nStack técnico: Python, Django, PostgreSQL, AWS\n\n=== OBJETIVO ===\nCargo deseado: Product Manager\nIndustria: Fintech\nTipo de empresa: Startup mediana (50-200 personas)\n\n=== RESTRICCIONES ===\n- Presupuesto limitado para certificaciones\n- Disponibilidad: solo fines de semana\n- No puedo relocalizarme\n\n=== FORTALEZAS PERCIBIDAS ===\n- Entiendo arquitectura técnica profundamente\n- He trabajado directamente con PMs\n- Manejo stakeholders técnicos bien\n\nAhora recomienda mi plan de transición.",
+                    explanation: "Estructuramos TODO el contexto relevante en categorías claras, dándole a Isabella Andrea la información completa para una recomendación personalizada."
+                }
+            },
+            {
+                id: 14,
+                title: "Socratic questioning",
+                icon: "❓",
+                level: "Intermedio",
+                whatIs: "Es usar preguntas dirigidas para guiar a la IA hacia un razonamiento más profundo y descubrir insights por su cuenta.",
+                whenToUse: [
+                    "Para explorar problemas complejos sin respuesta obvia",
+                    "Cuando quieres que la IA considere múltiples perspectivas",
+                    "Para desarrollar pensamiento crítico en el análisis"
+                ],
+                advantages: [
+                    "Genera análisis más profundo",
+                    "Descubre aspectos no obvios",
+                    "Promueve pensamiento estructurado"
+                ],
+                disadvantages: [
+                    "Requiere formular buenas preguntas",
+                    "Proceso más largo",
+                    "Puede no llegar a respuesta concreta"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, antes de optimizar mi CV, responde estas preguntas:\n\n1. ¿Qué historia profesional está contando actualmente mi CV?\n2. ¿Qué suposiciones haría un reclutador sobre mí al leerlo?\n3. ¿Qué evidencias tengo de cada competencia que menciono?\n4. ¿Qué experiencias estoy subestimando que podrían ser más relevantes?\n5. ¿Cómo se diferencia mi propuesta de valor de otros candidatos similares?\n\nAhora, basándote en tus respuestas, recomienda cambios específicos.",
+                    explanation: "Las preguntas socráticas llevan a Isabella Andrea a analizar desde múltiples ángulos antes de sugerir cambios, resultando en recomendaciones más fundamentadas."
+                }
+            },
+            {
+                id: 15,
+                title: "Perspective-taking",
+                icon: "👥",
+                level: "Intermedio",
+                whatIs: "Es pedirle a la IA que adopte múltiples perspectivas diferentes sobre el mismo problema para obtener un análisis más completo.",
+                whenToUse: [
+                    "Para decisiones que afectan múltiples stakeholders",
+                    "Cuando necesitas considerar diversos puntos de vista",
+                    "Para identificar riesgos u oportunidades ocultas"
+                ],
+                advantages: [
+                    "Revela ángulos que no consideraste",
+                    "Reduce sesgos de perspectiva única",
+                    "Ayuda en toma de decisiones complejas"
+                ],
+                disadvantages: [
+                    "Genera respuestas más largas",
+                    "Puede crear confusión si las perspectivas son contradictorias",
+                    "Requiere síntesis posterior"
+                ],
+                exampleNatalia: {
+                    prompt: "Isabella Andrea, analiza mi decisión de cambiar de carrera desde 3 perspectivas:\n\n1. Como reclutador: ¿Qué red flags o fortalezas ves en mi transición?\n2. Como tu futuro yo (5 años adelante): ¿Qué consejo te darías?\n3. Como mentor experimentado en PM: ¿Qué está faltando en mi preparación?\n\nLuego sintetiza las 3 perspectivas en un plan de acción concreto.",
+                    explanation: "Al examinar desde múltiples ángulos (reclutador, futuro yo, mentor), obtenemos un análisis más completo que considera diferentes dimensiones del problema."
+                }
+            }
+        ];
+
+        // ========================================
+        // ESTADO DE LA APLICACIÓN
+        // ========================================
+        let appState = {
+            masteredTechniques: [],
+            favoriteTechniques: [],
+            currentFilter: 'all',
+            currentView: 'navigation', // 'navigation' o 'detail'
+            currentTechniqueId: null
+        };
+
+        // ========================================
+        // GESTIÓN DE LOCALSTORAGE
+        // ========================================
+        function loadProgress() {
+            const saved = localStorage.getItem('natalia_catalog_progress');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    appState.masteredTechniques = parsed.mastered || [];
+                    appState.favoriteTechniques = parsed.favorites || [];
+                } catch (e) {
+                    console.error('Error loading progress:', e);
+                }
+            }
+        }
+
+        function saveProgress() {
+            const toSave = {
+                mastered: appState.masteredTechniques,
+                favorites: appState.favoriteTechniques,
+                lastUpdate: new Date().toISOString()
+            };
+            localStorage.setItem('natalia_catalog_progress', JSON.stringify(toSave));
+        }
+
+        // ========================================
+        // MODAL DE INSTRUCCIONES
+        // ========================================
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShow = document.getElementById('dontShowAgain').checked;
+            if (dontShow) {
+                localStorage.setItem('natalia_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // ========================================
+        // ACTUALIZACIÓN DE PROGRESO
+        // ========================================
+        function updateProgress() {
+            const total = TECHNIQUES_DATA.length;
+            const mastered = appState.masteredTechniques.length;
+            const favorites = appState.favoriteTechniques.length;
+            const percentage = Math.round((mastered / total) * 100);
+
+            document.getElementById('totalTechniques').textContent = total;
+            document.getElementById('masteredCount').textContent = mastered;
+            document.getElementById('favoritesCount').textContent = favorites;
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+        }
+
+        // ========================================
+        // RENDERIZADO DE TÉCNICAS
+        // ========================================
+        function renderTechniques() {
+            const grid = document.getElementById('techniquesGrid');
+            grid.innerHTML = '';
+
+            let filtered = TECHNIQUES_DATA;
+
+            // Aplicar filtros
+            if (appState.currentFilter === 'favorites') {
+                filtered = filtered.filter(t => appState.favoriteTechniques.includes(t.id));
+            } else if (appState.currentFilter === 'mastered') {
+                filtered = filtered.filter(t => appState.masteredTechniques.includes(t.id));
+            } else if (['basico', 'intermedio', 'avanzado'].includes(appState.currentFilter)) {
+                filtered = filtered.filter(t => 
+                    t.level.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === appState.currentFilter
+                );
+            }
+
+            // Buscar
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm.length >= 2) {
+                filtered = filtered.filter(t =>
+                    t.title.toLowerCase().includes(searchTerm) ||
+                    t.whatIs.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">🔍</div>
+                        <p class="text-xl font-semibold mb-2">No se encontraron técnicas</p>
+                        <p>Intenta con otro filtro o término de búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach((technique, index) => {
+                const card = document.createElement('div');
+                card.className = 'technique-card animate-slideIn';
+                card.style.animationDelay = `${index * 0.05}s`;
+                
+                const isFavorite = appState.favoriteTechniques.includes(technique.id);
+                const isMastered = appState.masteredTechniques.includes(technique.id);
+                
+                const levelClass = technique.level.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="text-4xl">${technique.icon}</div>
+                        <span class="level-badge ${levelClass}">${technique.level}</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--azul-dark);">${technique.title}</h3>
+                    <p class="text-gray-700 text-sm mb-3 line-clamp-3">${technique.whatIs}</p>
+                    <div class="flex gap-2 mt-auto">
+                        <button 
+                            onclick="toggleFavorite(${technique.id}, event)" 
+                            class="status-icon favorite ${isFavorite ? '' : 'opacity-30'}"
+                            title="${isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}"
+                            aria-label="${isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}"
+                        >
+                            ❤️
+                        </button>
+                        <button 
+                            onclick="toggleMastered(${technique.id}, event)" 
+                            class="status-icon mastered ${isMastered ? '' : 'opacity-30'}"
+                            title="${isMastered ? 'Marcar como no dominada' : 'Marcar como dominada'}"
+                            aria-label="${isMastered ? 'Marcar como no dominada' : 'Marcar como dominada'}"
+                        >
+                            ⭐
+                        </button>
+                    </div>
+                `;
+
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.status-icon')) {
+                        showTechniqueDetail(technique.id);
+                    }
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        // ========================================
+        // DETALLE DE TÉCNICA
+        // ========================================
+        function showTechniqueDetail(id) {
+            const technique = TECHNIQUES_DATA.find(t => t.id === id);
+            if (!technique) return;
+
+            appState.currentView = 'detail';
+            appState.currentTechniqueId = id;
+
+            document.getElementById('navigationView').classList.add('hidden');
+            document.getElementById('detailView').classList.remove('hidden');
+
+            const isFavorite = appState.favoriteTechniques.includes(id);
+            const isMastered = appState.masteredTechniques.includes(id);
+            const levelClass = technique.level.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            const detailHTML = `
+                <div class="technique-detail animate-fadeIn">
+                    <div class="technique-detail-header">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="text-5xl">${technique.icon}</div>
+                            <span class="level-badge ${levelClass}">${technique.level}</span>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-2">${technique.title}</h2>
+                        <div class="flex gap-3 mt-3">
+                            <button 
+                                onclick="toggleFavorite(${id}, event)" 
+                                class="btn ${isFavorite ? 'btn-primary' : 'btn-secondary'}"
+                            >
+                                ${isFavorite ? '❤️ En favoritos' : '🤍 Agregar a favoritos'}
+                            </button>
+                            <button 
+                                onclick="toggleMastered(${id}, event)" 
+                                class="btn ${isMastered ? 'btn-success' : 'btn-secondary'}"
+                            >
+                                ${isMastered ? '⭐ Dominada' : '☆ Marcar como dominada'}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="technique-section">
+                        <h3>¿Qué es?</h3>
+                        <p class="text-high-contrast">${technique.whatIs}</p>
+                    </div>
+
+                    <div class="technique-section">
+                        <h3>¿Cuándo usar esta técnica?</h3>
+                        <ul class="list-disc list-inside text-high-contrast space-y-2">
+                            ${technique.whenToUse.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="technique-section">
+                            <h3>✅ Ventajas</h3>
+                            <ul class="list-disc list-inside text-high-contrast space-y-2">
+                                ${technique.advantages.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="technique-section">
+                            <h3>⚠️ Limitaciones</h3>
+                            <ul class="list-disc list-inside text-high-contrast space-y-2">
+                                ${technique.disadvantages.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h3 style="color: var(--azul-dark); margin-bottom: 1rem; font-size: 1.2rem;">
+                            🤖 Ejemplo aplicado al caso de Isabella Andrea
+                        </h3>
+                        <div class="mb-3">
+                            <strong>Prompt:</strong>
+                            <p class="text-high-contrast mt-2 p-3 bg-white rounded-lg border-l-4 border-blue-500">
+                                "${technique.exampleNatalia.prompt}"
+                            </p>
+                        </div>
+                        <div>
+                            <strong>💡 Explicación:</strong>
+                            <p class="text-high-contrast mt-2">${technique.exampleNatalia.explanation}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('techniqueDetail').innerHTML = detailHTML;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToNavigation() {
+            appState.currentView = 'navigation';
+            appState.currentTechniqueId = null;
+
+            document.getElementById('detailView').classList.add('hidden');
+            document.getElementById('navigationView').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========================================
+        // GESTIÓN DE FAVORITOS Y DOMINADAS
+        // ========================================
+        function toggleFavorite(id, event) {
+            event.stopPropagation();
+            const index = appState.favoriteTechniques.indexOf(id);
+            if (index > -1) {
+                appState.favoriteTechniques.splice(index, 1);
+            } else {
+                appState.favoriteTechniques.push(id);
+            }
+            saveProgress();
+            updateProgress();
+            
+            if (appState.currentView === 'navigation') {
+                renderTechniques();
+            } else {
+                showTechniqueDetail(id);
+            }
+        }
+
+        function toggleMastered(id, event) {
+            event.stopPropagation();
+            const index = appState.masteredTechniques.indexOf(id);
+            if (index > -1) {
+                appState.masteredTechniques.splice(index, 1);
+            } else {
+                appState.masteredTechniques.push(id);
+            }
+            saveProgress();
+            updateProgress();
+            
+            if (appState.currentView === 'navigation') {
+                renderTechniques();
+            } else {
+                showTechniqueDetail(id);
+            }
+        }
+
+        // ========================================
+        // FILTROS
+        // ========================================
+        function filterTechniques(filter) {
+            appState.currentFilter = filter;
+            
+            // Actualizar botones activos
+            document.querySelectorAll('#filterAll, #filterFavorites, #filterMastered, #filterBasico, #filterIntermedio, #filterAvanzado').forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+            });
+
+            const buttonMap = {
+                'all': 'filterAll',
+                'favorites': 'filterFavorites',
+                'mastered': 'filterMastered',
+                'basico': 'filterBasico',
+                'intermedio': 'filterIntermedio',
+                'avanzado': 'filterAvanzado'
+            };
+
+            const activeButton = document.getElementById(buttonMap[filter]);
+            if (activeButton) {
+                activeButton.classList.remove('btn-secondary');
+                activeButton.classList.add('btn-primary');
+            }
+
+            renderTechniques();
+        }
+
+        // ========================================
+        // BÚSQUEDA CON SUGERENCIAS
+        // ========================================
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const suggestions = document.getElementById('searchSuggestions');
+
+            searchInput.addEventListener('input', (e) => {
+                const value = e.target.value.toLowerCase();
+                
+                if (value.length >= 2) {
+                    const matches = TECHNIQUES_DATA.filter(t =>
+                        t.title.toLowerCase().includes(value) ||
+                        t.whatIs.toLowerCase().includes(value)
+                    ).slice(0, 5);
+
+                    if (matches.length > 0) {
+                        let html = '';
+                        matches.forEach(technique => {
+                            const levelClass = technique.level.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                            html += `
+                                <div class="suggestion-item" onclick="selectSuggestion(${technique.id})">
+                                    <span class="text-2xl">${technique.icon}</span>
+                                    <span class="flex-1 font-medium">${technique.title}</span>
+                                    <span class="level-badge ${levelClass} text-xs">${technique.level}</span>
+                                </div>
+                            `;
+                        });
+                        suggestions.innerHTML = html;
+                        suggestions.style.display = 'block';
+                    } else {
+                        suggestions.style.display = 'none';
+                    }
+                } else {
+                    suggestions.style.display = 'none';
+                    renderTechniques();
+                }
+
+                renderTechniques();
+            });
+
+            // Cerrar sugerencias al hacer clic fuera
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    suggestions.style.display = 'none';
+                }
+            });
+        }
+
+        function selectSuggestion(id) {
+            document.getElementById('searchSuggestions').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+            showTechniqueDetail(id);
+        }
+
+        // ========================================
+        // COMPARADOR
+        // ========================================
+        function openComparator() {
+            document.getElementById('comparatorModal').classList.add('active');
+            populateComparatorSelects();
+        }
+
+        function closeComparator() {
+            document.getElementById('comparatorModal').classList.remove('active');
+        }
+
+        function populateComparatorSelects() {
+            const select1 = document.getElementById('compareSelect1');
+            const select2 = document.getElementById('compareSelect2');
+
+            let options = '<option value="">Selecciona una técnica...</option>';
+            TECHNIQUES_DATA.forEach(technique => {
+                options += `<option value="${technique.id}">${technique.icon} ${technique.title}</option>`;
+            });
+
+            select1.innerHTML = options;
+            select2.innerHTML = options;
+        }
+
+        function compareChanged() {
+            const id1 = parseInt(document.getElementById('compareSelect1').value);
+            const id2 = parseInt(document.getElementById('compareSelect2').value);
+
+            const result = document.getElementById('comparisonResult');
+
+            if (!id1 || !id2) {
+                result.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">🔄</div>
+                        <p class="text-xl font-semibold">Selecciona dos técnicas para compararlas</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tech1 = TECHNIQUES_DATA.find(t => t.id === id1);
+            const tech2 = TECHNIQUES_DATA.find(t => t.id === id2);
+
+            const levelClass1 = tech1.level.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const levelClass2 = tech2.level.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            result.innerHTML = `
+                <div class="comparison-column">
+                    <div class="text-center mb-4">
+                        <div class="text-5xl mb-2">${tech1.icon}</div>
+                        <h3 class="text-xl font-bold" style="color: var(--azul-dark);">${tech1.title}</h3>
+                        <span class="level-badge ${levelClass1} mt-2">${tech1.level}</span>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">¿Qué es?</div>
+                        <div class="text-high-contrast">${tech1.whatIs}</div>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">¿Cuándo usar?</div>
+                        <ul class="list-disc list-inside text-high-contrast space-y-1">
+                            ${tech1.whenToUse.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">✅ Ventajas</div>
+                        <ul class="list-disc list-inside text-high-contrast space-y-1">
+                            ${tech1.advantages.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">⚠️ Limitaciones</div>
+                        <ul class="list-disc list-inside text-high-contrast space-y-1">
+                            ${tech1.disadvantages.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-column">
+                    <div class="text-center mb-4">
+                        <div class="text-5xl mb-2">${tech2.icon}</div>
+                        <h3 class="text-xl font-bold" style="color: var(--azul-dark);">${tech2.title}</h3>
+                        <span class="level-badge ${levelClass2} mt-2">${tech2.level}</span>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">¿Qué es?</div>
+                        <div class="text-high-contrast">${tech2.whatIs}</div>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">¿Cuándo usar?</div>
+                        <ul class="list-disc list-inside text-high-contrast space-y-1">
+                            ${tech2.whenToUse.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">✅ Ventajas</div>
+                        <ul class="list-disc list-inside text-high-contrast space-y-1">
+                            ${tech2.advantages.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="comparison-section">
+                        <div class="comparison-section-title">⚠️ Limitaciones</div>
+                        <ul class="list-disc list-inside text-high-contrast space-y-1">
+                            ${tech2.disadvantages.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ========================================
+        // REINICIAR PROGRESO
+        // ========================================
+        function resetProgress() {
+            if (confirm('¿Estás seguro de que deseas reiniciar todo tu progreso? Esta acción no se puede deshacer.')) {
+                appState.masteredTechniques = [];
+                appState.favoriteTechniques = [];
+                saveProgress();
+                updateProgress();
+                renderTechniques();
+                alert('✅ Progreso reiniciado correctamente');
+            }
+        }
+
+        // ========================================
+        // INICIALIZACIÓN
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar progreso guardado
+            loadProgress();
+            updateProgress();
+            renderTechniques();
+            setupSearch();
+
+            // Configurar eventos del comparador
+            document.getElementById('compareSelect1').addEventListener('change', compareChanged);
+            document.getElementById('compareSelect2').addEventListener('change', compareChanged);
+
+            // Cerrar modales al hacer clic fuera
+            document.getElementById('instructionsModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeInstructions();
+                }
+            });
+
+            document.getElementById('comparatorModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeComparator();
+                }
+            });
+
+            // Cerrar modales con tecla Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeInstructions();
+                    closeComparator();
+                }
+            });
+
+            // Mostrar instrucciones si es primera vez
+            const hasSeenInstructions = localStorage.getItem('natalia_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>

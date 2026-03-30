@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas frecuentes - Módulo 1: Fundamentos de IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        /* Tarjetas de categorías mejoradas */
+        .category-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid var(--gris-200);
+            background: white;
+            position: relative;
+            overflow: visible;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.25);
+            border-color: var(--azul);
+        }
+        
+        /* Preguntas FAQ mejoradas */
+        .faq-item {
+            transition: all 0.3s ease;
+            border: 2px solid var(--gris-200);
+            margin-bottom: 1rem;
+        }
+
+        .faq-item:hover {
+            border-color: var(--azul);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+        }
+        
+        .faq-item summary {
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            padding-right: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .faq-item summary::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item[open] summary::after {
+            content: '−';
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .faq-item[open] summary {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+        }
+        
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 4px solid var(--azul);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Mejoras de accesibilidad para neurodivergencias */
+        *:focus-visible {
+            outline: 4px solid var(--amarillo);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* Reducir movimiento para usuarios que lo prefieran */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Espaciado generoso para facilitar lectura */
+        .faq-item summary {
+            line-height: 1.8;
+            padding: 1.25rem 3rem 1.25rem 1.5rem;
+        }
+
+        .faq-item .faq-answer {
+            line-height: 1.9;
+            padding: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Contraste mejorado para texto */
+        .text-high-contrast {
+            color: #1a1a1a;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .header-banner {
+                border-radius: 28px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 90vh;
+                margin: 1rem;
+            }
+
+            .category-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Asegurar que el contenido sea legible en pantallas de 850px de alto */
+        @media (max-height: 850px) {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .modal-content {
+                max-height: 80vh;
+            }
+        }
+
+        /* Instrucciones badge flotante */
+        .instructions-badge {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-slate-50 to-green-50">
+
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl flex items-center justify-center text-3xl">
+                            📖
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold" style="color: var(--azul-dark);">Instrucciones de uso</h2>
+                            <p class="text-gray-600 font-medium">Cómo aprovechar este recurso</p>
+                        </div>
+                    </div>
+                    <button onclick="closeInstructions()" class="text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none transition-colors" aria-label="Cerrar instrucciones">
+                        ×
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2" style="color: var(--azul);">
+                            <span class="text-2xl">🎯</span>
+                            Propósito del recurso
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Repositorio de respuestas a las preguntas más frecuentes sobre los contenidos del Módulo 1, aspectos técnicos de la IA generativa y cuestiones prácticas del curso. Recurso de consulta rápida para resolver dudas específicas.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-200">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2" style="color: var(--verde);">
+                            <span class="text-2xl">🧭</span>
+                            Cómo navegar
+                        </h3>
+                        <ul class="text-gray-700 leading-relaxed space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Categorías temáticas:</strong> Las preguntas están agrupadas por áreas de contenido.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Búsqueda rápida:</strong> Utiliza la función de búsqueda del navegador (Ctrl+F) para encontrar términos específicos.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Preguntas desplegables:</strong> Haz clic en cada pregunta para ver su respuesta completa.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 rounded-xl border-2 border-yellow-300">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2" style="color: var(--amarillo-dark);">
+                            <span class="text-2xl">💡</span>
+                            Recomendaciones
+                        </h3>
+                        <ul class="text-gray-700 leading-relaxed space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Consulta este recurso cuando tengas dudas puntuales durante tu estudio.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Revisa las categorías completas para anticipar posibles confusiones.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Si tu duda no está resuelta, anótala para consultar con el equipo docente.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Comparte este recurso con compañeros que tengan dudas similares.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border-2 border-purple-200">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2 text-purple-700">
+                            <span class="text-2xl">♿</span>
+                            Accesibilidad
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Este recurso está optimizado para personas con neurodivergencias. Utiliza alto contraste, espaciado generoso, y navegación clara. Puedes usar tu lector de pantalla o ajustar el zoom del navegador según tus necesidades.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-4 bg-red-50 border-2 border-red-200 rounded-xl">
+                        <span class="text-3xl">📥</span>
+                        <p class="text-gray-700 text-sm">
+                            <strong class="text-red-700">Descarga PDF:</strong> Utiliza el botón "Descargar PDF" ubicado en la parte superior para obtener una versión imprimible de este recurso que podrás consultar sin conexión.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                    <button onclick="closeInstructions()" class="btn flex-1 px-6 py-4 text-white font-semibold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                        ¡Entendido! Comenzar
+                    </button>
+                    <label class="flex items-center gap-3 px-4 py-3 bg-gray-100 rounded-xl cursor-pointer hover:bg-gray-200 transition-colors">
+                        <input type="checkbox" id="dontShowAgain" class="w-5 h-5 rounded" />
+                        <span class="text-gray-700 font-medium text-sm">No mostrar de nuevo</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badge flotante para reabrir instrucciones -->
+    <button onclick="openInstructions()" class="instructions-badge btn px-6 py-3 text-white font-semibold rounded-full shadow-lg" style="background: linear-gradient(135deg, var(--azul), var(--verde));" aria-label="Ver instrucciones">
+        <span class="text-xl mr-2">📖</span>
+        Instrucciones
+    </button>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner p-8 mb-8 text-white relative animate-fadeIn">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl">
+                        🧠
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-extrabold mb-2">Preguntas frecuentes</h1>
+                        <p class="text-xl font-medium opacity-95">Fundamentos de inteligencia artificial generativa</p>
+                    </div>
+                </div>
+                <p class="text-lg opacity-90 max-w-3xl leading-relaxed">
+                    Encuentra respuestas rápidas a las dudas más comunes sobre IA generativa, competencias y aplicaciones prácticas del Módulo 1.
+                </p>
+            </div>
+        </div>
+
+        <!-- Botones de acción principales -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-8 animate-fadeIn">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-600 rounded-xl flex items-center justify-center text-2xl">
+                        🧠
+                    </div>
+                    <div>
+                        <p class="font-bold text-lg text-gray-800">Preguntas frecuentes</p>
+                        <p class="text-sm text-gray-600">Módulo 1: Fundamentos de IA generativa</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="openInstructions()" class="btn px-6 py-3 border-2 rounded-xl font-semibold transition-all" style="border-color: var(--azul); color: var(--azul); background: white;">
+                        📖 Ver instrucciones
+                    </button>
+                    <button onclick="generatePDF()" class="btn px-6 py-3 text-white font-semibold rounded-xl" style="background: linear-gradient(135deg, #7C3AED, #6D28D9);">
+                        📄 Descargar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista de categorías -->
+        <div id="categories-view" class="animate-fadeIn">
+            <div class="mb-8">
+                <h2 class="text-3xl font-extrabold mb-2 text-high-contrast">Selecciona una categoría</h2>
+                <p class="text-lg text-gray-600">Explora las preguntas frecuentes organizadas por temática</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tarjeta: Conceptos básicos -->
+                <div onclick="showCategory('conceptos')" class="category-card p-6 rounded-2xl shadow-lg">
+                    <div class="text-5xl mb-4">🔰</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--azul-dark);">Conceptos básicos de IA</h3>
+                    <p class="text-gray-600">Fundamentos y definiciones esenciales</p>
+                </div>
+
+                <!-- Tarjeta: Competencias -->
+                <div onclick="showCategory('competencias')" class="category-card p-6 rounded-2xl shadow-lg">
+                    <div class="text-5xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--azul-dark);">Competencias profesionales</h3>
+                    <p class="text-gray-600">Técnicas y transversales en diagnóstico</p>
+                </div>
+
+                <!-- Tarjeta: Herramientas -->
+                <div onclick="showCategory('herramientas')" class="category-card p-6 rounded-2xl shadow-lg">
+                    <div class="text-5xl mb-4">🛠️</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--azul-dark);">Herramientas y plataformas</h3>
+                    <p class="text-gray-600">ChatGPT, prompts y aplicaciones</p>
+                </div>
+
+                <!-- Tarjeta: Limitaciones -->
+                <div onclick="showCategory('limitaciones')" class="category-card p-6 rounded-2xl shadow-lg">
+                    <div class="text-5xl mb-4">⚠️</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--azul-dark);">Limitaciones y riesgos</h3>
+                    <p class="text-gray-600">Alucinaciones, sesgos y precauciones</p>
+                </div>
+
+                <!-- Tarjeta: Aplicaciones prácticas -->
+                <div onclick="showCategory('aplicaciones')" class="category-card p-6 rounded-2xl shadow-lg">
+                    <div class="text-5xl mb-4">💼</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--azul-dark);">Aplicaciones prácticas</h3>
+                    <p class="text-gray-600">CVs, entrevistas y reformulación</p>
+                </div>
+
+                <!-- Tarjeta: Caso Isabella Andrea -->
+                <div onclick="showCategory('natalia')" class="category-card p-6 rounded-2xl shadow-lg">
+                    <div class="text-5xl mb-4">🤖</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--azul-dark);">Caso de Isabella Andrea</h3>
+                    <p class="text-gray-600">Ejemplo aplicado del módulo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista de preguntas -->
+        <div id="questions-view" class="hidden">
+            <div class="mb-8">
+                <button onclick="showCategories()" class="btn px-6 py-3 border-2 rounded-xl font-semibold inline-flex items-center gap-2 transition-all mb-4" style="border-color: var(--gris-300); color: var(--gris-700); background: white;">
+                    ← Volver a categorías
+                </button>
+                
+                <h2 id="category-title" class="text-4xl font-extrabold mb-4 text-high-contrast"></h2>
+                
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 border-2 border-blue-200 rounded-xl p-5 mb-6">
+                    <label class="flex items-center gap-3">
+                        <span class="text-2xl">🔍</span>
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            placeholder="Buscar preguntas en esta categoría..." 
+                            class="flex-1 px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-blue-500 focus:outline-none text-lg transition-colors"
+                        />
+                        <button onclick="clearSearch()" class="btn px-5 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-semibold">
+                            Limpiar
+                        </button>
+                    </label>
+                </div>
+            </div>
+
+            <div id="questions-container" class="space-y-4">
+                <!-- Las preguntas se cargan dinámicamente aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del FAQ
+        const faqData = {
+            conceptos: {
+                emoji: '🔰',
+                title: 'Conceptos básicos de IA',
+                questions: [
+                    {
+                        question: '¿Qué es la inteligencia artificial generativa?',
+                        answer: 'La IA generativa es un tipo de inteligencia artificial capaz de <strong>crear contenido nuevo</strong> (texto, imágenes, audio, código) basándose en patrones aprendidos de datos existentes. A diferencia de sistemas que solo clasifican o reconocen, esta IA "genera" respuestas únicas. Ejemplo: ChatGPT genera texto original, DALL-E genera imágenes.'
+                    },
+                    {
+                        question: '¿Cómo funciona la IA generativa?',
+                        answer: 'Funciona a través de <strong>modelos de lenguaje grande (LLMs)</strong> entrenados con enormes cantidades de texto. Estos modelos aprenden patrones, relaciones y contextos del lenguaje, permitiéndoles predecir qué palabra o frase debería seguir en una secuencia. Así pueden responder preguntas, redactar textos, y asistir en tareas cognitivas.'
+                    },
+                    {
+                        question: '¿Qué son los modelos de lenguaje (LLM)?',
+                        answer: 'Los <strong>Large Language Models (LLM)</strong> son redes neuronales artificiales masivas entrenadas con billones de palabras de internet, libros y documentos. Aprenden probabilidades de secuencias de palabras, permitiéndoles generar texto coherente y contextual. Ejemplos: GPT-4 (OpenAI), Claude (Anthropic), Gemini (Google).'
+                    },
+                    {
+                        question: '¿Qué es un prompt?',
+                        answer: 'Un <strong>prompt</strong> es la instrucción o pregunta que le das a la IA para obtener una respuesta. Es el input del usuario. La calidad del prompt determina directamente la calidad de la respuesta: prompts claros, específicos y contextualizados generan mejores resultados. Ejemplo: "Resume este texto en 3 puntos clave" es un prompt.'
+                    },
+                    {
+                        question: '¿ChatGPT "entiende" lo que le escribo?',
+                        answer: 'No, ChatGPT no "entiende" en el sentido humano. <strong>Procesa patrones estadísticos</strong> de lenguaje para generar respuestas coherentes y contextualmente apropiadas, pero no tiene conciencia, intencionalidad ni comprensión real del significado. Es como un autocorrector extremadamente sofisticado que predice palabras siguientes con alta precisión.'
+                    }
+                ]
+            },
+            competencias: {
+                emoji: '🎯',
+                title: 'Competencias profesionales',
+                questions: [
+                    {
+                        question: '¿Qué son las competencias técnicas (hard skills)?',
+                        answer: 'Son habilidades <strong>específicas, medibles y enseñables</strong> relacionadas directamente con tareas de un trabajo. Generalmente se adquieren mediante educación formal, capacitación o experiencia práctica. Ejemplos: programación en Python, contabilidad financiera, manejo de AutoCAD, soldadura certificada, análisis de datos con Excel.'
+                    },
+                    {
+                        question: '¿Qué son las competencias transversales (soft skills)?',
+                        answer: 'Son habilidades <strong>personales, sociales y metodológicas</strong> aplicables a cualquier contexto laboral. Se relacionan con cómo trabajas, te relacionas y resuelves problemas. Son transferibles entre industrias. Ejemplos: comunicación efectiva, trabajo en equipo, liderazgo, adaptabilidad, pensamiento crítico, resolución de problemas.'
+                    },
+                    {
+                        question: '¿Por qué es importante diferenciar competencias técnicas de transversales?',
+                        answer: 'Porque los sistemas de selección (ATS) y reclutadores buscan <strong>ambos tipos de manera diferenciada</strong> en CVs. Las técnicas califican para el cargo, las transversales califican para el ambiente organizacional. Un buen diagnóstico de competencias identifica ambas correctamente para optimizar tu perfil profesional.'
+                    },
+                    {
+                        question: '¿Cómo identifico mis propias competencias?',
+                        answer: 'Mediante <strong>análisis reflexivo de tu trayectoria</strong>: <strong>1)</strong> Lista todas tus experiencias laborales y educativas, <strong>2)</strong> Identifica tareas específicas que realizaste (técnicas), <strong>3)</strong> Identifica cómo las hiciste y qué habilidades interpersonales usaste (transversales), <strong>4)</strong> Valida con ofertas laborales de tu interés qué competencias son más demandadas.'
+                    },
+                    {
+                        question: '¿La IA puede ayudarme a identificar mis competencias?',
+                        answer: 'Sí, la IA puede <strong>extraer y mapear competencias</strong> desde tu historial laboral si le proporcionas información clara. Puede sugerir qué habilidades tienes según tus descripciones de experiencia, reformularlas en lenguaje corporativo, y compararlas con ofertas laborales. Sin embargo, <strong>debes validar críticamente</strong> que no alucine competencias inexistentes.'
+                    }
+                ]
+            },
+            herramientas: {
+                emoji: '🛠️',
+                title: 'Herramientas y plataformas',
+                questions: [
+                    {
+                        question: '¿Qué es ChatGPT?',
+                        answer: 'ChatGPT es un chatbot de IA generativa desarrollado por OpenAI basado en modelos de lenguaje grande (GPT-3.5/GPT-4). Permite conversaciones en lenguaje natural para responder preguntas, generar texto, analizar información, escribir código y asistir en múltiples tareas cognitivas. Es la herramienta principal del curso.'
+                    },
+                    {
+                        question: '¿Necesito pagar para usar ChatGPT?',
+                        answer: 'No necesariamente. Existe <strong>ChatGPT Free</strong> (con GPT-3.5) accesible sin costo con cuenta de OpenAI. También existe <strong>ChatGPT Plus ($20 USD/mes)</strong> con acceso a GPT-4, más rápido y con límites superiores. Para este curso, la versión gratuita es suficiente para aprender los fundamentos.'
+                    },
+                    {
+                        question: '¿Qué otras herramientas de IA generativa existen además de ChatGPT?',
+                        answer: 'Existen múltiples alternativas: <strong>Claude (Anthropic)</strong> - enfoque en conversaciones largas y seguras, <strong>Gemini (Google)</strong> - integrado con servicios Google, <strong>Microsoft Copilot</strong> - integrado con Office 365, <strong>Perplexity AI</strong> - orientado a búsqueda y referencias, <strong>DALL-E/Midjourney</strong> - generación de imágenes. Cada una tiene fortalezas según el caso de uso.'
+                    },
+                    {
+                        question: '¿Cómo puedo mejorar mis prompts?',
+                        answer: 'Siguiendo principios de <strong>claridad, contexto y especificidad</strong>: <strong>1)</strong> Sé específico sobre lo que quieres, <strong>2)</strong> Proporciona contexto relevante, <strong>3)</strong> Define el formato de salida deseado, <strong>4)</strong> Usa ejemplos cuando sea posible, <strong>5)</strong> Divide tareas complejas en pasos, <strong>6)</strong> Solicita que piense paso a paso para tareas analíticas.'
+                    },
+                    {
+                        question: '¿Los datos que ingreso en ChatGPT son privados?',
+                        answer: 'Por defecto, las conversaciones pueden usarse para mejorar el modelo, pero puedes <strong>desactivar el historial</strong> en configuración para que no se almacenen. Sin embargo, <strong>nunca ingreses información sensible</strong>: datos personales identificables, contraseñas, información financiera privada, datos médicos confidenciales o secretos comerciales. Asume que cualquier input podría ser visto por otros.'
+                    }
+                ]
+            },
+            limitaciones: {
+                emoji: '⚠️',
+                title: 'Limitaciones y riesgos',
+                questions: [
+                    {
+                        question: '¿Qué son las "alucinaciones" de la IA?',
+                        answer: 'Las <strong>alucinaciones</strong> ocurren cuando la IA genera información falsa presentándola con confianza como si fuera verdadera. Esto pasa porque la IA predice texto plausible, no busca información verificada. Ejemplo: inventar estudios académicos, citas falsas, datos estadísticos inexistentes, eventos históricos erróneos. Siempre debes <strong>verificar información crítica</strong>.'
+                    },
+                    {
+                        question: '¿Por qué la IA comete errores?',
+                        answer: 'Porque no "conoce" hechos, sino que <strong>predice patrones estadísticos</strong> de lenguaje basándose en su entrenamiento. Si algo "suena correcto" según patrones, lo generará aunque sea falso. También puede tener sesgos de datos de entrenamiento, datos desactualizados (corte de conocimiento), o simplemente mal interpretar prompts ambiguos.'
+                    },
+                    {
+                        question: '¿Qué son los sesgos en IA generativa?',
+                        answer: 'Los <strong>sesgos</strong> son inclinaciones sistemáticas hacia ciertos grupos, ideas o perspectivas presentes en los datos de entrenamiento. Si la IA fue entrenada mayormente con contenido occidental, tendrá sesgo cultural occidental. Los sesgos pueden ser: de género, raciales, de clase socioeconómica, geográficos, ideológicos. Es crucial <strong>aplicar pensamiento crítico</strong> a los outputs.'
+                    },
+                    {
+                        question: '¿Puedo confiar ciegamente en las respuestas de ChatGPT?',
+                        answer: '<strong>No, nunca.</strong> Siempre debes aplicar pensamiento crítico y verificar información importante. ChatGPT es una herramienta de asistencia, no una fuente de verdad absoluta. Verifica: datos numéricos, referencias académicas, consejos médicos/legales, información histórica, recomendaciones financieras. Usa la IA como borrador o punto de partida, nunca como producto final sin revisión.'
+                    },
+                    {
+                        question: '¿Qué riesgos tiene usar IA para mi CV?',
+                        answer: 'Principales riesgos: <strong>1) Invención de experiencia</strong> - la IA puede alucinar logros, cargos o responsabilidades inexistentes, <strong>2) Exageración</strong> - puede inflar tu nivel jerárquico o alcance de proyectos, <strong>3) Jerga vacía</strong> - puede agregar buzzwords sin sustancia, <strong>4) Pérdida de autenticidad</strong> - tu voz personal puede desaparecer. Siempre revisa críticamente y ajusta para que refleje tu verdad.'
+                    }
+                ]
+            },
+            aplicaciones: {
+                emoji: '💼',
+                title: 'Aplicaciones prácticas',
+                questions: [
+                    {
+                        question: '¿Cómo puede ayudarme la IA en mi búsqueda laboral?',
+                        answer: 'La IA puede asistir en múltiples frentes: <strong>1) Diagnóstico de competencias</strong> - extraer y organizar tus habilidades, <strong>2) Optimización de CV</strong> - reformular experiencia en lenguaje corporativo, <strong>3) Cartas de presentación</strong> - adaptar mensajes a ofertas específicas, <strong>4) Preparación de entrevistas</strong> - simular preguntas y respuestas, <strong>5) Mapeo de brechas</strong> - identificar qué competencias te faltan para roles deseados.'
+                    },
+                    {
+                        question: '¿Cómo uso IA para reformular mi experiencia laboral?',
+                        answer: 'Proceso sugerido: <strong>1)</strong> Describe tu experiencia en lenguaje coloquial a la IA, <strong>2)</strong> Pide reformulación en lenguaje profesional/corporativo, <strong>3)</strong> Especifica nivel de formalidad y sector, <strong>4)</strong> Solicita que no invente información, <strong>5)</strong> Revisa críticamente el output, <strong>6)</strong> Ajusta para mantener tu voz auténtica, <strong>7)</strong> Verifica que todo sea defendible en entrevista.'
+                    },
+                    {
+                        question: '¿Puedo usar IA para escribir mi carta de presentación completa?',
+                        answer: 'Puedes usarla como <strong>asistente, no como ghostwriter</strong>. La IA puede generar estructura, sugerir frases profesionales, y adaptar tono. Sin embargo, debes: <strong>1)</strong> Proporcionar información real y específica, <strong>2)</strong> Revisar y personalizar completamente el output, <strong>3)</strong> Asegurar que refleje tu voz genuina, <strong>4)</strong> Verificar que no haya exageraciones, <strong>5)</strong> Agregar motivación auténtica que solo tú conoces.'
+                    },
+                    {
+                        question: '¿Cómo mapeo mis competencias a una oferta laboral con IA?',
+                        answer: 'Estrategia efectiva: <strong>1)</strong> Copia la descripción completa de la oferta laboral, <strong>2)</strong> Proporciona tu experiencia laboral resumida, <strong>3)</strong> Pide a la IA que identifique qué competencias de la oferta ya posees, <strong>4)</strong> Solicita que identifique brechas (lo que te falta), <strong>5)</strong> Pide sugerencias de cómo resaltar tus competencias coincidentes, <strong>6)</strong> Valida críticamente el análisis.'
+                    },
+                    {
+                        question: '¿Debo mencionar que usé IA en mi proceso de postulación?',
+                        answer: 'No hay obligación legal/ética de declararlo si la usaste como <strong>herramienta de asistencia</strong> (como usarías un corrector ortográfico). Sin embargo, si copiaste outputs de IA sin revisión crítica, estás presentando trabajo que no es tuyo. Lo ético es: usar IA como borrador/sugerencia, revisar/personalizar todo, asegurar que el resultado final sea auténticamente tuyo y verificable.'
+                    }
+                ]
+            },
+            natalia: {
+                emoji: '🤖',
+                title: 'Caso de Isabella Andrea',
+                questions: [
+                    {
+                        question: '¿Quién es Isabella Andrea?',
+                        answer: 'Isabella Andrea es el caso de estudio central del curso. Es un asistente virtual de IA generativa que representa la aplicación práctica de los conceptos aprendidos. A través de su caso, los estudiantes exploran cómo la IA generativa puede democratizar el acceso a herramientas profesionales y facilitar la transición laboral.'
+                    },
+                    {
+                        question: '¿Cuál es el principal desafío que aborda Isabella Andrea?',
+                        answer: 'Su principal desafío es <strong>el diagnóstico de competencias</strong>: ayudar a profesionales que no saben cómo conectar su experiencia actual con las competencias que buscan los roles a los que aspiran, ni cómo expresarlas en el lenguaje que entienden los sistemas ATS y los reclutadores.'
+                    },
+                    {
+                        question: '¿Cómo puede ayudar Isabella Andrea en el proceso de transición profesional?',
+                        answer: 'Isabella Andrea puede ayudar a: <strong>1)</strong> Analizar el historial laboral y extraer competencias, <strong>2)</strong> Mapear habilidades con palabras clave de ofertas laborales, <strong>3)</strong> Optimizar CVs y cartas de presentación, <strong>4)</strong> Prepararse para entrevistas, y <strong>5)</strong> Identificar brechas de competencias para desarrollo profesional.'
+                    },
+                    {
+                        question: '¿Por qué Isabella Andrea es un caso representativo?',
+                        answer: 'Isabella Andrea representa la democratización del acceso a herramientas de desarrollo profesional. Muestra cómo la IA generativa no es solo para expertos técnicos, sino una herramienta de <strong>equidad y acceso</strong> que puede ayudar a personas con experiencia valiosa pero que no saben cómo "traducirla" al lenguaje corporativo.'
+                    }
+                ]
+            }
+        };
+
+        let currentCategory = null;
+
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('faq_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('faq_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Funciones de navegación
+        function showCategories() {
+            document.getElementById('categories-view').classList.remove('hidden');
+            document.getElementById('questions-view').classList.add('hidden');
+            currentCategory = null;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCategory(categoryKey) {
+            const category = faqData[categoryKey];
+            currentCategory = categoryKey;
+            
+            document.getElementById('categories-view').classList.add('hidden');
+            document.getElementById('questions-view').classList.remove('hidden');
+            
+            document.getElementById('category-title').innerHTML = `${category.emoji} ${category.title}`;
+            
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            
+            category.questions.forEach((item, index) => {
+                const faqElement = document.createElement('details');
+                faqElement.className = 'faq-item bg-white rounded-xl overflow-hidden shadow-md animate-slideIn';
+                faqElement.style.animationDelay = `${index * 0.05}s`;
+                
+                faqElement.innerHTML = `
+                    <summary class="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold">
+                        ❓ ${item.question}
+                    </summary>
+                    <div class="faq-answer text-gray-700 text-high-contrast">
+                        ${item.answer}
+                    </div>
+                `;
+                
+                container.appendChild(faqElement);
+            });
+            
+            document.getElementById('search-input').value = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Búsqueda
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const questions = document.querySelectorAll('.faq-item');
+            
+            questions.forEach(q => {
+                const text = q.querySelector('summary').textContent.toLowerCase();
+                const answer = q.querySelector('.faq-answer').textContent.toLowerCase();
+                if (text.includes(searchTerm) || answer.includes(searchTerm)) {
+                    q.style.display = '';
+                } else {
+                    q.style.display = 'none';
+                }
+            });
+        });
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            document.querySelectorAll('.faq-item').forEach(q => {
+                q.style.display = '';
+            });
+        }
+
+        // Generar PDF con pdfmake
+        function generatePDF() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // Construir contenido de categorías
+            const categoryContent = [];
+            Object.keys(faqData).forEach(categoryKey => {
+                const category = faqData[categoryKey];
+                
+                // Título de categoría
+                categoryContent.push({
+                    text: category.title,
+                    style: 'categoryTitle',
+                    margin: [0, 15, 0, 8]
+                });
+                
+                // Preguntas de la categoría
+                category.questions.forEach((item, index) => {
+                    categoryContent.push({
+                        text: (index + 1) + '. ' + item.question,
+                        style: 'question',
+                        margin: [0, 6, 0, 3]
+                    });
+                    categoryContent.push({
+                        text: item.answer.replace(/<strong>/g, '').replace(/<\/strong>/g, ''),
+                        style: 'answer',
+                        margin: [10, 0, 0, 6]
+                    });
+                });
+            });
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    // Header
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Preguntas frecuentes - Módulo 1', style: 'headerTitle' },
+                                        { text: 'Fundamentos de inteligencia artificial generativa', style: 'headerSubtitle' }
+                                    ],
+                                    fillColor: '#0033A0',
+                                    margin: [20, 15, 20, 15]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 10]
+                    },
+                    { text: 'Generado: ' + dateStr, style: 'dateText' },
+                    ...categoryContent
+                ],
+                styles: {
+                    headerTitle: { fontSize: 18, bold: true, color: '#FFFFFF', alignment: 'center' },
+                    headerSubtitle: { fontSize: 11, color: '#FFFFFF', alignment: 'center', marginTop: 5 },
+                    dateText: { fontSize: 8, color: '#666666', margin: [0, 5, 0, 10] },
+                    categoryTitle: { fontSize: 12, bold: true, color: '#0033A0' },
+                    question: { fontSize: 10, bold: true, color: '#1A1A1A' },
+                    answer: { fontSize: 9, color: '#444444', lineHeight: 1.4 }
+                },
+                footer: function(currentPage, pageCount) {
+                    return {
+                        columns: [
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información', fontSize: 7, color: '#888888', margin: [40, 0, 0, 0] },
+                            { text: 'Universidad de Chile - Página ' + currentPage + ' de ' + pageCount, fontSize: 7, color: '#888888', alignment: 'right', margin: [0, 0, 40, 0] }
+                        ],
+                        margin: [0, 20, 0, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('FAQ_Modulo1_IA_Generativa.pdf');
+        }
+
+        // Accesibilidad: navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            // ESC para cerrar modal
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+    </script>
+</body>
+</html>

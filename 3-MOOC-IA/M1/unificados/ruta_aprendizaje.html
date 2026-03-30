@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruta de aprendizaje: IA generativa en tu día a día con Isabella Andrea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Se añaden ambas familias de fuentes para coherencia de estilo -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Estilo base del body, adoptando la paleta de la práctica guiada */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        
+        /* Fuentes de la práctica guiada */
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        /* Optimización para iframe de OpenEdX */
+        @media (max-width: 1024px) {
+            body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+            
+            .max-w-7xl {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .py-12 {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+            
+            .py-8 {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+            
+            .mb-8 {
+                margin-bottom: 1rem;
+            }
+            
+            .mb-6 {
+                margin-bottom: 0.75rem;
+            }
+            
+            .card-modern {
+                padding: 1.5rem;
+            }
+            
+            .glass-card {
+                padding: 1.5rem;
+            }
+            
+            header {
+                position: relative;
+            }
+            
+            footer {
+                margin-top: 1rem;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+            
+            .lg\:grid-cols-5 {
+                grid-template-columns: 1fr;
+            }
+            
+            .lg\:col-span-2,
+            .lg\:col-span-3 {
+                grid-column: span 1;
+            }
+        }
+        
+        /* Iframe de OpenEdX específico (100% x 850px) */
+        @media (max-height: 900px) {
+            .content-wrapper {
+                min-height: auto;
+            }
+            
+            header {
+                position: relative;
+            }
+            
+            .py-12 {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+            
+            .space-y-6 > * + * {
+                margin-top: 1rem;
+            }
+            
+            .mb-8 {
+                margin-bottom: 0.75rem;
+            }
+            
+            .mb-6 {
+                margin-bottom: 0.5rem;
+            }
+            
+            .tab-content {
+                max-height: 600px;
+                overflow-y: auto;
+            }
+            
+            #accessibility-notice {
+                display: none;
+            }
+            
+            .text-hero {
+                font-size: 2rem;
+            }
+            
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            
+            .text-4xl {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* Paleta de colores adoptada de la práctica guiada */
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Eliminación de Glassmorphism para adoptar el estilo sólido */
+        .glass {
+            background: white;
+            border-bottom: 1px solid var(--gris-200);
+            box-shadow: 0 4px 12px rgba(0, 51, 160, 0.08);
+        }
+        
+        .glass-dark {
+            background: var(--gris-100);
+            border: 1px solid var(--gris-200);
+        }
+        
+        .glass-card {
+            background: white;
+            border: 1px solid var(--gris-200);
+            box-shadow: 0 10px 40px rgba(0, 51, 160, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(0, 51, 160, 0.2);
+            border-color: var(--verde);
+        }
+        
+        /* Eliminados los blobs de fondo */
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        .animate-scaleIn {
+            animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        /* Estilo de tarjeta sólida */
+        .card-modern {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0, 51, 160, 0.08);
+            border: 1px solid var(--gris-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-modern:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0, 51, 160, 0.15);
+            border-color: var(--verde);
+        }
+        
+        /* Estilo de tarjeta de módulo (similar a option-card) */
+        .module-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gris-200);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, var(--azul), var(--verde));
+            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .module-card:hover::after {
+            height: 100%;
+        }
+        
+        .module-card:hover {
+            transform: translateX(8px);
+            border-color: var(--azul);
+            box-shadow: 0 12px 40px rgba(0, 51, 160, 0.15);
+        }
+        
+        .module-card.active {
+            border-color: var(--verde);
+            box-shadow: 0 16px 48px rgba(0, 150, 57, 0.2);
+            transform: translateX(8px) scale(1.02);
+        }
+        
+        .module-card.active::after {
+            height: 100%;
+        }
+        
+        /* Estilo de tarjeta compacta (similar a option-card) */
+        .module-card-compact {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gris-200);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-card-compact::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, var(--azul), var(--verde));
+            transition: height 0.3s ease;
+        }
+        
+        .module-card-compact:hover {
+            border-color: var(--azul);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.12);
+            transform: translateX(4px);
+        }
+        
+        .module-card-compact:hover::before {
+            height: 100%;
+        }
+        
+        .module-card-compact.active {
+            border-color: var(--verde);
+            background: linear-gradient(to right, rgba(0, 150, 57, 0.03), white);
+            box-shadow: 0 8px 28px rgba(0, 150, 57, 0.15);
+        }
+        
+        .module-card-compact.active::before {
+            height: 100%;
+            width: 5px;
+        }
+        
+        .icon-container-small {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .badge-small {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        
+        .module-details-panel {
+            animation: fadeInScale 0.4s ease;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+        }
+        
+        .badge:hover {
+            transform: scale(1.05);
+        }
+        
+        p, li, span {
+            line-height: 1.7;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1.3;
+            margin-bottom: 0.5em;
+        }
+        
+        .space-y-3 > * + * {
+            margin-top: 0.75rem;
+        }
+        
+        .space-y-6 > * + * {
+            margin-top: 1.5rem;
+        }
+        
+        /* Mapeo de colores de texto a nueva paleta */
+        .text-gray-600 {
+            color: var(--text-tertiary);
+        }
+        
+        .text-gray-700 {
+            color: var(--text-secondary);
+        }
+        
+        .text-gray-800 {
+            color: var(--text-primary);
+        }
+        
+        .text-white\/70 {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .text-white\/80 {
+            color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .text-white\/90 {
+            color: rgba(255, 255, 255, 1);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Estilo de pestañas (tabs) actualizado */
+        .tab-modern {
+            position: relative;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            background: transparent;
+            border: 2px solid transparent;
+            color: var(--gris-600);
+        }
+        
+        .tab-modern:hover {
+            background: var(--gris-200);
+            color: var(--azul-dark);
+        }
+        
+        .tab-modern.active {
+            background: var(--azul);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 85, 165, 0.25);
+            border-color: var(--azul);
+        }
+        
+        /* Gradiente de texto con nueva paleta */
+        .text-gradient-uchile {
+            background: linear-gradient(135deg, var(--azul) 0%, var(--verde) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .pulse-subtle {
+            animation: pulseSubtle 3s infinite;
+        }
+        
+        @keyframes pulseSubtle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .custom-scroll::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 10px;
+        }
+        
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--azul), var(--verde));
+            border-radius: 10px;
+        }
+        
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--azul);
+        }
+        
+        .icon-container {
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: all 0.3s ease;
+        }
+        
+        .icon-container:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        /* Estilo de stats (tarjeta pequeña) */
+        .stat-modern {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 16px rgba(0, 51, 160, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gris-200);
+        }
+        
+        .stat-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.12);
+        }
+        
+        .text-hero {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.2;
+        }
+        
+        .text-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            line-height: 1.7;
+        }
+        
+        *:focus {
+            outline: 3px solid var(--focus-color);
+            outline-offset: 3px;
+        }
+        
+        button:focus,
+        a:focus {
+            outline: 3px solid var(--focus-color);
+            outline-offset: 3px;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--amarillo);
+            color: var(--gris-800);
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 100;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        
+        [data-tooltip] {
+            position: relative;
+        }
+        
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-12px);
+        }
+
+        /* --- ESTILOS DEL MODAL --- */
+        #modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        #modal-box {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95);
+            animation: scaleInModal 0.3s ease 0.1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleInModal {
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        #modal-box h2 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--azul-dark);
+            margin-bottom: 1rem;
+        }
+
+        #modal-box p, #modal-box li {
+            font-family: 'Inter', sans-serif;
+            color: var(--gris-700);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        #modal-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            space-y: 0.5rem;
+        }
+
+        #modal-close-btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--azul), var(--azul-hover));
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.3);
+        }
+
+        #modal-options {
+            display: flex;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        #modal-options label {
+            font-size: 0.875rem;
+            color: var(--gris-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        #modal-options input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--azul);
+        }
+
+    </style>
+</head>
+<!-- Se aplica un fondo claro, similar a la práctica guiada -->
+<body class="bg-gray-50">
+    <!-- Skip link para navegación por teclado -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Se eliminaron los blobs de fondo -->
+    
+    <!-- Main Container -->
+    <div class="content-wrapper min-h-screen">
+        
+        <!-- Header con nuevo estilo (sin glassmorphism) -->
+        <header class="glass sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6 py-5">
+                <div class="flex flex-wrap items-center justify-between gap-6">
+                    <!-- Title Section -->
+                    <div class="flex items-center gap-4">
+                        <div class="icon-container" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                            <span class="text-white">🎯</span>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gradient-uchile">Ruta de aprendizaje</h1>
+                            <p class="text-sm text-gray-600 mt-1">IA generativa para tu día a día</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Section (mismo estilo, usa nuevas variables) -->
+                    <div class="flex flex-wrap gap-3">
+                        <div class="stat-modern">
+                            <div class="text-xs text-gray-500 font-medium mb-1">Módulos</div>
+                            <div class="text-2xl font-bold" style="color: var(--azul);">3</div>
+                        </div>
+                        <div class="stat-modern">
+                            <div class="text-xs text-gray-500 font-medium mb-1">Evaluaciones</div>
+                            <div class="text-2xl font-bold" style="color: var(--verde);">3</div>
+                        </div>
+                        <div class="stat-modern">
+                            <div class="text-xs text-gray-500 font-medium mb-1">Progreso</div>
+                            <div class="flex items-center gap-2">
+                                <div class="relative w-12 h-12">
+                                    <svg class="progress-ring w-full h-full">
+                                        <circle class="text-gray-200" stroke-width="4" stroke="currentColor" fill="transparent" r="18" cx="24" cy="24"/>
+                                        <circle id="progress-circle" class="progress-ring-circle" stroke-width="4" stroke="url(#gradient-progress)" fill="transparent" r="18" cx="24" cy="24" style="stroke-dasharray: 113; stroke-dashoffset: 113;"/>
+                                        <defs>
+                                            <linearGradient id="gradient-progress" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" style="stop-color: var(--azul)"/>
+                                                <stop offset="100%" style="stop-color: var(--verde)"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span id="progress-text" class="text-xs font-bold" style="color: var(--azul);">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="downloadPDF()" class="stat-modern hover:bg-gray-50 cursor-pointer" data-tooltip="Descargar PDF" aria-label="Descargar ruta como PDF">
+                            <div class="text-xs text-gray-500 font-medium mb-1">Exportar</div>
+                            <div class="text-2xl" style="color: var(--rojo);">📥</div>
+                        </button>
+                        <button onclick="resetProgress()" class="stat-modern hover:bg-gray-50 cursor-pointer" data-tooltip="Reiniciar progreso" aria-label="Reiniciar progreso guardado">
+                            <div class="text-xs text-gray-500 font-medium mb-1">Reiniciar</div>
+                            <div class="text-2xl" style="color: var(--gris-800);">🔄</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-12">
+            
+            <!-- Aviso de accesibilidad (estilo actualizado) -->
+            <div id="accessibility-notice" class="bg-white border-l-4 rounded-xl p-4 mb-4 shadow-sm" style="border-color: var(--azul);">
+                <div class="flex items-start gap-3">
+                    <span class="text-xl flex-shrink-0" aria-hidden="true">♿</span>
+                    <div class="flex-1">
+                        <h2 class="text-base font-bold text-gray-800 mb-1">Navegación accesible</h2>
+                        <p class="text-xs text-gray-700 leading-relaxed">
+                            Navega con teclado: usa las flechas para moverte entre pestañas y módulos, Tab para avanzar, y Enter o Espacio para seleccionar.
+                        </p>
+                    </div>
+                    <button onclick="document.getElementById('accessibility-notice').style.display='none'" class="text-gray-400 hover:text-gray-600 flex-shrink-0 p-1" aria-label="Cerrar aviso de accesibilidad">
+                        <span class="text-lg">✕</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation (estilo actualizado) -->
+            <nav class="glass-dark rounded-3xl p-3 mb-8 animate-fadeInUp" role="tablist" aria-label="Navegación principal del curso">
+                <div class="flex flex-wrap gap-3">
+                    <button class="tab-modern active" data-tab="presentacion" role="tab" aria-selected="true" aria-controls="tab-presentacion" id="tab-btn-presentacion">
+                        <span class="mr-2" aria-hidden="true">🏠</span>Inicio
+                    </button>
+                    <button class="tab-modern" data-tab="viaje" role="tab" aria-selected="false" aria-controls="tab-viaje" id="tab-btn-viaje">
+                        <span class="mr-2" aria-hidden="true">🚀</span>Viaje de aprendizaje
+                    </button>
+                    <button class="tab-modern" data-tab="evaluaciones" role="tab" aria-selected="false" aria-controls="tab-evaluaciones" id="tab-btn-evaluaciones">
+                        <span class="mr-2" aria-hidden="true">✅</span>Evaluaciones
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Tab: Presentación -->
+            <div id="tab-presentacion" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-presentacion" aria-hidden="false">
+                
+                <!-- Hero Section (estilo actualizado) -->
+                <div class="glass-card rounded-3xl p-12 mb-8 animate-scaleIn">
+                    <div class="text-center max-w-4xl mx-auto">
+                        <div class="inline-block mb-6">
+                            <span class="badge" style="background: linear-gradient(135deg, rgba(0, 85, 165, 0.1), rgba(0, 168, 89, 0.1)); color: var(--azul);">
+                                ✨ Aprende con el caso de Isabella Andrea
+                            </span>
+                        </div>
+                        <h2 class="text-hero text-gradient-uchile mb-6">
+                            Aprende a usar la IA generativa en tu día a día
+                        </h2>
+                        <p class="text-subtitle text-gray-600 mb-8 leading-relaxed">
+                            Descubre cómo utilizar la IA generativa para resolver tareas reales de tu vida profesional. Aprende observando a Isabella Andrea, una profesional que enfrenta el desafío de mejorar su perfil laboral. Paso a paso, verás cómo ella comunica sus necesidades a la IA y obtiene resultados excepcionales.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <div class="badge" style="background: rgba(0, 85, 165, 0.1); color: var(--azul);">
+                                <span>⏱️</span> Aprende a tu ritmo
+                            </div>
+                            <div class="badge" style="background: rgba(0, 168, 89, 0.1); color: var(--verde);">
+                                <span>🎯</span> Caso práctico real
+                            </div>
+                            <div class="badge" style="background: rgba(255, 209, 0, 0.15); color: var(--amarillo-dark);">
+                                <span>👩‍💼</span> Caso: Isabella Andrea
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descripción y Objetivo (estilo actualizado) -->
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    
+                    <div class="card-modern animate-fadeInUp" style="animation-delay: 0.1s;">
+                        <div class="icon-container mb-6" style="background: linear-gradient(135deg, rgba(0, 85, 165, 0.1), rgba(0, 85, 165, 0.05));">
+                            <span style="color: var(--azul);">📖</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--azul);">Descripción del curso</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Este curso utiliza el aprendizaje basado en casos para enseñarte a usar la inteligencia artificial generativa en tareas reales del día a día. Conocerás a Isabella Andrea, una profesional que necesita mejorar su currículum para avanzar en su carrera. Observarás cómo ella interactúa con herramientas de IA generativa, aprende a formular prompts efectivos y transforma su CV en un documento impactante. A través de su experiencia, descubrirás técnicas prácticas que podrás aplicar en tu propio proceso de desarrollo profesional.
+                        </p>
+                    </div>
+
+                    <div class="card-modern animate-fadeInUp" style="animation-delay: 0.2s;">
+                        <div class="icon-container mb-6" style="background: linear-gradient(135deg, rgba(0, 168, 89, 0.1), rgba(0, 168, 89, 0.05));">
+                            <span style="color: var(--verde);">🎯</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--verde);">Objetivo del curso</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Al finalizar este curso, serás capaz de utilizar la IA generativa de manera efectiva para optimizar tu currículum. Aprenderás a identificar y articular tus competencias clave, transformar descripciones de funciones en logros cuantificables y mantener la autenticidad en cada sección de tu CV, aumentando significativamente tus oportunidades de éxito profesional.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Metodología (estilo actualizado) -->
+                <div class="card-modern mb-8 animate-fadeInUp" style="animation-delay: 0.3s;">
+                    <div class="flex items-start gap-6">
+                        <div class="icon-container flex-shrink-0" style="background: linear-gradient(135deg, rgba(255, 209, 0, 0.15), rgba(255, 209, 0, 0.05));">
+                            <span style="color: var(--amarillo);">💡</span>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-4" style="color: var(--gris-800);">Metodología de aprendizaje</h3>
+                            <p class="text-gray-700 leading-relaxed mb-6">
+                                El curso emplea el <strong>aprendizaje basado en casos</strong>, una metodología que te permite aprender observando situaciones profesionales reales. Isabella Andrea es el personaje central cuya historia guía todo el proceso: enfrenta el desafío de actualizar su currículum para postular a mejores oportunidades laborales. En cada módulo, observarás cómo Isabella Andrea:
+                            </p>
+                            <ul class="space-y-3 text-gray-700 mb-6 ml-6">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-xl">•</span>
+                                    <span>Identifica sus necesidades y define objetivos claros para cada tarea</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-xl">•</span>
+                                    <span>Interactúa con herramientas de IA generativa formulando prompts estratégicos</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-xl">•</span>
+                                    <span>Analiza los resultados y refina sus solicitudes para obtener mejores respuestas</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-xl">•</span>
+                                    <span>Aplica el contenido generado manteniendo su autenticidad profesional</span>
+                                </li>
+                            </ul>
+                            <p class="text-gray-700 leading-relaxed">
+                                Esta experiencia de aprendizaje vicario te permitirá comprender los principios fundamentales del uso efectivo de IA generativa, que luego podrás transferir a tus propias necesidades profesionales y personales.
+                            </p>
+                            <div class="flex flex-wrap gap-3 mt-6">
+                                <span class="badge" style="background: rgba(0, 85, 165, 0.05); color: var(--azul); border: 1px solid rgba(0, 85, 165, 0.1);">
+                                    Aprendizaje vicario
+                                </span>
+                                <span class="badge" style="background: rgba(0, 168, 89, 0.05); color: var(--verde); border: 1px solid rgba(0, 168, 89, 0.1);">
+                                    Método de casos
+                                </span>
+                                <span class="badge" style="background: rgba(255, 209, 0, 0.05); color: var(--amarillo-dark); border: 1px solid rgba(255, 209, 0, 0.2);">
+                                    Transferencia de conocimiento
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cómo usar este recurso (estilo actualizado) -->
+                <div class="glass-dark rounded-3xl p-10 animate-fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="text-center mb-10">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-3">¿Cómo usar este recurso?</h3>
+                        <p class="text-gray-700 text-lg max-w-3xl mx-auto">
+                            Este curso está diseñado para que aprendas observando cómo Isabella Andrea, un personaje profesional, enfrenta el desafío de mejorar su currículum utilizando IA generativa. Sigue estos pasos para aprovechar al máximo tu experiencia de aprendizaje:
+                        </p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white/50 rounded-2xl p-6 border border-gray-200 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                            <div class="text-5xl mb-4">1️⃣</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">Observa a Isabella Andrea</h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                Sigue el viaje de Isabella Andrea a través de los tres módulos. Observa cómo identifica sus necesidades, formula prompts efectivos y obtiene resultados de la IA para mejorar su currículum.
+                            </p>
+                        </div>
+                        <div class="bg-white/50 rounded-2xl p-6 border border-gray-200 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                            <div class="text-5xl mb-4">2️⃣</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">Reflexiona y aprende</h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                Analiza las estrategias que utiliza Isabella Andrea en cada situación. Identifica los principios y técnicas que puedes aplicar a tus propias necesidades profesionales.
+                            </p>
+                        </div>
+                        <div class="bg-white/50 rounded-2xl p-6 border border-gray-200 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                            <div class="text-5xl mb-4">3️⃣</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">Evalúa tu comprensión</h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                Completa las evaluaciones de cada módulo para verificar tu comprensión y capacidad de transferir estos conocimientos a tu contexto personal.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab: Viaje de aprendizaje -->
+            <div id="tab-viaje" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-btn-viaje" aria-hidden="true">
+                
+                <div class="glass-card rounded-3xl p-8 mb-6 text-center">
+                    <h2 class="text-3xl font-bold text-gradient-uchile mb-3">Viaje de aprendizaje</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Acompaña a Isabella Andrea en su proceso de transformación curricular a través de tres módulos. Selecciona cada módulo para conocer los detalles de cómo ella enfrenta cada desafío.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-5 gap-6">
+                    
+                    <div class="lg:col-span-2 space-y-4">
+                        
+                        <!-- Módulo 1 -->
+                        <button class="module-card-compact active w-full text-left" data-module="1" aria-label="Ver detalles del Módulo 1">
+                            <div class="flex items-start gap-4">
+                                <div class="icon-container-small flex-shrink-0" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                                    <span class="text-white text-xl font-bold">1</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-2 flex-wrap">
+                                        <span class="badge-small" style="background: var(--azul); color: white;">40%</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold mb-2 leading-tight" style="color: var(--azul);">
+                                        Primeros pasos con IA
+                                    </h3>
+                                    <p class="text-sm text-gray-600 leading-relaxed">
+                                        Analizando tu perfil profesional
+                                    </p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <!-- Módulo 2 -->
+                        <button class="module-card-compact w-full text-left" data-module="2" aria-label="Ver detalles del Módulo 2">
+                            <div class="flex items-start gap-4">
+                                <div class="icon-container-small flex-shrink-0" style="background: linear-gradient(135deg, var(--amarillo), var(--amarillo-dark));">
+                                    <span class="text-gray-800 text-xl font-bold">2</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-2 flex-wrap">
+                                        <span class="badge-small" style="background: var(--amarillo); color: var(--gris-800);">30%</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold mb-2 leading-tight" style="color: var(--amarillo-dark);">
+                                        Transformando funciones en logros
+                                    </h3>
+                                    <p class="text-sm text-gray-600 leading-relaxed">
+                                        Optimización del CV
+                                    </p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <!-- Módulo 3 -->
+                        <button class="module-card-compact w-full text-left" data-module="3" aria-label="Ver detalles del Módulo 3">
+                            <div class="flex items-start gap-4">
+                                <div class="icon-container-small flex-shrink-0" style="background: linear-gradient(135deg, var(--verde), var(--verde-hover));">
+                                    <span class="text-white text-xl font-bold">3</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-2 flex-wrap">
+                                        <span class="badge-small" style="background: var(--verde); color: white;">30%</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold mb-2 leading-tight" style="color: var(--verde);">
+                                        Refinamiento y autenticidad
+                                    </h3>
+                                    <p class="text-sm text-gray-600 leading-relaxed">
+                                        Tu voz en el CV
+                                    </p>
+                                </div>
+                            </div>
+                        </button>
+
+                    </div>
+
+                    <div class="lg:col-span-3">
+                        
+                        <div class="bg-blue-50 border-l-4 border-blue-600 rounded-lg p-4 mb-4" id="module-indicator" style="background-color: #E6F0FF; border-color: var(--azul);">
+                            <p class="text-sm font-semibold text-gray-700">
+                                <span class="text-blue-600" style="color: var(--azul);">●</span> Módulo seleccionado: <span id="module-name" class="text-blue-600" style="color: var(--azul);">Módulo 1</span>
+                            </p>
+                        </div>
+                        
+                        <!-- Detalles Módulo 1 -->
+                        <div id="details-1" class="module-details-panel">
+                            <div class="card-modern">
+                                <div class="border-l-4 pl-6" style="border-color: var(--azul);">
+                                    <h4 class="text-2xl font-bold mb-6" style="color: var(--azul);">
+                                        Módulo 1: Primeros pasos con IA
+                                    </h4>
+                                    
+                                    <div class="space-y-6">
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>📋</span> Contenidos principales
+                                            </h5>
+                                            <ul class="space-y-3 text-gray-700">
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Introducción a la IA generativa y sus aplicaciones prácticas en tu día a día profesional</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Conoce a Isabella Andrea y aprende los fundamentos del prompting efectivo</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Análisis del historial laboral: cómo pedirle a la IA que identifique competencias clave</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Extracción de logros profesionales relevantes mediante prompts estratégicos</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>🎯</span> Actividades de aprendizaje
+                                            </h5>
+                                            <div class="rounded-xl p-5 border-l-4" style="background-color: #E6F0FF; border-color: var(--azul);">
+                                                <p class="text-gray-700 leading-relaxed">
+                                                    Observarás paso a paso cómo Isabella Andrea interactúa con herramientas de IA generativa para analizar su trayectoria profesional. Verás cómo ella formula prompts claros y específicos, cómo refina sus solicitudes para obtener mejores resultados, y cómo extrae información valiosa sobre sus competencias y logros.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>📊</span> Evaluación
+                                            </h5>
+                                            <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                                                <div class="text-3xl">📝</div>
+                                                <div>
+                                                    <p class="font-semibold text-gray-800">Actividad evaluativa</p>
+                                                    <p class="text-sm text-gray-600 mt-1">Ponderación: 40% de la nota final</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detalles Módulo 2 -->
+                        <div id="details-2" class="module-details-panel hidden">
+                            <div class="card-modern">
+                                <div class="border-l-4 pl-6" style="border-color: var(--amarillo);">
+                                    <h4 class="text-2xl font-bold mb-6" style="color: var(--amarillo-dark);">
+                                        Módulo 2: Transformando funciones en logros
+                                    </h4>
+                                    
+                                    <div class="space-y-6">
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>📋</span> Contenidos principales
+                                            </h5>
+                                            <ul class="space-y-3 text-gray-700">
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Técnicas avanzadas de prompt engineering para optimización de CV</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Cómo transformar descripciones de funciones en logros cuantificables e impactantes</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Uso de métricas y resultados concretos para demostrar tu valor profesional</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Adaptación del lenguaje del CV según el contexto y la industria objetivo</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>🎯</span> Actividades de aprendizaje
+                                            </h5>
+                                            <div class="rounded-xl p-5 border-l-4" style="background-color: #FFFBEB; border-color: var(--amarillo);">
+                                                <p class="text-gray-700 leading-relaxed">
+                                                    Seguirás el proceso completo de Isabella Andrea mientras ella utiliza la IA para reescribir y optimizar secciones clave de su currículum. Observarás las estrategias específicas que emplea para convertir responsabilidades rutinarias en logros medibles, cómo solicita múltiples versiones para diferentes contextos, y cómo evalúa cuál funciona mejor.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>📊</span> Evaluación
+                                            </h5>
+                                            <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                                                <div class="text-3xl">📝</div>
+                                                <div>
+                                                    <p class="font-semibold text-gray-800">Actividad evaluativa</p>
+                                                    <p class="text-sm text-gray-600 mt-1">Ponderación: 30% de la nota final</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detalles Módulo 3 -->
+                        <div id="details-3" class="module-details-panel hidden">
+                            <div class="card-modern">
+                                <div class="border-l-4 pl-6" style="border-color: var(--verde);">
+                                    <h4 class="text-2xl font-bold mb-6" style="color: var(--verde);">
+                                        Módulo 3: Refinamiento y autenticidad
+                                    </h4>
+                                    
+                                    <div class="space-y-6">
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>📋</span> Contenidos principales
+                                            </h5>
+                                            <ul class="space-y-3 text-gray-700">
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Análisis crítico de textos generados por IA: identificando fortalezas y debilidades</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Técnicas de edición y personalización para mantener tu voz auténtica en el CV</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Equilibrio entre eficiencia de la IA y autenticidad personal en tu perfil profesional</span>
+                                                </li>
+                                                <li class="flex items-start gap-3 leading-relaxed">
+                                                    <span class="text-xl flex-shrink-0">•</span>
+                                                    <span>Consideraciones éticas en el uso de IA para documentos profesionales</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>🎯</span> Actividades de aprendizaje
+                                            </h5>
+                                            <div class="rounded-xl p-5 border-l-4" style="background-color: #F0FDF4; border-color: var(--verde);">
+                                                <p class="text-gray-700 leading-relaxed">
+                                                    Observarás cómo Isabella Andrea revisa críticamente los textos generados por IA, identificando qué elementos conservar y cuáles modificar para mantener su identidad profesional. Verás cómo ella detecta lenguaje genérico o impersonal, ajusta el tono para que refleje su personalidad, y asegura que cada palabra transmita autenticidad.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h5 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                                                <span>📊</span> Evaluación
+                                            </h5>
+                                            <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                                                <div class="text-3xl">📝</div>
+                                                <div>
+                                                    <p class="font-semibold text-gray-800">Actividad evaluativa</p>
+                                                    <p class="text-sm text-gray-600 mt-1">Ponderación: 30% de la nota final</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Tab: Evaluaciones -->
+            <div id="tab-evaluaciones" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-btn-evaluaciones" aria-hidden="true">
+                
+                <div class="glass-card rounded-3xl p-10 mb-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold text-gradient-uchile mb-4">Sistema de evaluación</h2>
+                        <p class="text-xl text-gray-600">Demuestra tu comprensión en cada etapa del proceso</p>
+                    </div>
+
+                    <div class="card-modern mb-8">
+                        <div class="flex items-start gap-6">
+                            <div class="icon-container flex-shrink-0" style="background: linear-gradient(135deg, rgba(0, 85, 165, 0.1), rgba(0, 168, 89, 0.1));">
+                                <span style="color: var(--azul);">ℹ️</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-4" style="color: var(--gris-800);">Información general</h3>
+                                <p class="text-gray-700 leading-relaxed mb-6">
+                                    El curso incluye tres evaluaciones, una por cada módulo de aprendizaje. Cada evaluación está diseñada para verificar tu comprensión de los conceptos clave presentados a través del caso de Isabella Andrea y tu capacidad para transferir las técnicas de prompting con IA generativa a tus propias necesidades profesionales.
+                                </p>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="p-5 rounded-2xl border" style="background-color: #E6F0FF; border-color: var(--azul);">
+                                        <div class="text-3xl mb-2">📊</div>
+                                        <div class="font-bold text-gray-800 mb-1">3 Evaluaciones</div>
+                                        <div class="text-sm text-gray-600">Una por módulo</div>
+                                    </div>
+                                    <div class="p-5 rounded-2xl border" style="background-color: #F0FDF4; border-color: var(--verde);">
+                                        <div class="text-3xl mb-2">⏰</div>
+                                        <div class="font-bold text-gray-800 mb-1">Sin tiempo límite</div>
+                                        <div class="text-sm text-gray-600">Completa a tu ritmo</div>
+                                    </div>
+                                    <div class="p-5 rounded-2xl border" style="background-color: #FFFBEB; border-color: var(--amarillo);">
+                                        <div class="text-3xl mb-2">✅</div>
+                                        <div class="font-bold text-gray-800 mb-1">Nota mínima</div>
+                                        <div class="text-sm text-gray-600">4.0 para aprobar</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        
+                        <!-- Evaluación 1 -->
+                        <div class="card-modern">
+                            <div class="flex items-start gap-6">
+                                <div class="icon-container flex-shrink-0" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                                    <span class="text-white text-2xl font-bold">1</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <h4 class="text-2xl font-bold" style="color: var(--azul);">
+                                            Evaluación Módulo 1
+                                        </h4>
+                                        <span class="badge" style="background: var(--azul); color: white;">40%</span>
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed mb-4">
+                                        Evalúa tu comprensión sobre los fundamentos de la IA generativa, el proceso de formulación de prompts efectivos y las técnicas para analizar perfiles profesionales que observaste en el caso de Isabella Andrea.
+                                    </p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="badge" style="background: rgba(0, 85, 165, 0.1); color: var(--azul); border: 1px solid rgba(0, 85, 165, 0.2);">
+                                            📝 Comprensión conceptual
+                                        </span>
+                                        <span class="badge" style="background: rgba(0, 85, 165, 0.1); color: var(--azul); border: 1px solid rgba(0, 85, 165, 0.2);">
+                                            🎯 Aprendizaje basado en casos
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Evaluación 2 -->
+                        <div class="card-modern">
+                            <div class="flex items-start gap-6">
+                                <div class="icon-container flex-shrink-0" style="background: linear-gradient(135deg, var(--amarillo), var(--amarillo-dark));">
+                                    <span class="text-gray-800 text-2xl font-bold">2</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <h4 class="text-2xl font-bold" style="color: var(--amarillo-dark);">
+                                            Evaluación Módulo 2
+                                        </h4>
+                                        <span class="badge" style="background: var(--amarillo); color: var(--gris-800);">30%</span>
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed mb-4">
+                                        Evalúa tu capacidad para comprender y aplicar las técnicas avanzadas de prompt engineering que observaste en el caso de Isabella Andrea para transformar descripciones funcionales en logros cuantificables.
+                                    </p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="badge" style="background: rgba(255, 209, 0, 0.15); color: var(--amarillo-dark); border: 1px solid rgba(255, 209, 0, 0.3);">
+                                            ✨ Aplicación práctica
+                                        </span>
+                                        <span class="badge" style="background: rgba(255, 209, 0, 0.15); color: var(--amarillo-dark); border: 1px solid rgba(255, 209, 0, 0.3);">
+                                            🎯 Transferencia de conocimiento
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Evaluación 3 -->
+                        <div class="card-modern">
+                            <div class="flex items-start gap-6">
+                                <div class="icon-container flex-shrink-0" style="background: linear-gradient(135deg, var(--verde), var(--verde-hover));">
+                                    <span class="text-white text-2xl font-bold">3</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <h4 class="text-2xl font-bold" style="color: var(--verde);">
+                                            Evaluación Módulo 3
+                                        </h4>
+                                        <span class="badge" style="background: var(--verde); color: white;">30%</span>
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed mb-4">
+                                        Mide tu capacidad de reflexión crítica sobre el uso ético de la IA en contextos profesionales y tu comprensión de las estrategias para mantener autenticidad mientras aprovechas las ventajas de la tecnología, tal como hizo Isabella Andrea.
+                                    </p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="badge" style="background: rgba(0, 168, 89, 0.1); color: var(--verde); border: 1px solid rgba(0, 168, 89, 0.2);">
+                                            🎨 Reflexión crítica
+                                        </span>
+                                        <span class="badge" style="background: rgba(0, 168, 89, 0.1); color: var(--verde); border: 1px solid rgba(0, 168, 89, 0.2);">
+                                            ⚖️ Consideraciones éticas
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Criterios de aprobación -->
+                    <div class="card-modern mt-8">
+                        <div class="flex items-start gap-6">
+                            <div class="icon-container flex-shrink-0" style="background: linear-gradient(135deg, rgba(227, 0, 15, 0.1), rgba(227, 0, 15, 0.05));">
+                                <span style="color: var(--rojo);">🎓</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-4" style="color: var(--rojo);">Criterios de aprobación</h3>
+                                <div class="space-y-3 text-gray-700">
+                                    <p class="flex items-start gap-3">
+                                        <span class="text-xl">✓</span>
+                                        <span>Debes completar las tres evaluaciones del curso para obtener tu certificación</span>
+                                    </p>
+                                    <p class="flex items-start gap-3">
+                                        <span class="text-xl">✓</span>
+                                        <span>La nota final se calcula según la ponderación de cada módulo (40%-30%-30%)</span>
+                                    </p>
+                                    <p class="flex items-start gap-3">
+                                        <span class="text-xl">✓</span>
+                                        <span>Se requiere una nota mínima de 4.0 (en escala de 1.0 a 7.0) para aprobar el curso</span>
+                                    </p>
+                                    <p class="flex items-start gap-3">
+                                        <span class="text-xl">✓</span>
+                                        <span>Puedes revisar tus respuestas y retroalimentación después de completar cada evaluación</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- Footer (estilo actualizado) -->
+        <footer class="glass-dark mt-12 py-8" style="background: var(--azul-dark);">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center">
+                    <p class="text-white/90 text-sm font-medium mb-2">
+                        Oficina de Inteligencia Artificial
+                    </p>
+                    <p class="text-white/70 text-sm mb-2">
+                        Vicerrectoría de Tecnologías de la Información
+                    </p>
+                    <p class="text-white/70 text-sm">
+                        Universidad de Chile
+                    </p>
+                    <p class="text-white/50 text-xs mt-3">
+                        © 2025 • Todos los derechos reservados
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ===== NUEVO MODAL DE INSTRUCCIONES ===== -->
+    <div id="modal-overlay" class="hidden" style="display: none;">
+        <div id="modal-box" style="opacity: 0;">
+            <h2>¡Bienvenido/a a tu Ruta de Aprendizaje!</h2>
+            <p>Este es un recurso interactivo diseñado para guiarte a través del curso. Sigue estos pasos para interactuar:</p>
+            <ul>
+                <li>Usa las pestañas <strong>"Inicio"</strong>, <strong>"Viaje de aprendizaje"</strong> y <strong>"Evaluaciones"</strong> para navegar por el contenido.</li>
+                <li>En la pestaña "Viaje de aprendizaje", haz clic en cada módulo (Módulo 1, 2, 3) para ver los detalles correspondientes.</li>
+                <li>Tu progreso y la última pestaña visitada se guardarán automáticamente en este navegador.</li>
+                <li>Puedes reiniciar tu progreso en cualquier momento usando el botón <strong>"Reiniciar"</strong> (🔄) en la cabecera.</li>
+            </ul>
+            
+            <button id="modal-close-btn">Entendido</button>
+
+            <div id="modal-options">
+                <label>
+                    <input type="checkbox" id="modal-dont-show">
+                    No volver a mostrar este mensaje
+                </label>
+            </div>
+        </div>
+    </div>
+    <!-- ===== FIN DEL MODAL ===== -->
+
+
+    <script>
+        // ===== SISTEMA DE LOCALSTORAGE =====
+        const STORAGE_KEY = 'ruta_aprendizaje_natal_ia';
+        const MODAL_STORAGE_KEY = 'natal_ia_modal_seen'; // Nueva clave para el modal
+        
+        // ... (Funciones de localStorage existentes) ...
+        function loadFromStorage() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : getDefaultData();
+            } catch (e) {
+                console.warn('Error al cargar desde localStorage:', e);
+                return getDefaultData();
+            }
+        }
+        
+        function saveToStorage(data) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                console.warn('Error al guardar en localStorage:', e);
+            }
+        }
+        
+        function getDefaultData() {
+            return {
+                currentTab: 'presentacion',
+                currentModule: '1',
+                progress: 0,
+                visitedTabs: ['presentacion'],
+                visitedModules: ['1'],
+                lastVisit: new Date().toISOString()
+            };
+        }
+        
+        function updateLastVisit() {
+            const data = loadFromStorage();
+            data.lastVisit = new Date().toISOString();
+            saveToStorage(data);
+        }
+        
+        function saveCurrentTab(tabName) {
+            const data = loadFromStorage();
+            data.currentTab = tabName;
+            if (!data.visitedTabs.includes(tabName)) {
+                data.visitedTabs.push(tabName);
+            }
+            saveToStorage(data);
+        }
+        
+        function saveCurrentModule(moduleId) {
+            const data = loadFromStorage();
+            data.currentModule = moduleId;
+            if (!data.visitedModules.includes(moduleId)) {
+                data.visitedModules.push(moduleId);
+            }
+            saveToStorage(data);
+        }
+        
+        function saveProgress(progress) {
+            const data = loadFromStorage();
+            data.progress = progress;
+            saveToStorage(data);
+        }
+        
+        function resetProgress() {
+            // Se añade un modal de confirmación personalizado en lugar del 'confirm' nativo
+            const userConfirmed = confirm('¿Estás seguro de que deseas reiniciar tu progreso? Esta acción no se puede deshacer.');
+            if (userConfirmed) {
+                localStorage.removeItem(STORAGE_KEY);
+                localStorage.removeItem(MODAL_STORAGE_KEY); // También resetea el modal
+                location.reload();
+            }
+        }
+        
+        function restoreState() {
+            const data = loadFromStorage();
+            
+            currentProgress = data.progress;
+            updateProgress();
+            
+            if (data.currentTab !== 'presentacion') {
+                const tabButton = document.querySelector(`[data-tab="${data.currentTab}"]`);
+                if (tabButton) {
+                    setTimeout(() => tabButton.click(), 100);
+                }
+            }
+            
+            if (data.currentModule !== '1') {
+                const moduleCard = document.querySelector(`.module-card-compact[data-module="${data.currentModule}"]`);
+                if (moduleCard) {
+                    setTimeout(() => moduleCard.click(), 200);
+                }
+            }
+            
+            updateLastVisit();
+        }
+        
+        // ... (Variables y funciones de progreso existentes) ...
+        let currentProgress = 0;
+
+        function updateProgress() {
+            const progressCircle = document.getElementById('progress-circle');
+            const progressText = document.getElementById('progress-text');
+            const radius = 18;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (currentProgress / 100) * circumference;
+            
+            progressCircle.style.strokeDashoffset = offset;
+            progressText.textContent = currentProgress + '%';
+            
+            saveProgress(currentProgress);
+        }
+
+        // ... (Navegación de tabs existente) ...
+        const tabs = document.querySelectorAll('.tab-modern');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                    content.style.opacity = '0';
+                    content.setAttribute('aria-hidden', 'true');
+                });
+                
+                const activeContent = document.getElementById('tab-' + tabName);
+                activeContent.classList.remove('hidden');
+                activeContent.setAttribute('aria-hidden', 'false');
+                setTimeout(() => {
+                    activeContent.style.opacity = '1';
+                }, 10);
+                
+                if (tabName === 'presentacion') currentProgress = 0;
+                else if (tabName === 'viaje') currentProgress = 50;
+                else if (tabName === 'evaluaciones') currentProgress = 100;
+                updateProgress();
+
+                saveCurrentTab(tabName);
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                const tabTitle = tab.textContent.trim();
+                const announcement = document.createElement('div');
+                announcement.setAttribute('role', 'status');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = `Navegando a: ${tabTitle}`;
+                document.body.appendChild(announcement);
+                setTimeout(() => announcement.remove(), 1000);
+            });
+        });
+
+        // ... (Navegación de módulos existente, con nuevos colores) ...
+        const moduleCards = document.querySelectorAll('.module-card-compact');
+        const moduleDetails = document.querySelectorAll('.module-details-panel');
+        const moduleIndicator = document.getElementById('module-indicator');
+        const moduleName = document.getElementById('module-name');
+        
+        const moduleNames = {
+            '1': 'Módulo 1: Primeros pasos con IA',
+            '2': 'Módulo 2: Transformando funciones en logros',
+            '3': 'Módulo 3: Refinamiento y autenticidad'
+        };
+        
+        // Nuevos colores basados en la paleta de la práctica
+        const moduleColors = {
+            '1': { bg: 'bg-blue-50', border: 'border-blue-600', text: 'text-blue-600', style: `background-color: #E6F0FF; border-color: var(--azul);`, textStyle: `color: var(--azul);` },
+            '2': { bg: 'bg-yellow-50', border: 'border-yellow-600', text: 'text-yellow-700', style: `background-color: #FFFBEB; border-color: var(--amarillo);`, textStyle: `color: var(--amarillo-dark);` },
+            '3': { bg: 'bg-green-50', border: 'border-green-600', text: 'text-green-600', style: `background-color: #F0FDF4; border-color: var(--verde);`, textStyle: `color: var(--verde);` }
+        };
+
+        moduleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const moduleId = card.dataset.module;
+                
+                moduleCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                
+                moduleDetails.forEach(detail => detail.classList.add('hidden'));
+                const activeDetail = document.getElementById('details-' + moduleId);
+                activeDetail.classList.remove('hidden');
+                
+                // Actualizar indicador visual con nuevos estilos
+                const colors = moduleColors[moduleId];
+                moduleIndicator.style.cssText = colors.style;
+                moduleName.style.cssText = colors.textStyle;
+                moduleName.textContent = moduleNames[moduleId];
+                
+                const bullet = moduleIndicator.querySelector('span');
+                bullet.style.cssText = colors.textStyle;
+                
+                saveCurrentModule(moduleId);
+                
+                const announcement = document.createElement('div');
+                announcement.setAttribute('role', 'status');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = `Mostrando detalles del ${moduleNames[moduleId]}`;
+                document.body.appendChild(announcement);
+                setTimeout(() => announcement.remove(), 1000);
+            });
+        });
+
+        // Animaciones al cargar y LÓGICA DEL MODAL
+        document.addEventListener('DOMContentLoaded', () => {
+            // Restaurar estado desde localStorage
+            restoreState();
+            
+            // Animación escalonada
+            const animatedElements = document.querySelectorAll('.animate-fadeInUp, .animate-scaleIn');
+            animatedElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 100);
+            });
+            
+            // --- INICIO LÓGICA DEL MODAL ---
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalCheckbox = document.getElementById('modal-dont-show');
+
+            // Mostrar el modal si no se ha marcado "no volver a mostrar"
+            if (localStorage.getItem(MODAL_STORAGE_KEY) !== 'true') {
+                modalOverlay.style.display = 'flex';
+            }
+
+            // Ocultar el modal al hacer clic en el botón
+            modalCloseBtn.addEventListener('click', () => {
+                modalOverlay.style.display = 'none';
+                
+                // Guardar preferencia en localStorage si el checkbox está marcado
+                if (modalCheckbox.checked) {
+                    localStorage.setItem(MODAL_STORAGE_KEY, 'true');
+                }
+            });
+            // --- FIN LÓGICA DEL MODAL ---
+            
+            // ... (Navegación por teclado existente) ...
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('keydown', (e) => {
+                    let targetIndex;
+                    
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        targetIndex = (index + 1) % tabs.length;
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        targetIndex = (index - 1 + tabs.length) % tabs.length;
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        targetIndex = 0;
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        targetIndex = tabs.length - 1;
+                    }
+                    
+                    if (targetIndex !== undefined) {
+                        tabs[targetIndex].click();
+                        tabs[targetIndex].focus();
+                    }
+                });
+            });
+            
+            moduleCards.forEach((card, index) => {
+                card.addEventListener('keydown', (e) => {
+                    let targetIndex;
+                    
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        targetIndex = (index + 1) % moduleCards.length;
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        targetIndex = (index - 1 + moduleCards.length) % moduleCards.length;
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        targetIndex = 0;
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        targetIndex = moduleCards.length - 1;
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    }
+                    
+                    if (targetIndex !== undefined) {
+                        moduleCards[targetIndex].click();
+                        moduleCards[targetIndex].focus();
+                    }
+                });
+            });
+        });
+
+        // ... (Función de descarga de PDF existente, actualizada con nuevos colores) ...
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            
+            const pageWidth = doc.internal.pageSize.width;
+            const pageHeight = doc.internal.pageSize.height;
+            const margin = 20;
+            let y = margin;
+            
+            // Header con nuevo color
+            doc.setFillColor(0, 85, 165); // var(--azul)
+            doc.rect(0, 0, pageWidth, 45, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(26);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Ruta de aprendizaje', pageWidth / 2, 20, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('IA generativa para tu día a día con Isabella Andrea', pageWidth / 2, 32, { align: 'center' });
+            
+            y = 60;
+            doc.setTextColor(0, 0, 0);
+            
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 85, 165); // var(--azul)
+            doc.text('Descripción del curso', margin, y);
+            y += 10;
+            
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(60, 60, 60);
+            const desc = 'Este curso utiliza el aprendizaje basado en casos para enseñarte a usar la inteligencia artificial generativa en tareas reales del día a día. Conocerás a Isabella Andrea, una profesional que necesita mejorar su currículum para avanzar en su carrera. Observarás cómo ella interactúa con herramientas de IA generativa, aprende a formular prompts efectivos y transforma su CV en un documento impactante.';
+            const descLines = doc.splitTextToSize(desc, pageWidth - 2 * margin);
+            doc.text(descLines, margin, y);
+            y += descLines.length * 6 + 12;
+            
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 168, 89); // var(--verde)
+            doc.text('Objetivo del curso', margin, y);
+            y += 10;
+            
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(60, 60, 60);
+            const obj = 'Al finalizar este curso, serás capaz de utilizar la IA generativa de manera efectiva para optimizar tu currículum. Aprenderás a identificar y articular tus competencias clave, transformar descripciones de funciones en logros cuantificables, y mantener la autenticidad en cada sección de tu CV.';
+            const objLines = doc.splitTextToSize(obj, pageWidth - 2 * margin);
+            doc.text(objLines, margin, y);
+            y += objLines.length * 6 + 15;
+            
+            doc.setFontSize(20);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 85, 165); // var(--azul)
+            doc.text('Módulos del curso', margin, y);
+            y += 12;
+            
+            const modules = [
+                { 
+                    title: 'Módulo 1: Primeros pasos con IA',
+                    desc: 'Aprende observando cómo Isabella Andrea utiliza la IA para analizar su historial laboral y extraer sus competencias y logros más relevantes mediante prompts efectivos.',
+                    weight: '40%',
+                    color: [0, 85, 165] // var(--azul)
+                },
+                { 
+                    title: 'Módulo 2: Transformando funciones en logros',
+                    desc: 'Observa cómo Isabella Andrea aplica técnicas avanzadas de prompting para convertir descripciones genéricas de funciones en logros cuantificables e impactantes.',
+                    weight: '30%',
+                    color: [255, 209, 0] // var(--amarillo)
+                },
+                { 
+                    title: 'Módulo 3: Refinamiento y autenticidad',
+                    desc: 'Descubre cómo Isabella Andrea edita y personaliza los textos generados por IA para mantener su voz auténtica y equilibrar eficiencia con identidad profesional única.',
+                    weight: '30%',
+                    color: [0, 168, 89] // var(--verde)
+                }
+            ];
+            
+            modules.forEach((module, index) => {
+                if (y > pageHeight - 50) {
+                    doc.addPage();
+                    y = margin;
+                }
+                
+                doc.setFillColor(module.color[0], module.color[1], module.color[2]);
+                doc.rect(margin, y - 6, 6, 6, 'F');
+                
+                doc.setFontSize(13);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(module.color[0], module.color[1], module.color[2]);
+                doc.text(module.title, margin + 10, y);
+                
+                y += 8;
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(60, 60, 60);
+                const modLines = doc.splitTextToSize(module.desc, pageWidth - 2 * margin - 10);
+                doc.text(modLines, margin + 10, y);
+                y += modLines.length * 5 + 3;
+                
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(module.color[0], module.color[1], module.color[2]);
+                doc.text(`Ponderación: ${module.weight}`, margin + 10, y);
+                y += 14;
+            });
+            
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-CL', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'italic');
+            doc.setTextColor(120, 120, 120);
+            doc.text(`Generado el ${dateStr}`, margin, pageHeight - 12);
+            doc.text('Universidad de Chile', pageWidth - margin, pageHeight - 12, { align: 'right' });
+            doc.text('Oficina de Inteligencia Artificial - VTI', pageWidth / 2, pageHeight - 6, { align: 'center' });
+            
+            doc.save('Ruta_Aprendizaje_Isabella Andrea.pdf');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Ingeniería de Prompts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f5f7;
+            color: #172b4d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        :root {
+            --color-principal: #0052cc;
+            --color-acento: #00a3bf;
+            --color-texto: #172b4d;
+            --color-fondo-claro: #f4f5f7;
+            --color-borde: #dfe1e6;
+            --font-main: 'Montserrat', sans-serif;
+        }
+        .presentation-container {
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 16 / 13;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--color-borde);
+            position: relative;
+        }
+        .slides-container {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+        }
+        .slide {
+            display: none;
+            flex-grow: 1;
+            padding: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+            overflow-y: auto;
+            animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.2px;
+            width: 100%;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-title {
+            font-family: var(--font-main);
+            font-size: clamp(1.8rem, 4.5vw, 2.6rem); /* Ajustado para una línea */
+            font-weight: 900;
+            margin-bottom: 1.25rem;
+            color: var(--color-texto);
+            line-height: 1.25;
+        }
+        .slide-subtitle {
+            font-family: var(--font-main);
+            font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+            color: #42526e;
+            max-width: 85%;
+            line-height: 1.6;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, var(--color-principal), var(--color-acento));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: white;
+            color: var(--color-principal);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--color-borde);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #prevBtn { left: 1.5rem; }
+        #nextBtn { right: 1.5rem; }
+        .nav-button:hover {
+            background-color: var(--color-principal);
+            color: white;
+            border-color: var(--color-principal);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .nav-button:disabled {
+            background-color: #fafbfc;
+            color: #a5adba;
+            cursor: not-allowed;
+            transform: translateY(-50%) scale(1);
+            opacity: 0.8;
+        }
+        .slide-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #42526e;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--color-borde);
+        }
+        .info-card {
+            background-color: #ffffff;
+            border: 1px solid var(--color-borde);
+            border-radius: 0.75rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -10px rgba(0, 82, 204, 0.2);
+            border-color: var(--color-principal);
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(23, 43, 77, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.3);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-title {
+            font-family: var(--font-main);
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--color-principal);
+            margin-bottom: 1rem;
+        }
+        .modal-body {
+            color: #42526e;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .modal-close-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--color-principal);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .modal-close-btn:hover {
+            background-color: #003f99;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .presentation-container { 
+                border-radius: 0; 
+                height: 100vh;
+                width: 100vw;
+                max-width: 100%;
+                aspect-ratio: auto;
+            }
+            .slide-subtitle { max-width: 100%; }
+            .nav-button {
+                top: auto;
+                bottom: 1rem;
+                transform: none;
+                width: 50px;
+                height: 40px;
+                border-radius: 0.5rem;
+            }
+            .nav-button:hover { transform: translateY(-2px); }
+            .nav-button:disabled { transform: none; }
+            #prevBtn { left: 1rem; }
+            #nextBtn { right: 1rem; }
+            .slide-counter { bottom: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <!-- Contenido de las diapositivas -->
+        <div class="slides-container">
+
+            <!-- Diapositiva 1: Título -->
+            <div class="slide active" style="padding: 0; background: radial-gradient(circle, rgba(255,255,255,1) 0%, #f4f5f7 100%);">
+                <div class="flex flex-col h-full text-center p-8">
+                    <div>
+                        <div class="mb-4">
+                            <div class="inline-block p-3 rounded-lg" style="background-color: var(--color-principal);">
+                                <img src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo VTI IA" class="h-12">
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500 max-w-lg mx-auto p-3 border border-gray-200 rounded-lg bg-white/60 backdrop-blur-sm">
+                            <h3 class="font-bold mb-1 text-gray-700">Instrucciones de Interacción</h3>
+                            <p class="text-xs leading-relaxed">Utilice las flechas <strong class="text-gray-600">&lt;</strong> y <strong class="text-gray-600">&gt;</strong> para navegar entre diapositivas. En algunas secciones, los títulos o botones son interactivos; haga clic en ellos para explorar contenido adicional.</p>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-center">
+                        <h1 class="font-black gradient-text mb-4" style="font-size: clamp(2.5rem, 8vw, 4rem);">Ingeniería de Prompts</h1>
+                        <p class="max-w-4xl mx-auto" style="font-size: clamp(1.25rem, 4vw, 1.75rem); color: #42526e;">Síntesis del módulo 2</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 2: ¿Qué es? -->
+            <div class="slide items-center">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto w-32 h-32 md:w-40 md:h-40" style="color: var(--color-principal);"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path><path d="m15 5 4 4"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="slide-title">1. ¿Qué es la Ingeniería de Prompts?</h2>
+                        <p class="slide-subtitle" style="font-size: clamp(1.1rem, 2.5vw, 1.3rem);">Es la disciplina de <strong style="color: var(--color-texto)">diseñar, estructurar y optimizar</strong> instrucciones (prompts) para guiar a los modelos de IA generativa hacia respuestas precisas, relevantes y útiles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 3: Los 4 Principios -->
+            <div class="slide text-center">
+                 <h2 class="slide-title">2. Los 4 Principios Universales del Prompting</h2>
+                 <p class="slide-subtitle mx-auto mb-10">Estas bases son cruciales para una comunicación efectiva con la IA.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Claridad</h3>
+                        <p class="text-xs text-gray-500 flex-grow">Ser explícito y directo en la instrucción.</p>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Contexto</h3>
+                        <p class="text-xs text-gray-500 flex-grow">Proveer información de fondo relevante.</p>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">División de Tareas</h3>
+                        <p class="text-xs text-gray-500 flex-grow">Descomponer problemas complejos en pasos simples.</p>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Iteración</h3>
+                        <p class="text-xs text-gray-500 flex-grow">Refinar y mejorar el prompt basado en los resultados.</p>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Diapositiva 4: Comparativa -->
+            <div class="slide">
+                <h2 class="slide-title text-center">3. Prompt Básico vs. Prompt Avanzado</h2>
+                <div class="flex flex-col md:flex-row gap-4 lg:gap-8 mt-4 md:mt-8">
+                    <div class="info-card flex-1">
+                        <h4 class="font-bold text-center mb-4" style="font-family: var(--font-main); font-weight: 900; font-size: clamp(1.1rem, 2.5vw, 1.25rem); color: #42526e;">Prompt Básico (Zero-shot)</h4>
+                        <div class="text-center space-y-2 flex-grow flex flex-col justify-center">
+                            <div class="bg-slate-200 text-slate-800 font-semibold py-2 px-3 rounded-lg" style="font-size: clamp(0.8rem, 2vw, 0.9rem);">Pregunta Directa</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-slate-400 h-5 w-5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                            <div class="bg-slate-200 text-slate-800 font-semibold py-2 px-3 rounded-lg" style="font-size: clamp(0.8rem, 2vw, 0.9rem);">Respuesta General</div>
+                        </div>
+                        <p class="text-center mt-4" style="font-size: clamp(0.8rem, 2vw, 0.9rem); color: #42526e;">Instrucción simple sin ejemplos ni contexto. Útil para tareas rápidas.</p>
+                    </div>
+                    <div class="info-card flex-1 border-2" style="border-color: var(--color-principal);">
+                         <h4 class="font-bold text-center mb-4" style="color: var(--color-principal); font-family: var(--font-main); font-weight: 900; font-size: clamp(1.1rem, 2.5vw, 1.25rem);">Prompt Avanzado</h4>
+                         <div class="text-center space-y-2 flex-grow flex flex-col justify-center">
+                            <div class="font-semibold py-2 px-3 rounded-lg text-white" style="background-color: var(--color-principal); font-size: clamp(0.8rem, 2vw, 0.9rem);">Rol + Contexto + Tarea</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto h-5 w-5" style="color: var(--color-principal)"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                            <div class="font-semibold py-2 px-3 rounded-lg text-white" style="background-color: var(--color-principal); font-size: clamp(0.8rem, 2vw, 0.9rem);">Razonamiento (CoT)</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto h-5 w-5" style="color: var(--color-principal)"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                            <div class="font-semibold py-2 px-3 rounded-lg text-white" style="background-color: var(--color-acento); font-size: clamp(0.8rem, 2vw, 0.9rem);">Respuesta Detallada</div>
+                        </div>
+                        <p class="text-center mt-4" style="font-size: clamp(0.8rem, 2vw, 0.9rem); color: #42526e;">Combina múltiples elementos para resultados de alta precisión.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 5: Estructura -->
+            <div class="slide text-center">
+                <h2 class="slide-title">4. ¿Cómo estructurar un prompt efectivo?</h2>
+                <p class="slide-subtitle mx-auto mb-8">Un prompt bien estructurado guía a la IA a través de un proceso lógico.</p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 my-4">
+                    <div class="flex-1 text-center p-2">
+                        <div class="text-white font-bold py-2 px-4 rounded-lg w-full text-center" style="background-color: var(--color-principal); font-size: clamp(0.9rem, 2.5vw, 1rem);">1. Asignar un Rol</div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 hidden md:block" style="color: var(--color-principal);"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    <div class="flex-1 text-center p-2">
+                        <div class="text-white font-bold py-2 px-4 rounded-lg w-full text-center" style="background-color: var(--color-principal); font-size: clamp(0.9rem, 2.5vw, 1rem);">2. Proveer Contexto</div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 hidden md:block" style="color: var(--color-acento);"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    <div class="flex-1 text-center p-2">
+                        <div class="text-white font-bold py-2 px-4 rounded-lg w-full text-center" style="background-color: var(--color-acento); font-size: clamp(0.9rem, 2.5vw, 1rem);">3. Definir la Tarea</div>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 hidden md:block" style="color: var(--color-acento);"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    <div class="flex-1 text-center p-2">
+                        <div class="text-white font-bold py-2 px-4 rounded-lg w-full text-center" style="background-color: var(--color-acento); font-size: clamp(0.9rem, 2.5vw, 1rem);">4. Especificar Formato</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 6: Aplicaciones -->
+            <div class="slide items-center">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="slide-title">5. Aplicaciones del Prompting</h2>
+                        <p class="slide-subtitle" style="font-size: clamp(1.1rem, 2.5vw, 1.3rem);">El prompting efectivo potencia la productividad en múltiples dominios.</p>
+                        <ul class="list-none mt-6 space-y-4" style="font-size: clamp(1rem, 2.5vw, 1.1rem);">
+                            <li class="flex items-start"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 mr-3 flex-shrink-0" style="color: var(--color-acento);"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Redacción de correos</span></li>
+                            <li class="flex items-start"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 mr-3 flex-shrink-0" style="color: var(--color-acento);"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Creación de contenido de marketing</span></li>
+                            <li class="flex items-start"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 mr-3 flex-shrink-0" style="color: var(--color-acento);"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Generación de material educativo</span></li>
+                            <li class="flex items-start"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 mr-3 flex-shrink-0" style="color: var(--color-acento);"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Análisis de documentos complejos</span></li>
+                        </ul>
+                    </div>
+                    <div class="text-center space-y-8 p-8 bg-slate-50 rounded-xl">
+                        <div class="flex items-center justify-center gap-4">
+                            <span class="font-bold" style="color: var(--color-principal); font-size: clamp(1.5rem, 4vw, 2.25rem);">Más Eficiencia</span>
+                        </div>
+                        <div class="text-2xl font-black" style="color: var(--color-acento)">+</div>
+                        <div class="flex items-center justify-center gap-4">
+                            <span class="font-bold" style="color: var(--color-principal); font-size: clamp(1.5rem, 4vw, 2.25rem);">Mejor Calidad</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 7: Técnicas Avanzadas -->
+            <div class="slide text-center">
+                <h2 class="slide-title">6. Técnicas Avanzadas Clave</h2>
+                <p class="slide-subtitle mx-auto mb-10">Para problemas complejos, estas técnicas mejoran el razonamiento y la fiabilidad de la IA.</p>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Chain-of-Thought</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="cot">Ver ejemplo</button>
+                    </div>
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Few-Shot</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="fewshot">Ver ejemplo</button>
+                    </div>
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Tree of Thoughts</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="tot">Ver ejemplo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 8: ¿Sabías que...? -->
+            <div class="slide text-white text-center" style="background: linear-gradient(45deg, var(--color-principal), #003f99);">
+                <h3 class="font-black mb-4" style="font-family: var(--font-main); font-weight: 900; font-size: clamp(2.5rem, 6vw, 3.5rem);">¿Sabía que…?</h3>
+                <p class="max-w-3xl mx-auto leading-relaxed" style="font-size: clamp(1.25rem, 3.5vw, 1.75rem);">Aplicar técnicas de prompting estructuradas puede mejorar la calidad de las respuestas de una IA hasta en un <strong class="font-bold" style="background-color: var(--color-acento); color: white; padding: 0.1rem 0.6rem;">50%</strong> y la precisión en un <strong class="font-bold" style="background-color: var(--color-acento); color: white; padding: 0.1rem 0.6rem;">31%</strong>.</p>
+            </div>
+
+            <!-- Diapositiva 9: Créditos -->
+            <div class="slide text-center">
+                <h2 class="slide-title">Créditos</h2>
+                <div class="text-base max-w-lg mx-auto space-y-3" style="color: #42526e;">
+                    <p><strong class="text-slate-600">Desarrollo digital:</strong> Modelo de IA de Google (Gemini)</p>
+                    <p><strong class="text-slate-600">Contenido académico:</strong> Basado en los contenidos del módulo 2, elaborados por Francisco Sereño y Damaris Reinoso.</p>
+                    <p><strong class="text-slate-600">Versión:</strong> 1.0 - Julio 2025</p>
+                    <p class="mt-6 pt-6 border-t border-slate-200"><strong class="text-slate-600">Nota:</strong> Este artefacto constituye una herramienta de apoyo académico.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navegación Fija -->
+        <button id="prevBtn" class="nav-button" aria-label="Diapositiva anterior"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button id="nextBtn" class="nav-button" aria-label="Siguiente diapositiva"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+        <div id="slideCounter" class="slide-counter"></div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title"></h3>
+            <p id="modalBody" class="modal-body"></p>
+            <button id="modalClose" class="modal-close-btn">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slideCounter');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                updateControls();
+            }
+
+            function updateControls() {
+                slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft') {
+                    prevBtn.click();
+                }
+            });
+
+            updateControls();
+
+            // Modal Logic
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const modalCloseBtn = document.getElementById('modalClose');
+
+            const modalData = {
+                cot: {
+                    title: 'Chain-of-Thought (CoT)',
+                    body: 'Le pides a la IA que muestre su razonamiento paso a paso antes de dar la respuesta final. Esto mejora significativamente la precisión en problemas complejos (matemáticos, de planificación, etc.) y permite verificar la lógica del modelo. Se activa con frases como "Pensemos paso a paso".'
+                },
+                fewshot: {
+                    title: 'Few-Shot Learning',
+                    body: 'Le muestras a la IA 2 o 3 ejemplos completos (entrada y salida esperada) para que aprenda el formato, estilo o patrón que deseas. Es muy útil para tareas de clasificación, transformación de texto o cuando necesitas un resultado con una estructura específica.'
+                },
+                tot: {
+                    title: 'Tree of Thoughts (ToT)',
+                    body: 'Se le pide a la IA que explore múltiples soluciones o enfoques para un problema, evalúe los pros y contras de cada uno, y luego seleccione y desarrolle el más prometedor. Es ideal para planificación estratégica y problemas complejos sin una única respuesta correcta.'
+                }
+            };
+
+            const openModal = (type) => {
+                const data = modalData[type];
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalBody.textContent = data.body;
+                    modal.classList.add('active');
+                }
+            };
+
+            const closeModal = () => {
+                modal.classList.remove('active');
+            };
+
+            openModalBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    openModal(btn.dataset.modal);
+                });
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

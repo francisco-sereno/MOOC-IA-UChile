@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramientas, diseño y gobernanza de agentes de IA</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primario: #003087; /* Azul Pantone 287c */
+            --color-secundario: #008751; /* Verde Pantone 348c */
+            --color-riesgo: #EF3340;   /* Rojo Pantone 032c */
+            --color-alerta: #FCD116;   /* Amarillo Pantone 122c */
+            --fuente-principal: 'Montserrat', sans-serif;
+            --color-fondo: #f4f6fa; /* Gray 100 */
+            --color-texto: #111827; /* Gray 900 */
+            --color-texto-secundario: #4b5563; /* Gray 600 */
+        }
+        body {
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+        }
+        .contenedor-guia {
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        .paso {
+            display: none;
+            padding: 2.5rem;
+        }
+        .paso.activo {
+            display: block;
+        }
+        .titulo-paso {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--color-primario);
+            margin-bottom: 0.5rem;
+        }
+        .subtitulo-paso {
+            font-size: 1.125rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .tarjeta {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb; /* Gray 200 */
+            margin-top: 1.5rem;
+        }
+         .tarjeta h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primario);
+            margin-bottom: 1rem;
+        }
+        .boton {
+            background-color: var(--color-primario);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .boton:hover {
+            background-color: #002466; /* Azul más oscuro */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px 0 rgba(0, 48, 135, 0.3);
+        }
+        .boton:disabled {
+            background-color: #a5b4fc; /* Indigo 300 */
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .barra-progreso-fondo {
+            background-color: #e5e7eb; /* Gray 200 */
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+        .barra-progreso-relleno {
+            background-color: var(--color-secundario);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+        /* Estilos para la tabla */
+        .tabla-comparativa {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .tabla-comparativa th, .tabla-comparativa td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .tabla-comparativa th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--color-primario);
+        }
+        .tabla-comparativa tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .video-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-guia">
+        <!-- Encabezado con Progreso -->
+        <header class="p-6 border-b border-gray-200">
+            <div class="barra-progreso-fondo">
+                <div id="barra-progreso" class="barra-progreso-relleno" style="width: 0%;"></div>
+            </div>
+            <p id="contador-pasos" class="text-center text-sm text-gray-500 mt-2"></p>
+        </header>
+
+        <main>
+            <!-- Paso 0: Bienvenida -->
+            <div class="paso activo" id="paso-0">
+                <div class="text-center">
+                    <h2 class="titulo-paso">Guía para la implementación de agentes de IA</h2>
+                    <p class="subtitulo-paso">Desde las herramientas no-code hasta las consideraciones éticas y el análisis de ROI.</p>
+                    <p class="mb-8 max-w-3xl mx-auto">Esta guía profundiza en los aspectos estratégicos, técnicos y de gobernanza cruciales para implementar agentes inteligentes en el entorno organizacional chileno. Exploraremos plataformas, principios de diseño, marcos éticos y modelos financieros para asegurar una adopción exitosa y responsable.</p>
+                    <button class="boton" onclick="irAPaso(1)">Comenzar la guía</button>
+                </div>
+            </div>
+
+            <!-- Paso 1: Herramientas No-Code/Low-Code -->
+            <div class="paso" id="paso-1">
+                <h2 class="titulo-paso flex items-center">
+                    Herramientas no-code/low-code para la innovación
+                    <button onclick="abrirModal('modal-definicion')" class="ml-4 text-sm bg-yellow-400 text-black font-semibold hover:bg-yellow-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 px-4 py-1 rounded-full shadow-md transform hover:scale-105">Definición</button>
+                </h2>
+                <p class="subtitulo-paso">Democratizando la creación de soluciones digitales complejas.</p>
+                 <div class="tarjeta">
+                    <h3>Análisis comparativo de plataformas</h3>
+                    <div class="overflow-x-auto">
+                        <table class="tabla-comparativa">
+                            <thead>
+                                <tr>
+                                    <th>Criterio</th>
+                                    <th>Zapier</th>
+                                    <th>
+                                        Make (Integromat)
+                                        <button onclick="abrirModal('modal-make')" class="ml-2 text-xs bg-blue-100 text-blue-800 font-semibold hover:bg-blue-200 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 px-2 py-1 rounded-full">Ver video</button>
+                                    </th>
+                                    <th>
+                                        n8n
+                                        <button onclick="abrirModal('modal-n8n')" class="ml-2 text-xs bg-blue-100 text-blue-800 font-semibold hover:bg-blue-200 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 px-2 py-1 rounded-full">Ver video</button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Facilidad de uso</td>
+                                    <td>Excelente</td>
+                                    <td>Buena</td>
+                                    <td>Moderada</td>
+                                </tr>
+                                <tr>
+                                    <td>Flexibilidad</td>
+                                    <td>Limitada</td>
+                                    <td>Alta</td>
+                                    <td>Muy alta</td>
+                                </tr>
+                                <tr>
+                                    <td>Costo mensual</td>
+                                    <td>$20-$599 USD</td>
+                                    <td>$9-$299 USD</td>
+                                    <td>$0-$50 USD</td>
+                                </tr>
+                                <tr>
+                                    <td>Integraciones IA</td>
+                                    <td>Básicas</td>
+                                    <td>Avanzadas</td>
+                                    <td>Completas</td>
+                                </tr>
+                                <tr>
+                                    <td>Soberanía de datos</td>
+                                    <td>Baja</td>
+                                    <td>Baja</td>
+                                    <td>Alta</td>
+                                </tr>
+                                <tr>
+                                    <td>Escalabilidad</td>
+                                    <td>Limitada</td>
+                                    <td>Buena</td>
+                                    <td>Excelente</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tarjeta">
+                    <h3>Recomendación estratégica</h3>
+                    <p>Se recomienda <strong>n8n</strong> como plataforma principal por su soberanía de datos, sostenibilidad financiera y flexibilidad, complementada con <strong>Make</strong> para prototipado rápido.</p>
+                </div>
+            </div>
+            
+            <!-- Paso 2: Diseño de Flujos -->
+            <div class="paso" id="paso-2">
+                <h2 class="titulo-paso">Diseño de flujos de trabajo inteligentes</h2>
+                <p class="subtitulo-paso">Creando una arquitectura cognitiva robusta y resiliente.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta p-6">
+                        <h3 class="mt-0">Principios de diseño resiliente</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Redundancia cognitiva:</strong> Combina múltiples mecanismos de validación (ej. palabras clave + análisis semántico).</li>
+                            <li><strong>Escalamiento inteligente:</strong> Transfiere casos complejos a humanos de manera fluida, preservando el contexto.</li>
+                            <li><strong>Monitoreo continuo:</strong> Registra cada decisión para permitir auditorías y mejoras futuras.</li>
+                        </ul>
+                    </div>
+                    <div class="tarjeta p-6">
+                        <h3 class="mt-0">Lógica condicional avanzada</h3>
+                        <p class="mb-2">Implementa un sistema de puntuación multifactorial antes de decidir una acción automática:</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Confianza en la clasificación</li>
+                            <li>Indicadores de urgencia</li>
+                            <li>Historial del remitente</li>
+                            <li>Complejidad temática</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 3: Ética y Gobernanza -->
+            <div class="paso" id="paso-3">
+                <h2 class="titulo-paso">Consideraciones éticas y de gobernanza</h2>
+                <p class="subtitulo-paso">Estableciendo marcos de responsabilidad y transparencia rigurosos.</p>
+                 <div class="tarjeta">
+                    <h3>Principios éticos fundamentales</h3>
+                     <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Transparencia algorítmica:</strong> Los clientes tienen derecho a comprender cómo se toman las decisiones.</li>
+                        <li><strong>Equidad y no discriminación:</strong> Monitoreo continuo para evitar sesgos.</li>
+                        <li><strong>Responsabilidad humana:</strong> Siempre debe haber un humano responsable por las decisiones del agente.</li>
+                        <li><strong>Privacidad por diseño:</strong> Incorporar protecciones de privacidad desde la concepción del sistema.</li>
+                    </ul>
+                </div>
+                <div class="tarjeta">
+                    <h3>Marco de gobernanza institucional</h3>
+                    <p>Se requiere un comité de ética, protocolos de auditoría, mecanismos de apelación y programas de formación continua para los funcionarios.</p>
+                </div>
+            </div>
+
+            <!-- Paso 4: Análisis Económico -->
+            <div class="paso" id="paso-4">
+                <h2 class="titulo-paso">Análisis económico integral</h2>
+                <p class="subtitulo-paso">Evaluando el retorno de la inversión por nivel de implementación.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="tarjeta !mt-0 text-center">
+                        <h3 class="!text-base">Nivel 1: Básico</h3>
+                        <p class="text-2xl font-bold text-green-600">4,300%</p>
+                        <p class="text-sm">ROI anual</p>
+                        <p class="text-xs mt-2">(Payback: 17 días)</p>
+                    </div>
+                     <div class="tarjeta !mt-0 text-center">
+                        <h3 class="!text-base">Nivel 2: Multicanal</h3>
+                        <p class="text-2xl font-bold text-green-600">340%</p>
+                        <p class="text-sm">ROI anual</p>
+                         <p class="text-xs mt-2">(Payback: 3.2 meses)</p>
+                    </div>
+                     <div class="tarjeta !mt-0 text-center">
+                        <h3 class="!text-base">Nivel 3: Híbrido</h3>
+                        <p class="text-2xl font-bold text-green-600">425%</p>
+                        <p class="text-sm">ROI anual</p>
+                         <p class="text-xs mt-2">(Payback: 5.8 meses)</p>
+                    </div>
+                     <div class="tarjeta !mt-0 text-center">
+                        <h3 class="!text-base">Nivel 4: Empresarial</h3>
+                        <p class="text-2xl font-bold text-green-600">280%</p>
+                        <p class="text-sm">ROI anual</p>
+                         <p class="text-xs mt-2">(Payback: 12 meses)</p>
+                    </div>
+                </div>
+                <div class="tarjeta">
+                    <h3>Factores de escalabilidad económica</h3>
+                    <p>Los beneficios incluyen economías de escala (el costo por consulta disminuye con el volumen) y externalidades positivas como la mejora en la satisfacción del cliente (+15-25%) y la disponibilidad 24/7.</p>
+                </div>
+            </div>
+            
+            <!-- Paso 5: Eficiencia vs. Empatía -->
+            <div class="paso" id="paso-5">
+                <h2 class="titulo-paso">La tensión fundamental: eficiencia vs. empatía</h2>
+                <p class="subtitulo-paso">Reconceptualizando la automatización como una herramienta de amplificación humana.</p>
+                <div class="tarjeta">
+                    <h3>La automatización como amplificación</h3>
+                    <p>El paradigma debe cambiar de reemplazar a amplificar. La automatización libera al personal para que pueda dedicarse a casos que verdaderamente requieren empatía, creatividad y juicio humano. El rol del funcionario se eleva hacia la supervisión estratégica, la intervención especializada y la mejora continua del sistema.</p>
+                </div>
+                 <div class="tarjeta">
+                    <h3>Diseño de transiciones fluidas</h3>
+                    <p>Una experiencia de cliente de alta calidad depende de la fluidez en la transición entre el agente y el humano. Es crucial preservar el contexto completo, comunicar con transparencia y mantener la consistencia en el tono institucional.</p>
+                </div>
+            </div>
+
+            <!-- Paso 6: Conclusión -->
+            <div class="paso" id="paso-6">
+                <div class="text-center">
+                    <h2 class="titulo-paso" style="color: var(--color-secundario);">Guía completada</h2>
+                    <p class="subtitulo-paso">Ahora cuenta con un marco integral para la implementación de agentes inteligentes.</p>
+                    <div class="tarjeta max-w-lg mx-auto text-left">
+                        <h3 class="text-center">Temas cubiertos:</h3>
+                        <ul class="space-y-2 list-disc list-inside">
+                            <li>Selección de herramientas no-code/low-code</li>
+                            <li>Principios de diseño resiliente</li>
+                            <li>Marcos de gobernanza y ética</li>
+                            <li>Modelos de análisis de ROI</li>
+                            <li>Balance entre eficiencia y empatía</li>
+                        </ul>
+                    </div>
+                    <p class="mt-8 font-semibold">La implementación exitosa es un ejercicio estratégico que equilibra tecnología, gobernanza y factor humano.</p>
+                     <button class="boton mt-6" onclick="irAPaso(0)">Reiniciar la guía</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Navegación -->
+        <footer class="flex justify-between items-center p-6 border-t border-gray-200">
+            <button id="boton-anterior" class="boton" style="background-color: #6b7280;" onclick="pasoAnterior()">Anterior</button>
+            <button id="boton-siguiente" class="boton" onclick="pasoSiguiente()">Siguiente</button>
+        </footer>
+    </div>
+    
+    <!-- Modals -->
+    <div id="modal-definicion" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full p-8 relative transform transition-all" onclick="event.stopPropagation()">
+            <button onclick="cerrarModal('modal-definicion')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">¿Qué es No-Code / Low-Code?</h3>
+            <div class="space-y-4 text-gray-600">
+                <p><strong>No-Code:</strong> Son plataformas que permiten a usuarios sin conocimientos de programación crear aplicaciones y automatizaciones a través de interfaces gráficas y configuraciones, en lugar de escribir código.</p>
+                <p><strong>Low-Code:</strong> Son similares, pero ofrecen la opción de usar algo de código para personalizar o extender las funcionalidades, dirigidas a usuarios con algún conocimiento técnico o desarrolladores que buscan acelerar su trabajo.</p>
+                <p class="font-semibold text-gray-700 mt-5">En resumen, ambas buscan democratizar y acelerar el desarrollo de software.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-make" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full p-6 relative" onclick="event.stopPropagation()">
+            <button onclick="cerrarModal('modal-make')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Playlist: Introducción a Make</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/videoseries?list=PL73BFmHmJPwHpxZSf3JvJqVmSFCM8JF9e" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-n8n" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full p-6 relative" onclick="event.stopPropagation()">
+            <button onclick="cerrarModal('modal-n8n')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Playlist: Introducción a n8n</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/videoseries?list=PL73BFmHmJPwHdJYAJkjBbtv7WtxaU5OIU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pasoActual = 0;
+        const pasos = document.querySelectorAll('.paso');
+        const totalPasosContenido = 5;
+        const botonAnterior = document.getElementById('boton-anterior');
+        const botonSiguiente = document.getElementById('boton-siguiente');
+        const barraProgreso = document.getElementById('barra-progreso');
+        const contadorPasos = document.getElementById('contador-pasos');
+
+        function actualizarUI() {
+            pasos.forEach((paso, index) => {
+                paso.classList.toggle('activo', index === pasoActual);
+            });
+
+            const esPrimerPaso = pasoActual === 0;
+            const esUltimoPaso = pasoActual === pasos.length - 1;
+
+            if (esPrimerPaso || esUltimoPaso) {
+                document.querySelector('footer').classList.add('hidden');
+                document.querySelector('header').classList.add('hidden');
+            } else {
+                document.querySelector('footer').classList.remove('hidden');
+                document.querySelector('header').classList.remove('hidden');
+            }
+            
+            botonAnterior.disabled = pasoActual === 1;
+            botonSiguiente.textContent = (pasoActual === pasos.length - 2) ? 'Finalizar guía' : 'Siguiente';
+
+            const progreso = pasoActual > 0 && pasoActual <= totalPasosContenido ? ((pasoActual - 1) / (totalPasosContenido -1)) * 100 : 0;
+            if (pasoActual > totalPasosContenido) {
+                 barraProgreso.style.width = `100%`;
+            } else {
+                 barraProgreso.style.width = `${progreso}%`;
+            }
+           
+            if (pasoActual > 0 && pasoActual <= totalPasosContenido) {
+                 contadorPasos.textContent = `Sección ${pasoActual} de ${totalPasosContenido}`;
+            } else {
+                contadorPasos.textContent = '';
+            }
+        }
+
+        function irAPaso(n) {
+            pasoActual = n;
+            actualizarUI();
+        }
+
+        function pasoSiguiente() {
+            if (pasoActual < pasos.length - 1) {
+                pasoActual++;
+                actualizarUI();
+            }
+        }
+
+        function pasoAnterior() {
+            if (pasoActual > 0) {
+                pasoActual--;
+                actualizarUI();
+            }
+        }
+        
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function cerrarModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            // Detener video de YouTube si existe
+            const iframe = modal.querySelector('iframe');
+            if (iframe) {
+                const src = iframe.src;
+                iframe.src = ''; // Forzar la detención
+                iframe.src = src; // Restaurar para futura apertura
+            }
+        }
+
+        // Cerrar modal con clic afuera o tecla Escape
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    cerrarModal(modal.id);
+                }
+            });
+        });
+        
+        window.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.modal:not(.hidden)').forEach(modal => {
+                    cerrarModal(modal.id);
+                });
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', actualizarUI);
+    </script>
+</body>
+</html>
+

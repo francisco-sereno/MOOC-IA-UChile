@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica guiada: Diagnóstico de competencias con IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+        
+        /* Animaciones optimizadas */
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Cards de opciones mejoradas */
+        .option-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid var(--gris-200);
+            background: white;
+            position: relative;
+            overflow: visible;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .option-card:hover::before {
+            opacity: 1;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.15);
+            border-color: var(--azul);
+        }
+        
+        .option-card.selected {
+            border-color: var(--azul);
+            background: linear-gradient(135deg, #EFF6FF, #F0F9FF);
+            box-shadow: 0 4px 16px rgba(0, 85, 165, 0.2);
+        }
+        
+        .option-card.correct {
+            border-color: var(--verde) !important;
+            background: linear-gradient(135deg, #ECFDF5, #F0FDF4) !important;
+            animation: correctPulse 0.5s ease;
+        }
+        
+        .option-card.incorrect {
+            border-color: var(--rojo) !important;
+            background: linear-gradient(135deg, #FEF2F2, #FFF1F2) !important;
+            animation: shake 0.5s ease;
+        }
+
+        /* Estilos mejorados para inputs */
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            min-height: 24px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: 3px solid var(--gris-300);
+            border-radius: 50%;
+            background: white;
+            position: relative;
+            transition: all 0.2s ease;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="radio"]:hover {
+            border-color: var(--azul);
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.1);
+        }
+
+        input[type="radio"]:checked {
+            border-color: var(--azul);
+            background: white;
+        }
+
+        input[type="radio"]:checked::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--azul);
+        }
+
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: 3px solid var(--gris-300);
+            border-radius: 5px;
+            background: white;
+            position: relative;
+            transition: all 0.2s ease;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="checkbox"]:hover {
+            border-color: var(--azul);
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.1);
+        }
+
+        input[type="checkbox"]:checked {
+            border-color: var(--azul);
+            background: var(--azul);
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        input[type="radio"]:focus,
+        input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.3);
+        }
+
+        /* Asegurar que los labels funcionen correctamente */
+        .option-card label,
+        .option-card {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Cajas de ayuda mejoradas */
+        .help-box {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 4px solid var(--amarillo);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(255, 209, 0, 0.15);
+        }
+        
+        /* Barra de progreso mejorada */
+        .progress-bar {
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            box-shadow: 0 2px 8px rgba(0, 85, 165, 0.3);
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Rating de estrellas */
+        .star-rating {
+            display: inline-block;
+        }
+        
+        .star {
+            font-size: 1.75rem;
+            color: var(--gris-200);
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        
+        .star.filled {
+            color: var(--amarillo);
+            text-shadow: 0 2px 4px rgba(255, 209, 0, 0.3);
+        }
+        
+        /* Burbujas de habilidades */
+        .skill-bubble {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            margin: 0.375rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .skill-bubble:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Feedback mejorado */
+        .feedback-positive {
+            background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+            border-left: 6px solid var(--verde);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+        
+        .feedback-negative {
+            background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
+            border-left: 6px solid var(--rojo);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+        
+        .feedback-partial {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 6px solid var(--amarillo);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Mejoras de accesibilidad */
+        *:focus-visible {
+            outline: 3px solid var(--azul);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        input[type="checkbox"]:focus-visible,
+        input[type="radio"]:focus-visible {
+            outline: 3px solid var(--azul);
+        }
+
+        /* Responsive optimizado */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .header-banner {
+                border-radius: 28px;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .skill-bubble {
+                font-size: 0.8rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-slate-50 to-green-50 min-h-screen">
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner p-8 mb-8 text-white relative">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl">
+                        🎯
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-extrabold mb-2">Práctica guiada</h1>
+                        <p class="text-xl font-medium opacity-95">Diagnóstico de competencias con IA</p>
+                    </div>
+                </div>
+                <p class="text-lg opacity-90 max-w-3xl leading-relaxed">
+                    Aplica tus conocimientos en 5 ejercicios interactivos que simulan situaciones reales de diagnóstico de competencias con herramientas de IA generativa.
+                </p>
+            </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div id="progress-container" class="bg-white rounded-2xl p-6 mb-8 shadow-lg border border-gray-100">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-bold text-lg" style="color: var(--azul-dark);">Tu progreso</h3>
+                <span class="text-sm font-semibold px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-100 to-green-100" style="color: var(--azul);">
+                    <span id="current-step-num">1</span> de 5 ejercicios
+                </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+                <div id="progress-bar" class="progress-bar h-3 rounded-full" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Paso 1: Identificar competencias técnicas -->
+        <div id="step-1" class="step active">
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="mb-6">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                        Ejercicio 1
+                    </span>
+                    <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Identificar competencias técnicas</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">Revisa el siguiente perfil profesional y marca todas las competencias que consideres <strong>técnicas</strong>:</p>
+                </div>
+
+                <div class="help-box p-6 mb-8">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">💡</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Recuerda:</p>
+                            <p class="text-gray-700 leading-relaxed">Las <strong>competencias técnicas</strong> (hard skills) son habilidades específicas, medibles y enseñables relacionadas directamente con tareas del trabajo. Por ejemplo: programación, contabilidad, manejo de software específico.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 mb-8 border-2 border-blue-200">
+                    <h3 class="font-bold text-xl mb-4 flex items-center gap-2" style="color: var(--azul-dark);">
+                        <span class="text-2xl">👨‍💼</span>
+                        Perfil: Desarrollador Full Stack Junior
+                    </h3>
+                    <div class="space-y-2 text-gray-700">
+                        <p>• Dominio de JavaScript, React y Node.js</p>
+                        <p>• Experiencia con bases de datos SQL y NoSQL</p>
+                        <p>• Conocimiento de Git y metodologías ágiles</p>
+                        <p>• Excelente capacidad de trabajo en equipo</p>
+                        <p>• Fuerte liderazgo y comunicación efectiva</p>
+                        <p>• Dominio de inglés técnico</p>
+                    </div>
+                </div>
+
+                <form id="form-1" class="space-y-4 mb-6">
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q1" value="js-react" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Dominio de JavaScript, React y Node.js</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q1" value="databases" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Experiencia con bases de datos SQL y NoSQL</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q1" value="git" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Conocimiento de Git y metodologías ágiles</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q1" value="teamwork" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Excelente capacidad de trabajo en equipo</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q1" value="leadership" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Fuerte liderazgo y comunicación efectiva</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q1" value="english" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Dominio de inglés técnico</span>
+                        </div>
+                    </label>
+                </form>
+
+                <div id="feedback-1" class="hidden mb-6"></div>
+
+                <button onclick="checkAnswer(1)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                    Verificar respuestas
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 2: Identificar competencias transversales -->
+        <div id="step-2" class="step">
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="mb-6">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                        Ejercicio 2
+                    </span>
+                    <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Identificar competencias transversales</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">Revisa el siguiente perfil profesional y marca todas las competencias que consideres <strong>transversales</strong>:</p>
+                </div>
+
+                <div class="help-box p-6 mb-8">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">💡</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Recuerda:</p>
+                            <p class="text-gray-700 leading-relaxed">Las <strong>competencias transversales</strong> (soft skills) son habilidades personales y sociales aplicables a cualquier trabajo: comunicación, liderazgo, resolución de problemas, pensamiento crítico.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-gray-50 to-green-50 rounded-xl p-6 mb-8 border-2 border-green-200">
+                    <h3 class="font-bold text-xl mb-4 flex items-center gap-2" style="color: var(--azul-dark);">
+                        <span class="text-2xl">🔧</span>
+                        Perfil: Técnico en Gasfitería
+                    </h3>
+                    <div class="space-y-2 text-gray-700">
+                        <p>• Instalación y reparación de sistemas de agua potable y alcantarillado</p>
+                        <p>• Soldadura de cobre y fierro galvanizado</p>
+                        <p>• Capacidad de trabajar de forma autónoma</p>
+                        <p>• Excelente comunicación con clientes</p>
+                        <p>• Lectura e interpretación de planos técnicos</p>
+                        <p>• Resolución efectiva de problemas bajo presión</p>
+                    </div>
+                </div>
+
+                <form id="form-2" class="space-y-4 mb-6">
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q2" value="instalacion" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Instalación y reparación de sistemas de agua potable y alcantarillado</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q2" value="soldadura" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Soldadura de cobre y fierro galvanizado</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q2" value="autonomia" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Capacidad de trabajar de forma autónoma</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q2" value="comunicacion" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Excelente comunicación con clientes</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q2" value="planos" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Lectura e interpretación de planos técnicos</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q2" value="problemas" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Resolución efectiva de problemas bajo presión</span>
+                        </div>
+                    </label>
+                </form>
+
+                <div id="feedback-2" class="hidden mb-6"></div>
+
+                <button onclick="checkAnswer(2)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--verde), var(--verde-hover));">
+                    Verificar respuestas
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 3: Mapeo de competencias -->
+        <div id="step-3" class="step">
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="mb-6">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                        Ejercicio 3
+                    </span>
+                    <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Mapeo de competencias</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">Tienes el siguiente perfil profesional y una oferta laboral. Marca las competencias del perfil que son <strong>directamente relevantes</strong> para la oferta:</p>
+                </div>
+
+                <div class="help-box p-6 mb-8">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">🎯</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Tip de mapeo efectivo:</p>
+                            <p class="text-gray-700 leading-relaxed">Solo marca competencias que aparezcan <strong>explícitamente</strong> en los requisitos de la oferta o sean claramente transferibles al cargo específico.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
+                        <h3 class="font-bold text-xl mb-4 flex items-center gap-2" style="color: var(--azul-dark);">
+                            <span class="text-2xl">👨‍🍳</span>
+                            Perfil del candidato
+                        </h3>
+                        <p class="font-semibold mb-3 text-gray-800">Chef Ejecutivo con 8 años de experiencia</p>
+                        <div class="space-y-2 text-gray-700 text-sm">
+                            <p>• Gestión de inventarios y control de costos</p>
+                            <p>• Diseño de menús creativos y vanguardistas</p>
+                            <p>• Técnicas avanzadas de cocina molecular</p>
+                            <p>• Liderazgo de equipos de hasta 15 personas</p>
+                            <p>• Negociación con proveedores mayoristas</p>
+                            <p>• Experiencia en cocina internacional (francesa, italiana, asiática)</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border-2 border-blue-200">
+                        <h3 class="font-bold text-xl mb-4 flex items-center gap-2" style="color: var(--azul-dark);">
+                            <span class="text-2xl">📋</span>
+                            Oferta laboral
+                        </h3>
+                        <p class="font-semibold mb-3 text-gray-800">Gerente de Operaciones - Cadena de Restaurantes</p>
+                        <div class="space-y-2 text-gray-700 text-sm">
+                            <p class="font-semibold">Requisitos:</p>
+                            <p>• Experiencia en gestión de inventarios y control de costos</p>
+                            <p>• Capacidad de liderar equipos multidisciplinarios</p>
+                            <p>• Habilidades de negociación con proveedores</p>
+                            <p>• Conocimiento de operaciones gastronómicas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="form-3" class="space-y-4 mb-6">
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q3" value="inventarios" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Gestión de inventarios y control de costos</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q3" value="menus" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Diseño de menús creativos y vanguardistas</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q3" value="molecular" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Técnicas avanzadas de cocina molecular</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q3" value="liderazgo" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Liderazgo de equipos de hasta 15 personas</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q3" value="negociacion" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Negociación con proveedores mayoristas</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q3" value="internacional" data-correct="false" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Experiencia en cocina internacional (francesa, italiana, asiática)</span>
+                        </div>
+                    </label>
+                </form>
+
+                <div id="feedback-3" class="hidden mb-6"></div>
+
+                <button onclick="checkAnswer(3)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                    Verificar respuestas
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 4: Reformulación efectiva -->
+        <div id="step-4" class="step">
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="mb-6">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                        Ejercicio 4
+                    </span>
+                    <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Reformulación efectiva</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">Evalúa cuál de las siguientes opciones representa la mejor reformulación de la experiencia laboral usando IA:</p>
+                </div>
+
+                <div class="help-box p-6 mb-8">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">✍️</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Criterios de buena reformulación:</p>
+                            <ul class="text-gray-700 leading-relaxed space-y-1 ml-4 list-disc">
+                                <li>Lenguaje profesional y corporativo</li>
+                                <li>Sin inventar información</li>
+                                <li>Sin jerga excesiva o buzzwords vacíos</li>
+                                <li>Mantiene la esencia y veracidad de la experiencia</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-gray-50 to-orange-50 rounded-xl p-6 mb-8 border-2 border-orange-200">
+                    <h3 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">
+                        <span class="text-xl mr-2">📝</span>Experiencia original:
+                    </h3>
+                    <p class="text-gray-700 italic bg-white p-4 rounded-lg">"Trabajé en el restaurant atendiendo mesas y también ayudaba en caja cuando se necesitaba. Me llevaba bien con los clientes y siempre trataba de que estuvieran contentos."</p>
+                </div>
+
+                <form id="form-4" class="space-y-4 mb-6">
+                    <label class="option-card p-6 rounded-xl block cursor-pointer">
+                        <div class="flex items-start gap-4">
+                            <input type="radio" name="q4" value="a" data-correct="false" class="mt-1.5">
+                            <div class="flex-1">
+                                <div class="font-bold text-lg text-gray-800 mb-3">Opción A</div>
+                                <p class="text-gray-700 leading-relaxed">"Mesero/a con expertise en customer journey optimization y revenue management. Key player en implementación de estrategias omnicanal de engagement y retention. Stakeholder crítico en operaciones de front-end y back-end del establecimiento."</p>
+                            </div>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-6 rounded-xl block cursor-pointer">
+                        <div class="flex items-start gap-4">
+                            <input type="radio" name="q4" value="b" data-correct="true" class="mt-1.5">
+                            <div class="flex-1">
+                                <div class="font-bold text-lg text-gray-800 mb-3">Opción B</div>
+                                <p class="text-gray-700 leading-relaxed">"Atención al cliente en restaurant, responsable de servicio en sala y apoyo ocasional en caja. Enfoque en brindar experiencia positiva a los comensales mediante atención personalizada y resolución efectiva de consultas."</p>
+                            </div>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-6 rounded-xl block cursor-pointer">
+                        <div class="flex items-start gap-4">
+                            <input type="radio" name="q4" value="c" data-correct="false" class="mt-1.5">
+                            <div class="flex-1">
+                                <div class="font-bold text-lg text-gray-800 mb-3">Opción C</div>
+                                <p class="text-gray-700 leading-relaxed">"Trabajé en el restaurant como garzón y cajero cuando hacía falta. Siempre me preocupé de que los clientes quedaran felices y de hacer bien mi pega."</p>
+                            </div>
+                        </div>
+                    </label>
+                </form>
+
+                <div id="feedback-4" class="hidden mb-6"></div>
+
+                <button onclick="checkAnswer(4)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                    Verificar respuesta
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 5: Detección de alucinaciones -->
+        <div id="step-5" class="step">
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="mb-6">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                        Ejercicio 5
+                    </span>
+                    <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Detección de alucinaciones y exageraciones</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">Lee la experiencia original y el output generado por IA. Identifica todos los <strong>errores, invenciones y exageraciones</strong> en el output:</p>
+                </div>
+
+                <div class="help-box p-6 mb-8">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">⚠️</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Señales de alerta comunes:</p>
+                            <ul class="text-gray-700 leading-relaxed space-y-1 ml-4 list-disc">
+                                <li>Porcentajes, números o métricas no mencionadas originalmente</li>
+                                <li>Títulos jerárquicos inflados (VP, Director, C-suite)</li>
+                                <li>Alcances geográficos no verificables</li>
+                                <li>Logros cuantificados sin base real</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
+                        <h3 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">
+                            <span class="text-xl mr-2">📄</span>Experiencia original:
+                        </h3>
+                        <p class="text-gray-700 bg-white p-4 rounded-lg leading-relaxed">"Coordiné el área de logística en una empresa distribuidora, manejando el despacho de productos y supervisando un equipo de 5 personas en bodega."</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl p-6 border-2 border-red-200">
+                        <h3 class="font-bold text-lg mb-3" style="color: var(--rojo);">
+                            <span class="text-xl mr-2">🤖</span>Output de IA:
+                        </h3>
+                        <p class="text-gray-700 bg-white p-4 rounded-lg leading-relaxed">"VP de Operaciones Logísticas con impacto estratégico a nivel nacional e internacional. Lideré equipo de 200+ colaboradores optimizando cadena de suministro end-to-end. Implementé sistemas de gestión que redujeron costos operacionales en 40% y mejoraron tiempos de entrega en 50%. Reporté directamente al C-suite sobre KPIs estratégicos."</p>
+                    </div>
+                </div>
+
+                <p class="text-lg font-semibold mb-4 text-gray-800">Marca todas las señales de alerta que identifiques:</p>
+
+                <form id="form-5" class="space-y-4 mb-6">
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q5" value="vp" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Invención de cargo jerárquico: "VP de Operaciones" cuando era coordinador</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q5" value="200" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Inflación de equipo: de 5 personas a "200+ colaboradores"</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q5" value="40percent" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Alucinación de métrica: "reducción de costos del 40%" no mencionada</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q5" value="internacional" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Invención de alcance: "nacional e internacional" sin base real</span>
+                        </div>
+                    </label>
+                    
+                    <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="q5" value="csuite" data-correct="true" class="mt-1.5">
+                        <div>
+                            <span class="font-semibold text-gray-800">Exageración jerárquica: "Reporté al C-suite" (alta dirección ejecutiva)</span>
+                        </div>
+                    </label>
+                </form>
+
+                <div id="feedback-5" class="hidden mb-6"></div>
+
+                <button onclick="checkAnswer(5)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--rojo), var(--rojo-hover));">
+                    Verificar respuestas
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 6: Resumen final -->
+        <div id="step-6" class="step">
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="text-center mb-8">
+                    <div class="inline-block w-24 h-24 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-5xl mb-6 shadow-lg">
+                        🎉
+                    </div>
+                    <h2 class="text-4xl font-extrabold mb-4" style="color: var(--azul-dark);">¡Práctica completada!</h2>
+                    <p class="text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">Has terminado los 5 ejercicios de diagnóstico de competencias con IA. Revisa tu desempeño a continuación:</p>
+                </div>
+
+                <div id="performance-summary" class="mb-8"></div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-8 mb-8 border-2 border-blue-200">
+                    <h3 class="font-bold text-2xl mb-6 text-center" style="color: var(--azul-dark);">
+                        <span class="text-3xl mr-2">🎯</span>Próximos pasos
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="text-4xl mb-3">📖</div>
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">Repasa conceptos clave</h4>
+                            <p class="text-gray-700 mb-4">Si obtuviste menos del 70% en algún ejercicio, revisa el apunte de fundamentos antes de la evaluación.</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="text-4xl mb-3">✅</div>
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">Continúa al siguiente módulo</h4>
+                            <p class="text-gray-700 mb-4">Si tu promedio es 70% o superior, estás listo para avanzar en el curso.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 p-6 rounded-lg mb-8" style="border-color: var(--amarillo);">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">💡</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Recuerda:</p>
+                            <p class="text-gray-700 leading-relaxed">Esta práctica es formativa. Su propósito es ayudarte a identificar áreas de mejora antes de la evaluación sumativa del módulo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <button onclick="resetPractice()" class="btn px-8 py-4 bg-gray-600 hover:bg-gray-700 text-white font-semibold text-lg rounded-xl">
+                        🔄 Reiniciar práctica
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+        let exerciseScores = {1: null, 2: null, 3: null, 4: null, 5: null};
+        
+        function updateProgress() {
+            // El paso 6 es el resumen final, no un ejercicio
+            const displayStep = currentStep > totalSteps ? totalSteps : currentStep;
+            const progress = currentStep > totalSteps ? 100 : ((currentStep - 1) / totalSteps) * 100;
+            
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('current-step-num').textContent = displayStep;
+        }
+        
+        function nextStep() {
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            currentStep++;
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+            updateProgress();
+            
+            // Ocultar barra de progreso en el paso final (resumen)
+            if (currentStep === 6) {
+                document.getElementById('progress-container').style.display = 'none';
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function checkAnswer(exerciseNum) {
+            const form = document.getElementById(`form-${exerciseNum}`);
+            const feedback = document.getElementById(`feedback-${exerciseNum}`);
+            
+            let correct = 0;
+            let total = 0;
+            let allCorrect = false;
+            let hasResponse = false;
+            let incorrectSelected = 0;
+            
+            if (exerciseNum === 4) {
+                // Radio buttons - solo una respuesta
+                const options = form.querySelectorAll('input[type="radio"]');
+                options.forEach(option => {
+                    const label = option.closest('.option-card');
+                    label.classList.remove('correct', 'incorrect', 'selected');
+                    
+                    if (option.checked) {
+                        hasResponse = true;
+                        if (option.dataset.correct === 'true') {
+                            label.classList.add('correct');
+                            allCorrect = true;
+                            correct = 1;
+                        } else {
+                            label.classList.add('incorrect');
+                        }
+                        total = 1;
+                    }
+                });
+            } else {
+                // Checkboxes - múltiples respuestas con penalización
+                const options = form.querySelectorAll('input[type="checkbox"]');
+                let correctAnswers = 0;
+                let totalCorrectOptions = 0;
+                
+                options.forEach(option => {
+                    const label = option.closest('.option-card');
+                    label.classList.remove('correct', 'incorrect', 'selected');
+                    
+                    if (option.dataset.correct === 'true') {
+                        totalCorrectOptions++;
+                        if (option.checked) {
+                            hasResponse = true;
+                            label.classList.add('correct');
+                            correctAnswers++;
+                        }
+                    } else if (option.checked) {
+                        hasResponse = true;
+                        label.classList.add('incorrect');
+                        incorrectSelected++;
+                    }
+                });
+                
+                // Calcular puntaje con penalización
+                // Fórmula: (correctas - incorrectas) / total_correctas * 100
+                // Mínimo 0%
+                const netScore = correctAnswers - incorrectSelected;
+                correct = Math.max(0, netScore);
+                total = totalCorrectOptions;
+                allCorrect = (correctAnswers === totalCorrectOptions && incorrectSelected === 0);
+            }
+            
+            // Si no hay respuesta, el puntaje es 0%
+            if (!hasResponse) {
+                exerciseScores[exerciseNum] = 0;
+                
+                feedback.innerHTML = `
+                    <div class="feedback-negative p-6 rounded-lg">
+                        <p class="font-bold text-2xl mb-2" style="color: var(--rojo);">⚠️ No has seleccionado ninguna opción</p>
+                        <p class="text-gray-700 mb-4">Debes seleccionar al menos una respuesta para continuar. Tu puntaje actual es 0%.</p>
+                        <button onclick="location.reload()" class="btn px-6 py-3 text-white font-semibold rounded-lg" style="background-color: var(--rojo);">
+                            🔄 Reintentar
+                        </button>
+                    </div>
+                `;
+                feedback.classList.remove('hidden');
+                return;
+            }
+            
+            // Calcular porcentaje (puede ser negativo, pero se ajusta a mínimo 0)
+            const percentage = Math.max(0, Math.round((correct / total) * 100));
+            exerciseScores[exerciseNum] = percentage;
+            
+            // Generar feedback específico por ejercicio
+            let feedbackHTML = '';
+            let penaltyMessage = '';
+            
+            if (incorrectSelected > 0 && exerciseNum !== 4) {
+                penaltyMessage = `<p class="text-sm text-gray-600 mb-3 bg-red-50 p-3 rounded-lg border border-red-200">
+                    ⚠️ <strong>Penalización aplicada:</strong> Se descontaron ${incorrectSelected} punto(s) por ${incorrectSelected === 1 ? 'respuesta incorrecta seleccionada' : 'respuestas incorrectas seleccionadas'}.
+                </p>`;
+            }
+            
+            if (allCorrect) {
+                feedbackHTML = `
+                    <div class="feedback-positive p-6 rounded-lg">
+                        <p class="font-bold text-3xl mb-3" style="color: var(--verde);">🎉 ¡Excelente! 100% correcto</p>
+                        <p class="text-gray-700 mb-4 leading-relaxed">${getFeedbackMessage(exerciseNum, 'perfect')}</p>
+                        <button onclick="nextStep()" class="btn mt-3 px-8 py-3 text-white font-semibold rounded-xl" style="background-color: var(--verde);">
+                            Continuar al siguiente ejercicio →
+                        </button>
+                    </div>
+                `;
+            } else if (percentage >= 70) {
+                feedbackHTML = `
+                    <div class="feedback-partial p-6 rounded-lg">
+                        <p class="font-bold text-3xl mb-3 text-yellow-800">👍 Bien - ${percentage}% correcto</p>
+                        ${penaltyMessage}
+                        <p class="text-gray-700 mb-3 leading-relaxed">${getFeedbackMessage(exerciseNum, 'good')}</p>
+                        <p class="text-sm text-gray-600 mb-4 bg-white/50 p-3 rounded-lg">💡 Revisa las opciones marcadas en rojo para identificar dónde puedes mejorar.</p>
+                        <button onclick="nextStep()" class="btn mt-3 px-8 py-3 text-white font-semibold rounded-xl bg-yellow-600 hover:bg-yellow-700">
+                            Continuar al siguiente ejercicio →
+                        </button>
+                    </div>
+                `;
+            } else {
+                feedbackHTML = `
+                    <div class="feedback-negative p-6 rounded-lg">
+                        <p class="font-bold text-3xl mb-3" style="color: var(--rojo);">📚 Necesitas repasar - ${percentage}% correcto</p>
+                        ${penaltyMessage}
+                        <p class="text-gray-700 mb-3 leading-relaxed">${getFeedbackMessage(exerciseNum, 'poor')}</p>
+                        <p class="text-sm text-gray-600 mb-4 bg-white/50 p-3 rounded-lg">📖 Revisa el apunte de fundamentos y vuelve a intentar este ejercicio antes de continuar.</p>
+                        <div class="flex flex-col md:flex-row gap-3 mt-4">
+                            <button onclick="location.reload()" class="btn px-6 py-3 border-2 rounded-xl font-semibold" style="border-color: var(--rojo); color: var(--rojo); background: white;">
+                                🔄 Reintentar
+                            </button>
+                            <button onclick="nextStep()" class="btn px-6 py-3 text-white font-semibold rounded-xl" style="background-color: var(--rojo);">
+                                Continuar de todos modos →
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            feedback.innerHTML = feedbackHTML;
+            feedback.classList.remove('hidden');
+        }
+        
+        function getFeedbackMessage(exerciseNum, level) {
+            const messages = {
+                1: {
+                    perfect: 'Has demostrado comprensión sólida de qué son las competencias técnicas y cómo identificarlas en un perfil profesional. Notaste correctamente que el liderazgo NO es una competencia técnica, sino transversal.',
+                    good: 'Comprendes el concepto general de competencias técnicas, pero revisa la diferencia entre habilidades específicas del trabajo versus competencias personales/sociales.',
+                    poor: 'Las competencias técnicas son habilidades específicas, medibles y enseñables relacionadas directamente con el trabajo. Repasa el apunte de fundamentos sección 3.1 antes de continuar.'
+                },
+                2: {
+                    perfect: 'Excelente identificación de competencias transversales. Reconociste que habilidades como autonomía, comunicación y resolución de problemas son aplicables en cualquier contexto laboral, no solo en gasfitería.',
+                    good: 'Vas por buen camino. Recuerda: las competencias transversales son habilidades personales y sociales transferibles a cualquier trabajo, mientras que las técnicas son específicas de un oficio.',
+                    poor: 'Parece que confundes competencias técnicas con transversales. Las transversales son habilidades personales/sociales (comunicación, liderazgo), no técnicas específicas del oficio. Repasa la sección de diferenciación.'
+                },
+                3: {
+                    perfect: 'Dominas el mapeo de competencias. Identificaste correctamente que técnicas culinarias específicas no son relevantes para un cargo gerencial de operaciones, mientras que gestión de inventarios y costos sí lo son.',
+                    good: 'Tienes el concepto general del mapeo, pero ten cuidado de no marcar competencias solo porque "suenan bien". Deben aparecer explícitamente en los requisitos de la oferta.',
+                    poor: 'El mapeo efectivo requiere comparar directamente los requisitos de la oferta con las competencias del perfil. No todas las competencias son relevantes para todos los cargos. Repasa el ejercicio con más atención a los requisitos específicos.'
+                },
+                4: {
+                    perfect: 'Excelente criterio de evaluación. Reconociste que la Opción B balancea apropiadamente el lenguaje corporativo con autenticidad, sin caer en exageraciones ni jerga excesiva.',
+                    good: 'Tienes sentido básico de reformulación, pero presta atención al balance entre profesionalismo y autenticidad. Evita tanto el lenguaje demasiado coloquial como la jerga excesiva.',
+                    poor: 'La reformulación efectiva requiere lenguaje corporativo profesional SIN inventar información ni usar jerga exagerada. Repasa los principios de reformulación en el feedback de ayuda.'
+                },
+                5: {
+                    perfect: 'Pensamiento crítico sobresaliente. Detectaste todas las señales de alerta: alucinaciones (40% de reducción inventada), exageraciones (VP C-suite), inflación de cifras (200 personas), e invención de alcance internacional. Esta habilidad es crucial para usar IA efectivamente.',
+                    good: 'Detectaste algunas señales de alerta importantes, pero se te escaparon otras. La IA frecuentemente exagera niveles jerárquicos, infla números y alucina logros. Desarrolla el hábito de verificar cada afirmación contra la información original.',
+                    poor: 'Debes desarrollar pensamiento crítico más riguroso al evaluar outputs de IA. La IA frecuentemente inventa datos, exagera alcances e infla cifras. NUNCA incluyas en tu CV algo que no puedas defender con evidencia específica en una entrevista. Repasa la sección de limitaciones de IA en el apunte.'
+                }
+            };
+            
+            return messages[exerciseNum][level];
+        }
+        
+        function resetPractice() {
+            if (confirm('¿Estás seguro de que deseas reiniciar la práctica? Perderás tu progreso actual.')) {
+                location.reload();
+            }
+        }
+        
+        // Generar resumen de desempeño al final
+        function generatePerformanceSummary() {
+            const scores = Object.values(exerciseScores).filter(s => s !== null);
+            const average = scores.reduce((a, b) => a + b, 0) / scores.length;
+            
+            let summaryHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-green-50 border-2 p-8 rounded-2xl shadow-lg" style="border-color: var(--azul);">
+                    <h3 class="font-bold text-2xl mb-6 text-center" style="color: var(--azul);">📊 Tu desempeño en la práctica</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            `;
+            
+            for (let i = 1; i <= 5; i++) {
+                const score = exerciseScores[i] !== null ? exerciseScores[i] : 0;
+                const color = score === 100 ? 'var(--verde)' : score >= 70 ? 'var(--amarillo)' : 'var(--rojo)';
+                const icon = score === 100 ? '🌟' : score >= 70 ? '👍' : '📚';
+                summaryHTML += `
+                    <div class="bg-white p-5 rounded-xl border-3 shadow-md hover:shadow-lg transition" style="border: 3px solid ${color};">
+                        <div class="text-4xl mb-2 text-center">${icon}</div>
+                        <div class="font-bold text-sm text-center text-gray-700 mb-1">Ejercicio ${i}</div>
+                        <div class="text-3xl font-extrabold text-center" style="color: ${color};">${Math.round(score)}%</div>
+                    </div>
+                `;
+            }
+            
+            const avgColor = average === 100 ? 'var(--verde)' : average >= 70 ? 'var(--amarillo)' : 'var(--rojo)';
+            
+            summaryHTML += `
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="font-bold text-xl mb-3 text-center" style="color: ${avgColor};">
+                            Promedio general: ${Math.round(average)}%
+                        </p>
+                        <div class="w-full bg-gray-200 rounded-full h-5 overflow-hidden shadow-inner">
+                            <div class="h-5 rounded-full transition-all duration-1000" style="width: ${average}%; background: linear-gradient(90deg, var(--azul), var(--verde));"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('performance-summary').innerHTML = summaryHTML;
+        }
+        
+        // Mostrar resumen al llegar al paso final
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new MutationObserver(function() {
+                if (currentStep === 6 && document.getElementById('step-6').classList.contains('active')) {
+                    generatePerformanceSummary();
+                }
+            });
+            observer.observe(document.getElementById('step-6'), { attributes: true });
+        });
+        
+        // Inicializar
+        updateProgress();
+    </script>
+</body>
+</html>

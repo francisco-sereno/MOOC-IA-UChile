@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apunte Interactivo: La Solución Escalable</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XP98CLRNF7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XP98CLRNF7');
+    </script>
+    <style>
+        :root {
+            --azul: #003893;
+            --amarillo: #FFCC00;
+            --verde: #007934;
+            --rojo: #EA0026;
+            --gris-claro: #f0f2f5;
+            --gris-oscuro: #334155;
+            --texto-principal: #1e293b;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--texto-principal);
+        }
+        .text-justify { text-align: justify; }
+        .bg-azul { background-color: var(--azul); }
+        .text-azul { color: var(--azul); }
+        .border-azul { border-color: var(--azul); }
+        .bg-amarillo { background-color: var(--amarillo); }
+        .text-amarillo { color: var(--amarillo); }
+        .bg-verde { background-color: var(--verde); }
+        .text-verde { color: var(--verde); }
+        .bg-rojo { background-color: var(--rojo); }
+        .text-rojo { color: var(--rojo); }
+
+        .sidebar { transition: transform 0.3s ease-in-out; }
+        .main-content { transition: margin-left 0.3s ease-in-out; }
+
+        .accordion-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary:hover { background-color: #f8fafc; }
+        .accordion-item[open] summary {
+            background-color: var(--azul);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+        .accordion-item[open] summary::after { transform: rotate(45deg); }
+        .accordion-item .content {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-radius: 0 0 0.5rem 0.5rem;
+            margin-top: -0.5rem;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .idea-destacada, .card-reflexion {
+            background-color: #fefce8; /* yellow-50 */
+            border-left: 4px solid var(--amarillo);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-practica, .card-conexion {
+            background-color: #f0fdf4; /* green-50 */
+            border-left: 4px solid var(--verde);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-definicion {
+            background-color: #eff6ff; /* blue-50 */
+            border-left: 4px solid var(--azul);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+
+        .nav-link.active {
+            background-color: var(--azul);
+            color: white;
+            font-weight: 700;
+        }
+        .sub-nav-link.active {
+            color: var(--azul);
+            font-weight: 700;
+        }
+
+        .info-button {
+            position: fixed; bottom: 2rem; right: 2rem; background-color: var(--azul); color: white; width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); cursor: pointer; transition: transform 0.2s ease; z-index: 50;
+        }
+        .info-button:hover { transform: scale(1.1); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 0.75rem; max-width: 500px; width: 90%; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+    </style>
+</head>
+<body class="bg-gris-claro">
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white w-72 h-full shadow-lg p-6 fixed lg:relative transform -translate-x-full lg:translate-x-0 z-40 flex flex-col">
+            <div class="bg-azul p-4 rounded-lg mb-6">
+                <img src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo VTIA" class="h-16 mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x64/003893/FFFFFF?text=VTIA+Logo';">
+            </div>
+            <h1 class="text-xl font-bold text-azul mb-4 text-center">La Solución Escalable</h1>
+            <nav id="table-of-contents" class="flex-grow overflow-y-auto">
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#introduccion" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">Introducción</a></li>
+                    <li>
+                        <a href="#cap1" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">1. Anatomía de un agente inteligente</a>
+                    </li>
+                    <li>
+                        <a href="#cap2" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">2. Progresión arquitectónica</a>
+                    </li>
+                    <li><a href="#cap3" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">3. Herramientas no-code</a></li>
+                    <li><a href="#cap4" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">4. Diseño de flujos de trabajo</a></li>
+                    <li><a href="#cap5" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">5. Consideraciones éticas</a></li>
+                    <li><a href="#cap6" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">6. Análisis económico</a></li>
+                    <li><a href="#cap7" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">7. La tensión: eficiencia vs. empatía</a></li>
+                    <li><a href="#cap8" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">8. Casos de éxito</a></li>
+                    <li><a href="#cap9" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">9. Guía de implementación</a></li>
+                    <li><a href="#cap10" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">10. Futuro del trabajo aumentado</a></li>
+                    <li><a href="#conclusion" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">Conclusión</a></li>
+                    <li><a href="#referencias" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">Referencias</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content flex-1 p-4 md:p-8 lg:p-12 overflow-y-auto">
+            <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-md shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+
+            <header class="mb-12">
+                <p class="text-azul font-semibold">Módulo 3</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-gris-oscuro mt-2">La solución escalable: diseñando un flujo de trabajo para Isabella</h1>
+            </header>
+
+            <section id="introduccion" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>Introducción: el salto paradigmático de la reactividad a la autonomía</h2>
+                <p class="text-lg leading-relaxed text-justify">En el ecosistema digital contemporáneo de las organizaciones chilenas, emergen figuras como Isabella, una profesional que ha logrado transformar su labor cotidiana mediante el dominio estratégico de las herramientas de inteligencia artificial generativa. Su trayectoria inicial, caracterizada por la elaboración de prompts efectivos para resolver consultas de clientes individuales, representa un primer estadio de adopción tecnológica que, si bien valioso, mantiene un carácter fundamentalmente reactivo y dependiente de la intervención humana constante.</p>
+                <div class="idea-destacada">
+                    <p><strong>Idea Clave:</strong> El desafío de Isabella no es solo hacer más, sino cambiar cómo lo hace. Debe pasar de usar la IA como una herramienta reactiva (responder un correo a la vez) a diseñar un sistema autónomo (un "agente") que gestione las consultas frecuentes por sí mismo, 24/7.</p>
+                </div>
+                <p class="text-lg leading-relaxed text-justify mt-4">El desafío que ahora enfrenta Isabella -automatizar las respuestas a las diez preguntas más frecuentes del buzón de atención al cliente- no constituye meramente una ampliación cuantitativa de su trabajo previo, sino que demanda una reconceptualización paradigmática de su enfoque. Este salto cualitativo implica la transición desde un modelo de interacción humano-IA reactivo hacia la implementación de un sistema agencial autónomo, capaz de operar de manera independiente las veinticuatro horas del día, trescientos sesenta y cinco días del año.</p>
+                <p class="text-lg leading-relaxed text-justify mt-4">La relevancia de esta transformación trasciende el ámbito meramente operativo para situarse en el corazón de la modernización organizacional chilena. Según estudios de transformación digital, el 85% de las consultas recibidas por organizaciones corresponden a preguntas recurrentes que podrían ser resueltas mediante procesos automatizados, liberando recursos humanos para atender casos de mayor complejidad que requieren discernimiento, empatía y creatividad exclusivamente humanas.</p>
+            </section>
+
+            <section id="cap1" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>1. Anatomía de un agente inteligente: percepción, razonamiento y acción</h2>
+                <div class="space-y-4 text-justify">
+                    <div class="card-definicion">
+                        <p><strong>Definición Clave (Agente Inteligente):</strong> Un agente inteligente es un sistema computacional que opera de forma autónoma en un entorno digital. Su arquitectura se basa en tres pilares: <strong>percepción</strong> (detectar cambios, como un nuevo correo), <strong>razonamiento</strong> (analizar la información y decidir qué hacer) y <strong>acción</strong> (ejecutar una tarea, como responder el correo o escalarlo a un humano).</p>
+                    </div>
+                    <p>Para comprender cabalmente el desafío que enfrenta Isabella, resulta imprescindible examinar la arquitectura conceptual de un agente inteligente. Alejándonos de concepciones simplistas que reducen estos sistemas a "chatbots mejorados", debemos reconocer que estamos ante entidades computacionales con capacidades cognitivas emergentes que operan según el paradigma fundamental de percepción-razonamiento-acción.</p>
+                    <p>La <strong>dimensión perceptual</strong> constituye su interfaz sensorial con el entorno digital. El <strong>núcleo cognitivo</strong> es el cerebro del agente, donde se interpreta el contenido y se toma una decisión. Finalmente, la <strong>dimensión ejecutiva</strong> transforma las decisiones en intervenciones concretas, como enviar un correo o crear un ticket de seguimiento.</p>
+                </div>
+            </section>
+
+            <section id="cap2" class="mb-12 card scroll-mt-20">
+                 <h2 class="text-2xl font-bold text-azul mb-6 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>2. Progresión arquitectónica: cuatro niveles de complejidad creciente</h2>
+                <div class="space-y-4 text-justify">
+                    <p>La implementación exitosa de agentes inteligentes requiere una aproximación pedagógica que progrese desde arquitecturas básicas hasta sistemas empresariales avanzados. A continuación, presentamos cuatro niveles arquitectónicos que facilitan la comprensión práctica y la implementación gradual.</p>
+                    <div class="idea-destacada">
+                        <p><strong>Idea Clave:</strong> La creación de un agente no es un proceso de "todo o nada". Se puede empezar con un agente básico (Nivel 1) y escalarlo progresivamente a sistemas más complejos que manejen múltiples canales (Nivel 2), usen varios modelos de IA (Nivel 3) o se integren con herramientas específicas (Nivel 4).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cap3" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>3. Herramientas no-code para la innovación organizacional</h2>
+                 <div class="space-y-4 text-justify">
+                    <p>Una de las transformaciones más significativas en el panorama tecnológico contemporáneo es la emergencia de plataformas no-code que democratizan la creación de soluciones digitales, permitiendo que profesionales como Isabella diseñen e implementen sistemas complejos sin requerir conocimientos profundos de programación.</p>
+                     <div class="card-conexion">
+                        <h4 class="font-bold text-verde mb-2">Recomendación Estratégica para Chile</h4>
+                        <p class="text-sm">Considerando las particularidades del contexto empresarial chileno (presupuesto, eficiencia, protección de datos), se recomienda <strong>n8n</strong> como plataforma principal por su soberanía de datos (auto-hospedaje) y sostenibilidad financiera (código abierto), complementada con <strong>Make.com</strong> para prototipado rápido.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cap4" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>4. Diseño de flujos de trabajo inteligentes y resilientes</h2>
+                <div class="space-y-4 text-justify">
+                    <p>El diseño de un flujo de trabajo para un agente inteligente trasciende la mera secuenciación de tareas para convertirse en un ejercicio de arquitectura cognitiva. Un sistema robusto debe anticipar escenarios de falla, incorporar mecanismos de aprendizaje, y mantener la calidad del servicio bajo condiciones adversas.</p>
+                    <div class="idea-destacada">
+                        <p><strong>Principios de Diseño Resiliente:</strong> Un agente robusto debe tener <strong>redundancia cognitiva</strong> (validar decisiones por varias vías), <strong>escalamiento inteligente</strong> (saber cuándo pedir ayuda a un humano y pasarle todo el contexto), y <strong>monitoreo continuo</strong> (registrar todo para auditorías y mejoras).</p>
+                    </div>
+                    <p>El poder real de un agente inteligente reside en su capacidad para manejar la complejidad inherente a las interacciones humanas mediante lógica condicional sofisticada que vaya más allá de simples reglas if-then, como un sistema de puntuación multifactorial que evalúe la confianza, urgencia, historial y complejidad de una consulta antes de actuar.</p>
+                </div>
+            </section>
+
+            <section id="cap5" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>5. Consideraciones éticas y de gobernanza</h2>
+                <div class="space-y-4 text-justify">
+                    <p>La implementación de agentes inteligentes en el servicio organizacional plantea desafíos éticos y de gobernanza que trascienden las consideraciones meramente técnicas. Estos sistemas toman decisiones que afectan directamente el bienestar de los clientes, lo que demanda marcos de responsabilidad y transparencia rigurosos.</p>
+                    <div class="card-reflexion">
+                        <h4 class="font-bold text-amarillo mb-2">Principios Éticos Fundamentales</h4>
+                        <ul class="list-disc pl-5 text-sm space-y-1">
+                            <li><strong>Transparencia algorítmica:</strong> Los clientes deben poder entender cómo se toman las decisiones.</li>
+                            <li><strong>Equidad y no discriminación:</strong> Se debe monitorear y evitar sesgos.</li>
+                            <li><strong>Responsabilidad humana:</strong> Siempre debe haber un humano responsable final.</li>
+                            <li><strong>Privacidad por diseño:</strong> Proteger los datos desde la concepción del sistema.</li>
+                        </ul>
+                    </div>
+                    <p>La implementación exitosa requiere la creación de un marco de gobernanza que incluya un comité de ética, protocolos de auditoría, mecanismos de apelación y programas de formación continua.</p>
+                </div>
+            </section>
+            
+            <section id="cap6" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>6. Análisis económico integral: de la inversión al retorno</h2>
+                <div class="space-y-4 text-justify">
+                    <div class="idea-destacada">
+                        <p><strong>Idea Clave (ROI):</strong> La implementación de agentes de IA tiene un retorno de la inversión (ROI) excepcionalmente alto. Un agente básico puede tener un ROI anual del 4,300% con un costo mensual de solo $34 USD, recuperando la inversión en 17 días. Incluso sistemas empresariales complejos muestran un ROI superior al 280%.</p>
+                    </div>
+                    <p>Los costos por consulta disminuyen significativamente con el volumen, y se generan beneficios adicionales (externalidades positivas) como la mejora en la satisfacción del cliente (+15-25%) y la reducción en tiempos de respuesta (-85%).</p>
+                </div>
+            </section>
+
+            <section id="cap7" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.084-1.284-.24-1.88M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.084-1.284.24-1.88M12 12h.01M12 12a2 2 0 100 4 2 2 0 000-4z" /></svg>7. La tensión fundamental: eficiencia versus empatía</h2>
+                <div class="space-y-4 text-justify">
+                    <div class="card-conexion">
+                        <h4 class="font-bold text-verde mb-2">Reconceptualizando la Automatización</h4>
+                        <p>El paradigma no es reemplazar al humano, sino <strong>amplificar sus capacidades</strong>. La automatización se encarga de lo repetitivo, liberando al profesional para que se dedique a tareas que requieren empatía, creatividad y juicio crítico. El rol de Isabella no desaparece, evoluciona hacia la supervisión estratégica, la intervención especializada y la mejora continua del sistema.</p>
+                    </div>
+                     <p>La calidad de la experiencia del cliente depende críticamente de la fluidez de las transiciones entre atención automatizada y humana. Un diseño exitoso debe preservar el contexto completo cuando un caso se escala, comunicar con transparencia y mantener consistencia en el tono.</p>
+                </div>
+            </section>
+
+            <section id="cap8" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>8. Casos de éxito y mejores prácticas documentadas</h2>
+                <div class="space-y-4 text-justify">
+                    <p>Existen diversas implementaciones exitosas en organizaciones chilenas que validan el potencial de estas tecnologías:</p>
+                    <ul class="list-disc pl-5 mt-4 space-y-2">
+                        <li><strong>Caso 1: Organización Pública Regional:</strong> Con un volumen de 800 consultas/día, logró un 89% de automatización y 97% de satisfacción, con un ROI del 420% en 8 meses.</li>
+                        <li><strong>Caso 2: Empresa de Servicios Financieros:</strong> Manejando 2,200 consultas/día, alcanzó un 94% de precisión y un ahorro de $25,000 USD mensuales.</li>
+                        <li><strong>Caso 3: Institución Educativa:</strong> Con 300 consultas/día, automatizó el 78% con una implementación de solo 4 semanas y un ROI anual de 5,200%.</li>
+                    </ul>
+                    <div class="idea-destacada">
+                        <p><strong>Factores Críticos de Éxito:</strong> 1) Compromiso organizacional, 2) Formación del personal, 3) Pilotaje controlado, y 4) Monitoreo continuo. <strong>Errores Comunes a Evitar:</strong> 1) Sobreestimar capacidades iniciales, 2) Subestimar el cambio organizacional, 3) Falta de protocolos de escalamiento, y 4) No medir la satisfacción del cliente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cap9" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>9. Guía práctica de implementación paso a paso</h2>
+                <div class="space-y-4 text-justify">
+                     <p>Una implementación exitosa se puede estructurar en fases claras:</p>
+                    <ol class="list-decimal list-inside space-y-2 mt-4">
+                        <li><strong>Fase de preparación (Semana 1-2):</strong> Análisis de consultas, mapeo de procesos, definición de métricas y configuración de cuentas.</li>
+                        <li><strong>Fase de desarrollo (Semana 3-4):</strong> Configuración técnica, desarrollo de parsers, implementación de lógica y pruebas unitarias.</li>
+                        <li><strong>Fase de pilotaje (Semana 5):</strong> Implementación controlada con volumen limitado, monitoreo en tiempo real y ajustes.</li>
+                        <li><strong>Fase de escalamiento (Semana 6+):</strong> Expansión gradual del tráfico y planificación de futuras mejoras.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="cap10" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>10. El futuro del trabajo aumentado en las organizaciones modernas</h2>
+                <div class="space-y-4 text-justify">
+                    <p>La implementación exitosa de agentes inteligentes reconfigura fundamentalmente el perfil competencial del profesional contemporáneo. El profesional del futuro operará como coordinador de ecosistemas inteligentes.</p>
+                    <div class="card-definicion">
+                        <p><strong>Nuevas Competencias Profesionales:</strong> El profesional del futuro necesitará habilidades en <strong>curaduría de conocimiento</strong>, <strong>gestión de excepciones</strong>, <strong>innovación continua</strong> y ser una <strong>interfaz humana especializada</strong> para casos sensibles.</p>
+                    </div>
+                    <p>Esta evolución demanda una reconceptualización de los programas de formación organizacional, incorporando competencias en alfabetización digital avanzada, análisis de datos, diseño de experiencias y ética tecnológica.</p>
+                </div>
+            </section>
+
+            <section id="conclusion" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Conclusión: hacia una organización verdaderamente inteligente</h2>
+                <div class="space-y-4 text-justify">
+                    <p>El viaje de Isabella desde experta en prompts individuales hasta arquitecta de sistemas agenciales autónomos simboliza una transformación más amplia que está ocurriendo en las organizaciones chilenas. Esta evolución no representa simplemente la adopción de nuevas tecnologías, sino una reconceptualización fundamental de cómo las organizaciones pueden servir mejor a sus clientes en la era digital.</p>
+                    <div class="idea-destacada">
+                        <p><strong>Síntesis de Aprendizajes Clave:</strong> 1) La implementación debe ser progresiva. 2) Las plataformas no-code democratizan la tecnología. 3) El retorno económico es verificable y excepcional. 4) La automatización no reemplaza, sino que amplifica y eleva el rol humano.</p>
+                    </div>
+                    <p>La pregunta que enfrentamos no es si debemos implementar agentes inteligentes en nuestras organizaciones, sino cómo podemos hacerlo de manera que amplifique lo mejor de la capacidad humana de servir a nuestros clientes. Isabella y profesionales como ella tienen la oportunidad histórica de liderar esta transformación, creando un nuevo paradigma organizacional que sea tanto más eficiente como más humano.</p>
+                </div>
+            </section>
+
+            <section id="referencias" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>Referencias y recursos adicionales</h2>
+                <div class="text-xs space-y-2 break-words text-justify">
+                    <p>Accenture. (2024). The future of business service: Al-enabled organizational transformation.</p>
+                    <p>Automation Anywhere. (2025). ¿Qué son los agentes de IA?</p>
+                    <p>Cloud.google.com. (2025). ¿Qué es un agente de IA?</p>
+                    <p>Gartner. (2025). Cómo operan de forma autónoma los agentes inteligentes de IA.</p>
+                    <p>OECD. (2024). Digital transformation in organizations: Al and automation trends.</p>
+                    <p>Russell, S., & Norvig, P. (2025). Artificial intelligence: A modern approach (4th ed.).</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Info Button -->
+    <div id="info-button" class="info-button" title="Información del recurso">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    </div>
+
+    <!-- Modal -->
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-azul">Información del recurso</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <div><h4 class="font-semibold text-gris-oscuro">Descripción</h4><p>Este es un apunte interactivo sobre "La solución escalable: de prompts a agentes autónomos", basado en los apuntes del Módulo 3 del curso de IA, año 2025.</p></div>
+                <div><h4 class="font-semibold text-gris-oscuro">Autor</h4><p>Francisco Sereño</p></div>
+                <div><h4 class="font-semibold text-gris-oscuro">Licenciamiento</h4><p>Este material se distribuye bajo una licencia Creative Commons (CC BY-NC-SA 4.0). Puede ser compartido y adaptado para fines no comerciales, siempre que se otorgue el crédito apropiado al autor original.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Basic UI Logic (Accordion, Sidebar, Modal) ---
+            const detailsElements = document.querySelectorAll('.accordion-item');
+            detailsElements.forEach(details => {
+                details.addEventListener('toggle', event => {
+                    if (details.open) {
+                        detailsElements.forEach(otherDetails => {
+                            if (otherDetails !== details) otherDetails.removeAttribute('open');
+                        });
+                    }
+                });
+            });
+
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
+
+            const infoButton = document.getElementById('info-button');
+            const infoModal = document.getElementById('info-modal');
+            const closeModal = document.getElementById('close-modal');
+            infoButton.addEventListener('click', () => infoModal.classList.add('active'));
+            closeModal.addEventListener('click', () => infoModal.classList.remove('active'));
+            infoModal.addEventListener('click', (e) => {
+                if (e.target === infoModal) infoModal.classList.remove('active');
+            });
+
+            // --- Active Nav Link on Scroll ---
+            const mainContent = document.getElementById('main-content');
+            const allLinks = document.querySelectorAll('.nav-link, .sub-nav-link');
+            const sections = document.querySelectorAll('section, .accordion-item');
+
+            function changeNav() {
+                let index = sections.length;
+                while(--index && mainContent.scrollTop + 100 < sections[index].offsetTop) {}
+                allLinks.forEach((link) => link.classList.remove('active'));
+                let activeLink = document.querySelector(`a[href="#${sections[index].id}"]`);
+                if(activeLink) {
+                    activeLink.classList.add('active');
+                    let parentNavLink = activeLink.closest('ul.pl-4')?.previousElementSibling;
+                    if(parentNavLink?.classList.contains('nav-link')) {
+                        parentNavLink.classList.add('active');
+                    }
+                }
+            }
+            mainContent.addEventListener('scroll', changeNav);
+            changeNav();
+
+            // --- Smooth Scroll & Mobile Menu Close ---
+            allLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if(targetElement.tagName === 'DETAILS' && !targetElement.open) targetElement.open = true;
+                    }
+                    if (window.innerWidth < 1024) sidebar.classList.add('-translate-x-full');
+                });
+            });
+        });
+        
+        // --- Interactive Exercises Logic ---
+        function checkFewShotAnswer() {
+            const result = document.getElementById('few-shot-result');
+            result.textContent = '¡Excelente! Una buena respuesta sería: "Disculpe el retraso, tuve un problema con el transporte. Llego en aproximadamente 10 minutos."';
+            result.className = 'mt-2 text-sm font-semibold text-verde';
+        }
+        
+        function checkQuizAnswer(quizId, correctAnswer) {
+            const quiz = document.getElementById(`quiz-${quizId}`);
+            const result = document.getElementById(`quiz-${quizId}-result`);
+            const selected = quiz.querySelector('input[type="radio"]:checked');
+
+            if (!selected) {
+                result.textContent = 'Por favor, selecciona una opción.';
+                result.className = 'mt-2 text-sm font-semibold text-rojo';
+                return;
+            }
+
+            if (selected.value === correctAnswer) {
+                result.textContent = '¡Correcto! Esa es la mejor opción.';
+                result.className = 'mt-2 text-sm font-semibold text-verde';
+            } else {
+                result.textContent = 'No es la opción más adecuada. Inténtalo de nuevo.';
+                result.className = 'mt-2 text-sm font-semibold text-rojo';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 1: Diagnóstico de fundamentos de IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .checklist-container {
+            font-family: 'Montserrat', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .checklist-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #2a5298 0%, #4a7bc8 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(42, 82, 152, 0.3);
+        }
+
+        .checklist-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: white !important;
+        }
+
+        .checklist-header .checklist-subtitle {
+            font-size: 1.1em;
+            margin: 0;
+            font-weight: 300;
+            color: white !important;
+            opacity: 1; 
+        }
+
+        .checklist-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .checklist-nav-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            color: #666;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .checklist-nav-btn:hover {
+            background-color: #f0f4ff;
+            color: #2a5298;
+        }
+
+        .checklist-nav-btn.checklist-active {
+            background-color: #2a5298;
+            color: white;
+            box-shadow: 0 2px 10px rgba(42, 82, 152, 0.3);
+        }
+
+        .checklist-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .checklist-section {
+            display: none;
+        }
+
+        .checklist-section.checklist-active {
+            display: block;
+        }
+
+        .checklist-section h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+            border-bottom: 3px solid #e3f2fd;
+            padding-bottom: 10px;
+        }
+        
+        .checklist-category-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #4a7bc8;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #f0f4ff;
+        }
+        
+        .checklist-category-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 10px;
+            border-left: 4px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background-color: #f0f4ff;
+            border-left-color: #2a5298;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            margin-top: 4px; 
+            transform: scale(1.3);
+            cursor: pointer;
+            accent-color: #4CAF50;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            font-size: 1em;
+            line-height: 1.5;
+            font-weight: 400;
+            color: #333;
+            flex: 1;
+        }
+
+        .checklist-item.checklist-completed {
+            background-color: #f1f8e9;
+            border-left-color: #4CAF50;
+        }
+
+        .checklist-progress-container {
+            margin: 20px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .checklist-progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .checklist-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .checklist-progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .checklist-evaluation {
+            text-align: center;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .checklist-excellent {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+
+        .checklist-good {
+            background-color: #dcedc8;
+            color: #558b2f;
+            border: 2px solid #8bc34a;
+        }
+
+        .checklist-solid {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border: 2px solid #ff9800;
+        }
+
+        .checklist-needs-improvement {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+
+        .checklist-form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .checklist-form-group {
+            margin-bottom: 20px;
+        }
+
+        .checklist-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .checklist-form-group input,
+        .checklist-form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box; 
+        }
+
+        .checklist-form-group input:focus,
+        .checklist-form-group textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+
+        .checklist-btn {
+            background: linear-gradient(135deg, #2a5298 0%, #4a7bc8 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+            box-shadow: 0 4px 15px rgba(42, 82, 152, 0.3);
+        }
+
+        .checklist-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(42, 82, 152, 0.4);
+        }
+
+        .checklist-btn:active {
+            transform: translateY(0);
+        }
+
+        .checklist-btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .checklist-btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .checklist-instructions {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #2a5298;
+        }
+
+        .checklist-instructions h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .checklist-instructions ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+
+        .checklist-instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .checklist-criteria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .checklist-criteria-item {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .checklist-warning {
+            /* background: #fff3cd; */
+            /* border: 2px solid #ffc107; */
+            background: #fff9e6; /* Softer yellow */
+            border: none;
+            border-left: 5px solid #ffc107; /* Accent border */
+            color: #856404;
+            /* padding: 20px; */
+            padding: 25px; /* Increased padding */
+            /* border-radius: 10px; */
+            border-radius: 12px; /* Matched to other containers */
+            margin: 20px 0;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2); /* Subtle shadow */
+            line-height: 1.6; /* Añadido para controlar el texto */
+        }
+
+        /* MODIFICADO: Se usa :first-of-type para aplicar 'display: block' solo al primer <strong> */
+        /* Esto evita que las otras etiquetas <strong> dentro del párrafo rompan la línea. */
+        .checklist-warning strong:first-of-type {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        /* Regla eliminada para simplificar la diagramación */
+        /* .checklist-warning p {
+            margin: 0;
+            line-height: 1.6;
+        } */
+
+        .checklist-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .checklist-container {
+                padding: 10px;
+            }
+            
+            .checklist-nav {
+                flex-direction: column;
+            }
+            
+            .checklist-nav-btn {
+                min-width: auto;
+                margin: 2px 0;
+            }
+            
+            .checklist-content {
+                padding: 20px;
+            }
+            
+            .checklist-header h1 {
+                font-size: 1.8em;
+            }
+            .checklist-header .checklist-subtitle {
+                font-size: 1em;
+            }
+            
+            .checklist-criteria {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checklist-container">
+        <div class="checklist-header">
+            <h1>Módulo 1: Diagnóstico de fundamentos de IA</h1>
+            <p class="checklist-subtitle">Autoevaluación de competencias en conceptos, herramientas y estrategias de inteligencia artificial</p>
+        </div>
+
+        <div class="checklist-nav">
+            <button class="checklist-nav-btn checklist-active" onclick="showSection(0)">Indicaciones</button>
+            <button class="checklist-nav-btn" onclick="showSection(1)">Sección A</button>
+            <button class="checklist-nav-btn" onclick="showSection(2)">Sección B</button>
+            <button class="checklist-nav-btn" onclick="showSection(3)">Sección C</button>
+            <button class="checklist-nav-btn" onclick="showSection(4)">Sección D</button>
+            <button class="checklist-nav-btn" onclick="showSection(5)">Evaluación</button>
+        </div>
+
+        <div class="checklist-progress-container">
+            <div class="checklist-progress-bar">
+                <div class="checklist-progress-fill" id="progressFill"></div>
+            </div>
+            <div class="checklist-progress-text" id="progressText">Progreso: 0/18 completados (0%)</div>
+        </div>
+
+        <div class="checklist-content">
+            <!-- Sección Indicaciones -->
+            <div class="checklist-section checklist-active" id="section0">
+                <h2>Indicaciones para la autoevaluación</h2>
+                
+                <div class="checklist-instructions">
+                    <h3>Proceso de autoevaluación en 4 pasos</h3>
+                    <ul>
+                        <li><strong>Paso 1: Navegación.</strong> Utiliza las pestañas superiores para moverte entre las secciones A, B, C, D y la evaluación final.</li>
+                        <li><strong>Paso 2: Evaluación honesta.</strong> Marca cada elemento solo si realmente comprendes la competencia descrita.</li>
+                        <li><strong>Paso 3: Revisión global.</strong> Observa tu puntuación total y la categorización automática de tu nivel.</li>
+                        <!-- EDITADO: Se cambia el Paso 4 para reflejar que es opcional y para guardar, no para entrega -->
+                        <li><strong>Paso 4: Reporte opcional.</strong> Si lo deseas, puedes completar tus datos personales y generar un PDF para guardar tu autoevaluación.</li>
+                    </ul>
+                </div>
+
+                <div class="checklist-criteria">
+                     <div class="checklist-criteria-item checklist-excellent">
+                        <strong>Excelente</strong><br>
+                        17-18 puntos
+                    </div>
+                    <div class="checklist-criteria-item checklist-good">
+                        <strong>Bueno</strong><br>
+                        14-16 puntos
+                    </div>
+                    <div class="checklist-criteria-item checklist-solid">
+                        <strong>Sólido</strong><br>
+                        11-13 puntos
+                    </div>
+                    <div class="checklist-criteria-item checklist-needs-improvement">
+                        <strong>Requiere refuerzo</strong><br>
+                        Menos de 11 puntos
+                    </div>
+                </div>
+
+                <!-- EDITADO: Se modifica la advertencia para indicar que es formativo, sin calificación y el PDF es opcional -->
+                <div class="checklist-warning">
+                    <strong>Importante:</strong>
+                    <!-- Se eliminan las etiquetas <p> para corregir diagramación -->
+                    Esta es una <strong>actividad formativa y sin calificación</strong>, diseñada como un diagnóstico para medir tu comprensión inicial. La generación del PDF es <strong>completamente opcional</strong> y sirve solo para tu registro personal, si así lo deseas.
+                </div>
+            </div>
+
+            <!-- Sección A: Fundamentos Conceptuales -->
+            <div class="checklist-section" id="section1">
+                <h2>Sección A: Fundamentos conceptuales</h2>
+                
+                <h3 class="checklist-category-title">Definiciones clave</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="a1" onchange="updateProgress()">
+                    <label for="a1">Comprendo qué es la inteligencia artificial y su propósito general de realizar tareas que requieren inteligencia humana.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="a2" onchange="updateProgress()">
+                    <label for="a2">Distingo claramente entre IA tradicional (discriminativa), que clasifica datos existentes, e IA generativa, que crea contenido nuevo.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="a3" onchange="updateProgress()">
+                    <label for="a3">Entiendo el concepto de "generatividad" como la capacidad de un sistema para crear contenido original combinando patrones aprendidos.</label>
+                </div>
+
+                <h3 class="checklist-category-title">Funcionamiento interno</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="a4" onchange="updateProgress()">
+                    <label for="a4">Comprendo que los LLMs simulan el razonamiento a través de predicción estadística sofisticada, pero carecen de comprensión genuina.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="a5" onchange="updateProgress()">
+                    <label for="a5">Identifico las características clave de la generatividad: creatividad sintética, adaptabilidad contextual, escalabilidad y multimodalidad.</label>
+                </div>
+            </div>
+
+            <!-- Sección B: Ecosistema y Limitaciones -->
+            <div class="checklist-section" id="section2">
+                <h2>Sección B: Ecosistema y limitaciones</h2>
+                
+                <h3 class="checklist-category-title">Herramientas principales</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="b1" onchange="updateProgress()">
+                    <label for="b1">Identifico las herramientas de IA generativa más relevantes (ChatGPT, Claude, Gemini, etc.) y sus funciones principales.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="b2" onchange="updateProgress()">
+                    <label for="b2">Sé para qué tipo de tareas es ideal cada herramienta principal (ej. Claude para documentos largos, Perplexity para investigación).</label>
+                </div>
+
+                <h3 class="checklist-category-title">Limitaciones críticas</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="b3" onchange="updateProgress()">
+                    <label for="b3">Comprendo el concepto de "alucinaciones" (inventar información) y la importancia crítica de la verificación humana de datos.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="b4" onchange="updateProgress()">
+                    <label for="b4">Reconozco que los modelos tienen un conocimiento desactualizado y sesgos inherentes provenientes de sus datos de entrenamiento.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="b5" onchange="updateProgress()">
+                    <label for="b5">Soy consciente de los mitos comunes sobre la IA (ej. que "comprende" o es "infalible") y puedo explicar por qué son falsos.</label>
+                </div>
+            </div>
+
+            <!-- Sección C: Aplicación en el Contexto Chileno -->
+            <div class="checklist-section" id="section3">
+                <h2>Sección C: Aplicación en el contexto chileno</h2>
+                
+                <h3 class="checklist-category-title">Panorama nacional</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="c1" onchange="updateProgress()">
+                    <label for="c1">Conozco el estado de la adopción de IA en Chile y su posición de liderazgo en Latinoamérica según el índice ILIA.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="c2" onchange="updateProgress()">
+                    <label for="c2">Identifico los sectores con mayor adopción de IA en Chile (minería, servicios financieros, retail) y sus casos de uso.</label>
+                </div>
+
+                <h3 class="checklist-category-title">Factores estratégicos</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="c3" onchange="updateProgress()">
+                    <label for="c3">Comprendo los factores que facilitan la adopción de IA en una organización (ej. liderazgo comprometido, talento disponible).</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="c4" onchange="updateProgress()">
+                    <label for="c4">Reconozco las barreras comunes para la implementación de IA (ej. resistencia cultural, costos, seguridad de datos).</label>
+                </div>
+            </div>
+
+            <!-- Sección D: Metodología y Práctica -->
+            <div class="checklist-section" id="section4">
+                <h2>Sección D: Metodología y práctica</h2>
+                
+                <h3 class="checklist-category-title">Implementación estratégica</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="d1" onchange="updateProgress()">
+                    <label for="d1">Conozco las cinco fases del framework de implementación estratégica: diagnóstico, diseño, pilotaje, escalamiento y optimización.</label>
+                </div>
+
+                <h3 class="checklist-category-title">Habilidades prácticas</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="d2" onchange="updateProgress()">
+                    <label for="d2">Entiendo cómo la calidad de un prompt (instrucción) impacta directamente en la calidad de la respuesta generada por la IA.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="d3" onchange="updateProgress()">
+                    <label for="d3">Puedo diferenciar entre un prompt vago, uno específico y uno con contexto completo, y entiendo por qué este último es más efectivo.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="d4" onchange="updateProgress()">
+                    <label for="d4">Asumo la necesidad de supervisión humana para evaluar, ajustar y validar cualquier contenido generado por IA antes de su uso formal.</label>
+                </div>
+            </div>
+
+            <!-- Sección Evaluación -->
+            <div class="checklist-section" id="section5">
+                <h2>Evaluación final y generación de reporte</h2>
+                
+                <div id="evaluationResult" class="checklist-evaluation">
+                    Completa las secciones anteriores para ver tu evaluación
+                </div>
+
+                <div class="checklist-form-section">
+                    <h3>Datos personales para el reporte (Opcional)</h3>
+                    
+                    <div class="checklist-form-group">
+                        <label for="studentName">Nombre completo:</label>
+                        <input type="text" id="studentName" placeholder="Ingresa tu nombre completo">
+                    </div>
+                    
+                    <div class="checklist-form-group">
+                        <label for="evaluationDate">Fecha de evaluación:</label>
+                        <input type="date" id="evaluationDate" required>
+                    </div>
+                    
+                    <div class="checklist-form-group">
+                        <label for="digitalSignature">Firma digital:</label>
+                        <input type="text" id="digitalSignature" placeholder="Escribe tu nombre como firma digital">
+                    </div>
+
+                    <div class="checklist-form-group">
+                        <label for="additionalComments">Comentarios adicionales (opcional):</label>
+                        <textarea id="additionalComments" rows="4" placeholder="Reflexiones sobre el proceso de aprendizaje, desafíos encontrados, metas futuras..."></textarea>
+                    </div>
+
+                    <div class="checklist-warning">
+                        <strong>Declaración de compromiso académico:</strong>
+                        Al generar este reporte, declaro que he completado esta autoevaluación de manera honesta y que me comprometo a aplicar los conocimientos adquiridos en el módulo de forma ética y responsable.
+                    </div>
+
+                    <div style="text-align: center; margin-top: 25px;">
+                        <!-- EDITADO: Se cambia el texto del botón para reflejar que es opcional -->
+                        <button class="checklist-btn" onclick="generatePDF()">Guardar reporte en PDF (Opcional)</button>
+                        <button class="checklist-btn checklist-btn-secondary" onclick="resetEvaluation()">Reiniciar evaluación</button>
+                    </div>
+                </div>
+
+                <div id="actionPlan" class="checklist-form-section" style="display: none;">
+                    <h3>Plan de acción personalizado</h3>
+                    <div id="actionPlanContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-footer">
+            <p><strong>Desarrollo digital:</strong> Claude Sonnet 4 (Anthropic) | Gemini 2.5 Pro (Google) (Modelos de IA para desarrollo y adaptación)</p>
+            <p><strong>Contenido académico:</strong> Francisco Sereño</p>
+            <p><strong>Versión:</strong> 1.0 - Julio 2025</p>
+            <p><strong>Tecnologías:</strong> HTML5, CSS3, JavaScript, jsPDF</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentSection = 0;
+        const totalItems = 18; // Total de ítems en el checklist
+        const sectionsData = [
+            { name: "Indicaciones", items: 0 },
+            { name: "Fundamentos conceptuales", items: 5 },
+            { name: "Ecosistema y limitaciones", items: 5 },
+            { name: "Aplicación en el contexto chileno", items: 4 },
+            { name: "Metodología y práctica", items: 4 },
+            { name: "Evaluación", items: 0 }
+        ];
+
+        // Función para mostrar sección
+        function showSection(index) {
+            const sections = document.querySelectorAll('.checklist-section');
+            const navButtons = document.querySelectorAll('.checklist-nav-btn');
+            
+            sections.forEach(section => section.classList.remove('checklist-active'));
+            navButtons.forEach(btn => btn.classList.remove('checklist-active'));
+            
+            document.getElementById(`section${index}`).classList.add('checklist-active');
+            navButtons[index].classList.add('checklist-active');
+            
+            currentSection = index;
+            if (index === 5) {
+                updateProgress(); 
+            }
+        }
+
+        // Función para actualizar progreso
+        function updateProgress() {
+            const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `Progreso: ${checkedItems}/${totalItems} completados (${percentage}%)`;
+            
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (checkbox && checkbox.checked) {
+                    item.classList.add('checklist-completed');
+                } else {
+                    item.classList.remove('checklist-completed');
+                }
+            });
+
+            if (currentSection === 5) {
+                updateEvaluation(checkedItems);
+            }
+        }
+
+        // Función para actualizar evaluación
+        function updateEvaluation(score) {
+            const resultDiv = document.getElementById('evaluationResult');
+            const actionPlanDiv = document.getElementById('actionPlan');
+            const actionPlanContent = document.getElementById('actionPlanContent');
+            
+            let evaluation, className, actionPlan;
+            
+            if (score >= 17) {
+                evaluation = `¡Excelente! (${score}/${totalItems} puntos). Demuestras un dominio avanzado de los fundamentos de IA.`;
+                className = 'checklist-excellent';
+                actionPlan = `<p><strong>Próximos pasos:</strong> profundiza en la aplicación práctica de estos conceptos y explora técnicas de prompting avanzado.</p>`;
+            } else if (score >= 14) {
+                evaluation = `Buen nivel (${score}/${totalItems} puntos). Tienes una comprensión sólida de los conceptos clave.`;
+                className = 'checklist-good';
+                actionPlan = `<p><strong>Plan de mejora:</strong> enfócate en las áreas donde tienes dudas y busca ejemplos prácticos para afianzar tu conocimiento.</p>`;
+            } else if (score >= 11) {
+                evaluation = `Base sólida (${score}/${totalItems} puntos). Comprendes los fundamentos, pero hay áreas importantes que reforzar.`;
+                className = 'checklist-solid';
+                actionPlan = `<p><strong>Plan de desarrollo:</strong> repasa las secciones sobre limitaciones y metodología. La práctica será clave para consolidar tu aprendizaje.</p>`;
+            } else {
+                evaluation = `Requiere refuerzo (${score}/${totalItems} puntos). Es recomendable revisar el material del módulo nuevamente.`;
+                className = 'checklist-needs-improvement';
+                actionPlan = `<p><strong>Plan de refuerzo:</strong> vuelve a leer el apunte del módulo 1, prestando especial atención a las definiciones y las limitaciones de la IA.</p>`;
+            }
+            
+            resultDiv.textContent = evaluation;
+            resultDiv.className = `checklist-evaluation ${className}`;
+            
+            actionPlanContent.innerHTML = actionPlan;
+            actionPlanDiv.style.display = 'block';
+        }
+
+        function cleanText(text) {
+             return text.replace(/[\\/:*?"<>|]/g, '');
+        }
+
+        // Función para generar PDF
+        function generatePDF() {
+            // EDITADO: Se ajusta la validación. Ahora solo la fecha es requerida,
+            // el nombre y la firma son opcionales pero recomendados si se genera el PDF.
+            const name = document.getElementById('studentName').value.trim() || "Usuario Anónimo";
+            const date = document.getElementById('evaluationDate').value;
+            const signature = document.getElementById('digitalSignature').value.trim() || "Sin Firma";
+            
+            if (!date) {
+                 const modal = document.createElement('div');
+                 modal.style.position = 'fixed';
+                 modal.style.left = '0';
+                 modal.style.top = '0';
+                 modal.style.width = '100%';
+                 modal.style.height = '100%';
+                 modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                 modal.style.display = 'flex';
+                 modal.style.justifyContent = 'center';
+                 modal.style.alignItems = 'center';
+                 modal.style.zIndex = '1000';
+                 modal.innerHTML = `
+                    <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                        <p style="margin: 0 0 20px 0; font-family: 'Montserrat', sans-serif;">Por favor, asegúrate de que al menos la fecha esté seleccionada para generar el reporte.</p>
+                        <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2a5298; color: white; cursor: pointer; font-family: 'Montserrat', sans-serif;">Entendido</button>
+                    </div>
+                 `;
+                 document.body.appendChild(modal);
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            doc.setFont('helvetica');
+            
+            const pageWidth = doc.internal.pageSize.width;
+            const margin = 15;
+            let y = margin;
+
+            // Título
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Módulo 1: Diagnóstico de fundamentos de IA', pageWidth / 2, y, { align: 'center' });
+            y += 8;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Autoevaluación de competencias (Registro Formativo)', pageWidth / 2, y, { align: 'center' });
+            y += 15;
+
+            // Datos del estudiante
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Información de registro', margin, y);
+            y += 7;
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Nombre: ${name}`, margin, y);
+            y += 5;
+            doc.text(`Fecha: ${date}`, margin, y);
+            y += 5;
+            doc.text(`Firma: ${signature}`, margin, y);
+            y += 15;
+
+            // Resumen
+            const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+            let level;
+            if (checkedItems >= 17) level = "Excelente";
+            else if (checkedItems >= 14) level = "Bueno";
+            else if (checkedItems >= 11) level = "Sólido";
+            else level = "Requiere refuerzo";
+
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Resumen ejecutivo', margin, y);
+            y += 7;
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Puntuación final: ${checkedItems} de ${totalItems} (${percentage}%)`, margin, y);
+            y += 5;
+            doc.text(`Nivel alcanzado: ${level}`, margin, y);
+            y += 15;
+
+            // Resultados por sección
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Resultados por sección', margin, y);
+            y += 7;
+            doc.setFontSize(10);
+            for (let i = 1; i <= 4; i++) {
+                if (y > doc.internal.pageSize.height - margin) { doc.addPage(); y = margin; }
+                const sectionChecked = document.querySelectorAll(`#section${i} input[type="checkbox"]:checked`).length;
+                const sectionTotal = sectionsData[i].items;
+                const sectionPercentage = sectionTotal > 0 ? Math.round((sectionChecked / sectionTotal) * 100) : 0;
+                doc.text(`Sección ${String.fromCharCode(64 + i)} (${sectionsData[i].name}): ${sectionChecked}/${sectionTotal} (${sectionPercentage}%)`, margin, y);
+                y += 6;
+            }
+            y += 10;
+            
+            // Elementos completados
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Detalle de competencias adquiridas', margin, y);
+            y += 7;
+
+            for (let sectionIndex = 1; sectionIndex <= 4; sectionIndex++) {
+                const checkboxes = document.querySelectorAll(`#section${sectionIndex} input[type="checkbox"]:checked`);
+                if (checkboxes.length > 0) {
+                    if (y > doc.internal.pageSize.height - 25) { doc.addPage(); y = margin; }
+                    doc.setFontSize(11);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(`Sección ${String.fromCharCode(64 + sectionIndex)}: ${sectionsData[sectionIndex].name}`, margin, y);
+                    y += 6;
+                    
+                    checkboxes.forEach(checkbox => {
+                        const label = checkbox.nextElementSibling.textContent;
+                        const text = `• ${label}`;
+                        const lines = doc.splitTextToSize(text, pageWidth - margin * 2.5);
+                        if (y + lines.length * 5 > doc.internal.pageSize.height - margin) {
+                             doc.addPage(); 
+                             y = margin; 
+                        }
+                        doc.setFontSize(9);
+                        doc.setFont('helvetica', 'normal');
+                        doc.text(lines, margin + 2, y);
+                        y += lines.length * 5;
+                    });
+                     y += 4;
+                }
+            }
+            
+            // Guardar PDF
+            const filename = `Modulo1_Diagnostico_IA_${cleanText(name).replace(/\s+/g, '_')}_${date}.pdf`;
+            doc.save(filename);
+        }
+
+        // Función para reiniciar evaluación
+        function resetEvaluation() {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.left = '0';
+            modal.style.top = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-family: 'Montserrat', sans-serif;">
+                    <p style="margin: 0 0 20px 0;">¿Estás seguro de que quieres reiniciar la evaluación? Se perderán todos los datos.</p>
+                    <button id="confirmReset" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #c62828; color: white; cursor: pointer; margin-right: 10px;">Sí, reiniciar</button>
+                    <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #6c757d; color: white; cursor: pointer;">Cancelar</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            document.getElementById('confirmReset').onclick = function() {
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                document.getElementById('studentName').value = '';
+                document.getElementById('evaluationDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('digitalSignature').value = '';
+                document.getElementById('additionalComments').value = '';
+                
+                document.getElementById('actionPlan').style.display = 'none';
+                document.getElementById('evaluationResult').textContent = 'Completa las secciones anteriores para ver tu evaluación';
+                document.getElementById('evaluationResult').className = 'checklist-evaluation';
+
+                updateProgress();
+                
+                showSection(0);
+
+                modal.remove();
+            };
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('evaluationDate').value = today;
+            
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
+
+
+
+

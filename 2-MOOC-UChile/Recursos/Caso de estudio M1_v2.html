@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copiloto IA: el desafío del diagnóstico de competencias (v6)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --verde-pantone: #008751;
+            --amarillo-pantone: #FCD116;
+            --rojo-pantone: #EF3340;
+            --azul-pantone: #003087;
+            --bg-light: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+        body { font-family: 'Montserrat', sans-serif; background-color: #e9ecef; }
+        .bg-azul { background-color: var(--azul-pantone); }
+        .panel {
+            background: white; border-radius: 0.75rem; border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .panel-header {
+            padding: 0.75rem 1.25rem; font-weight: 600; color: #343a40;
+            border-bottom: 1px solid var(--border-color); background-color: var(--bg-light);
+        }
+        .task-list-item { transition: all 0.2s ease; }
+        .task-list-item.active { background-color: #e9f2ff; border-left-color: var(--azul-pantone); }
+        .task-list-item.completed { color: #6c757d; }
+        .task-list-item.completed .task-text { text-decoration: line-through; }
+        .chat-bubble { max-width: 85%; padding: 0.75rem 1.25rem; border-radius: 1.25rem; line-height: 1.5; }
+        .chat-user { background-color: var(--azul-pantone); color: white; align-self: flex-end; border-bottom-right-radius: 0.25rem; }
+        .chat-copilot { background-color: #e9ecef; color: #343a40; align-self: flex-start; border-bottom-left-radius: 0.25rem; }
+        .chat-mentor { background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5; align-self: stretch; max-width: 100%; font-style: italic; }
+        .intro-screen { background: white; border-radius: 0.75rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .justified-text { text-align: justify; }
+        .main-button {
+            color: white; font-weight: 600; padding: 0.6rem 1.5rem; border-radius: 0.5rem; transition: background-color 0.3s;
+        }
+        .main-button:hover { opacity: 0.9; }
+        .synthesis-placeholder { color: #adb5bd; font-style: italic; }
+        .synthesis-content { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="w-screen h-screen overflow-hidden p-4 flex items-center justify-center">
+
+    <div id="simulation-container" class="w-full h-full">
+
+        <div id="welcome-stage" class="intro-screen max-w-4xl mx-auto p-8 md:p-12 overflow-y-auto h-full"></div>
+        <div id="problem-stage" class="intro-screen max-w-4xl mx-auto p-8 md:p-12 hidden overflow-y-auto h-full"></div>
+
+        <div id="simulator-stage" class="w-full h-full flex-col hidden">
+            <header class="bg-white rounded-lg shadow-md p-3 mb-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                 <h1 class="text-xl font-semibold text-gray-800 text-center lg:text-left">Copiloto IA: diagnóstico de competencias</h1>
+                <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-1/2">
+                    <div class="flex-1 w-full">
+                        <div class="flex justify-between mb-1 text-sm font-medium"><span><i class="fas fa-lightbulb mr-1 text-yellow-500"></i>Claridad estratégica</span><span id="clarity-value">20%</span></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2"><div id="clarity-bar" class="bg-yellow-500 h-2 rounded-full" style="width: 20%"></div></div>
+                    </div>
+                    <div class="flex-1 w-full">
+                        <div class="flex justify-between mb-1 text-sm font-medium"><span><i class="fas fa-shield-halved mr-1 text-green-600"></i>Integridad profesional</span><span id="ethics-value">100%</span></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2"><div id="ethics-bar" class="bg-green-600 h-2 rounded-full" style="width: 100%"></div></div>
+                    </div>
+                    <div class="flex-1 w-full">
+                        <div class="flex justify-between mb-1 text-sm font-medium"><span><i class="fas fa-magnifying-glass-chart mr-1 text-blue-800"></i>Autoconocimiento</span><span id="awareness-value">30%</span></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2"><div id="awareness-bar" class="bg-blue-800 h-2 rounded-full" style="width: 30%"></div></div>
+                    </div>
+                </div>
+                <button id="finalize-btn" class="main-button bg-red-600 text-sm py-2 px-4 w-full sm:w-auto">Finalizar</button>
+            </header>
+
+            <main class="flex-1 flex flex-col lg:grid lg:grid-cols-12 gap-4 overflow-y-auto lg:overflow-hidden">
+                <div class="lg:col-span-4 flex flex-col gap-4">
+                    <div class="panel h-auto lg:flex-1">
+                        <div class="panel-header"><i class="fas fa-list-check mr-2"></i>Plan de diagnóstico</div>
+                        <div class="p-2 text-sm text-center text-gray-600 bg-gray-50 border-b">
+                            👇 <strong>Paso 1:</strong> Seleccione una tarea para activarla.
+                        </div>
+                        <div id="task-list" class="p-2 space-y-1 overflow-y-auto"></div>
+                    </div>
+                    <div id="synthesis-panel" class="panel h-auto lg:flex-1">
+                         <div class="panel-header" id="synthesis-header"><i class="fas fa-bullseye mr-2"></i>Resumen de perfil estratégico</div>
+                         <div id="synthesis-body" class="p-4 overflow-y-auto text-sm space-y-3">
+                            <div>
+                                <h4 class="font-semibold text-gray-700">1. Competencias clave extraídas:</h4>
+                                <div id="synthesis-task1" class="synthesis-placeholder">Complete la tarea 1 para revelar...</div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700">2. Análisis de brecha vs. oferta:</h4>
+                                <div id="synthesis-task2" class="synthesis-placeholder">Complete la tarea 2 para revelar...</div>
+                            </div>
+                             <div>
+                                <h4 class="font-semibold text-gray-700">3. Competencias a destacar:</h4>
+                                <div id="synthesis-task3" class="synthesis-placeholder">Complete la tarea 3 para revelar...</div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 panel flex-1 lg:h-auto">
+                    <div id="context-panel" class="hidden">
+                        <div class="panel-header" id="context-header"><i class="fas fa-file-alt mr-2"></i>Documentos</div>
+                        <div id="context-body" class="p-4 text-sm bg-gray-50 border-b"></div>
+                    </div>
+                    <div class="panel-header"><i class="fas fa-robot mr-2"></i>Copiloto IA</div>
+                    <div id="chat-history" class="flex-1 p-4 overflow-y-auto flex flex-col space-y-4"></div>
+                    <div class="p-4 border-t bg-white">
+                        <label for="prompt-input" class="block mb-2 text-sm font-semibold text-gray-700">
+                            <strong>Paso 2:</strong> Escriba su instrucción (prompt) para la tarea activa:
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="prompt-input" class="w-full pr-12 p-3 border rounded-lg focus:ring-2 focus:ring-blue-800 focus:outline-none" placeholder="Ej: Analiza mi CV y extrae mis competencias...">
+                            <button id="send-prompt" title="Enviar instrucción" class="absolute right-2 top-1/2 -translate-y-1/2 text-white bg-azul w-9 h-9 rounded-full hover:opacity-90">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div id="prompt-hint" class="text-xs text-gray-500 mt-2 h-4"></div>
+                        <div class="text-xs text-gray-600 mt-1 font-semibold">
+                            <strong>Paso 3:</strong> Presione 'Enter' o haga clic en el botón <i class="fas fa-paper-plane"></i> para enviar.
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 hidden">
+        <div class="modal-content bg-white rounded-lg shadow-xl p-8 max-w-4xl w-full transform scale-95">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4 text-gray-800"></h3>
+            <div id="modal-body" class="text-gray-700 mb-6 max-h-[60vh] overflow-y-auto"></div>
+            <div id="modal-options" class="flex justify-end space-x-4"></div>
+        </div>
+    </div>
+
+    <script>
+    const initialState = {
+        metrics: { clarity: 20, ethics: 100, awareness: 30, score: 0 },
+        tasks: [
+            { id: 1, text: "1. Analizar mi CV para extraer competencias.", completed: false, relatedDoc: "cv", promptKeywords: ["analiza", "cv", "currículum", "competencias", "habilidades", "extrae"], clarityGain: 20, awarenessGain: 30 },
+            { id: 2, text: "2. Comparar mis competencias con la oferta.", completed: false, relatedDoc: "job_offer", promptKeywords: ["compara", "oferta", "vs", "versus", "brecha", "gap"], clarityGain: 30, awarenessGain: 20 },
+            { id: 3, text: "3. Identificar 3 competencias a destacar.", completed: false, promptKeywords: ["identifica", "destacar", "top 3", "principales", "recomienda"], clarityGain: 20, awarenessGain: 10 },
+            { id: 4, text: "4. Evaluar la ética de 'mejorar' mi experiencia.", completed: false, isEthicalDilemma: true, promptKeywords: ["mejorar", "exagerar", "inventar", "adornar", "mentir"], clarityGain: 0, awarenessGain: 0 }
+        ],
+        currentTask: null
+    };
+    
+    let state = JSON.parse(JSON.stringify(initialState));
+
+    const contextData = { 
+        "cv":{
+            title:"Mi CV actual",
+            body:"<h4 class='font-bold'>Experiencia profesional</h4><p><strong>asistente administrativa (2015-actualidad)</strong></p><ul class='list-disc list-inside ml-4'><li>Responsable de la coordinación de la agenda.</li><li>Encargada de la organización de eventos y reuniones.</li><li>Apoyo en la preparación de informes y presentaciones.</li><li>Gestión de la comunicación interna.</li></ul>"
+        }, 
+        "job_offer":{
+            title:"Oferta: coordinadora de proyectos",
+            body:"<h4 class='font-bold'>Requisitos clave</h4><ul class='list-disc list-inside ml-4'><li><strong>Liderazgo de proyectos:</strong> capacidad para gestionar cronogramas, recursos y presupuestos.</li><li><strong>Comunicación estratégica:</strong> habilidad para negociar con stakeholders y presentar resultados.</li><li><strong>Resolución de problemas:</strong> proactividad en la identificación y mitigación de riesgos.</li><li><strong>Análisis de datos:</strong> experiencia en el uso de métricas para la toma de decisiones.</li></ul>"
+        } 
+    };
+    const copilotResponses = { 
+        default:"Claro, aquí tienes un análisis. Recuerda que esto es una base para tu propia reflexión.", 
+        analiza:"He analizado tu CV. Las competencias clave que se desprenden son: <strong>organización, coordinación de eventos, comunicación y soporte administrativo</strong>. Estas son una excelente base.", 
+        compara:"Comparando tu CV con la oferta, hay una buena alineación en 'organización' (liderazgo de proyectos) y 'comunicación'. Las áreas a potenciar son la <strong>comunicación estratégica</strong> y el <strong>análisis de datos</strong>.", 
+        identifica:"Basado en el análisis, las 3 competencias que deberías destacar, reformulando tu experiencia, son: <strong>1. Planificación y ejecución de proyectos</strong> (tus eventos), <strong>2. Gestión de stakeholders</strong> (tu comunicación interna) y <strong>3. Soporte a la toma de decisiones</strong> (tus informes).",
+        ethicalRefusal:"Entiendo que buscas presentar tu perfil de la mejor manera. Sin embargo, mi recomendación es enfocarnos en <strong>reformular y destacar tus experiencias reales</strong>, no en exagerar o inventar. La integridad es tu activo más valioso. ¿Qué te parece si identificamos proyectos reales donde demostraste liderazgo, aunque no tuvieras el título oficial?"
+    };
+    const reflectionQuestions = { 
+        task_1_complete: "¿Qué diferencia nota entre describir una 'función' y una 'competencia'? ¿Cómo cambia esto la percepción de su valor profesional?", 
+        ethical_dilemma_good: "¿Por qué es más estratégico a largo plazo ser honesto sobre las áreas de desarrollo que exagerar las fortalezas? ¿Qué mensaje transmite un candidato que reconoce sus oportunidades de mejora?",
+        final: "¿Considera que este diagnóstico le ha dado más confianza para postular? ¿Cuál es el siguiente paso lógico en su plan de transición profesional ahora que tiene esta claridad?" 
+    };
+    const finalConclusionText = "La <strong>IA generativa</strong> no le dio a Isabella experiencia que no tenía. Le proporcionó un 'espejo' estratégico que le permitió <strong>reconocer, articular y alinear el valor de su trayectoria profesional</strong> con sus aspiraciones. Al traducir sus funciones en competencias, construyó el puente que necesitaba para iniciar su transición de carrera con confianza y una narrativa profesional clara y potente.";
+    
+    const stages = { welcome: document.getElementById('welcome-stage'), problem: document.getElementById('problem-stage'), simulator: document.getElementById('simulator-stage') };
+    const taskListEl = document.getElementById('task-list');
+    const chatHistoryEl = document.getElementById('chat-history');
+    const promptInputEl = document.getElementById('prompt-input');
+    const contextPanelEl = document.getElementById('context-panel');
+    const contextHeaderEl = document.getElementById('context-header');
+    const contextBodyEl = document.getElementById('context-body');
+    const promptHintEl = document.getElementById('prompt-hint');
+
+    function initializeSimulator() {
+        renderTasks();
+        updateMetrics();
+        addChatMessage("Hola, soy tu copiloto de IA. Estoy listo para ayudarte a construir tu <strong>Resumen de perfil estratégico</strong>. Por favor, sigue las instrucciones de la guía inicial. ¡Comencemos!", 'copilot');
+        promptInputEl.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSendPrompt(); });
+        document.getElementById('send-prompt').addEventListener('click', handleSendPrompt);
+        document.getElementById('finalize-btn').addEventListener('click', () => finalizeSimulation(false));
+        const modalTitle = "¡Bienvenida! Su misión en 3 pasos";
+        const modalBody = `
+            <p class="mb-4">Usted es <strong>Isabella Andrea</strong>. Su objetivo es utilizarme para construir su <strong>'Resumen de perfil estratégico'</strong>, que verá completarse a su izquierda.</p>
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-azul text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg mr-4">1</div>
+                    <div>
+                        <h4 class="font-bold text-lg">Seleccione una tarea</h4>
+                        <p>Haga clic en la primera tarea del panel <strong>'Plan de diagnóstico'</strong> para comenzar. Esto activará la tarea y me indicará en qué debemos trabajar.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-azul text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg mr-4">2</div>
+                    <div>
+                        <h4 class="font-bold text-lg">Escriba su instrucción (prompt)</h4>
+                        <p>A continuación, escriba una instrucción clara en la caja de texto. Por ejemplo, para la primera tarea, un buen prompt sería:</p>
+                        <p class="mt-2 p-2 bg-gray-100 rounded text-gray-800"><em>"Analiza mi CV y extrae las competencias clave que demuestro."</em></p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-azul text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg mr-4">3</div>
+                    <div>
+                        <h4 class="font-bold text-lg">Envíe la instrucción</h4>
+                        <p>Después de escribir, <strong>haga clic en el botón azul <i class='fas fa-paper-plane'></i> para enviarlo</strong> o presione la tecla 'Enter'. ¡Adelante!</p>
+                    </div>
+                </div>
+            </div>`;
+        showModal(modalTitle, modalBody, [{ text: "¡Entendido, comencemos!", action: closeModal }]);
+    }
+
+    function switchStage(targetStage) {
+        Object.values(stages).forEach(s => s.classList.add('hidden'));
+        stages[targetStage].classList.remove('hidden');
+        if (targetStage === 'simulator') {
+            stages[targetStage].classList.add('flex');
+            stages[targetStage].classList.remove('hidden');
+            initializeSimulator();
+        }
+    }
+
+    // El resto de las funciones (renderTasks, processPrompt, etc.) permanecen igual que en la v5.
+    // Pegar aquí el resto del JavaScript de la versión anterior para asegurar la funcionalidad completa.
+    function renderTasks() {
+        taskListEl.innerHTML = '';
+        state.tasks.forEach(task => {
+            const taskEl = document.createElement('div');
+            taskEl.className = `task-list-item p-3 border-l-4 border-transparent flex items-center justify-between cursor-pointer ${task.completed ? 'completed' : ''}`;
+            taskEl.innerHTML = `<span class="task-text flex-1">${task.text}</span>${task.relatedDoc ? `<i class="fas fa-file-alt text-gray-400 ml-2"></i>` : ''}`;
+            taskEl.onclick = () => {
+                if (!task.completed) {
+                    state.currentTask = task;
+                    highlightCurrentTask();
+                    showContext(task.relatedDoc ? contextData[task.relatedDoc] : null);
+                    promptHintEl.textContent = `Pista: Intenta usar palabras como '${task.promptKeywords[0]}' o '${task.promptKeywords[1]}'.`;
+                }
+            };
+            taskListEl.appendChild(taskEl);
+        });
+        highlightCurrentTask();
+    }
+
+    function highlightCurrentTask() {
+        Array.from(taskListEl.children).forEach((el, index) => {
+            el.classList.toggle('active', state.tasks[index]?.id === state.currentTask?.id);
+        });
+    }
+
+    function updateMetrics() {
+        ['clarity', 'ethics', 'awareness'].forEach(m => {
+            state.metrics[m] = Math.max(0, Math.min(100, state.metrics[m]));
+            document.getElementById(`${m}-bar`).style.width = `${state.metrics[m]}%`;
+            document.getElementById(`${m}-value`).textContent = `${Math.round(state.metrics[m])}%`;
+        });
+    }
+    
+    function addChatMessage(message, sender = 'user') {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble ${'chat-' + sender}`;
+        bubble.innerHTML = `<p>${message}</p>`;
+        chatHistoryEl.appendChild(bubble);
+        chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+    }
+
+    function handleSendPrompt() {
+        const promptText = promptInputEl.value.trim().toLowerCase();
+        if (!promptText) return;
+        addChatMessage(promptInputEl.value, 'user');
+        promptInputEl.value = '';
+        setTimeout(() => processPrompt(promptText), 1000);
+    }
+
+    function processPrompt(promptText) {
+        if (!state.currentTask) {
+            addChatMessage("Por favor, selecciona una tarea del 'Plan de diagnóstico' para comenzar.", 'copilot');
+            return;
+        }
+        if (state.currentTask.isEthicalDilemma) { handleEthicalDilemma(promptText); return; }
+        
+        let score = 0;
+        state.currentTask.promptKeywords.forEach(kw => { if (promptText.includes(kw)) { score++; } });
+
+        if (score >= 2) {
+            const response = getRelevantCopilotResponse();
+            addChatMessage(response, 'copilot');
+            updateSynthesisPanel(state.currentTask.id, response);
+            setTimeout(() => addChatMessage(getMentorFeedback('good'), 'mentor'), 500);
+            completeTask(state.currentTask.id);
+        } else {
+            addChatMessage("No estoy seguro de cómo proceder con esa instrucción. ¿Podrías reformular tu petición para que sea más clara respecto a la tarea seleccionada?", 'copilot');
+            setTimeout(() => addChatMessage(getMentorFeedback('bad'), 'mentor'), 500);
+            state.metrics.clarity = Math.max(0, state.metrics.clarity - 5);
+            updateMetrics();
+        }
+    }
+    
+    function updateSynthesisPanel(taskId, content) {
+        const targetEl = document.getElementById(`synthesis-task${taskId}`);
+        if (targetEl) {
+            targetEl.innerHTML = `<div class="synthesis-content text-gray-800">${content}</div>`;
+            targetEl.classList.remove('synthesis-placeholder');
+        }
+    }
+
+    function getRelevantCopilotResponse() {
+        if (state.currentTask.id === 1) return copilotResponses.analiza;
+        if (state.currentTask.id === 2) return copilotResponses.compara;
+        if (state.currentTask.id === 3) return copilotResponses.identifica;
+        return copilotResponses.default;
+    }
+
+    function getMentorFeedback(type) {
+        switch(type) {
+            case 'good': return `<strong>Mentor virtual:</strong> ¡Excelente instrucción! Es clara y directa al objetivo. Observa cómo se ha actualizado tu 'Resumen de perfil estratégico'.`;
+            case 'bad': return `<strong>Mentor virtual:</strong> Tu instrucción es un poco ambigua. Intenta ser más específico. Un buen prompt suele incluir una <strong>acción</strong> (ej: 'analiza', 'compara') y un <strong>sujeto</strong> (ej: 'mi CV', 'la oferta').`;
+            case 'unethical': return `<strong>Mentor virtual:</strong> ¡Decisión correcta! Has priorizado la integridad. Una carrera sólida se construye sobre la confianza y la autenticidad.`;
+        }
+    }
+
+    function completeTask(taskId) {
+        const task = state.tasks.find(t => t.id === taskId);
+        if (task && !task.completed) {
+            task.completed = true;
+            state.metrics.clarity += task.clarityGain;
+            state.metrics.awareness += task.awarenessGain;
+            state.currentTask = null;
+            promptHintEl.textContent = '';
+            contextPanelEl.classList.add('hidden');
+            renderTasks();
+            updateMetrics();
+            
+            if (task.id === 1) {
+                setTimeout(() => showModal("Pregunta para la reflexión", `<p class="justified-text">${reflectionQuestions.task_1_complete}</p>`, [{ text: "Continuar", action: closeModal }]), 1500);
+            }
+            if (state.tasks.every(t => t.completed)) {
+                setTimeout(() => finalizeSimulation(true), 1000);
+            }
+        }
+    }
+
+    function handleEthicalDilemma(promptText) {
+        const includesUnethical = state.currentTask.promptKeywords.some(kw => promptText.includes(kw));
+        if (includesUnethical) {
+            addChatMessage(copilotResponses.ethicalRefusal, 'copilot');
+            state.metrics.ethics -= 40;
+            state.metrics.clarity += 10;
+            setTimeout(() => addChatMessage(getMentorFeedback('unethical'), 'mentor'), 500);
+            updateMetrics();
+            completeTask(state.currentTask.id);
+             setTimeout(() => showModal("Pregunta para la reflexión", `<p class="justified-text">${reflectionQuestions.ethical_dilemma_good}</p>`, [{ text: "Continuar", action: closeModal }]), 1500);
+        } else {
+            addChatMessage("Entiendo que quieres destacar tu experiencia. Para mantener la integridad, enfoquémonos en cómo presentar tus logros reales de la forma más impactante. ¿Qué proyecto lideraste que te haga sentir más orgullosa?", 'copilot');
+        }
+    }
+    
+    function finalizeSimulation(isComplete = false) {
+        const { clarity, ethics, awareness } = state.metrics;
+        state.metrics.score = Math.round((clarity * 0.4) + (ethics * 0.4) + (awareness * 0.2));
+        const title = isComplete ? "¡Diagnóstico finalizado!" : "Sesión finalizada";
+        const introText = isComplete 
+            ? "Has completado todas las tareas de diagnóstico. Ahora tienes una visión mucho más clara de tu perfil profesional."
+            : "Has finalizado la sesión antes de completar el diagnóstico.";
+        const scoreMessage = `${introText}<br><br><strong class="text-lg">Puntuación de claridad estratégica: ${state.metrics.score}</strong>`;
+        const combinedBody = `
+            <p>${scoreMessage}</p>
+            <div class="mt-6 p-4 rounded-lg bg-blue-50 border-l-4 border-blue-800">
+                <h4 class="font-bold text-lg text-blue-800 mb-2">Conclusión del caso</h4>
+                <p class="justified-text">${finalConclusionText}</p>
+            </div>
+            <div class="mt-6 p-4 bg-gray-100 border-l-4 border-gray-500 rounded-lg">
+                <h4 class="font-bold text-lg text-gray-800 mb-2">Preguntas finales para la reflexión</h4>
+                <p class="justified-text">${reflectionQuestions.final}</p>
+            </div>`;
+        document.getElementById('simulator-stage').classList.add('hidden');
+        showModal(title, combinedBody, [{ text: "Reiniciar", action: resetAndGoToWelcome }]);
+    }
+
+    function showContext(data) {
+        if (data) {
+            contextPanelEl.classList.remove('hidden');
+            contextHeaderEl.innerHTML = `<i class="fas fa-file-alt mr-2"></i> ${data.title}`;
+            contextBodyEl.innerHTML = data.body;
+        } else {
+            contextPanelEl.classList.add('hidden');
+        }
+    }
+
+    function showModal(title, body, options = []) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-body').innerHTML = body;
+        const optionsEl = document.getElementById('modal-options');
+        optionsEl.innerHTML = '';
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'main-button bg-azul';
+            btn.textContent = opt.text;
+            btn.onclick = opt.action;
+            optionsEl.appendChild(btn);
+        });
+        const modal = document.getElementById('modal');
+        modal.classList.remove('hidden');
+        setTimeout(() => { document.querySelector('.modal-content').classList.remove('scale-95'); }, 10);
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.add('hidden');
+    }
+    
+    function resetState() {
+        state = JSON.parse(JSON.stringify(initialState));
+        chatHistoryEl.innerHTML = '';
+        for (let i = 1; i <= 3; i++) {
+            const el = document.getElementById(`synthesis-task${i}`);
+            if(el) {
+                el.innerHTML = `Complete la tarea ${i} para revelar...`;
+                el.classList.add('synthesis-placeholder');
+            }
+        }
+        promptHintEl.textContent = '';
+        contextPanelEl.classList.add('hidden');
+    }
+
+    function resetAndGoToWelcome() {
+        closeModal();
+        resetState();
+        switchStage('welcome');
+    }
+
+    document.getElementById('welcome-stage').innerHTML = `
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Bienvenida al módulo 1: el diagnóstico de competencias</h1>
+        <div class="bg-blue-50 border-l-4 border-blue-800 p-6 rounded-lg mb-8">
+            <h3 class="font-bold text-xl text-blue-800 mb-2">Una herramienta estratégica para su carrera</h3>
+            <p class="text-gray-800 justified-text">En este módulo, exploraremos cómo la <strong>inteligencia artificial generativa</strong> puede actuar como un asesor de carrera personalizado. Su capacidad para analizar texto y reconocer patrones nos permitirá transformar la manera en que entendemos y presentamos nuestra experiencia profesional.</p>
+        </div>
+        <h3 class="font-bold text-2xl text-gray-800 mb-4 border-b pb-2">Presentación del caso: el desafío de la transición</h3>
+        <p class="text-gray-700 mb-4 justified-text"><strong>Isabella Andrea</strong> es una profesional competente que se siente profesionalmente estancada. Aspira a un rol con mayor responsabilidad, como "coordinadora de proyectos", pero enfrenta un obstáculo clave: no sabe cómo traducir su valiosa experiencia administrativa al lenguaje corporativo que exigen las descripciones de cargo y los sistemas de selección automatizados (ATS).</p>
+        <p class="text-gray-700 mb-6 justified-text">Su objetivo es usar la <strong>IA generativa</strong> para realizar un diagnóstico de sus competencias y crear un puente entre su perfil actual y sus aspiraciones futuras.</p>
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-lg my-8">
+            <h3 class="font-bold text-xl text-amber-800 mb-2"><i class="fas fa-chalkboard-teacher mr-2"></i>Instrucciones de la actividad</h3>
+            <p class="text-gray-800 justified-text mb-4">
+                Este es un caso de estudio interactivo. Su objetivo es aprender a utilizar una herramienta de IA generativa como un copiloto para construir un <strong>"Resumen de perfil estratégico"</strong>.
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li><strong>Su rol:</strong> Usted asumirá el papel de <strong>Isabella Andrea</strong>.</li>
+                <li><strong>Su misión:</strong> Dialogar con el Copiloto IA para completar las 4 secciones del "Plan de diagnóstico". Cada tarea completada rellenará una parte de su resumen final.</li>
+                <li><strong>¿Cómo funciona?:</strong>
+                    <ul class="list-['-_'] list-inside ml-6 mt-1">
+                        <li>Lea la presentación del caso y el problema.</li>
+                        <li>Una vez en el simulador, siga las instrucciones de la guía de 3 pasos.</li>
+                        <li>Observe cómo su resumen se va construyendo y sus indicadores de desempeño mejoran.</li>
+                        <li>Preste atención a los consejos de su mentor virtual para optimizar sus *prompts*.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="text-gray-800 justified-text mt-4">
+                Su desempeño será evaluado al final. ¡Tome decisiones estratégicas y éticas para obtener el mejor resultado!
+            </p>
+        </div>
+        <div class="mt-10 flex justify-end">
+            <button id="to-problem-stage-btn" class="main-button bg-azul">Continuar</button>
+        </div>`;
+    document.getElementById('problem-stage').innerHTML = `
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">El problema: un puente por construir</h1>
+        <p class="text-gray-700 mb-6 justified-text">El desafío de Isabella no es la falta de habilidades, sino la dificultad para comunicarlas eficazmente. Su situación se desglosa en tres áreas:</p>
+        <div class="grid md:grid-cols-3 gap-6 text-center mb-8">
+            <div class="bg-gray-100 p-6 rounded-lg shadow-sm"><h4 class="font-bold text-blue-800 text-xl mb-2">Brecha de lenguaje</h4><p class="justified-text">Su CV describe funciones ("responsable de..."), no logros cuantificables ni competencias estratégicas.</p></div>
+            <div class="bg-gray-100 p-6 rounded-lg shadow-sm"><h4 class="font-bold text-red-600 text-xl mb-2">Incertidumbre</h4><p class="justified-text">No tiene claro qué competencias de su rol actual son más valoradas para un puesto de coordinación.</p></div>
+            <div class="bg-gray-100 p-6 rounded-lg shadow-sm"><h4 class="font-bold text-green-600 text-xl mb-2">Falta de estrategia</h4><p class="justified-text">Postula a ofertas sin un análisis previo de cómo su perfil se alinea con los requisitos clave, reduciendo su efectividad.</p></div>
+        </div>
+        <div class="mt-10 flex justify-end">
+            <button id="start-simulation-btn" class="main-button bg-green-600 text-lg py-3 px-8">Iniciar copiloto IA</button>
+        </div>`;
+    
+    document.getElementById('to-problem-stage-btn').addEventListener('click', () => switchStage('problem'));
+    document.getElementById('start-simulation-btn').addEventListener('click', () => switchStage('simulator'));
+
+    switchStage('welcome');
+    </script>
+</body>
+</html>

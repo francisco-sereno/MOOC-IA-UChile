@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apunte Interactivo: Ingeniería de Prompts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XP98CLRNF7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XP98CLRNF7');
+    </script>
+    <style>
+        :root {
+            --azul: #003893;
+            --amarillo: #FFCC00;
+            --verde: #007934;
+            --rojo: #EA0026;
+            --gris-claro: #f0f2f5;
+            --gris-oscuro: #334155;
+            --texto-principal: #1e293b;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--texto-principal);
+        }
+        .text-justify { text-align: justify; }
+        .bg-azul { background-color: var(--azul); }
+        .text-azul { color: var(--azul); }
+        .border-azul { border-color: var(--azul); }
+        .bg-amarillo { background-color: var(--amarillo); }
+        .text-amarillo { color: var(--amarillo); }
+        .bg-verde { background-color: var(--verde); }
+        .text-verde { color: var(--verde); }
+        .bg-rojo { background-color: var(--rojo); }
+        .text-rojo { color: var(--rojo); }
+
+        .sidebar { transition: transform 0.3s ease-in-out; }
+        .main-content { transition: margin-left 0.3s ease-in-out; }
+
+        .accordion-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary:hover { background-color: #f8fafc; }
+        .accordion-item[open] summary {
+            background-color: var(--azul);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+        .accordion-item[open] summary::after { transform: rotate(45deg); }
+        .accordion-item .content {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-radius: 0 0 0.5rem 0.5rem;
+            margin-top: -0.5rem;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .idea-destacada, .card-reflexion {
+            background-color: #fefce8; /* yellow-50 */
+            border-left: 4px solid var(--amarillo);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-practica, .card-conexion {
+            background-color: #f0fdf4; /* green-50 */
+            border-left: 4px solid var(--verde);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-definicion {
+            background-color: #eff6ff; /* blue-50 */
+            border-left: 4px solid var(--azul);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+
+        .nav-link.active {
+            background-color: var(--azul);
+            color: white;
+            font-weight: 700;
+        }
+        .sub-nav-link.active {
+            color: var(--azul);
+            font-weight: 700;
+        }
+
+        .info-button {
+            position: fixed; bottom: 2rem; right: 2rem; background-color: var(--azul); color: white; width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); cursor: pointer; transition: transform 0.2s ease; z-index: 50;
+        }
+        .info-button:hover { transform: scale(1.1); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 0.75rem; max-width: 500px; width: 90%; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+    </style>
+</head>
+<body class="bg-gris-claro">
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white w-72 h-full shadow-lg p-6 fixed lg:relative transform -translate-x-full lg:translate-x-0 z-40 flex flex-col">
+            <div class="bg-azul p-4 rounded-lg mb-6">
+                <img src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo VTIA" class="h-16 mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x64/003893/FFFFFF?text=VTIA+Logo';">
+            </div>
+            <h1 class="text-xl font-bold text-azul mb-4 text-center">Ingeniería de Prompts</h1>
+            <nav id="table-of-contents" class="flex-grow overflow-y-auto">
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#introduccion" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">1. Introducción</a></li>
+                    <li>
+                        <a href="#fundamentos" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">2. Fundamentos teóricos</a>
+                        <ul class="pl-4 mt-1 space-y-1">
+                            <li><a href="#fundamentos-1" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">2.1. Definición y alcance</a></li>
+                            <li><a href="#fundamentos-2" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">2.2. Componentes</a></li>
+                            <li><a href="#fundamentos-3" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">2.3. Principios</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#tecnicas" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">3. Técnicas avanzadas</a>
+                         <ul class="pl-4 mt-1 space-y-1">
+                            <li><a href="#tecnicas-1" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">3.1. CoT Prompting</a></li>
+                            <li><a href="#tecnicas-2" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">3.2. Few-shot Learning</a></li>
+                            <li><a href="#tecnicas-3" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">3.3. Role Prompting</a></li>
+                            <li><a href="#tecnicas-4" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">3.4. Tree of Thoughts</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#modelos" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">4. Diferencias entre modelos</a></li>
+                    <li><a href="#optimizacion" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">5. Metodologías de optimización</a></li>
+                    <li><a href="#aplicaciones" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">6. Aplicaciones prácticas</a></li>
+                    <li><a href="#herramientas" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">7. Herramientas y ecosistema</a></li>
+                    <li><a href="#futuro" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">8. Perspectivas futuras</a></li>
+                    <li><a href="#referencias" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">9. Referencias</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content flex-1 p-4 md:p-8 lg:p-12 overflow-y-auto">
+            <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-md shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+
+            <header class="mb-12">
+                <p class="text-azul font-semibold">Módulo 2</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-gris-oscuro mt-2">Ingeniería de prompts: fundamentos y aplicaciones en inteligencia artificial generativa</h1>
+            </header>
+
+            <section id="introduccion" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18" /></svg>1. Introducción</h2>
+                <p class="text-lg leading-relaxed text-justify">La emergencia de modelos de lenguaje de gran escala ha transformado radicalmente el panorama tecnológico contemporáneo, estableciendo nuevos paradigmas en la interacción humano-computador. En este contexto, la ingeniería de prompts ha evolucionado desde ser una curiosidad técnica hasta convertirse en una disciplina fundamental que determina la efectividad de nuestra comunicación con sistemas de inteligencia artificial generativa. Como señalan Schulhoff et al. (2024), "la ingeniería de prompts representa la interfaz crítica entre la intención humana y la capacidad computacional, definiendo no solo qué pueden hacer estos sistemas, sino qué harán efectivamente en la práctica" (p. 3).</p>
+                <div class="idea-destacada">
+                    <p><strong>Idea Clave:</strong> La aplicación sistemática de técnicas de prompting puede mejorar la calidad de las respuestas de la IA hasta en un 50% y la precisión en tareas específicas en un 31%, convirtiéndose en una competencia profesional crítica.</p>
+                </div>
+                <p class="text-lg leading-relaxed text-justify mt-4">La relevancia de esta disciplina trasciende el ámbito puramente técnico. Investigaciones recientes demuestran que la aplicación sistemática de técnicas de prompting puede mejorar la calidad de las respuestas generadas hasta en un 50%, mientras que la precisión en tareas específicas experimenta incrementos promedio del 31% cuando se emplean metodologías estructuradas (Brown et al., 2023). Estos hallazgos subrayan la importancia crítica de desarrollar competencias sólidas en la formulación de prompts, particularmente en un contexto donde la inteligencia artificial generativa permea cada vez más aspectos de la actividad profesional y académica.</p>
+                <p class="text-lg leading-relaxed text-justify mt-4">El presente apunte examina los fundamentos teóricos y aplicaciones prácticas de la ingeniería de prompts, proporcionando un marco comprehensivo para comprender y aplicar estas técnicas en diversos contextos. A través del análisis de las metodologías más recientes, las diferencias entre los principales modelos de IA generativa, y la presentación de casos prácticos, se busca establecer una base sólida para el desarrollo de competencias en esta disciplina emergente.</p>
+            </section>
+
+            <section id="fundamentos" class="mb-12 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-azul mb-6 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>2. Fundamentos teóricos</h2>
+                <div class="space-y-4">
+                    <details id="fundamentos-1" class="accordion-item scroll-mt-20"><summary>2.1. Definición y alcance</summary>
+                        <div class="content space-y-4 text-justify">
+                            <div class="card-definicion">
+                                <p><strong>Definición Clave:</strong> La ingeniería de prompts se define como el proceso sistemático de diseñar, estructurar y optimizar las instrucciones proporcionadas a modelos de lenguaje para obtener respuestas que sean precisas, relevantes y útiles para el propósito específico del usuario (Wei et al., 2023).</p>
+                            </div>
+                            <p>Esta disciplina combina elementos de lingüística computacional, psicología cognitiva y diseño de interacción para establecer protocolos efectivos de comunicación con sistemas de inteligencia artificial.</p>
+                            <p>El alcance de la ingeniería de prompts se extiende más allá de la simple formulación de preguntas. Como documenta el Prompt Engineering Guide (2025), esta práctica abarca la comprensión profunda de cómo los modelos de lenguaje procesan información, interpretan contexto y generan respuestas. Incluye el diseño estratégico de instrucciones que activen capacidades específicas del modelo, la estructuración de información contextual que guíe la generación hacia resultados deseados, y la implementación de técnicas avanzadas que mejoren el razonamiento y la precisión de las respuestas.</p>
+                            <p>La evolución histórica de esta disciplina refleja el desarrollo mismo de los modelos de lenguaje. Desde los primeros sistemas basados en reglas hasta los actuales transformadores con billones de parámetros, cada avance tecnológico ha requerido nuevas aproximaciones y técnicas de prompting. La transición hacia lo que actualmente se conoce como "mega-prompts" representa un cambio paradigmático fundamental, donde investigaciones recientes demuestran que prompts más largos y contextuales producen resultados superiores de manera consistente, contrario a las creencias iniciales sobre la necesidad de brevedad (PromptHub, 2024).</p>
+                        </div>
+                    </details>
+                    <details id="fundamentos-2" class="accordion-item scroll-mt-20"><summary>2.2. Componentes estructurales de un prompt efectivo</summary>
+                        <div class="content space-y-4 text-justify">
+                           <div class="card-conexion">
+                                <h4 class="font-bold text-verde mb-2">Analogía: El Prompt como Plano Arquitectónico</h4>
+                                <p>Piense en un prompt no como una simple pregunta, sino como el plano detallado que un arquitecto entrega a un equipo de construcción. Si el plano es vago, la construcción será deficiente. Si es detallado y preciso, especificando materiales (rol), dimensiones (instrucciones) y acabados (formato), el resultado será una estructura sólida y funcional.</p>
+                            </div>
+                            <p>La arquitectura de un prompt efectivo comprende siete componentes fundamentales que trabajan sinérgicamente para producir resultados óptimos. Según el marco de trabajo establecido por Google Cloud (2025), estos elementos constituyen la base estructural sobre la cual se construyen todas las interacciones exitosas con modelos de IA generativa.</p>
+                            <p>El primer componente es el <strong>contexto del sistema o rol</strong>. La <strong>definición clara de la tarea</strong> constituye el segundo componente crítico. Los <strong>ejemplos demostrativos</strong> representan el tercer elemento estructural. Las <strong>instrucciones específicas</strong> conforman el cuarto componente. La <strong>especificación del formato de salida</strong>, como quinto componente, define la estructura precisa. El <strong>material de contexto</strong> constituye el sexto elemento. Finalmente, la <strong>directiva final</strong> sirve como instrucción clara que activa la generación.</p>
+                        </div>
+                    </details>
+                    <details id="fundamentos-3" class="accordion-item scroll-mt-20"><summary>2.3. Principios universales del prompting efectivo</summary>
+                        <div class="content space-y-4 text-justify">
+                            <div class="idea-destacada">
+                                <p><strong>Idea Clave:</strong> Seis principios rigen la creación de prompts efectivos: ser claro, dar contexto, dividir tareas complejas, dar tiempo para "pensar", usar herramientas externas y mejorar el prompt de forma iterativa.</p>
+                            </div>
+                            <p>La práctica efectiva de la ingeniería de prompts se sustenta en seis principios universales que trascienden las diferencias entre modelos específicos. El principio de <strong>claridad en las instrucciones</strong> establece que toda comunicación con el modelo debe ser explícita y libre de ambigüedades. La <strong>provisión de contexto relevante</strong> actúa como marco interpretativo. El tercer principio implica la <strong>división de tareas complejas</strong> en componentes manejables. <strong>Proporcionar tiempo para el razonamiento</strong> representa el cuarto principio. El <strong>uso estratégico de herramientas externas</strong> constituye el quinto principio. Finalmente, el principio de <strong>iteración sistemática</strong> reconoce que la optimización de prompts es un proceso evolutivo.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section id="tecnicas" class="mb-12 scroll-mt-20">
+                 <h2 class="text-3xl font-bold text-azul mb-6 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>3. Técnicas avanzadas</h2>
+                <div class="space-y-4">
+                    <details id="tecnicas-1" class="accordion-item scroll-mt-20"><summary>3.1. Chain-of-Thought (CoT) prompting</summary>
+                        <div class="content space-y-4 text-justify">
+                            <div class="card-definicion">
+                                <p><strong>Definición Clave (CoT):</strong> Es una técnica que instruye al modelo a "pensar en voz alta", generando los pasos lógicos intermedios que lo llevan a una conclusión. Esto mejora drásticamente el razonamiento en problemas complejos.</p>
+                            </div>
+                             <p>La efectividad del CoT prompting ha sido demostrada empíricamente en múltiples dominios. En el benchmark GSM8K, que evalúa capacidades de razonamiento matemático, la implementación de CoT resultó en una mejora del 17.9% en precisión. La forma más simple de activar esta capacidad es con la frase "Pensemos paso a paso" (Auto-CoT).</p>
+                        </div>
+                    </details>
+                    <details id="tecnicas-2" class="accordion-item scroll-mt-20"><summary>3.2. Few-shot Learning y demostración por ejemplos</summary>
+                        <div class="content space-y-4 text-justify">
+                            <p>El aprendizaje con pocos ejemplos (few-shot learning) constituye otra técnica fundamental. Brown et al. (2023) documentan que "proporcionar 2-3 ejemplos relevantes puede mejorar dramáticamente la comprensión del modelo sobre la tarea requerida". La selección estratégica de ejemplos es crítica: deben ser diversos pero representativos. Los modelos no memorizan los ejemplos, sino que extraen patrones abstractos.</p>
+                            <div class="card-practica">
+                                <h4 class="font-bold text-verde mb-2">Ejercicio: Redacción Formal</h4>
+                                <p class="mb-2">Basado en el ejemplo, ¿cómo transformarías el mensaje informal?</p>
+                                <code class="block bg-gray-800 text-white p-3 rounded-md mt-2 text-sm">
+                                    <strong>Ejemplo:</strong><br>
+                                    Informal: "jefa necesito hablar contigo de algo importante" -> Formal: "Estimada Sra. González, me gustaría solicitar una reunión con usted para tratar un tema importante."<br><br>
+                                    <strong>Ahora convierte:</strong><br>
+                                    Informal: "disculpa el atraso tuve problemas con la micro llegó en 10 min" -> <input type="text" id="few-shot-input" class="bg-gray-600 rounded px-2 w-full mt-1" placeholder="Escribe la versión formal aquí...">
+                                </code>
+                                <button onclick="checkFewShotAnswer()" class="mt-2 bg-verde text-white px-3 py-1 rounded-md text-sm">Verificar</button>
+                                <p id="few-shot-result" class="mt-2 text-sm font-semibold"></p>
+                            </div>
+                        </div>
+                    </details>
+                    <details id="tecnicas-3" class="accordion-item scroll-mt-20"><summary>3.3. Role prompting y asignación de perspectivas</summary>
+                        <div class="content space-y-4 text-justify">
+                           <div class="idea-destacada">
+                                <p><strong>Idea Clave:</strong> Asignar un rol a la IA activa patrones de conocimiento, vocabulario y razonamiento específicos de ese rol, mejorando la calidad de la respuesta hasta en un 40%.</p>
+                            </div>
+                            <p>Una descripción de rol efectiva debe incluir no solo la profesión, sino también años de experiencia, especialización y el contexto de la tarea. Una técnica avanzada es la <strong>colaboración multi-persona</strong>, donde se simula un diálogo entre varios roles para obtener una respuesta más rica y balanceada.</p>
+                        </div>
+                    </details>
+                    <details id="tecnicas-4" class="accordion-item scroll-mt-20"><summary>3.4. Tree of Thoughts (ToT) y exploración sistemática</summary>
+                        <div class="content space-y-4 text-justify">
+                            <p>El Tree of Thoughts (ToT) es una evolución del CoT, diseñada para problemas que requieren exploración estratégica. Permite a los modelos explorar múltiples caminos de razonamiento simultáneamente, evaluando y seleccionando las rutas más prometedoras, e incluso retroceder si un camino no es fructífero.</p>
+                            <div class="card-reflexion">
+                                <h4 class="font-bold text-amarillo mb-2">Para Reflexionar</h4>
+                                <p>El ToT imita una forma de pensamiento humano deliberativo. ¿En qué situaciones profesionales (además de la planificación de marketing) podría esta técnica ofrecer una ventaja competitiva sobre un simple análisis lineal (CoT)?</p>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section id="modelos" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>4. Diferencias entre modelos principales</h2>
+                <div class="idea-destacada"><p><strong>Idea Clave:</strong> No existe un "mejor" modelo universal. La elección correcta depende de la tarea específica. GPT-4.x es ideal para precisión y código, Gemini para multimodalidad y creatividad, y Claude para análisis de texto largo y conversaciones complejas.</p></div>
+                 <div class="space-y-4 text-justify mt-4">
+                    <p><strong>OpenAI GPT-4.x:</strong> Requiere seguimiento extremadamente literal de instrucciones. El "prompting agnético" (persistencia, uso de herramientas, planificación) es una técnica esencial para este modelo. Sus fortalezas son la generación de código, el seguimiento de instrucciones complejas y el manejo de contextos largos.</p>
+                    <p><strong>Google Gemini:</strong> Diseñado como un modelo multimodal nativo. Demuestra mayor flexibilidad en la interpretación de solicitudes y un rendimiento superior en few-shot learning. Su integración nativa con el ecosistema de Google le da ventajas únicas.</p>
+                    <p><strong>Anthropic Claude:</strong> Se distingue por su optimización para prompts estructurados con formato XML. Su fortaleza es el análisis de documentos largos y el mantenimiento de contexto en conversaciones extensas, ideal para aplicaciones legales, académicas y de investigación.</p>
+                </div>
+            </section>
+
+            <section id="optimizacion" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>5. Metodologías de optimización</h2>
+                <div class="space-y-4 text-justify">
+                    <div class="idea-destacada"><p><strong>Idea Clave:</strong> La optimización de prompts es un ciclo de 5 pasos: 1) Fijar una línea base con métricas, 2) Identificar fallos, 3) Aplicar mejoras, 4) Probar, y 5) Validar. Es un proceso científico, no un arte.</p></div>
+                    <p>La evaluación objetiva es crucial. Se usan métricas cuantitativas (relevancia semántica, precisión factual) y cualitativas. Herramientas como DSPy y Promptfoo permiten automatizar este proceso, tratando la calidad de los prompts con el mismo rigor que el código de software.</p>
+                    <div class="card-conexion">
+                        <h4 class="font-bold text-verde mb-2">Conexión Práctica: El Mega-Prompt</h4>
+                        <p class="text-sm">El apunte original detalla un "mega-prompt" para planificar un emprendimiento. Este no es solo un ejemplo, sino un modelo de cómo los profesionales pueden construir herramientas de análisis complejas. Al integrar múltiples técnicas (rol, CoT, ToT, few-shot) en un solo prompt, se crea un "agente" especializado capaz de realizar tareas que antes requerirían horas de trabajo humano.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aplicaciones" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>6. Aplicaciones prácticas y casos de estudio</h2>
+                <div class="space-y-4 text-justify">
+                    <p><strong class="text-verde">Marketing digital:</strong> El caso de una empresa de comercio electrónico latinoamericana proporciona evidencia concreta. Implementando prompts optimizados para personalización de productos, la empresa logró incrementar tasas de clic en 40% y conversión en 25%. El prompt exitoso incorporaba análisis de historial de compras, comportamiento de navegación, y datos demográficos para generar recomendaciones altamente personalizadas.</p>
+                    <p><strong class="text-rojo">Salud:</strong> El sistema Medprompt de Microsoft ejemplifica la aplicación sofisticada de estas técnicas en un dominio crítico. Combinando selección dinámica de ejemplos, cadenas de pensamiento auto-generadas, y métodos de conjunto, el sistema logra rendimiento comparable a médicos especialistas. La traducción de jerga médica a lenguaje sencillo, a través de prompts, ha demostrado mejorar la comprensión del paciente en 45%.</p>
+                    <p><strong class="text-amarillo">Educación:</strong> Un estudio en escuelas técnico-profesionales chilenas demostró el impacto concreto. Utilizando prompts optimizados para generar material de matemáticas adaptado a contextos vocacionales específicos, los estudiantes mostraron mejoras del 32% en comprensión y 28% en retención comparado con materiales genéricos.</p>
+                </div>
+            </section>
+
+            <section id="herramientas" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>7. Herramientas y ecosistema tecnológico</h2>
+                <p class="text-justify">El ecosistema de herramientas ha madurado, ofreciendo soluciones como <strong>PromptLayer</strong> para gestión visual, <strong>LangSmith</strong> para depuración técnica, y <strong>Vertex AI Prompt Optimizer</strong> de Google para optimización automatizada. Para evaluación, <strong>Promptfoo</strong> se ha convertido en el estándar para pruebas rigurosas, permitiendo que la calidad de los prompts sea tratada con la misma seriedad que el código.</p>
+            </section>
+
+            <section id="futuro" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>8. Perspectivas futuras y conclusiones</h2>
+                <div class="space-y-4 text-justify">
+                    <h3 class="text-xl font-semibold text-gris-oscuro mt-4">8.1. Tendencias emergentes</h3>
+                    <p>El campo de la ingeniería de prompts continúa evolucionando rápidamente, con varias tendencias que prometen transformar la disciplina en los próximos años. La automatización inteligente de la optimización de prompts, ejemplificada por sistemas como Vertex AI Prompt Optimizer, sugiere un futuro donde la creación de prompts efectivos será asistida por IA, creando un ciclo virtuoso de mejora continua.</p>
+                    <div class="card-definicion">
+                        <p><strong>Definición Clave (Multimodalidad Nativa):</strong> Es la capacidad de un modelo de IA para procesar y generar contenido que combina de forma nativa diferentes formatos, como texto, imágenes, audio y video, dentro de un único prompt y una única respuesta.</p>
+                    </div>
+                    <p>La multimodalidad nativa, pionerizada por modelos como Gemini, está redefiniendo qué constituye un prompt. La capacidad de combinar sin interrupciones texto, imágenes, audio y video en prompts únicos abre posibilidades que apenas comenzamos a explorar. Esta evolución requiere nuevos marcos conceptuales y metodologías de optimización que consideren la interacción entre modalidades.</p>
+                    <p>La democratización del acceso a capacidades avanzadas de IA a través de mejor ingeniería de prompts tiene implicaciones profundas para la equidad tecnológica. Como señala UNESCO (2025), "la capacidad de comunicarse efectivamente con sistemas de IA será tan fundamental como la lectoescritura tradicional" (p. 67). Esta realidad subraya la importancia crítica de la educación en ingeniería de prompts como competencia fundamental del siglo XXI.</p>
+                    <h3 class="text-xl font-semibold text-gris-oscuro mt-6">8.2. Consideraciones éticas y responsabilidad</h3>
+                    <p>El poder de la ingeniería de prompts conlleva responsabilidades significativas. La capacidad de influir en las salidas de sistemas de IA que impactan decisiones importantes requiere consideración cuidadosa de implicaciones éticas. Esto incluye la responsabilidad de evitar la amplificación de sesgos, asegurar transparencia en aplicaciones críticas, y mantener estándares éticos en el uso de estas tecnologías.</p>
+                    <div class="card-reflexion">
+                        <h4 class="font-bold text-amarillo mb-2">Para Reflexionar: La Ética del Prompt</h4>
+                        <p>Si un prompt puede ser diseñado para generar desinformación convincente o contenido que perpetúa estereotipos dañinos, ¿dónde recae la responsabilidad principal? ¿En el ingeniero de prompts que lo diseñó, en la plataforma que aloja el modelo, o en el usuario que lo despliega? Este es uno de los debates centrales que definirán la regulación futura de la IA.</p>
+                    </div>
+                    <p>La cuestión de la atribución y propiedad intelectual en contenido generado por IA permanece como área activa de debate. Mientras que la ingeniería de prompts permite la creación de contenido sofisticado, las preguntas sobre autoría, originalidad, y derechos requieren marcos legales y éticos que aún están en desarrollo.</p>
+                    <h3 class="text-xl font-semibold text-gris-oscuro mt-6">8.3. Conclusión</h3>
+                    <p>La ingeniería de prompts ha emergido como disciplina fundamental en la era de la inteligencia artificial generativa. Más que una habilidad técnica, representa una nueva forma de alfabetización que define cómo interactuamos con las tecnologías más avanzadas de nuestro tiempo. La evidencia empírica es clara: la aplicación sistemática de principios de ingeniería de prompts produce mejoras sustanciales y medibles en la calidad, relevancia, y utilidad de las salidas de IA.</p>
+                    <p>El viaje desde prompts básicos hasta formulaciones sofisticadas que incorporan asignación de roles, razonamiento en cadena, y aprendizaje con pocos ejemplos representa más que progreso técnico. Simboliza nuestra creciente sofisticación en la comunicación con sistemas de inteligencia artificial, estableciendo las bases para una colaboración más efectiva entre humanos y máquinas.</p>
+                    <p>A medida que estos sistemas continúan evolucionando, también lo harán las técnicas y metodologías de la ingeniería de prompts. Sin embargo, los principios fundamentales establecidos - claridad, contexto, estructura, y iteración sistemática - probablemente permanecerán como pilares de la práctica efectiva. El dominio de estos principios no es opcional sino esencial para cualquier profesional que busque mantener relevancia en un mundo cada vez más mediado por inteligencia artificial.</p>
+                    <div class="idea-destacada">
+                        <p><strong>Conclusión Final:</strong> La democratización del acceso a la IA a través de una mejor ingeniería de prompts tiene el potencial de nivelar el campo de juego global. Sin embargo, esta promesa solo se realizará si la educación en esta disciplina se vuelve ampliamente accesible. La capacidad de comunicarse efectivamente con la IA será una de las competencias definitorias del siglo XXI, y quienes la dominen estarán mejor posicionados para liderar la próxima revolución tecnológica.</p>
+                    </div>
+                    <p>El futuro de la ingeniería de prompts es brillante y lleno de posibilidades. A medida que continuamos explorando y expandiendo los límites de lo posible, una cosa permanece clara: la capacidad de comunicarse efectivamente con sistemas de inteligencia artificial será una de las competencias definitorias del siglo XXI. Aquellos que dominen esta disciplina estarán mejor posicionados para aprovechar el poder transformador de la IA, mientras que aquellos que la ignoren arriesgan quedar atrás en la revolución tecnológica más significativa de nuestra era.</p>
+                </div>
+            </section>
+
+            <section id="referencias" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>9. Referencias</h2>
+                <div class="text-xs space-y-2 break-words text-justify">
+                    <p>Amazon Web Services. (2024). <i>What is Prompt Engineering?</i> AWS Documentation.</p>
+                    <p>Anthropic. (2024). <i>Prompt engineering overview</i>. Anthropic Documentation.</p>
+                    <p>Brown, T., et al. (2023). Los modelos de lenguaje son aprendices con pocos ejemplos. <i>Avances en Sistemas de Procesamiento de Información Neural, 33</i>.</p>
+                    <p>Google AI. (2025). <i>Prompt design strategies</i>. Gemini API Documentation.</p>
+                    <p>Microsoft. (2024). <i>Prompt engineering techniques</i>. Microsoft Learn.</p>
+                    <p>Schulhoff, S., et al. (2024). <i>El Reporte de Prompts: Una Encuesta Sistemática de Técnicas de Ingeniería de Prompts</i>. ArXiv preprint.</p>
+                    <p>Wei, J., et al. (2023). El prompting de cadena de pensamiento elicita razonamiento en modelos de lenguaje grandes. <i>Avances en Sistemas de Procesamiento de Información Neural, 35</i>.</p>
+                    <p>Yao, S., et al. (2023). <i>Árbol de Pensamientos: Resolución Deliberada de Problemas con Modelos de Lenguaje Grandes</i>. ArXiv preprint.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Info Button -->
+    <div id="info-button" class="info-button" title="Información del recurso">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    </div>
+
+    <!-- Modal -->
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-azul">Información del recurso</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <div><h4 class="font-semibold text-gris-oscuro">Descripción</h4><p>Este es un apunte interactivo sobre "Ingeniería de prompts: fundamentos y aplicaciones en inteligencia artificial generativa", basado en los apuntes del Módulo 2 del curso de IA, año 2025.</p></div>
+                <div><h4 class="font-semibold text-gris-oscuro">Autor</h4><p>Francisco Sereño</p></div>
+                <div><h4 class="font-semibold text-gris-oscuro">Licenciamiento</h4><p>Este material se distribuye bajo una licencia Creative Commons (CC BY-NC-SA 4.0). Puede ser compartido y adaptado para fines no comerciales, siempre que se otorgue el crédito apropiado al autor original.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Basic UI Logic (Accordion, Sidebar, Modal) ---
+            const detailsElements = document.querySelectorAll('.accordion-item');
+            detailsElements.forEach(details => {
+                details.addEventListener('toggle', event => {
+                    if (details.open) {
+                        detailsElements.forEach(otherDetails => {
+                            if (otherDetails !== details) otherDetails.removeAttribute('open');
+                        });
+                    }
+                });
+            });
+
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
+
+            const infoButton = document.getElementById('info-button');
+            const infoModal = document.getElementById('info-modal');
+            const closeModal = document.getElementById('close-modal');
+            infoButton.addEventListener('click', () => infoModal.classList.add('active'));
+            closeModal.addEventListener('click', () => infoModal.classList.remove('active'));
+            infoModal.addEventListener('click', (e) => {
+                if (e.target === infoModal) infoModal.classList.remove('active');
+            });
+
+            // --- Active Nav Link on Scroll ---
+            const mainContent = document.getElementById('main-content');
+            const allLinks = document.querySelectorAll('.nav-link, .sub-nav-link');
+            const sections = document.querySelectorAll('section, .accordion-item');
+
+            function changeNav() {
+                let index = sections.length;
+                while(--index && mainContent.scrollTop + 100 < sections[index].offsetTop) {}
+                allLinks.forEach((link) => link.classList.remove('active'));
+                let activeLink = document.querySelector(`a[href="#${sections[index].id}"]`);
+                if(activeLink) {
+                    activeLink.classList.add('active');
+                    let parentNavLink = activeLink.closest('ul.pl-4')?.previousElementSibling;
+                    if(parentNavLink?.classList.contains('nav-link')) {
+                        parentNavLink.classList.add('active');
+                    }
+                }
+            }
+            mainContent.addEventListener('scroll', changeNav);
+            changeNav();
+
+            // --- Smooth Scroll & Mobile Menu Close ---
+            allLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if(targetElement.tagName === 'DETAILS' && !targetElement.open) targetElement.open = true;
+                    }
+                    if (window.innerWidth < 1024) sidebar.classList.add('-translate-x-full');
+                });
+            });
+        });
+        
+        // --- Interactive Exercises Logic ---
+        function checkFewShotAnswer() {
+            const result = document.getElementById('few-shot-result');
+            result.textContent = '¡Excelente! Una buena respuesta sería: "Disculpe el retraso, tuve un problema con el transporte. Llego en aproximadamente 10 minutos."';
+            result.className = 'mt-2 text-sm font-semibold text-verde';
+        }
+        
+        function checkQuizAnswer(quizId, correctAnswer) {
+            const quiz = document.getElementById(`quiz-${quizId}`);
+            const result = document.getElementById(`quiz-${quizId}-result`);
+            const selected = quiz.querySelector('input[type="radio"]:checked');
+
+            if (!selected) {
+                result.textContent = 'Por favor, selecciona una opción.';
+                result.className = 'mt-2 text-sm font-semibold text-rojo';
+                return;
+            }
+
+            if (selected.value === correctAnswer) {
+                result.textContent = '¡Correcto! Esa es la mejor opción.';
+                result.className = 'mt-2 text-sm font-semibold text-verde';
+            } else {
+                result.textContent = 'No es la opción más adecuada. Inténtalo de nuevo.';
+                result.className = 'mt-2 text-sm font-semibold text-rojo';
+            }
+        }
+    </script>
+</body>
+</html>

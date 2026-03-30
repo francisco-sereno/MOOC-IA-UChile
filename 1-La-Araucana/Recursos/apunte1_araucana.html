@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XP98CLRNF7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XP98CLRNF7');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apunte Interactivo: Fundamentos de la IA Generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #0033A0;
+            --amarillo: #FFD100;
+            --verde: #009639;
+            --rojo: #E3000F;
+            --gris-claro: #f0f2f5;
+            --gris-oscuro: #334155;
+            --texto-principal: #1e293b;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--texto-principal);
+        }
+        .text-justify { text-align: justify; }
+        .bg-azul { background-color: var(--azul); }
+        .text-azul { color: var(--azul); }
+        .border-azul { border-color: var(--azul); }
+        .bg-amarillo { background-color: var(--amarillo); }
+        .text-amarillo { color: var(--amarillo); }
+        .bg-verde { background-color: var(--verde); }
+        .text-verde { color: var(--verde); }
+        .bg-rojo { background-color: var(--rojo); }
+        .text-rojo { color: var(--rojo); }
+
+        .sidebar { transition: transform 0.3s ease-in-out; }
+        .main-content { transition: margin-left 0.3s ease-in-out; }
+
+        .accordion-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary:hover { background-color: #f8fafc; }
+        .accordion-item[open] summary {
+            background-color: var(--azul);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+        .accordion-item[open] summary::after { transform: rotate(45deg); }
+        .accordion-item .content {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-radius: 0 0 0.5rem 0.5rem;
+            margin-top: -0.5rem;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .idea-destacada, .card-reflexion {
+            background-color: #FFF9E6; /* yellow-50 */
+            border-left: 4px solid var(--amarillo);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-practica, .card-conexion {
+            background-color: #E6F5EB; /* green-50 */
+            border-left: 4px solid var(--verde);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+        .card-definicion {
+            background-color: #E6EAF6; /* blue-50 */
+            border-left: 4px solid var(--azul);
+            padding: 1rem; margin: 1.5rem 0; border-radius: 0.25rem;
+        }
+
+        .nav-link.active {
+            background-color: var(--azul);
+            color: white;
+            font-weight: 700;
+        }
+        .sub-nav-link.active {
+            color: var(--azul);
+            font-weight: 700;
+        }
+
+        .info-button {
+            position: fixed; bottom: 2rem; right: 2rem; background-color: var(--azul); color: white; width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); cursor: pointer; transition: transform 0.2s ease; z-index: 50;
+        }
+        .info-button:hover { transform: scale(1.1); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 0.75rem; max-width: 500px; width: 90%; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+    </style>
+</head>
+<body class="bg-gris-claro">
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white w-72 h-full shadow-lg p-6 fixed lg:relative transform -translate-x-full lg:translate-x-0 z-40 flex flex-col">
+            <div class="bg-azul p-4 rounded-lg mb-6">
+                <img src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo VTIA" class="h-16 mx-auto" onerror="this.style.display='none'">
+            </div>
+            <h1 class="text-xl font-bold text-azul mb-4 text-center">Fundamentos de la IA Generativa</h1>
+            <nav id="table-of-contents" class="flex-grow overflow-y-auto">
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#introduccion" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">Introducción</a></li>
+                    <li>
+                        <a href="#cap1" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">1. Fundamentos conceptuales</a>
+                        <ul class="pl-4 mt-1 space-y-1">
+                            <li><a href="#cap1-1" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">1.1. ¿Qué es la IA?</a></li>
+                            <li><a href="#cap1-2" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">1.2. IA tradicional vs. generativa</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#cap2" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">2. Ecosistema de herramientas</a>
+                         <ul class="pl-4 mt-1 space-y-1">
+                            <li><a href="#cap2-1" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">2.1. Herramientas principales</a></li>
+                            <li><a href="#cap2-2" class="sub-nav-link block py-1 px-2 text-gray-600 hover:text-azul rounded">2.2. Mitos y limitaciones</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#cap3" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">3. Oportunidades en Chile</a></li>
+                    <li><a href="#cap4" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">4. Metodología práctica</a></li>
+                    <li><a href="#cap5" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">5. Conclusiones</a></li>
+                    <li><a href="#cap6" class="nav-link block py-2 px-3 rounded-md hover:bg-gray-100 text-gray-700 font-medium">6. Referencias</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content flex-1 p-4 md:p-8 lg:p-12 overflow-y-auto">
+            <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-md shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+
+            <header class="mb-12">
+                <p class="text-azul font-semibold">Módulo 1</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-gris-oscuro mt-2">El diagnóstico: Fundamentos de la inteligencia artificial generativa</h1>
+            </header>
+
+            <section id="introduccion" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Introducción</h2>
+                <p class="text-lg leading-relaxed text-justify">La inteligencia artificial (IA) generativa representa uno de los desarrollos tecnológicos más significativos de la última década, con implicaciones profundas para el mundo laboral y, particularmente, para el contexto de la administración pública y la educación superior en Chile.</p>
+                <div class="idea-destacada">
+                    <p><b>Idea clave:</b> Este módulo no busca formar expertos en programación, sino entregar una base conceptual sólida para que profesionales de cualquier área puedan comprender, evaluar y utilizar estas nuevas herramientas de forma estratégica y responsable.</p>
+                </div>
+                <p class="text-lg leading-relaxed text-justify mt-4">Para ilustrar la aplicación práctica de estos conceptos, este apunte utilizará un caso de estudio central que guiará el aprendizaje a través de los distintos módulos.</p>
+                <div class="card-conexion">
+                    <h4 class="font-bold text-verde mb-2">Caso de estudio central: La kermesse de Isabella Andrea</h4>
+                    <p class="text-sm"><b>Personaje:</b> Isabella Andrea, apoderada y principal organizadora de la kermesse anual del colegio de sus hijos.</p>
+                    <p class="text-sm mt-2"><b>Situación:</b> A Isabella le gusta organizar el evento, pero le consume una enorme cantidad de tiempo y energía. Debe enviar correos a todos los apoderados, crear afiches, buscar ideas para juegos, organizar voluntarios y planificar el presupuesto. Con un trabajo demandante y poco tiempo libre, busca una solución.</p>
+                    <p class="text-sm mt-2"><b>Problemática central:</b> ¿Cómo puede Isabella utilizar herramientas de IA generativa para organizar una kermesse increíble sin sacrificar sus fines de semana, y qué cuidados debe tener al implementar estas tecnologías?</p>
+                </div>
+            </section>
+
+            <section id="cap1" class="mb-12 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-azul mb-6 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>1. Fundamentos conceptuales</h2>
+                <div class="space-y-4">
+                    <details id="cap1-1" class="accordion-item scroll-mt-20"><summary>1.1. ¿Qué es la inteligencia artificial?</summary>
+                        <div class="content space-y-4 text-justify">
+                            <div class="card-definicion">
+                                <p><b>Definición clave:</b> La inteligencia artificial es una rama de la informática que permite a las computadoras realizar tareas que normalmente requieren inteligencia humana. Estas tareas incluyen entender el lenguaje, reconocer patrones, tomar decisiones y resolver problemas complejos.</p>
+                            </div>
+                            <p>A diferencia de los programas tradicionales que siguen instrucciones fijas (si ocurre A, hacer B), la IA puede aprender de grandes cantidades de información y aplicar ese aprendizaje a situaciones nuevas y no previstas.</p>
+                        </div>
+                    </details>
+                    <details id="cap1-2" class="accordion-item scroll-mt-20"><summary>1.2. Distinguiendo paradigmas: IA tradicional vs. IA generativa</summary>
+                        <div class="content space-y-4 text-justify">
+                           <div class="card-conexion">
+                                <h4 class="font-bold text-verde mb-2">Analogía: El archivador vs. el asistente creativo</h4>
+                                <p>La <b>IA tradicional</b> es como un archivador digital experto: clasifica y encuentra información que ya existe (por ejemplo, detecta si un correo es spam o no). La <b>IA generativa</b> es como un asistente creativo: después de leer todos los documentos de la oficina, puede redactar un borrador de un informe completamente nuevo, combinando ideas y datos de forma original.</p>
+                            </div>
+                            <p><b>Inteligencia artificial tradicional (o discriminativa):</b> Se enfoca en clasificar y predecir basándose en patrones de datos históricos. Ejemplos en el contexto universitario incluyen sistemas que predicen la deserción estudiantil o que clasifican documentos. Estos sistemas operan dentro de parámetros bien definidos y no pueden crear contenido nuevo.</p>
+                            <p><b>Inteligencia artificial generativa:</b> Representa un cambio de paradigma. Estos sistemas no se limitan a clasificar, sino que pueden sintetizar contenido completamente nuevo (texto, imágenes, código) que, aunque inspirado en patrones aprendidos, no existe en sus datos de entrenamiento. Su función principal es crear, no solo organizar.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section id="cap2" class="mb-12 scroll-mt-20">
+                 <h2 class="text-3xl font-bold text-azul mb-6 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /></svg>2. El ecosistema de herramientas y sus limitaciones</h2>
+                <div class="space-y-4">
+                    <details id="cap2-1" class="accordion-item scroll-mt-20"><summary>2.1. Herramientas principales disponibles</summary>
+                        <div class="content space-y-4 text-justify">
+                            <p>El ecosistema de IA generativa es diverso. Para un profesional como Isabella, las plataformas más relevantes son los "Modelos de Lenguaje Grandes" (LLM), accesibles a través de interfaces de chat:</p>
+                            <ul class="list-disc pl-5 mt-4 space-y-2">
+                                <li><b>ChatGPT (de OpenAI):</b> El más conocido, ideal para conversación y redacción de propósito general.</li>
+                                <li><b>Gemini (de Google):</b> Integrado con el ecosistema de Google, útil para resumir correos en Gmail o generar textos en Google Docs.</li>
+                                <li><b>Claude (de Anthropic):</b> Reconocido por su capacidad para procesar y analizar documentos muy extensos.</li>
+                                <li><b>Copilot (de Microsoft):</b> Integrado en Windows y en las herramientas de Microsoft 365.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details id="cap2-2" class="accordion-item scroll-mt-20"><summary>2.2. Desmitificación y limitaciones críticas</summary>
+                        <div class="content space-y-4 text-justify">
+                            <div class="card-reflexion">
+                                <h4 class="font-bold text-amarillo mb-2">Mitos comunes vs. realidad</h4>
+                                <ul class="list-disc pl-5 text-sm">
+                                    <li><b>Mito:</b> La IA "comprende" lo que escribe. <b>Realidad:</b> No comprende, predice. Es un sistema estadístico que calcula la siguiente palabra más probable.</li>
+                                    <li><b>Mito:</b> La IA es objetiva y neutral. <b>Realidad:</b> Hereda y puede amplificar los sesgos humanos presentes en sus datos de entrenamiento.</li>
+                                </ul>
+                            </div>
+                            <p>Limitaciones que Isabella debe conocer:</p>
+                            <ul class="list-disc pl-5 mt-4 space-y-2">
+                                <li><b>Alucinaciones:</b> La IA puede inventar datos, fechas o fuentes con total seguridad.</li>
+                                <li><b>Conocimiento desactualizado:</b> Su información tiene una fecha límite.</li>
+                                <li><b>Confidencialidad:</b> Nunca se debe introducir información sensible en las versiones públicas de estas herramientas.</li>
+                            </ul>
+                             <p class="mt-4 font-semibold">La implicación es clara: todo contenido generado por una IA debe ser rigurosamente verificado y validado por un ser humano.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section id="cap3" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.832 14H16.17M12 18h.01M12 6h.01M6 6h.01M18 6h.01M7 20h10a2 2 0 002-2V8a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>3. Oportunidades y adopción en el contexto chileno</h2>
+                <div class="space-y-4 text-justify">
+                    <p>Chile presenta un escenario dinámico para la adopción de IA generativa. Según el <b>Índice Latinoamericano de Inteligencia Artificial (ILIA, 2024)</b>, Chile lidera la región, clasificándose como país "Pionero" gracias a sus fortalezas en factores habilitantes como infraestructura y talento humano.</p>
+                     <ul class="list-disc pl-5 mt-4 space-y-2">
+                        <li><b>Minería y Recursos Naturales:</b> Lidera la implementación para optimizar la mantención predictiva y la generación de informes técnicos.</li>
+                        <li><b>Servicios Financieros:</b> Se enfoca en la ciberseguridad y la personalización de la experiencia del cliente.</li>
+                        <li><b>Retail:</b> Utiliza la IA para optimizar inventarios y personalizar las campañas de marketing.</li>
+                        <li><b>Salud y Educación:</b> Sectores con enorme potencial pero adopción más lenta por consideraciones regulatorias y éticas.</li>
+                    </ul>
+                    <div class="idea-destacada">
+                        <p><b>Factores clave en Chile:</b> El éxito de la adopción depende de un <b>liderazgo comprometido</b> y la disponibilidad de <b>talento "traductor"</b> que conecte las necesidades del negocio con la tecnología. Las principales barreras son la <b>resistencia cultural al cambio</b> y la incertidumbre sobre el <b>retorno de la inversión</b> (Deloitte, 2025).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cap4" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>4. Metodología práctica para el diagnóstico</h2>
+                <div class="space-y-4 text-justify">
+                    <p>Para que Isabella pueda aplicar la IA de forma efectiva, primero debe realizar un diagnóstico de sus propias tareas. Un enfoque estructurado es fundamental.</p>
+                    <ol class="list-decimal list-inside space-y-2 mt-4">
+                        <li><b>Mapeo de tareas:</b> Listar todas las actividades para la kermesse (ej: redactar 20 correos, diseñar 5 afiches, buscar 10 ideas de juegos).</li>
+                        <li><b>Clasificación por naturaleza:</b> Agrupar las tareas. ¿Cuáles son repetitivas? ¿Cuáles requieren creatividad?</li>
+                        <li><b>Identificación de "dolores":</b> ¿Qué tareas consumen más tiempo? ¿Cuáles son más tediosas?</li>
+                        <li><b>Evaluación de potencial:</b> Cruzar la lista de "dolores" con las capacidades de la IA. Las tareas de redacción, resumen y estructuración de información son candidatas ideales.</li>
+                    </ol>
+                    <div class="card-practica">
+                        <h4 class="font-bold text-verde mb-2">Ejercicio práctico: Aplicando el diagnóstico de Isabella</h4>
+                        <p class="mb-2">Isabella identifica que una de sus tareas más tediosas es <b>redactar el correo para solicitar voluntarios</b>. Actualmente le toma 2 horas. Analicemos el potencial:</p>
+                        <ul class="list-disc pl-5 text-sm space-y-1 mt-2">
+                             <li><b>Tarea:</b> Redactar correo para solicitar voluntarios.</li>
+                             <li><b>Naturaleza:</b> Repetitiva, pero requiere un tono motivador y claro.</li>
+                             <li><b>Dolor:</b> Consume mucho tiempo que podría usar para contactar proveedores.</li>
+                             <li><b>Potencial con IA:</b> Alto. Isabella puede pedir a la IA que genere un borrador del correo con un tono cercano y convincente, especificando los roles necesarios y los horarios.</li>
+                        </ul>
+                        <p class="mt-2 text-sm"><b>Resultado esperado:</b> Reducir el tiempo de 2 horas a 20 minutos (principalmente para revisar y personalizar el borrador de la IA).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cap5" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>5. Conclusiones y perspectivas futuras</h2>
+                <div class="space-y-4 text-justify">
+                    <p>La inteligencia artificial generativa no es una solución mágica, sino una herramienta de productividad cuyo valor reside en su capacidad para actuar como un "copiloto" que amplifica las capacidades humanas. Su correcta implementación puede acelerar tareas repetitivas y potenciar la creatividad, liberando tiempo valioso para el pensamiento estratégico.</p>
+                    <p>El informe ILIA (2024) posiciona a Chile como un "Pionero" en la región, pero también revela desafíos estructurales significativos. Si bien la concentración de talento en IA ha crecido, persiste una brecha importante con los países del Norte Global, agravada por una tendencia sostenida de "fuga de talentos" en América Latina. Esto subraya la urgencia no solo de formar, sino también de retener a los especialistas.</p>
+                    <div class="idea-destacada">
+                        <p><b>Conclusión final:</b> El éxito no radica en reemplazar el juicio humano, sino en aumentarlo. La evidencia sugiere que la adopción de IA generativa en Chile tiene el potencial de elevar el PIB en 1.2 puntos, simplemente por el aumento de eficiencia en las 100 ocupaciones más importantes (ILIA, 2024). Para capitalizar esta oportunidad, el primer paso no es tecnológico, sino analítico: un autodiagnóstico riguroso para identificar dónde estas herramientas pueden generar el mayor impacto, permitiendo a los profesionales enfocarse en tareas de alto valor como la estrategia, el pensamiento crítico y la empatía, habilidades que la IA no posee.</p>
+                    </div>
+                    <p>La transformación está en marcha. Aquellos individuos y organizaciones que adopten una mentalidad de experimentación, aprendizaje continuo y uso responsable estarán mejor posicionados para liderar y prosperar en el futuro emergente del trabajo.</p>
+                </div>
+            </section>
+
+            <section id="cap6" class="mb-12 card scroll-mt-20">
+                <h2 class="text-2xl font-bold text-azul mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-azul" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>6. Referencias</h2>
+                <div class="text-xs space-y-2 break-words text-justify">
+                    <p>Deloitte. (2025). <em>State of Generative AI in the Enterprise: Quarter four report</em>.</p>
+                    <p>CENIA. (2024). <em>Índice Latinoamericano de Inteligencia Artificial (ILIA)</em>.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Info Button -->
+    <div id="info-button" class="info-button" title="Información del recurso">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    </div>
+
+    <!-- Modal -->
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-azul">Información del recurso</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <div><h4 class="font-semibold text-gris-oscuro">Descripción</h4><p>Apunte interactivo para el Módulo 1 del curso de IA Generativa, actualizado en agosto de 2025.</p></div>
+                <div><h4 class="font-semibold text-gris-oscuro">Licenciamiento</h4><p>Este material se distribuye bajo una licencia Creative Commons (CC BY-NC-SA 4.0).</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const infoButton = document.getElementById('info-button');
+            const infoModal = document.getElementById('info-modal');
+            const closeModal = document.getElementById('close-modal');
+            const allLinks = document.querySelectorAll('.nav-link, .sub-nav-link');
+            const sections = document.querySelectorAll('section, .accordion-item');
+
+            // --- Sidebar Toggle ---
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
+            
+            // --- Modal Logic ---
+            infoButton.addEventListener('click', () => infoModal.classList.add('active'));
+            closeModal.addEventListener('click', () => infoModal.classList.remove('active'));
+            infoModal.addEventListener('click', (e) => {
+                if (e.target === infoModal) infoModal.classList.remove('active');
+            });
+
+            // --- Active Nav Link on Scroll ---
+            function changeNav() {
+                let index = sections.length;
+                while(--index && mainContent.scrollTop + 100 < sections[index].offsetTop) {}
+                allLinks.forEach((link) => link.classList.remove('active'));
+                let activeLink = document.querySelector(`a[href="#${sections[index].id}"]`);
+                if(activeLink) {
+                    activeLink.classList.add('active');
+                    let parentNavLink = activeLink.closest('ul.pl-4')?.previousElementSibling;
+                    if(parentNavLink?.classList.contains('nav-link')) {
+                        parentNavLink.classList.add('active');
+                    }
+                }
+            }
+            mainContent.addEventListener('scroll', changeNav);
+            changeNav();
+
+            // --- Smooth Scroll & Mobile Menu Close ---
+            allLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if(targetElement.tagName === 'DETAILS' && !targetElement.open) {
+                            // Close others before opening
+                            document.querySelectorAll('.accordion-item[open]').forEach(d => d.removeAttribute('open'));
+                            targetElement.open = true;
+                        }
+                    }
+                    if (window.innerWidth < 1024) sidebar.classList.add('-translate-x-full');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

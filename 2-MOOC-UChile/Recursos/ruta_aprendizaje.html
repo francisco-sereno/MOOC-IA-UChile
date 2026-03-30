@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RJSF7BSNXP');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta de aprendizaje</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .border-pantone-blue { border-color: #0033A0; }
+        .bg-pantone-blue { background-color: #0033A0; }
+        .bg-pantone-blue-light { background-color: #E6EAF6; }
+        .text-pantone-blue { color: #0033A0; }
+        
+        .border-pantone-yellow { border-color: #FFD100; }
+        .bg-pantone-yellow { background-color: #FFD100; }
+        .bg-pantone-yellow-light { background-color: #FFF9E6; }
+        .text-pantone-yellow { color: #E6A200; }
+
+        .border-pantone-green { border-color: #009639; }
+        .bg-pantone-green { background-color: #009639; }
+        .bg-pantone-green-light { background-color: #E6F5EB; }
+        .text-pantone-green { color: #009639; }
+
+        .border-pantone-red { border-color: #E3000F; }
+        .bg-pantone-red { background-color: #E3000F; }
+        .bg-pantone-red-light { background-color: #FDE6E7; }
+        .text-pantone-red { color: #E3000F; }
+
+        .main-nav-btn {
+            transition: all 0.3s ease;
+        }
+        .main-nav-btn.active {
+            border-color: #0033A0;
+            color: #0033A0;
+            background-color: #E6EAF6;
+        }
+
+        .presentation-nav-btn {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .presentation-nav-btn.active {
+            font-weight: 600;
+        }
+        .presentation-content-pane {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .presentation-content-pane.hidden {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+        
+        .module-button {
+            transition: all 0.3s ease-in-out;
+        }
+        .module-button.active {
+            transform: translateX(10px);
+            font-weight: 700;
+        }
+        .module-content {
+            transition: all 0.4s ease-in-out;
+            border-left-width: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        
+        <header class="text-center mb-8">
+            <div class="inline-block bg-pantone-blue p-3 rounded-xl shadow-md mx-auto mb-4">
+                <i class="fas fa-rocket text-4xl text-white"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Ruta de aprendizaje</h1>
+            <p class="mt-2 text-lg text-gray-600">Acompañe a Isabella Andrea en su viaje para potenciar su carrera profesional.</p>
+        </header>
+
+        <section id="instructions-box" class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg relative mb-8 shadow-sm transition-opacity duration-500">
+            <div class="flex items-start">
+                <i class="fas fa-info-circle text-2xl mr-3 mt-1"></i>
+                <div>
+                    <strong class="font-bold">Instrucciones de uso</strong>
+                    <p class="block sm:inline text-sm ml-2">Utilice las pestañas superiores para navegar entre las secciones. Explore el contenido interactivo para seguir el progreso de Isabella Andrea.</p>
+                </div>
+                <button id="close-instructions" class="ml-auto -mt-2 -mr-2 p-2" aria-label="Cerrar instrucciones">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </section>
+
+        <nav class="flex flex-wrap justify-center border-b-2 border-gray-200 mb-8">
+            <button class="main-nav-btn text-lg font-semibold py-3 px-6 border-b-4" data-target="view-presentacion">
+                <i class="fas fa-chalkboard-teacher mr-2"></i>Presentación
+            </button>
+            <button class="main-nav-btn text-lg font-semibold py-3 px-6 border-b-4" data-target="view-viaje">
+                <i class="fas fa-route mr-2"></i>Viaje de aprendizaje
+            </button>
+            <button class="main-nav-btn text-lg font-semibold py-3 px-6 border-b-4" data-target="view-evaluaciones">
+                <i class="fas fa-check-double mr-2"></i>Evaluaciones
+            </button>
+        </nav>
+
+        <div id="views-container">
+
+            <section id="view-presentacion" class="view">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <nav id="presentation-nav" class="flex flex-wrap justify-center border-b border-gray-200 mb-6"></nav>
+                    <div id="presentation-content-container" class="min-h-[150px]"></div>
+                </div>
+            </section>
+
+            <section id="view-viaje" class="view hidden">
+                <main class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                    <nav class="md:col-span-4 lg:col-span-3">
+                        <h2 class="text-xl font-bold mb-4 text-gray-700">Módulos</h2>
+                        <div id="module-navigation" class="space-y-2"></div>
+                    </nav>
+                    <section id="module-content-area" class="md:col-span-8 lg:col-span-9 min-h-[400px]">
+                        <div id="module-content" class="bg-white p-6 md:p-8 rounded-lg shadow-lg module-content">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 id="module-title" class="text-2xl font-bold"></h3>
+                                <span id="module-weight" class="text-sm font-semibold px-3 py-1 rounded-full"></span>
+                            </div>
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-700 mb-2">El desafío de Isabella Andrea:</h4>
+                                    <p id="module-challenge" class="text-gray-600 leading-relaxed text-justify"></p>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Su aplicación práctica:</h4>
+                                    <p id="module-application" class="text-gray-600 leading-relaxed text-justify"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </section>
+
+            <section id="view-evaluaciones" class="view hidden">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Estructura de evaluación</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8 max-w-3xl mx-auto text-justify">
+                        La evaluación es continua y formativa, centrada en el desempeño práctico. Las actividades promueven la autoevaluación y la aplicación de la IA generativa a los desafíos de Isabella Andrea. La calificación final refleja la calidad de las soluciones desarrolladas. <strong>Para aprobar, se requiere una calificación final igual o superior a 4.0 y la participación en todas las actividades prácticas.</strong>
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-200">
+                            <thead class="bg-pantone-blue text-white">
+                                <tr>
+                                    <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Módulo</th>
+                                    <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Aplicación (evaluación)</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Ponderación</th>
+                                </tr>
+                            </thead>
+                            <tbody id="evaluation-table-body" class="text-gray-700">
+                                <!-- Las filas se generarán dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="text-center mt-12 pt-8 border-t border-gray-200">
+            <p class="text-gray-500">&copy; 2025 Ruta de aprendizaje personalizada</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const instructionsBox = document.getElementById('instructions-box');
+            const closeInstructionsBtn = document.getElementById('close-instructions');
+            if (closeInstructionsBtn) {
+                closeInstructionsBtn.addEventListener('click', () => {
+                    instructionsBox.style.opacity = '0';
+                    setTimeout(() => instructionsBox.style.display = 'none', 500);
+                });
+            }
+
+            const mainNavButtons = document.querySelectorAll('.main-nav-btn');
+            const views = document.querySelectorAll('.view');
+
+            function switchView(targetId) {
+                views.forEach(view => view.classList.toggle('hidden', view.id !== targetId));
+                mainNavButtons.forEach(button => button.classList.toggle('active', button.dataset.target === targetId));
+            }
+
+            mainNavButtons.forEach(button => {
+                button.addEventListener('click', () => switchView(button.dataset.target));
+            });
+
+            switchView('view-presentacion');
+
+            const presentationData = [
+                { id: 'descripcion', title: 'Descripción', icon: 'fa-user-tie', color: 'blue', content: 'Este curso utiliza el aprendizaje basado en casos para guiar a Isabella Andrea, una profesional competente que busca evolucionar en su carrera. Aprenderá a usar la <strong>inteligencia artificial generativa</strong> para superar los obstáculos del proceso de postulación laboral moderno, traduciendo su valiosa experiencia en un lenguaje corporativo impactante.' },
+                { id: 'objetivo', title: 'Objetivo', icon: 'fa-bullseye', color: 'yellow', content: 'El objetivo es que adquiera competencias para usar la <strong>IA generativa</strong> como un asistente profesional. Al finalizar, podrá optimizar su CV para sistemas ATS, redactar cartas de presentación personalizadas de forma eficiente y preparar entrevistas de trabajo, aumentando significativamente sus oportunidades de éxito.' },
+                { id: 'metodologia', title: 'Metodología', icon: 'fa-sitemap', color: 'green', content: 'El aprendizaje se basa en un ciclo práctico que incluye los siguientes pasos: <ol class="list-decimal list-inside mt-2 space-y-1"><li><strong>Presentación del desafío</strong> de Isabella.</li><li><strong>Análisis del problema</strong>.</li><li><strong>Exploración de herramientas</strong> de IA generativa.</li><li><strong>Aplicación práctica</strong> para resolver el desafío.</li><li><strong>Reflexión</strong> sobre los resultados y el proceso.</li></ol>' }
+            ];
+            const presentationNav = document.getElementById('presentation-nav');
+            const presentationContentContainer = document.getElementById('presentation-content-container');
+
+            presentationData.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.className = `presentation-nav-btn px-4 py-3 text-sm md:text-base text-gray-600 hover:text-gray-900 border-pantone-${item.color}`;
+                button.textContent = item.title;
+                button.dataset.target = item.id;
+                presentationNav.appendChild(button);
+
+                const contentPane = document.createElement('div');
+                contentPane.id = item.id;
+                contentPane.className = 'presentation-content-pane';
+                if (index !== 0) contentPane.classList.add('hidden');
+                contentPane.innerHTML = `<div class="flex items-start"><i class="fas ${item.icon} text-3xl text-pantone-${item.color} mr-4 mt-1"></i><div><h3 class="font-bold text-xl mb-2 text-gray-800">${item.title}</h3><div class="text-gray-600 leading-relaxed text-justify">${item.content}</div></div></div>`;
+                presentationContentContainer.appendChild(contentPane);
+
+                button.addEventListener('click', () => {
+                    presentationNav.querySelectorAll('.presentation-nav-btn').forEach(btn => {
+                        const itemData = presentationData.find(d => d.id === btn.dataset.target);
+                        if(itemData) btn.classList.remove('active', `text-pantone-${itemData.color}`, `border-pantone-${itemData.color}`);
+                    });
+                    button.classList.add('active', `text-pantone-${item.color}`, `border-pantone-${item.color}`);
+                    presentationContentContainer.querySelectorAll('.presentation-content-pane').forEach(pane => pane.classList.add('hidden'));
+                    document.getElementById(item.id).classList.remove('hidden');
+                });
+            });
+            const firstPresentationButton = presentationNav.querySelector('.presentation-nav-btn');
+            firstPresentationButton.classList.add('active', `text-pantone-blue`, `border-pantone-blue`);
+
+            const modules = [
+                { id: 1, title: "Módulo 1: El diagnóstico de competencias", challenge: "Isabella Andrea siente que su experiencia en roles administrativos y de gestión es valiosa, pero no sabe cómo alinearla con las competencias clave que buscan roles como 'coordinadora de proyectos' o 'analista de operaciones'.", application: "Utilizará la <strong>IA generativa</strong> para analizar su historial laboral y extraer las habilidades y logros más relevantes, mapeándolos con las palabras clave de descripciones de cargos de su interés para realizar un diagnóstico de competencias.", weight: "30%", color: "blue" },
+                { id: 2, title: "Módulo 2: La optimización del CV y la carta de presentación", challenge: "Dedica demasiado tiempo a adaptar su CV y carta de presentación para cada postulación, y teme que no superen los filtros automáticos (ATS). Los resultados le parecen genéricos y poco convincentes.", application: "Aplicará técnicas de 'prompt engineering' para que la <strong>IA generativa</strong> transforme las descripciones de sus funciones en logros cuantificables y redacte borradores de cartas de presentación personalizadas y de alto impacto en minutos.", weight: "30%", color: "yellow" },
+                { id: 3, title: "Módulo 3: La simulación de entrevistas", challenge: "Las entrevistas de trabajo le generan ansiedad. Le cuesta anticipar las preguntas y estructurar respuestas que demuestren su idoneidad para el nuevo rol, conectando su experiencia pasada con los requerimientos futuros.", application: "Diseñará un flujo de trabajo con <strong>IA generativa</strong> para crear un 'simulador de entrevistas' personalizado. La IA generará preguntas probables basadas en la oferta y su CV, permitiéndole practicar y refinar sus respuestas.", weight: "10%", color: "green" },
+                { id: 4, title: "Módulo 4: La autenticidad y la ética en la IA generativa", challenge: "Le preocupa que el uso de IA generativa haga que sus postulaciones suenen robóticas y pierdan su toque personal. Además, quiere ser consciente de los sesgos que pueden tener las herramientas de IA generativa en los procesos de selección.", application: "Analizará textos generados por IA generativa para aprender a editarlos y refinarlos, asegurando que su voz y autenticidad se mantengan. Redactará un borrador de 'principios de uso ético' de la IA generativa para su búsqueda laboral.", weight: "30%", color: "red" }
+            ];
+
+            const navigationContainer = document.getElementById('module-navigation');
+            const contentArea = document.getElementById('module-content');
+            const titleEl = document.getElementById('module-title');
+            const weightEl = document.getElementById('module-weight');
+            const challengeEl = document.getElementById('module-challenge');
+            const applicationEl = document.getElementById('module-application');
+            const evaluationTableBody = document.getElementById('evaluation-table-body');
+
+            function displayModule(moduleId) {
+                const module = modules.find(m => m.id === moduleId);
+                if (!module) return;
+
+                titleEl.textContent = module.title;
+                challengeEl.innerHTML = module.challenge;
+                applicationEl.innerHTML = module.application;
+                weightEl.textContent = `Ponderación: ${module.weight}`;
+                contentArea.className = `bg-white p-6 md:p-8 rounded-lg shadow-lg module-content border-pantone-${module.color}`;
+                weightEl.className = `text-sm font-semibold px-3 py-1 rounded-full bg-pantone-${module.color}-light text-pantone-${module.color}`;
+                titleEl.className = `text-2xl font-bold text-pantone-${module.color}`;
+
+                navigationContainer.querySelectorAll('.module-button').forEach(btn => {
+                    const btnModule = modules.find(m => m.id === parseInt(btn.dataset.moduleId));
+                    if (btnModule) {
+                       btn.classList.remove('active', `bg-pantone-${btnModule.color}-light`, `text-pantone-${btnModule.color}`);
+                    }
+                    if (parseInt(btn.dataset.moduleId) === moduleId) {
+                        btn.classList.add('active', `bg-pantone-${module.color}-light`, `text-pantone-${module.color}`);
+                    }
+                });
+            }
+
+            modules.forEach((module, index) => {
+                const button = document.createElement('button');
+                button.className = 'w-full text-left p-4 rounded-lg module-button hover:bg-gray-100 hover:font-bold';
+                button.dataset.moduleId = module.id;
+                button.innerHTML = `<span class="font-semibold">Módulo ${module.id}:</span> <span class="block text-sm text-gray-600">${module.title.split(':')[1].trim()}</span>`;
+                button.addEventListener('click', () => displayModule(module.id));
+                navigationContainer.appendChild(button);
+
+                // Populate evaluation table
+                const row = document.createElement('tr');
+                row.className = index % 2 === 0 ? 'border-b' : 'border-b bg-gray-50';
+                row.innerHTML = `
+                    <td class="text-left py-3 px-4">${module.title}</td>
+                    <td class="text-left py-3 px-4">${module.application}</td>
+                    <td class="text-center py-3 px-4 font-semibold text-pantone-${module.color}">${module.weight}</td>
+                `;
+                evaluationTableBody.appendChild(row);
+            });
+
+            displayModule(1);
+        });
+    </script>
+
+</body>
+</html>

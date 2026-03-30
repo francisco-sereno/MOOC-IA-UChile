@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El dilema de Isabella Andrea - Caso interactivo | Módulo 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, 
+                #00274D 0%, 
+                #0055A5 30%, 
+                #0077C8 60%, 
+                #00A859 100%);
+            border-radius: 28px;
+            box-shadow: 
+                0 4px 20px rgba(0, 39, 77, 0.15),
+                0 20px 60px rgba(0, 85, 165, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 255, 255, 0.12) 50%, 
+                transparent 70%);
+            background-size: 200% 200%;
+            animation: shimmer 4s infinite linear;
+        }
+
+        .header-banner::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                transparent 70%);
+            top: -250px;
+            right: -250px;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) scale(1); 
+            }
+            50% { 
+                transform: translateY(-12px) scale(1.02); 
+            }
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.35),
+                0 10px 30px rgba(0, 85, 165, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Mejoras de accesibilidad para neurodivergencias */
+        *:focus-visible {
+            outline: 4px solid var(--amarillo);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* Reducir movimiento para usuarios que lo prefieran */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Contraste mejorado para texto */
+        .text-high-contrast {
+            color: #1a1a1a;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Instrucciones badge flotante */
+        .instructions-badge {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Barra de progreso */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 100;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--azul) 0%, var(--verde) 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Badge de puntuación */
+        .score-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 50;
+            font-weight: 700;
+            color: var(--azul);
+        }
+
+        /* Contenedor de pasos */
+        .story-step {
+            display: none;
+        }
+        
+        .story-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Tarjetas de decisión mejoradas */
+        .decision-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .decision-card:hover {
+            border-color: var(--azul);
+            transform: translateX(8px);
+            box-shadow: 0 4px 15px rgba(0, 85, 165, 0.2);
+        }
+
+        /* Medidor ético mejorado */
+        .ethical-meter {
+            width: 100%;
+            height: 30px;
+            background: #e5e7eb;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .ethical-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b 0%, #10b981 50%, #059669 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        /* Cajas de consecuencias y reflexiones */
+        .consequence-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-left: 6px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        
+        .reflection-box {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            border-left: 6px solid var(--azul);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .header-banner {
+                border-radius: 16px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 90vh;
+                margin: 1rem;
+            }
+
+            .score-badge {
+                top: 10px;
+                right: 10px;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .instructions-badge {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.75rem 1.25rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Asegurar que el contenido sea legible en pantallas de 850px de alto */
+        @media (max-height: 850px) {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .modal-content {
+                max-height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-slate-50 to-green-50">
+
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl flex items-center justify-center text-3xl">
+                            📖
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold" style="color: var(--azul-dark);">Instrucciones de uso</h2>
+                            <p class="text-gray-600 font-medium">Cómo aprovechar este recurso interactivo</p>
+                        </div>
+                    </div>
+                    <button onclick="closeInstructions()" class="text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none transition-colors" aria-label="Cerrar instrucciones">
+                        ×
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2" style="color: var(--azul);">
+                            <span class="text-2xl">🎯</span>
+                            Propósito del recurso
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Este es un caso de estudio interactivo sobre el uso ético de inteligencia artificial generativa en contextos profesionales. A través de la historia de Isabella Andrea, explorarás dilemas éticos reales y tomarás decisiones que reflejarán tu comprensión de los principios del uso responsable de IA.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-200">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2" style="color: var(--verde);">
+                            <span class="text-2xl">🧭</span>
+                            Cómo interactuar
+                        </h3>
+                        <ul class="text-gray-700 leading-relaxed space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Lee cuidadosamente</strong> cada situación presentada y el contexto del dilema ético.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Analiza las opciones</strong> disponibles y sus posibles implicaciones éticas.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Selecciona la opción</strong> que consideres más apropiada según los principios éticos.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Observa las consecuencias</strong> de tu decisión y reflexiona sobre ellas.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 font-bold">→</span>
+                                <span><strong>Recibe retroalimentación</strong> al final sobre tu desempeño ético general.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 rounded-xl border-2 border-yellow-300">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2" style="color: var(--amarillo-dark);">
+                            <span class="text-2xl">💡</span>
+                            Características
+                        </h3>
+                        <ul class="text-gray-700 leading-relaxed space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Tu puntuación ética se actualizará según tus decisiones.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Cada decisión tiene consecuencias diferentes basadas en principios éticos reales.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Al final recibirás retroalimentación personalizada según tu desempeño.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-600 font-bold">✓</span>
+                                <span>Puedes reiniciar el caso las veces que desees para explorar diferentes caminos.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border-2 border-purple-200">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2 text-purple-700">
+                            <span class="text-2xl">♿</span>
+                            Accesibilidad
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Este recurso está optimizado para personas con neurodivergencias. Utiliza alto contraste, espaciado generoso, y navegación clara por teclado. Puedes usar tu lector de pantalla o ajustar el zoom del navegador según tus necesidades.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                    <button onclick="closeInstructions()" class="btn flex-1 px-6 py-4 text-white font-semibold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                        ¡Entendido! Comenzar
+                    </button>
+                    <label class="flex items-center gap-3 px-4 py-3 bg-gray-100 rounded-xl cursor-pointer hover:bg-gray-200 transition-colors">
+                        <input type="checkbox" id="dontShowAgain" class="w-5 h-5 rounded" />
+                        <span class="text-gray-700 font-medium text-sm">No mostrar de nuevo</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badge flotante para reabrir instrucciones -->
+    <button onclick="openInstructions()" class="instructions-badge btn px-6 py-3 text-white font-semibold rounded-full shadow-lg" style="background: linear-gradient(135deg, var(--azul), var(--verde));" aria-label="Ver instrucciones">
+        <span class="text-xl mr-2">📖</span>
+        Instrucciones
+    </button>
+
+    <!-- Barra de progreso -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress"></div>
+    </div>
+    
+    <!-- Badge de puntuación -->
+    <div class="score-badge">
+        🏆 Puntuación ética: <span id="score">0</span>/100
+    </div>
+    
+    <div class="main-container">
+        
+        <!-- Header -->
+        <div class="header-banner p-8 mb-8 text-white relative animate-fadeIn">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl">
+                        🤖
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-extrabold mb-2">El dilema de Isabella Andrea</h1>
+                        <p class="text-xl font-medium opacity-95">Caso de estudio interactivo - Módulo 3</p>
+                    </div>
+                </div>
+                <p class="text-lg opacity-90 max-w-3xl leading-relaxed">
+                    Explora dilemas éticos reales sobre el uso de inteligencia artificial generativa en contextos profesionales. Tus decisiones importan.
+                </p>
+            </div>
+        </div>
+
+        <!-- Paso 1: Introducción -->
+        <div id="step-1" class="story-step active">
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-8 animate-fadeIn">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-extrabold mb-4 text-high-contrast">📋 Contexto del caso</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200 mb-6">
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        <strong>Isabella Andrea</strong> es una profesional de 38 años con 12 años de experiencia en gestión de proyectos para una empresa de retail. Tras una reestructuración organizacional, su área fue disuelta y ahora busca transitar hacia roles en gestión de proyectos tecnológicos.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Tiene experiencia coordinando equipos multidisciplinarios, manejando presupuestos millonarios, y entregando proyectos complejos a tiempo. Sin embargo, su currículum no refleja adecuadamente estas competencias transferibles en el lenguaje que buscan las empresas tecnológicas.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        Además, tiene un gap de dos años en su CV (2020-2022) debido a responsabilidades de cuidado familiar, algo que le genera inseguridad sobre cómo presentarlo.
+                    </p>
+                </div>
+
+                <div class="consequence-box">
+                    <h3 class="font-bold text-lg text-amber-900 mb-3">⚠️ El desafío</h3>
+                    <p class="text-gray-800 leading-relaxed">
+                        Isabella Andrea descubre una oferta ideal: <em>"Project Manager - Digital Transformation"</em> en una empresa tecnológica. Decide usar un asistente de inteligencia artificial generativa para optimizar su currículum y adaptarlo al lenguaje del sector tech.
+                    </p>
+                </div>
+
+                <div class="reflection-box">
+                    <h3 class="font-bold text-lg text-purple-900 mb-3">💭 Pregunta de reflexión inicial</h3>
+                    <p class="text-gray-800 leading-relaxed">
+                        ¿Qué tensiones éticas pueden surgir al usar IA generativa para "traducir" experiencia profesional de un sector a otro? ¿Dónde está la línea entre optimización legítima y exageración engañosa?
+                    </p>
+                </div>
+
+                <div class="text-center mt-8">
+                    <button onclick="continueStory(2)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                        Comenzar el caso 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paso 2: Primera decisión -->
+        <div id="step-2" class="story-step">
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-8">
+                <h2 class="text-3xl font-extrabold mb-6 text-high-contrast">⚖️ Primera decisión: optimización del currículum</h2>
+                
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200 mb-6">
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Isabella Andrea ingresa su experiencia profesional en el asistente de IA:
+                    </p>
+                    <div class="bg-white p-4 rounded-xl border-2 border-gray-200 my-4">
+                        <p class="text-gray-700 italic">
+                            "Coordiné la implementación del nuevo sistema de inventario en 45 tiendas, gestionando un equipo de 8 personas y un presupuesto de $2.5M. El proyecto se completó 3 semanas antes de lo previsto y redujo errores de stock en 40%."
+                        </p>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        El asistente de IA genera esta versión "optimizada":
+                    </p>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border-2 border-green-300 my-4">
+                        <p class="text-gray-700 font-semibold">
+                            "Lideré la transformación digital del sistema de gestión de inventario en un ecosistema omnicanal de 45 puntos de contacto, orquestando un equipo cross-funcional y administrando un portfolio de $2.5M+ en inversión tecnológica. Implementé metodologías ágiles que aceleraron el time-to-market en 18% y optimizaron KPIs operacionales, logrando una reducción del 40% en discrepancias de stock a través de analítica predictiva."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="consequence-box mb-6">
+                    <h3 class="font-bold text-lg text-amber-900 mb-3">🤔 El dilema</h3>
+                    <p class="text-gray-800 leading-relaxed">
+                        La versión de la IA suena impresionante y usa el lenguaje del sector tech, pero incluye términos que Isabella Andrea nunca usó formalmente: "transformación digital", "ecosistema omnicanal", "metodologías ágiles", "analítica predictiva". Técnicamente, estas descripciones podrían aplicarse a su trabajo, pero ella nunca las conceptualizó así.
+                    </p>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 text-high-contrast">¿Qué debería hacer Isabella Andrea?</h3>
+                
+                <div class="space-y-3">
+                    <div class="decision-card" onclick="makeChoice1('A')" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">📝</span>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Opción A: Usar el texto de la IA sin modificar</h4>
+                                <p class="text-gray-700 leading-relaxed">
+                                    Adoptar la descripción completa generada por la IA. Después de todo, los términos son técnicamente aplicables a lo que hizo, solo están en un lenguaje más profesional que usaría el sector tecnológico.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="decision-card" onclick="makeChoice1('B')" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">✏️</span>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Opción B: Editar para equilibrar precisión y profesionalismo</h4>
+                                <p class="text-gray-700 leading-relaxed">
+                                    Tomar la sugerencia de la IA como punto de partida, pero ajustarla para reflejar con precisión lo que realmente hizo, manteniendo solo los términos que puede defender con confianza en una entrevista.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="decision-card" onclick="makeChoice1('C')" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">🚫</span>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Opción C: Descartar la sugerencia de la IA</h4>
+                                <p class="text-gray-700 leading-relaxed">
+                                    Mantener su descripción original. Es más honesta y refleja exactamente lo que hizo, aunque use un lenguaje menos impresionante y no se alinee perfectamente con el vocabulario del sector tech.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paso 3: Consecuencia primera decisión -->
+        <div id="step-3" class="story-step">
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-8">
+                <div id="consequence-content-1"></div>
+                <div class="text-center mt-8">
+                    <button onclick="continueStory(4)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                        Continuar con la historia →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paso 4: Segunda decisión -->
+        <div id="step-4" class="story-step">
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-8">
+                <h2 class="text-3xl font-extrabold mb-6 text-high-contrast">⚖️ Segunda decisión: el gap laboral</h2>
+                
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200 mb-6">
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Isabella Andrea ahora enfrenta otro dilema. Su currículum tiene un gap de dos años (2020-2022). Durante ese período, tuvo que dedicarse al cuidado de su madre con problemas de salud graves, lo que le impidió trabajar formalmente. Sin embargo, durante ese tiempo tomó algunos cursos en línea sobre gestión de proyectos.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        Pregunta al asistente de IA cómo manejar este período. La IA le sugiere tres opciones:
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-200 my-5">
+                    <h4 class="font-bold text-purple-900 mb-3">💡 Sugerencias del asistente de IA:</h4>
+                    <ul class="space-y-3 text-gray-700 leading-relaxed">
+                        <li class="flex items-start gap-2">
+                            <span class="text-purple-600 font-bold">A.</span>
+                            <span>"Período de desarrollo profesional autónomo y formación continua en metodologías de gestión de proyectos"</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-purple-600 font-bold">B.</span>
+                            <span>"Responsabilidades familiares con actualización profesional paralela mediante cursos en línea"</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-purple-600 font-bold">C.</span>
+                            <span>"Omitir el período y mostrar solo las fechas de inicio del empleo anterior y del próximo"</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="consequence-box mb-6">
+                    <h3 class="font-bold text-lg text-amber-900 mb-3">🤔 El dilema</h3>
+                    <p class="text-gray-800 leading-relaxed">
+                        La opción <strong>A</strong> es técnicamente verdadera (sí tomó cursos), pero omite intencionalmente la razón real del gap, lo que podría interpretarse como engañoso. La opción <strong>B</strong> es completamente honesta pero expone información personal sensible. La opción <strong>C</strong> evita el problema, pero las omisiones en CVs pueden ser detectadas y generar desconfianza.
+                    </p>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 text-high-contrast">¿Qué opción debería elegir Isabella Andrea?</h3>
+                
+                <div class="space-y-3">
+                    <div class="decision-card" onclick="makeChoice2('A')" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">🎭</span>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Opción A: Descripción técnicamente verdadera pero incompleta</h4>
+                                <p class="text-gray-700 leading-relaxed">
+                                    "Período de desarrollo profesional autónomo y formación continua en metodologías de gestión de proyectos". Es verdad que tomó cursos, aunque no menciona la razón principal del gap.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="decision-card" onclick="makeChoice2('B')" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">✨</span>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Opción B: Honestidad completa pero profesional</h4>
+                                <p class="text-gray-700 leading-relaxed">
+                                    "Responsabilidades familiares con actualización profesional paralela mediante cursos en línea". Es transparente sobre la situación pero la presenta de forma profesional, destacando que mantuvo su desarrollo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="decision-card" onclick="makeChoice2('C')" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">👻</span>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Opción C: Omisión estratégica</h4>
+                                <p class="text-gray-700 leading-relaxed">
+                                    Omitir el período completamente del CV, mostrando solo las fechas de empleos anteriores y posteriores, dejando que el reclutador asuma continuidad o pregunte si es relevante.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paso 5: Consecuencia segunda decisión -->
+        <div id="step-5" class="story-step">
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-8">
+                <div id="consequence-content-2"></div>
+                <div class="text-center mt-8">
+                    <button onclick="continueStory(6)" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                        Ver resultados finales →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paso 6: Resultados finales -->
+        <div id="step-6" class="story-step">
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-extrabold mb-4 text-high-contrast">📊 Análisis final de tu desempeño ético</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border-4 border-blue-300 mb-6">
+                    <h3 class="font-bold text-2xl text-gray-900 mb-4 text-center">Tu puntuación ética final</h3>
+                    <div class="ethical-meter">
+                        <div class="ethical-fill" id="final-ethical-meter">
+                            <span id="final-score-text">0/100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="final-feedback"></div>
+
+                <div class="reflection-box">
+                    <h3 class="font-bold text-xl text-purple-900 mb-4">🎯 Principios clave del uso ético de IA generativa</h3>
+                    <div class="space-y-3 text-gray-800 leading-relaxed">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">1️⃣</span>
+                            <div>
+                                <strong>Control humano</strong>: La IA es una herramienta de asistencia, no un sustituto del criterio humano.
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">2️⃣</span>
+                            <div>
+                                <strong>Autenticidad</strong>: Las representaciones deben ser fieles a la realidad, incluso cuando se optimizan.
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">3️⃣</span>
+                            <div>
+                                <strong>Transparencia</strong>: La honestidad apropiada genera confianza a largo plazo.
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">4️⃣</span>
+                            <div>
+                                <strong>Responsabilidad</strong>: El usuario final es responsable del contenido que presenta.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 space-x-4">
+                    <button onclick="restart()" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                        🔄 Reintentar con diferentes decisiones
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-4xl mx-auto px-4 py-6 text-center">
+            <p class="text-gray-700 font-medium text-sm leading-relaxed">
+                Oficina de Inteligencia Artificial<br>
+                Vicerrectoría de Tecnologías de la Información<br>
+                Universidad de Chile © 2025 • Todos los derechos reservados
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Variables globales
+        let currentScore = 0;
+        let choice1 = '';
+        let choice2 = '';
+
+        // Gestión del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('caso_natalia_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('caso_natalia_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Navegación entre pasos
+        function showStep(stepNumber) {
+            document.querySelectorAll('.story-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function continueStory(stepNumber) {
+            if (stepNumber === 6) {
+                updateProgress(100);
+                showFinalResults();
+            }
+            showStep(stepNumber);
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress(percentage) {
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+
+        function updateScore(points) {
+            currentScore += points;
+            document.getElementById('score').textContent = currentScore;
+        }
+
+        // Primera decisión
+        function makeChoice1(choice) {
+            choice1 = choice;
+            
+            const points = {
+                'A': -15,
+                'B': 50,
+                'C': 10
+            };
+            
+            updateScore(points[choice]);
+            updateProgress(33);
+            showConsequence1(choice);
+        }
+
+        function showConsequence1(choice) {
+            const content = document.getElementById('consequence-content-1');
+            
+            const consequences = {
+                'A': {
+                    title: 'Consecuencia: exageración no verificable',
+                    icon: '😰',
+                    color: 'border-red-500 bg-red-50',
+                    text: `Isabella Andrea copia el texto generado por la IA sin modificarlo. Su CV ahora dice que "implementó metodologías ágiles" y usó "analítica predictiva".
+
+Durante la entrevista telefónica, el reclutador pregunta: "Veo que implementaste metodologías ágiles. ¿Qué framework usaste? ¿Scrum, Kanban o una combinación?"
+
+Isabella Andrea no puede responder con confianza porque nunca usó formalmente estos marcos. Su explicación suena vaga. El reclutador nota la inconsistencia entre el CV impresionante y la explicación dubitativa.
+
+Resultado: Aunque su experiencia real era valiosa, la exageración sin fundamento mina su credibilidad.`,
+                    reflection: 'Usar terminología que no puedes defender demuestra falta de autenticidad y puede ser descubierto fácilmente en entrevistas. El objetivo de optimizar un CV no es sonar impresionante, sino comunicar claramente tus competencias reales.'
+                },
+                'B': {
+                    title: 'Consecuencia: autenticidad profesional',
+                    icon: '⭐',
+                    color: 'border-green-500 bg-green-50',
+                    text: `Isabella Andrea edita la sugerencia de la IA: "Lideré la implementación de un sistema de gestión de inventario en 45 tiendas, coordinando un equipo multidisciplinario y administrando un presupuesto de $2.5M. El proyecto incorporó principios de iteración ágil y análisis de datos para mejorar la eficiencia operacional, reduciendo errores de stock en 40%."
+
+Mantiene el lenguaje profesional pero solo usa términos que puede explicar con confianza. Durante la entrevista, cuando le preguntan sobre "principios de iteración ágil", puede describir con precisión cómo su equipo trabajó en sprints de dos semanas con revisiones regulares.
+
+Resultado: Su CV pasa el ATS, y en la entrevista demuestra comprensión genuina de conceptos modernos sin exagerar.`,
+                    reflection: 'La mejor práctica al usar IA para optimización de CV es usarla como sugerencia inicial, luego editar cuidadosamente para asegurar que cada afirmación sea defendible y auténtica. La IA puede ayudar con el lenguaje, pero tú eres responsable de la veracidad.'
+                },
+                'C': {
+                    title: 'Consecuencia: oportunidad perdida',
+                    icon: '📉',
+                    color: 'border-amber-500 bg-amber-50',
+                    text: `Isabella Andrea mantiene su descripción original: "Coordiné la implementación del nuevo sistema de inventario en 45 tiendas..."
+
+Su CV es honesto pero usa lenguaje menos alineado con el sector tecnológico. El sistema ATS de la empresa no reconoce suficientes palabras clave relacionadas con gestión de proyectos digitales.
+
+Resultado: Su CV es rechazado automáticamente antes de llegar a un reclutador humano, a pesar de tener experiencia genuinamente relevante.`,
+                    reflection: 'Hay una diferencia entre exageración deshonesta y traducción legítima de experiencia. Rechazar completamente el apoyo de la IA puede resultar en oportunidades perdidas cuando tu experiencia ES relevante pero no está presentada en el lenguaje que buscan los reclutadores.'
+                }
+            };
+            
+            const result = consequences[choice];
+            content.innerHTML = `
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-5xl">${result.icon}</span>
+                    <h2 class="text-3xl font-extrabold text-gray-900">${result.title}</h2>
+                </div>
+                <div class="p-6 rounded-2xl border-4 ${result.color} mb-6">
+                    <p class="text-gray-800 whitespace-pre-line text-lg leading-relaxed">${result.text}</p>
+                </div>
+                <div class="reflection-box">
+                    <h3 class="font-bold text-lg text-purple-900 mb-3">💭 Punto de reflexión</h3>
+                    <p class="text-gray-800 leading-relaxed">${result.reflection}</p>
+                </div>
+            `;
+            
+            showStep(3);
+        }
+
+        // Segunda decisión
+        function makeChoice2(choice) {
+            choice2 = choice;
+            
+            const points = {
+                'A': 10,
+                'B': 50,
+                'C': -10
+            };
+            
+            updateScore(points[choice]);
+            updateProgress(66);
+            showConsequence2(choice);
+        }
+
+        function showConsequence2(choice) {
+            const content = document.getElementById('consequence-content-2');
+            
+            const consequences = {
+                'A': {
+                    title: 'Consecuencia: ocultamiento de la verdad',
+                    icon: '😟',
+                    color: 'border-amber-500 bg-amber-50',
+                    text: `Isabella Andrea usa la descripción vaga sugerida por la IA. El CV pasa el ATS.
+
+Durante la entrevista, el gerente pregunta: "Veo que tomó dos años para desarrollo profesional. ¿Qué áreas exploró?"
+
+Isabella Andrea se siente atrapada. Improvisa una respuesta sobre "explorar diferentes sectores", pero sabe que no es sincera. Esta incomodidad afecta su desempeño en el resto de la entrevista.`,
+                    reflection: 'Ocultar verdades significativas, incluso con lenguaje técnicamente no falso, puede crear situaciones incómodas y minar la autenticidad del candidato.'
+                },
+                'B': {
+                    title: 'Consecuencia: honestidad valorada',
+                    icon: '⭐',
+                    color: 'border-green-500 bg-green-50',
+                    text: `Isabella Andrea describe honestamente: "Período de responsabilidades familiares, durante el cual mantuve actualización profesional mediante cursos en línea en gestión de proyectos."
+
+Durante la entrevista, cuando surge el tema, Isabella Andrea explica con sinceridad que cuidó a su madre enferma, mencionando que durante ese tiempo completó certificaciones online.
+
+El entrevistador aprecia su honestidad y nota: "Eso demuestra compromiso y capacidad de gestión del tiempo bajo circunstancias difíciles. ¿Qué habilidades desarrolló durante ese período?"
+
+Isabella Andrea puede responder con confianza, describiendo las certificaciones que obtuvo y cómo mantuvo sus habilidades actualizadas.`,
+                    reflection: 'La autenticidad y la vulnerabilidad apropiada pueden ser fortalezas. Muchas organizaciones modernas valoran a candidatos que demuestran resiliencia y honestidad.'
+                },
+                'C': {
+                    title: 'Consecuencia: ambigüedad riesgosa',
+                    icon: '❓',
+                    color: 'border-blue-500 bg-blue-50',
+                    text: `Isabella Andrea omite el período completamente, mostrando solo las fechas de empleo anterior (2019) y posterior (2023).
+
+El ATS detecta la laguna de todas formas (es parte de su programación buscar inconsistencias temporales). Además, durante la verificación de referencias, surgen preguntas sobre el período omitido.
+
+El reclutador contacta a Isabella Andrea para aclaración. Ella debe explicar ahora por qué intentó omitir la información, lo cual genera desconfianza.`,
+                    reflection: 'Las omisiones estratégicas pueden ser detectadas por sistemas automatizados o durante verificaciones. La transparencia desde el principio es generalmente más segura.'
+                }
+            };
+            
+            const result = consequences[choice];
+            content.innerHTML = `
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-5xl">${result.icon}</span>
+                    <h2 class="text-3xl font-extrabold text-gray-900">${result.title}</h2>
+                </div>
+                <div class="p-6 rounded-2xl border-4 ${result.color} mb-6">
+                    <p class="text-gray-800 whitespace-pre-line text-lg leading-relaxed">${result.text}</p>
+                </div>
+                <div class="reflection-box">
+                    <h3 class="font-bold text-lg text-purple-900 mb-3">💭 Punto de reflexión</h3>
+                    <p class="text-gray-800 leading-relaxed">${result.reflection}</p>
+                </div>
+            `;
+            
+            showStep(5);
+        }
+
+        // Mostrar resultados finales
+        function showFinalResults() {
+            const finalScore = currentScore;
+            const percentage = Math.min(Math.max(finalScore, 0), 100);
+            
+            document.getElementById('final-ethical-meter').style.width = percentage + '%';
+            document.getElementById('final-score-text').textContent = finalScore + '/100';
+            
+            const feedback = document.getElementById('final-feedback');
+            
+            let evaluation, advice, color;
+            
+            if (finalScore >= 75) {
+                evaluation = '🌟 Excelente: usuario ético ejemplar de inteligencia artificial';
+                color = 'bg-green-100 border-green-500';
+                advice = 'Demostraste una comprensión profunda de cómo usar inteligencia artificial generativa de manera ética y efectiva. Tus decisiones priorizaron la autenticidad sin sacrificar el profesionalismo. Este equilibrio es el estándar de oro para el uso responsable de tecnología en el desarrollo profesional.';
+            } else if (finalScore >= 50) {
+                evaluation = '✅ Bien: enfoque balanceado';
+                color = 'bg-blue-100 border-blue-500';
+                advice = 'Tus decisiones muestran un buen entendimiento de los principios éticos, aunque con algunas áreas de mejora. Reconoces la importancia de la autenticidad pero podrías beneficiarte de estrategias más claras para comunicar tu experiencia de manera efectiva sin comprometer la verdad.';
+            } else if (finalScore >= 25) {
+                evaluation = '⚠️ Regular: necesita reflexión adicional';
+                color = 'bg-amber-100 border-amber-500';
+                advice = 'Tus decisiones revelan cierta tensión entre la eficacia y la ética. Es importante recordar que el éxito profesional sostenible se construye sobre la autenticidad. Te recomendamos revisar los principios éticos del marco UNESCO y reflexionar sobre cómo la integridad personal es fundamental incluso al usar herramientas tecnológicas.';
+            } else {
+                evaluation = '❌ Preocupante: riesgo ético alto';
+                color = 'bg-red-100 border-red-500';
+                advice = 'Tus decisiones priorizaron la optimización sobre la autenticidad, lo cual puede tener consecuencias negativas a largo plazo. El uso de inteligencia artificial sin supervisión crítica y la disposición a exagerar u ocultar información comprometen la integridad profesional. Es fundamental reconsiderar el enfoque hacia un uso más responsable y transparente de la tecnología.';
+            }
+            
+            feedback.innerHTML = `
+                <div class="p-6 rounded-2xl border-4 ${color}">
+                    <h3 class="font-bold text-2xl text-gray-900 mb-4">${evaluation}</h3>
+                    <p class="text-gray-800 text-lg leading-relaxed">${advice}</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mt-8">
+                    <div class="p-6 bg-purple-50 rounded-xl border-2 border-purple-200">
+                        <h4 class="font-bold text-lg text-purple-900 mb-3">📊 Análisis de tus decisiones</h4>
+                        <div class="space-y-2 text-gray-700 leading-relaxed">
+                            <p><strong>Primera decisión:</strong> ${getChoiceDescription(choice1, 1)}</p>
+                            <p><strong>Segunda decisión:</strong> ${getChoiceDescription(choice2, 2)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 bg-green-50 rounded-xl border-2 border-green-200">
+                        <h4 class="font-bold text-lg text-green-900 mb-3">✨ Enfoque ético ideal</h4>
+                        <ul class="space-y-2 text-gray-700 text-sm leading-relaxed">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 mt-1">✓</span>
+                                <span>Usar IA como asistente de redacción, no como autor</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 mt-1">✓</span>
+                                <span>Mantener control editorial total</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 mt-1">✓</span>
+                                <span>Aplicar principio de honestidad radical</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-600 mt-1">✓</span>
+                                <span>Ser transparente sobre circunstancias personales cuando sea relevante</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getChoiceDescription(choice, decisionNumber) {
+            const descriptions = {
+                1: {
+                    'A': 'Usaste el texto de IA sin modificar (riesgo de exageración)',
+                    'B': 'Editaste para mayor precisión (equilibrio óptimo) ⭐',
+                    'C': 'Descartaste la IA completamente (oportunidad perdida)'
+                },
+                2: {
+                    'A': 'Usaste descripción vaga de IA (ocultamiento)',
+                    'B': 'Fuiste honesta pero profesional (autenticidad ejemplar) ⭐',
+                    'C': 'Omitiste el período (ambigüedad riesgosa)'
+                }
+            };
+            
+            return descriptions[decisionNumber][choice] || 'Decisión no registrada';
+        }
+
+        // Reiniciar el caso
+        function restart() {
+            currentScore = 0;
+            choice1 = '';
+            choice2 = '';
+            document.getElementById('score').textContent = '0';
+            updateProgress(0);
+            showStep(1);
+        }
+
+        // Accesibilidad: navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            // ESC para cerrar modal
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+
+        // Hacer que las tarjetas de decisión sean activables con Enter/Space
+        document.querySelectorAll('.decision-card').forEach(card => {
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

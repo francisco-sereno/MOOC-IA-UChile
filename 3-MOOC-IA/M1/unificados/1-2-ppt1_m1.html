@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Módulo 1 - El diagnóstico de competencias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+        
+        /* Animaciones optimizadas */
+        .slide {
+            display: none;
+        }
+        
+        .slide.active {
+            display: block;
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Cards de opciones mejoradas */
+        .option-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid var(--gris-200);
+            background: white;
+            position: relative;
+            overflow: visible;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .option-card:hover::before {
+            opacity: 1;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.15);
+            border-color: var(--azul);
+        }
+        
+        .option-card.selected {
+            border-color: var(--azul);
+            background: linear-gradient(135deg, #EFF6FF, #F0F9FF);
+            box-shadow: 0 4px 16px rgba(0, 85, 165, 0.2);
+        }
+        
+        .option-card.correct {
+            border-color: var(--verde) !important;
+            background: linear-gradient(135deg, #ECFDF5, #F0FDF4) !important;
+            animation: correctPulse 0.5s ease;
+        }
+        
+        .option-card.incorrect {
+            border-color: var(--rojo) !important;
+            background: linear-gradient(135deg, #FEF2F2, #FFF1F2) !important;
+            animation: shake 0.5s ease;
+        }
+
+        /* Cajas de ayuda mejoradas */
+        .help-box {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 4px solid var(--amarillo);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(255, 209, 0, 0.15);
+        }
+        
+        /* Barra de progreso mejorada */
+        .progress-bar {
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            box-shadow: 0 2px 8px rgba(0, 85, 165, 0.3);
+        }
+
+        /* Feedback mejorado */
+        .feedback-positive {
+            background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+            border-left: 6px solid var(--verde);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+        
+        .feedback-negative {
+            background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
+            border-left: 6px solid var(--rojo);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+        
+        .feedback-partial {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 6px solid var(--amarillo);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            min-height: calc(100vh - 300px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Mejoras de accesibilidad para neurodivergentes */
+        *:focus-visible {
+            outline: 3px solid var(--azul);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* Info cards mejoradas */
+        .info-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
+            border: 2px solid var(--gris-200);
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.15);
+            border-color: var(--azul);
+        }
+
+        /* Modal mejorado */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(23, 43, 77, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px -15px rgba(0, 85, 165, 0.4);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            border: 2px solid var(--gris-200);
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Concept boxes */
+        .concept-box {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gris-200);
+        }
+
+        .concept-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.15);
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Navegación fija inferior */
+        .navigation-bar {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            border-top: 2px solid var(--gris-200);
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+
+        /* Optimización para altura 850px */
+        .slide-content {
+            max-height: calc(100vh - 350px);
+            overflow-y: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 1rem 1rem 1rem;
+                height: auto;
+                min-height: calc(850px - 220px);
+            }
+
+            .header-banner {
+                border-radius: 28px;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Reducir animaciones para usuarios que lo prefieran */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Video responsive container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 45%; /* Aspect ratio 16:9 ajustado para altura menor */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+
+    <!-- Modal de Bienvenida -->
+    <div id="welcome-modal" class="modal-overlay active">
+        <div class="modal-content">
+            <div class="flex items-center justify-center mb-6">
+                <div class="w-20 h-20 rounded-full flex items-center justify-center text-5xl" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                    👋
+                </div>
+            </div>
+            <h3 class="text-3xl font-extrabold text-center mb-4" style="color: var(--azul-dark);">¡Bienvenido/a!</h3>
+            
+            <div class="space-y-4 mb-6">
+                <div class="help-box p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">📖</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Sobre este recurso</p>
+                            <p class="text-gray-700 text-sm leading-relaxed">Esta presentación interactiva te guiará por el diagnóstico de competencias usando el caso de <strong>Isabella Andrea</strong> como ejemplo práctico.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-4 border-2 border-blue-200">
+                    <p class="font-semibold mb-3 flex items-center gap-2" style="color: var(--azul-dark);">
+                        <span class="text-2xl">🖱️</span>
+                        Cómo navegar
+                    </p>
+                    <ul class="text-sm space-y-2 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>Usa los botones <strong>◀ Anterior</strong> y <strong>Siguiente ▶</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>O las flechas del teclado <strong>← →</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>Incluye un <strong>video introductorio</strong> sobre fundamentos de IA</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>Haz clic en elementos interactivos para más información</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>Tu progreso se guarda automáticamente</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-yellow-50 rounded-xl p-4 border-2 border-green-200">
+                    <p class="font-semibold mb-2" style="color: var(--verde);">💡 Accesibilidad</p>
+                    <p class="text-sm text-gray-700">Este recurso está optimizado para personas neurodivergentes con contraste alto, espaciado generoso y navegación clara.</p>
+                </div>
+            </div>
+
+            <button onclick="closeWelcomeModal()" class="btn w-full py-4 text-white font-bold text-lg" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                ¡Comenzar! →
+            </button>
+        </div>
+    </div>
+
+    <!-- Header Banner fijo -->
+    <div class="sticky top-0 z-50 pb-4" style="background: linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 50%, #ECFDF5 100%);">
+        <div class="max-w-7xl mx-auto px-6 pt-6">
+            <div class="header-banner p-6 text-white relative">
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-3xl">
+                            🎯
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-extrabold mb-1">El diagnóstico de competencias</h1>
+                            <p class="text-lg font-medium opacity-95">Caso práctico: Isabella Andrea</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de progreso -->
+            <div class="bg-white rounded-2xl p-5 mt-4 shadow-lg border border-gray-100">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-base" style="color: var(--azul-dark);">Tu progreso</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded-full" style="background: linear-gradient(135deg, #EFF6FF, #F0F9FF); color: var(--azul);">
+                        <span id="current-slide-num">1</span> de 11 diapositivas
+                    </span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+                    <div id="progress-bar" class="progress-bar h-3 rounded-full" style="width: 9%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container pt-0">
+        <!-- Contenedor de diapositivas -->
+        <div class="flex-1 relative">
+            
+            <!-- Slide 1: Portada -->
+            <div class="slide active" id="slide-1">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <div class="text-center mb-8">
+                            <h2 class="text-4xl font-extrabold mb-4" style="color: var(--azul-dark);">El diagnóstico de competencias</h2>
+                            <p class="text-xl text-gray-700 font-medium">Módulo 1: Fundamentos y aplicación con IA generativa</p>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="concept-box bg-white p-6 rounded-xl shadow-md">
+                                <div class="text-5xl mb-3 text-center">🎯</div>
+                                <h3 class="font-bold text-lg mb-2 text-center" style="color: var(--azul);">Diagnóstico</h3>
+                                <p class="text-gray-600 text-sm text-center">Identificación sistemática de competencias profesionales</p>
+                            </div>
+                            <div class="concept-box bg-white p-6 rounded-xl shadow-md">
+                                <div class="text-5xl mb-3 text-center">🤖</div>
+                                <h3 class="font-bold text-lg mb-2 text-center" style="color: var(--verde);">IA Generativa</h3>
+                                <p class="text-gray-600 text-sm text-center">Herramienta de apoyo para análisis y reformulación</p>
+                            </div>
+                            <div class="concept-box bg-white p-6 rounded-xl shadow-md">
+                                <div class="text-5xl mb-3 text-center">⚠️</div>
+                                <h3 class="font-bold text-lg mb-2 text-center" style="color: var(--rojo);">Consideraciones</h3>
+                                <p class="text-gray-600 text-sm text-center">Uso crítico, ético y responsable</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Video introductorio -->
+            <div class="slide" id="slide-2">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold text-center mb-4" style="color: var(--azul-dark);">
+                            Introducción: Fundamentos de la IA
+                        </h2>
+                        <p class="text-lg text-center text-gray-600 mb-6">
+                            Video introductorio sobre los conceptos básicos de inteligencia artificial
+                        </p>
+                        
+                        <div class="mb-6">
+                            <div class="video-container">
+                                <iframe src="https://player.vimeo.com/video/1133329433?h=b5b8b65908&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Fundamentos de la IA"></iframe>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-blue-50 to-green-50 p-5 rounded-xl border-2 border-blue-200">
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                Este video presenta los <strong>fundamentos esenciales de la inteligencia artificial</strong> que necesitas conocer antes de explorar el caso práctico de Isabella Andrea.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Caso Isabella Andrea -->
+            <div class="slide" id="slide-3">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6" style="color: var(--azul-dark);">Caso práctico: Isabella Andrea</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-6 border-2 border-blue-200">
+                                <div class="flex items-center mb-4 gap-3">
+                                    <div class="w-14 h-14 rounded-full flex items-center justify-center text-3xl" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                                        👩‍💼
+                                    </div>
+                                    <div>
+                                        <h3 class="text-2xl font-bold" style="color: var(--azul);">Isabella Andrea</h3>
+                                        <p class="text-gray-600 text-sm">Profesional experimentada</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-3 text-gray-700 text-sm">
+                                    <div class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>15 años de experiencia</strong> en diversas industrias</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>Múltiples roles:</strong> Analista, coordinadora, supervisora</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>Competencias diversas:</strong> Gestión, análisis, liderazgo</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl p-6 border-2 border-red-200">
+                                <div class="flex items-center mb-4 gap-2">
+                                    <span class="text-4xl">⚠️</span>
+                                    <h3 class="text-2xl font-bold" style="color: var(--rojo);">El desafío</h3>
+                                </div>
+                                
+                                <div class="space-y-3 text-gray-700 text-sm">
+                                    <p class="font-semibold">Isabella Andrea enfrenta dificultades para:</p>
+                                    <ul class="space-y-2 ml-4">
+                                        <li class="flex items-start gap-2">
+                                            <span>📋</span>
+                                            <span>Articular sus competencias en lenguaje técnico actual</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span>🎯</span>
+                                            <span>Alinear su experiencia con ofertas laborales modernas</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span>💼</span>
+                                            <span>Traducir logros a métricas específicas</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Diagnóstico inicial -->
+            <div class="slide" id="slide-4">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6" style="color: var(--azul-dark);">Diagnóstico inicial de Isabella Andrea</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="bg-gradient-to-br from-red-50 to-pink-50 rounded-xl p-5 border-2 border-red-200">
+                                    <h3 class="text-lg font-bold mb-3 flex items-center gap-2" style="color: var(--rojo);">
+                                        ❌ Descripción original
+                                    </h3>
+                                    <div class="bg-white p-4 rounded-lg text-sm text-gray-700 mb-3">
+                                        <p>"Responsable de coordinar equipos y gestionar proyectos diversos en diferentes empresas."</p>
+                                    </div>
+                                    <div class="help-box p-3">
+                                        <p class="text-xs font-semibold mb-2">Problemas identificados:</p>
+                                        <ul class="text-xs space-y-1">
+                                            <li>• Lenguaje vago y genérico</li>
+                                            <li>• Sin competencias específicas</li>
+                                            <li>• No hay métricas ni resultados</li>
+                                            <li>• Falta contexto sectorial</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border-2 border-green-200">
+                                    <h3 class="text-lg font-bold mb-3 flex items-center gap-2" style="color: var(--verde);">
+                                        ✓ Versión mejorada con IA
+                                    </h3>
+                                    <div class="bg-white p-4 rounded-lg text-sm text-gray-700 mb-3">
+                                        <p>"<strong>Gestión de proyectos multifuncionales</strong> aplicando metodologías ágiles. <strong>Liderazgo de equipos</strong> de hasta 12 personas con foco en optimización de procesos. Experiencia en <strong>análisis de KPIs</strong> y elaboración de reportes ejecutivos."</p>
+                                    </div>
+                                    <div class="bg-gradient-to-br from-green-100 to-emerald-100 p-3 rounded-lg">
+                                        <p class="text-xs font-semibold mb-2">Mejoras aplicadas:</p>
+                                        <ul class="text-xs space-y-1">
+                                            <li>✓ Competencias específicas identificadas</li>
+                                            <li>✓ Lenguaje técnico corporativo</li>
+                                            <li>✓ Métricas cuantificables</li>
+                                            <li>✓ Terminología sectorial relevante</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Tipos de competencias -->
+            <div class="slide" id="slide-5">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6" style="color: var(--azul-dark);">Tipos de competencias profesionales</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
+                                <div class="flex items-center mb-4 gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background: var(--azul);">
+                                        🔧
+                                    </div>
+                                    <h3 class="text-2xl font-bold" style="color: var(--azul);">Técnicas</h3>
+                                </div>
+                                <p class="text-gray-700 mb-4 text-sm">Habilidades específicas relacionadas con funciones y tareas concretas del puesto o industria.</p>
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="font-semibold mb-2 text-xs" style="color: var(--azul);">Ejemplos en Isabella Andrea:</p>
+                                    <ul class="space-y-1 text-xs text-gray-700">
+                                        <li>• Análisis de datos con Excel avanzado</li>
+                                        <li>• Gestión de presupuestos</li>
+                                        <li>• Elaboración de reportes ejecutivos</li>
+                                        <li>• Manejo de software ERP/CRM</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
+                                <div class="flex items-center mb-4 gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background: var(--verde);">
+                                        🌐
+                                    </div>
+                                    <h3 class="text-2xl font-bold" style="color: var(--verde);">Transversales</h3>
+                                </div>
+                                <p class="text-gray-700 mb-4 text-sm">Habilidades personales y sociales aplicables en múltiples contextos laborales y sectores.</p>
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="font-semibold mb-2 text-xs" style="color: var(--verde);">Ejemplos en Isabella Andrea:</p>
+                                    <ul class="space-y-1 text-xs text-gray-700">
+                                        <li>• Liderazgo de equipos</li>
+                                        <li>• Comunicación efectiva</li>
+                                        <li>• Resolución de problemas</li>
+                                        <li>• Adaptabilidad al cambio</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="help-box p-5">
+                            <div class="flex items-start gap-3">
+                                <span class="text-3xl">💡</span>
+                                <div>
+                                    <p class="font-bold mb-2">Principio clave</p>
+                                    <p class="text-sm text-gray-700">Un diagnóstico completo debe identificar <strong>ambos tipos</strong> de competencias. La IA puede ayudar a extraer competencias implícitas, pero <strong>requiere validación humana</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Proceso con IA -->
+            <div class="slide" id="slide-6">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6" style="color: var(--azul-dark);">Proceso de diagnóstico con IA</h2>
+                        
+                        <div class="grid grid-cols-4 gap-3 mb-6">
+                            <div class="concept-box bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl shadow-md text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center text-xl font-bold text-white mb-2" style="background: var(--azul);">1</div>
+                                <h4 class="font-bold text-sm mb-1" style="color: var(--azul);">Recopilación</h4>
+                                <p class="text-xs text-gray-600">Reunir experiencia y logros</p>
+                            </div>
+                            
+                            <div class="concept-box bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl shadow-md text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center text-xl font-bold text-white mb-2" style="background: var(--verde);">2</div>
+                                <h4 class="font-bold text-sm mb-1" style="color: var(--verde);">Análisis IA</h4>
+                                <p class="text-xs text-gray-600">Identificar competencias</p>
+                            </div>
+                            
+                            <div class="concept-box bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl shadow-md text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center text-xl font-bold text-white mb-2" style="background: var(--amarillo-dark);">3</div>
+                                <h4 class="font-bold text-sm mb-1" style="color: var(--amarillo-dark);">Validación</h4>
+                                <p class="text-xs text-gray-600">Revisar y corregir</p>
+                            </div>
+                            
+                            <div class="concept-box bg-gradient-to-br from-red-50 to-pink-50 p-4 rounded-xl shadow-md text-center">
+                                <div class="w-10 h-10 mx-auto rounded-full flex items-center justify-center text-xl font-bold text-white mb-2" style="background: var(--rojo);">4</div>
+                                <h4 class="font-bold text-sm mb-1" style="color: var(--rojo);">Reformulación</h4>
+                                <p class="text-xs text-gray-600">Articular técnicamente</p>
+                            </div>
+                        </div>
+                        
+                        <div class="help-box p-5 mb-4">
+                            <div class="flex items-start gap-3">
+                                <span class="text-3xl">🎯</span>
+                                <div>
+                                    <p class="font-bold mb-2">Aplicación práctica: Caso Isabella Andrea</p>
+                                    <p class="text-sm text-gray-700 mb-3">La IA analizó su experiencia e identificó: gestión de proyectos multifuncionales, análisis de KPIs, liderazgo de equipos, y comunicación con stakeholders.</p>
+                                    <p class="text-xs text-gray-600 italic">Después de validación crítica, Isabella Andrea confirmó todas las competencias sugeridas y ajustó las métricas para reflejar su experiencia real.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Consideraciones éticas -->
+            <div class="slide" id="slide-7">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6" style="color: var(--azul-dark);">Consideraciones éticas y limitaciones</h2>
+                        
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="info-card bg-white p-5 rounded-xl shadow-md" onclick="openModal('privacidad')">
+                                <div class="flex items-center mb-3 gap-2">
+                                    <span class="text-3xl">🔒</span>
+                                    <h3 class="font-bold text-base" style="color: var(--rojo);">Privacidad</h3>
+                                </div>
+                                <p class="text-gray-700 text-sm mb-2">NO compartir datos personales sensibles con IA generativa.</p>
+                                <p class="text-xs text-gray-500 italic">Clic para más información →</p>
+                            </div>
+                            
+                            <div class="info-card bg-white p-5 rounded-xl shadow-md" onclick="openModal('verificacion')">
+                                <div class="flex items-center mb-3 gap-2">
+                                    <span class="text-3xl">🔍</span>
+                                    <h3 class="font-bold text-base" style="color: var(--amarillo-dark);">Verificación</h3>
+                                </div>
+                                <p class="text-gray-700 text-sm mb-2">La IA puede generar información plausible pero incorrecta.</p>
+                                <p class="text-xs text-gray-500 italic">Clic para más información →</p>
+                            </div>
+                            
+                            <div class="info-card bg-white p-5 rounded-xl shadow-md" onclick="openModal('revision')">
+                                <div class="flex items-center mb-3 gap-2">
+                                    <span class="text-3xl">✍️</span>
+                                    <h3 class="font-bold text-base" style="color: var(--azul);">Autenticidad</h3>
+                                </div>
+                                <p class="text-gray-700 text-sm mb-2">La IA es un borrador inicial, NO el producto final.</p>
+                                <p class="text-xs text-gray-500 italic">Clic para más información →</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl p-6 border-2 border-red-200">
+                            <div class="flex items-start gap-3">
+                                <span class="text-4xl">⚠️</span>
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2" style="color: var(--rojo);">Principio fundamental</h3>
+                                    <p class="text-gray-700 text-sm leading-relaxed">La IA generativa es una <strong>herramienta de apoyo</strong>, no un sustituto del juicio profesional. El usuario es <strong>responsable</strong> de validar veracidad, precisión y autenticidad.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Mapeo de competencias -->
+            <div class="slide" id="slide-8">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6" style="color: var(--azul-dark);">Mapeo: perfil vs. oferta</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-4">
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border-2 border-blue-200">
+                                <h4 class="font-bold text-base mb-3" style="color: var(--azul);">📋 Requisitos de la oferta</h4>
+                                <p class="text-sm font-semibold mb-2">Cargo: Coordinadora de Operaciones</p>
+                                <ul class="space-y-2 text-xs text-gray-700">
+                                    <li>• Experiencia en gestión de equipos (5+ años)</li>
+                                    <li>• Conocimientos en metodologías ágiles</li>
+                                    <li>• Manejo avanzado de Excel</li>
+                                    <li>• Elaborar reportes ejecutivos</li>
+                                    <li>• Comunicación efectiva</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border-2 border-green-200">
+                                <h4 class="font-bold text-base mb-3" style="color: var(--verde);">✓ Competencias de Isabella Andrea</h4>
+                                <ul class="space-y-2 text-xs text-gray-700">
+                                    <li class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>Liderazgo:</strong> 15 años, hasta 12 personas</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>Gestión ágil:</strong> Scrum en proyectos</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>Análisis:</strong> Excel, KPIs, dashboards</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>Reportería:</strong> Informes mensuales</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span style="color: var(--verde);">✓</span>
+                                        <span><strong>Comunicación:</strong> Múltiples stakeholders</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="help-box p-5">
+                            <div class="flex items-start gap-3">
+                                <span class="text-3xl">⚠️</span>
+                                <div>
+                                    <p class="font-bold mb-2">Advertencia crítica</p>
+                                    <p class="text-sm text-gray-700"><strong>NUNCA inventes competencias</strong> para "calzar" con una oferta. Solo mapea competencias que genuinamente posees y puedes demostrar.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Limitaciones IA -->
+            <div class="slide" id="slide-9">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6" style="color: var(--azul-dark);">Limitaciones de la IA generativa</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-gradient-to-br from-red-50 to-pink-50 rounded-xl p-5 border-2 border-red-200">
+                                <h3 class="font-bold text-base mb-2 flex items-center gap-2" style="color: var(--rojo);">
+                                    <span class="text-2xl">❌</span>
+                                    Alucinaciones
+                                </h3>
+                                <p class="text-sm text-gray-700 mb-2">La IA puede generar información que parece plausible pero es falsa.</p>
+                                <div class="bg-white p-3 rounded-lg text-xs text-gray-600">
+                                    <strong>Ejemplo:</strong> Inventar que Isabella Andrea "aumentó productividad en 40%" sin evidencia.
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border-2 border-orange-200">
+                                <h3 class="font-bold text-base mb-2 flex items-center gap-2" style="color: #FF6B35;">
+                                    <span class="text-2xl">📈</span>
+                                    Exageraciones
+                                </h3>
+                                <p class="text-sm text-gray-700 mb-2">La IA tiende a inflar logros para que suenen más impresionantes.</p>
+                                <div class="bg-white p-3 rounded-lg text-xs text-gray-600">
+                                    <strong>Ejemplo:</strong> "Coordiné equipo" → "Lideré estratégicamente división completa"
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl p-5 border-2 border-yellow-200">
+                                <h3 class="font-bold text-base mb-2 flex items-center gap-2" style="color: var(--amarillo-dark);">
+                                    <span class="text-2xl">🤖</span>
+                                    Falta autenticidad
+                                </h3>
+                                <p class="text-sm text-gray-700 mb-2">El texto puede sonar genérico, robótico o formulaico.</p>
+                                <div class="bg-white p-3 rounded-lg text-xs text-gray-600">
+                                    <strong>Solución:</strong> Editar para reflejar tu estilo y experiencia genuina.
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-5 border-2 border-purple-200">
+                                <h3 class="font-bold text-base mb-2 flex items-center gap-2" style="color: #8B5CF6;">
+                                    <span class="text-2xl">🎯</span>
+                                    Contexto limitado
+                                </h3>
+                                <p class="text-sm text-gray-700 mb-2">No conoce matices culturales, sectoriales o contextuales específicos.</p>
+                                <div class="bg-white p-3 rounded-lg text-xs text-gray-600">
+                                    <strong>Ejemplo:</strong> Puede no entender terminología de tu sector.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="help-box p-5">
+                            <div class="flex items-start gap-3">
+                                <span class="text-3xl">💡</span>
+                                <div>
+                                    <p class="font-bold mb-2">Recomendación esencial</p>
+                                    <p class="text-sm text-gray-700">Usa la IA como <strong>asistente de ideas</strong>, no como redactor final. Aplica <strong>pensamiento crítico</strong> siempre.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Quiz -->
+            <div class="slide" id="slide-10">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-4xl mb-3" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                                🎯
+                            </div>
+                            <h2 class="text-3xl font-extrabold mb-2" style="color: var(--azul-dark);">Quiz de verificación</h2>
+                            <p class="text-gray-600">Verifica tu comprensión del caso Isabella Andrea</p>
+                        </div>
+                        
+                        <div id="quiz-container" class="mb-6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Conclusiones -->
+            <div class="slide" id="slide-11">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6 text-center" style="color: var(--azul-dark);">Conclusiones y próximos pasos</h2>
+
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="concept-box bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-xl shadow-md text-center">
+                                <div class="text-4xl mb-3">✅</div>
+                                <h3 class="font-bold text-lg mb-2" style="color: var(--azul);">Aprendimos</h3>
+                                <ul class="text-xs text-gray-700 text-left space-y-1">
+                                    <li>• Diagnóstico de competencias</li>
+                                    <li>• Tipos de competencias</li>
+                                    <li>• Uso de IA para identificarlas</li>
+                                    <li>• Limitaciones éticas</li>
+                                </ul>
+                            </div>
+
+                            <div class="concept-box bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl shadow-md text-center">
+                                <div class="text-4xl mb-3">🎯</div>
+                                <h3 class="font-bold text-lg mb-2" style="color: var(--verde);">Caso Isabella Andrea</h3>
+                                <p class="text-xs text-gray-700 text-left">Vimos cómo usar IA generativa para <strong>articular competencias</strong>, manteniéndolas auténticas y verificables.</p>
+                            </div>
+
+                            <div class="concept-box bg-gradient-to-br from-yellow-50 to-amber-50 p-5 rounded-xl shadow-md text-center">
+                                <div class="text-4xl mb-3">⚠️</div>
+                                <h3 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">Principios</h3>
+                                <ul class="text-xs text-gray-700 text-left space-y-1">
+                                    <li>• Validación crítica siempre</li>
+                                    <li>• Protección de datos</li>
+                                    <li>• Autenticidad primero</li>
+                                    <li>• IA como apoyo</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-blue-600 to-green-600 text-white p-6 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold mb-4 text-center">🚀 Próximos pasos</h3>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-white/10 backdrop-blur p-4 rounded-lg">
+                                    <p class="font-bold mb-2">📚 Profundiza</p>
+                                    <ul class="space-y-1 text-xs">
+                                        <li>• Revisa el apunte de fundamentos</li>
+                                        <li>• Realiza la práctica guiada</li>
+                                        <li>• Experimenta con prompts</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur p-4 rounded-lg">
+                                    <p class="font-bold mb-2">💼 Aplica</p>
+                                    <ul class="space-y-1 text-xs">
+                                        <li>• Diagnostica tus competencias</li>
+                                        <li>• Mapea contra ofertas reales</li>
+                                        <li>• Usa IA críticamente</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navegación inferior fija -->
+        <div class="navigation-bar mt-6 rounded-2xl p-4">
+            <div class="flex items-center justify-between gap-4">
+                <button id="prevBtn" class="btn flex items-center gap-2 px-6 py-3 text-white font-semibold" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Anterior</span>
+                </button>
+                
+                <div class="flex items-center gap-2">
+                    <span id="slide-counter" class="text-sm font-bold text-gray-700 px-3 py-1 rounded-full bg-gray-100">1 / 11</span>
+                </div>
+                
+                <button id="nextBtn" class="btn flex items-center gap-2 px-6 py-3 text-white font-semibold" style="background: linear-gradient(135deg, var(--verde), var(--verde-hover));">
+                    <span>Siguiente</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal información adicional -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-2xl font-bold" style="color: var(--azul);"></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-3xl leading-none transition-colors" aria-label="Cerrar">&times;</button>
+            </div>
+            <div id="modal-body" class="text-gray-700"></div>
+        </div>
+    </div>
+
+    <script>
+        // LocalStorage para guardar progreso
+        const STORAGE_KEY = 'ppt1_m1_natalia_progress';
+        
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                currentSlide = data.currentSlide || 0;
+            }
+        }
+        
+        function saveProgress() {
+            const data = {
+                currentSlide: currentSlide,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        let currentSlide = 0;
+        let slides, totalSlides, prevBtn, nextBtn, slideCounter, currentSlideNum, progressBar;
+
+        function updateSlide() {
+            console.log('Updating slide to:', currentSlide); // Debug
+            console.log('Slides available:', slides ? slides.length : 'undefined'); // Debug
+
+            if (!slides || slides.length === 0) {
+                console.error('No slides found!');
+                return;
+            }
+
+            if (currentSlide < 0 || currentSlide >= slides.length) {
+                console.error('Invalid slide index:', currentSlide);
+                return;
+            }
+
+            slides.forEach((slide) => {
+                slide.classList.remove('active');
+            });
+
+            slides[currentSlide].classList.add('active');
+
+            if (prevBtn) prevBtn.disabled = currentSlide === 0;
+            if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
+
+            if (slideCounter) slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            if (currentSlideNum) currentSlideNum.textContent = currentSlide + 1;
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            if (progressBar) progressBar.style.width = progress + '%';
+
+            if (currentSlide === 9) loadQuiz();
+
+            saveProgress();
+
+            // Scroll al inicio del slide
+            const slideContent = slides[currentSlide].querySelector('.slide-content');
+            if (slideContent) {
+                slideContent.scrollTop = 0;
+            }
+        }
+
+        // Sistema de modales
+        const modalData = {
+            privacidad: {
+                title: 'Privacidad de datos',
+                content: '<p class="mb-3">Isabella Andrea debe <strong>anonimizar o eliminar datos sensibles</strong> (RUT, dirección exacta, correo personal) antes de solicitar análisis a la IA generativa.</p><p class="text-sm">Puede usar nombres genéricos o iniciales para empresas en las que trabajó si lo desea.</p>'
+            },
+            verificacion: {
+                title: 'Verificación de información',
+                content: '<p class="mb-3">La IA generativa puede generar información plausible pero incorrecta (<em>alucinaciones</em>).</p><p class="text-sm">Isabella Andrea debe <strong>revisar críticamente</strong> cada salida, verificar que las competencias atribuidas sean reales y que las reformulaciones mantengan la veracidad de su experiencia.</p>'
+            },
+            revision: {
+                title: 'Autenticidad y revisión',
+                content: '<p class="mb-3">La IA generativa debe ser un <strong>borrador inicial</strong>, no el texto final.</p><p class="text-sm">Isabella Andrea debe <strong>editar y adaptar</strong> cada sección para que refleje su voz, estilo y valores personales. Un CV excesivamente "pulido" por IA sin edición humana puede sonar genérico y robótico.</p>'
+            }
+        };
+
+        function openModal(type) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            modalTitle.textContent = modalData[type].title;
+            modalBody.innerHTML = modalData[type].content;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+
+        // Modal de bienvenida
+        function closeWelcomeModal() {
+            const modal = document.getElementById('welcome-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                // NO guardar en localStorage para poder ver el modal cada vez
+                // localStorage.setItem('ppt1_m1_natalia_welcome_seen', 'true');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded'); // Debug
+
+            // Inicializar elementos del DOM
+            slides = document.querySelectorAll('.slide');
+            totalSlides = slides.length;
+            prevBtn = document.getElementById('prevBtn');
+            nextBtn = document.getElementById('nextBtn');
+            slideCounter = document.getElementById('slide-counter');
+            currentSlideNum = document.getElementById('current-slide-num');
+            progressBar = document.getElementById('progress-bar');
+
+            console.log('Total slides found:', totalSlides); // Debug
+            console.log('Elements:', {
+                slides: slides ? slides.length : 'null',
+                prevBtn: prevBtn ? 'found' : 'null',
+                nextBtn: nextBtn ? 'found' : 'null',
+                slideCounter: slideCounter ? 'found' : 'null',
+                progressBar: progressBar ? 'found' : 'null'
+            });
+
+            if (totalSlides === 0) {
+                console.error('ERROR: No slides found! Check if .slide elements exist in HTML');
+                return;
+            }
+
+            // Event listeners
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    console.log('Prev button clicked');
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    console.log('Next button clicked');
+                    if (currentSlide < totalSlides - 1) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' && prevBtn && !prevBtn.disabled) prevBtn.click();
+                if (e.key === 'ArrowRight' && nextBtn && !nextBtn.disabled) nextBtn.click();
+            });
+
+            // NO ocultar el modal automáticamente - dejar que el usuario lo cierre
+            // const welcomeSeen = localStorage.getItem('ppt1_m1_natalia_welcome_seen');
+            // if (welcomeSeen) {
+            //     const modal = document.getElementById('welcome-modal');
+            //     if (modal) modal.classList.remove('active');
+            // }
+
+            // Cargar progreso guardado
+            loadProgress();
+
+            // Asegurar que currentSlide esté en rango válido
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+
+            console.log('About to call updateSlide with currentSlide:', currentSlide); // Debug
+            updateSlide();
+        });
+
+        // Quiz
+        const quizData = {
+            question: '¿Cuál es el principal desafío de Isabella Andrea según el caso?',
+            options: [
+                { text: 'No tiene suficiente experiencia laboral', correct: false },
+                { text: 'Sus descripciones no están alineadas con el lenguaje técnico de las ofertas actuales', correct: true },
+                { text: 'No sabe usar herramientas digitales básicas', correct: false },
+                { text: 'Le falta formación académica formal', correct: false }
+            ]
+        };
+
+        function loadQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (container.children.length > 0) return;
+
+            let html = `
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">${quizData.question}</h3>
+                    <div class="space-y-3">
+            `;
+
+            quizData.options.forEach((option, index) => {
+                html += `
+                    <div class="option-card p-4 rounded-xl" onclick="checkAnswer(${index}, ${option.correct})">
+                        <p class="text-gray-700 font-semibold text-sm">${option.text}</p>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+                <div id="quiz-feedback" class="hidden"></div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function checkAnswer(index, correct) {
+            const options = document.querySelectorAll('#quiz-container .option-card');
+            const feedback = document.getElementById('quiz-feedback');
+
+            options.forEach((opt, i) => {
+                opt.style.pointerEvents = 'none';
+                if (quizData.options[i].correct) {
+                    opt.classList.add('correct');
+                } else if (i === index && !correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            feedback.classList.remove('hidden');
+            if (correct) {
+                feedback.className = 'feedback-positive p-5 rounded-xl';
+                feedback.innerHTML = '<p class="font-bold text-lg mb-2" style="color: var(--verde);">✅ ¡Correcto!</p><p class="text-gray-700 text-sm">Isabella Andrea enfrenta el desafío de traducir su experiencia al lenguaje técnico y corporativo que buscan los reclutadores modernos.</p>';
+            } else {
+                feedback.className = 'feedback-negative p-5 rounded-xl';
+                feedback.innerHTML = '<p class="font-bold text-lg mb-2" style="color: var(--rojo);">❌ Incorrecto</p><p class="text-gray-700 text-sm">El principal desafío de Isabella Andrea es que sus descripciones no están alineadas con el lenguaje técnico de las ofertas actuales.</p>';
+            }
+        }
+    </script>
+
+    </div> <!-- Cierre de page-wrapper -->
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor IA</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Variables CSS para Paleta Pantone --- */
+        :root {
+            --pantone-blue: #002F6C;      /* Pantone 287c */
+            --pantone-green: #009639;     /* Pantone 348c */
+            --pantone-yellow: #FFD100;    /* Pantone 122c */
+            --pantone-red: #EF3340;       /* Pantone 032c */
+            
+            /* Variaciones tonales */
+            --blue-light: #1a4d87;
+            --blue-dark: #001a3d;
+            --green-light: #00b347;
+            --green-dark: #006b26;
+            --yellow-light: #ffe033;
+            --yellow-dark: #ccaa00;
+            --red-light: #ff4757;
+            --red-dark: #c71e2a;
+            
+            /* Colores neutros mejorados */
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #6c757d;
+            --dark-gray: #343a40;
+        }
+
+        /* --- Estilos Generales con Especificidad Aumentada --- */
+        #assistant-container {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #e9ecef 100%);
+            width: 100%;
+            border-radius: 1rem;
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 47, 108, 0.15), 
+                0 10px 10px -5px rgba(0, 47, 108, 0.08),
+                0 0 0 1px rgba(0, 47, 108, 0.05);
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            max-height: 85vh;
+            min-height: 550px;
+            overflow: hidden;
+            border: 2px solid var(--pantone-blue);
+            position: relative;
+        }
+
+        /* Decoración con línea de colores */
+        #assistant-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(
+                90deg, 
+                var(--pantone-blue) 0%, 
+                var(--pantone-green) 25%, 
+                var(--pantone-yellow) 50%, 
+                var(--pantone-red) 75%, 
+                var(--pantone-blue) 100%
+            );
+            z-index: 10;
+        }
+
+        /* --- Encabezado Mejorado --- */
+        #assistant-container .assistant-header {
+            background: linear-gradient(135deg, var(--pantone-blue) 0%, var(--blue-light) 100%);
+            color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #assistant-container .assistant-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 100px;
+            height: 100px;
+            background: var(--pantone-green);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        #assistant-container .assistant-header::before {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 80px;
+            height: 80px;
+            background: var(--pantone-yellow);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        #assistant-container .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--white) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        #assistant-container .header-subtitle {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin: 0.5rem 0 0 0;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Ventana de Chat Mejorada --- */
+        #assistant-container .chat-window {
+            flex-grow: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            background: linear-gradient(180deg, var(--light-gray) 0%, var(--white) 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        #assistant-container .chat-window::-webkit-scrollbar { 
+            width: 8px; 
+        }
+        #assistant-container .chat-window::-webkit-scrollbar-track { 
+            background: #e9ecef; 
+            border-radius: 10px; 
+        }
+        #assistant-container .chat-window::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, var(--pantone-blue), var(--blue-light)); 
+            border-radius: 10px; 
+        }
+        #assistant-container .chat-window::-webkit-scrollbar-thumb:hover { 
+            background: linear-gradient(180deg, var(--blue-light), var(--pantone-blue)); 
+        }
+
+        /* --- Mensajes del Chat Mejorados --- */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        #assistant-container .chat-message {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            animation: fadeInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            max-width: 95%;
+        }
+
+        #assistant-container .chat-message.user-action {
+            justify-content: flex-end;
+            align-self: flex-end;
+        }
+
+        /* Iconos Mejorados */
+        #assistant-container .assistant-icon, #assistant-container .user-icon {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        #assistant-container .assistant-icon { 
+            background: linear-gradient(135deg, var(--pantone-green) 0%, var(--green-light) 100%);
+        }
+
+        #assistant-container .user-icon { 
+            background: linear-gradient(135deg, var(--pantone-blue) 0%, var(--blue-light) 100%);
+        }
+
+        #assistant-container .icon-svg { 
+            width: 20px; 
+            height: 20px; 
+            stroke: currentColor; 
+            stroke-width: 2.5; 
+            fill: none; 
+            stroke-linecap: round; 
+            stroke-linejoin: round; 
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Burbujas de diálogo mejoradas */
+        #assistant-container .assistant-bubble, #assistant-container .user-bubble {
+            padding: 1.25rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        #assistant-container .assistant-bubble {
+            background: linear-gradient(135deg, var(--white) 0%, #f8f9fa 100%);
+            border: 2px solid var(--pantone-green);
+            border-top-left-radius: 0.25rem;
+            color: var(--dark-gray);
+        }
+
+        #assistant-container .assistant-bubble::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 8px 8px 0;
+            border-color: transparent var(--pantone-green) transparent transparent;
+        }
+
+        #assistant-container .user-bubble {
+            background: linear-gradient(135deg, var(--pantone-blue) 0%, var(--blue-light) 100%);
+            color: var(--white) !important;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        #assistant-container .user-bubble::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 0 8px 8px;
+            border-color: transparent transparent transparent var(--pantone-blue);
+        }
+
+        #assistant-container .user-bubble p, #assistant-container .assistant-bubble p {
+            margin: 0;
+            word-wrap: break-word;
+            color: inherit !important;
+            line-height: 1.6;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        #assistant-container .assistant-bubble p strong {
+             color: var(--pantone-blue) !important;
+             font-weight: 700;
+        }
+
+        #assistant-container .assistant-bubble .example-box {
+            background: linear-gradient(135deg, var(--pantone-yellow) 0%, var(--yellow-light) 100%);
+            border-left: 4px solid var(--pantone-red);
+            padding: 1rem;
+            margin-top: 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--dark-gray);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        #assistant-container .assistant-bubble .example-box::before {
+            content: '💡';
+            position: absolute;
+            top: -8px;
+            left: 10px;
+            background: var(--white);
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Contenedor de Botones Mejorado --- */
+        #assistant-container .button-container {
+            padding: 1.5rem;
+            border-top: 2px solid #e9ecef;
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        #assistant-container .menu-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        /* --- Botones Mejorados con Colores Pantone --- */
+        #assistant-container .menu-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--pantone-blue) 0%, var(--blue-light) 100%);
+            color: var(--white) !important;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            border: none !important;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 47, 108, 0.3), 0 2px 4px -1px rgba(0, 47, 108, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #assistant-container .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        #assistant-container .menu-button:hover {
+            background: linear-gradient(135deg, var(--pantone-green) 0%, var(--green-light) 100%);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 15px -3px rgba(0, 150, 57, 0.4), 0 4px 6px -2px rgba(0, 150, 57, 0.2);
+        }
+
+        #assistant-container .menu-button:hover::before {
+            left: 100%;
+        }
+
+        #assistant-container .menu-button:active {
+            transform: translateY(0) scale(0.98);
+            transition: transform 0.1s;
+        }
+
+        #assistant-container .menu-button:focus {
+            outline: none;
+            box-shadow: 
+                0 8px 15px -3px rgba(0, 150, 57, 0.4), 
+                0 4px 6px -2px rgba(0, 150, 57, 0.2),
+                0 0 0 3px rgba(255, 209, 0, 0.5);
+        }
+
+        /* Variaciones de botones por acción */
+        #assistant-container .menu-button[data-action="showExample"] {
+            background: linear-gradient(135deg, var(--pantone-yellow) 0%, var(--yellow-light) 100%);
+            color: var(--dark-gray) !important;
+            box-shadow: 0 4px 6px -1px rgba(255, 209, 0, 0.3);
+        }
+
+        #assistant-container .menu-button[data-action="showExample"]:hover {
+            background: linear-gradient(135deg, var(--pantone-red) 0%, var(--red-light) 100%);
+            color: var(--white) !important;
+            box-shadow: 0 8px 15px -3px rgba(239, 51, 64, 0.4);
+        }
+
+        #assistant-container .menu-button[data-action="showMenu"] {
+            background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+        }
+
+        #assistant-container .menu-button[data-action="showMenu"]:hover {
+            background: linear-gradient(135deg, var(--pantone-blue) 0%, var(--blue-light) 100%);
+        }
+
+        /* --- Pie de página mejorado --- */
+        #assistant-container .credits-footer {
+            padding: 1rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            text-align: center;
+            font-size: 11px;
+            color: var(--medium-gray);
+            border-top: 2px solid #dee2e6;
+            flex-shrink: 0;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            position: relative;
+        }
+
+        #assistant-container .credits-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(
+                90deg, 
+                var(--pantone-green) 0%, 
+                var(--pantone-yellow) 33%, 
+                var(--pantone-red) 66%, 
+                var(--pantone-blue) 100%
+            );
+        }
+
+        #assistant-container .credits-footer p {
+            margin: 0.25rem 0;
+            color: var(--medium-gray) !important;
+        }
+
+        #assistant-container .credits-footer strong {
+            color: var(--pantone-blue) !important;
+            font-weight: 700;
+        }
+
+        /* --- Responsive Design Mejorado --- */
+        @media (max-width: 640px) {
+            #assistant-container {
+                border-radius: 0;
+                max-height: 100vh;
+                min-height: 100vh;
+            }
+
+            #assistant-container .assistant-header {
+                border-radius: 0;
+                padding: 1rem;
+            }
+
+            #assistant-container .chat-window {
+                padding: 1rem;
+            }
+
+            #assistant-container .button-container {
+                padding: 1rem;
+            }
+
+            #assistant-container .menu-options {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            #assistant-container .credits-footer {
+                border-radius: 0;
+            }
+        }
+
+        /* --- Animaciones adicionales --- */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        #assistant-container .assistant-icon {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Efectos de hover para la burbuja del asistente */
+        #assistant-container .assistant-bubble:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 15px -3px rgba(0, 150, 57, 0.2), 0 4px 6px -2px rgba(0, 150, 57, 0.1);
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="assistant-container">
+        <header class="assistant-header">
+            <h1 class="header-title">Tutor IA</h1>
+            <p class="header-subtitle">Ingeniería de Prompts</p>
+        </header>
+
+        <div id="chat-window" class="chat-window">
+            <!-- Los mensajes del chat se agregarán aquí dinámicamente -->
+        </div>
+
+        <div id="button-container" class="button-container">
+            <div id="menu-options" class="menu-options">
+                <!-- Los botones del menú se agregarán aquí dinámicamente -->
+            </div>
+        </div>
+
+        <footer class="credits-footer">
+            <p><strong>Autor:</strong> Francisco Sereño</p>
+            <p><strong>Asistente desarrollado con IA de Google (Modelo Gemini 2.5 Pro).</strong> La IA generó el código base (HTML, CSS, JavaScript) y sintetizó el contenido a partir de los documentos proporcionados, bajo la dirección y refinamiento del autor.</p>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // --- GESTIÓN DEL CONTENIDO ---
+            const knowledgeBase = {
+                bienvenida: {
+                    mensaje: "Bienvenido al asistente académico. Mi propósito es guiarle a través de los conceptos clave de la ingeniería de prompts, basándome en lo desarrollado en el módulo. Por favor, seleccione una técnica del menú para comenzar su aprendizaje."
+                },
+                zeroShot: {
+                    nombre: "Zero-shot prompting",
+                    simple: "Es la técnica más directa. Consiste en pedirle algo a la inteligencia artificial directamente, sin darle ejemplos previos. Es ideal para tareas simples o cuando se necesita información general rápidamente.",
+                    profundo: "El 'zero-shot prompting' es una metodología donde el modelo de lenguaje debe generar una respuesta a una tarea sin haber recibido ejemplos específicos. Su efectividad se fundamenta en la vasta cantidad de conocimiento pre-entrenado que posee el modelo, permitiéndole inferir la intención del usuario para una amplia gama de solicitudes comunes. Aunque es rápido y fácil de usar, su principal limitación es que puede producir respuestas genéricas y carece de control fino sobre el formato o estilo de la salida.",
+                    ejemplos: [
+                        '<strong>Ejemplo de tarea simple:</strong><div class="example-box">"Explícame qué es la diabetes en palabras simples"</div>',
+                        '<strong>Ejemplo de redacción:</strong><div class="example-box">"Ayúdame a escribir un email para disculparme con mi jefe por llegar tarde"</div>',
+                        '<strong>Ejemplo de ideación:</strong><div class="example-box">"Dame 5 ideas para el cumpleaños de mi mamá"</div>'
+                    ]
+                },
+                fewShot: {
+                    nombre: "Few-shot prompting",
+                    simple: "Consiste en proporcionarle a la IA uno o más ejemplos de lo que se desea obtener. Esto ayuda al modelo a entender el formato, estilo y tipo de respuesta esperada, resultando en salidas más precisas y ajustadas a la necesidad.",
+                    profundo: "El 'few-shot learning', como lo documentan Brown et al. (2023), mejora drásticamente la comprensión del modelo sobre una tarea al proporcionarle de 2 a 3 ejemplos relevantes. Esta técnica no solo ilustra el formato de salida deseado, sino que también comunica patrones implícitos que el modelo debe seguir. Los modelos extraen patrones abstractos para aplicarlos a nuevas instancias, lo que demuestra una capacidad de generalización.",
+                    ejemplos: [
+                        '<strong>Ejemplo de clasificación:</strong><div class="example-box">Tarea: Clasifica los comentarios como POSITIVO, NEGATIVO O NEUTRAL.<br><br>Comentario: "La comida estaba deliciosa y el servicio fue excelente."<br>Clasificación: POSITIVO<br><br>Comentario: "Esperamos una hora por la comida y llegó fría."<br>Clasificación: NEGATIVO</div>',
+                        '<strong>Ejemplo de cambio de formato:</strong><div class="example-box">Tarea: Convierte mensajes informales en formales.<br><br>Informal: "oye profe no voy a poder ir mañana a la reunión xq tengo hora al doc"<br>Formal: "Buenos días profesor. Le escribo para informarle que no podré asistir a la reunión de mañana debido a que tengo una cita médica programada."</div>',
+                        '<strong>Ejemplo de resumen:</strong><div class="example-box">Tarea: Resume el siguiente texto en una frase.<br><br>Texto: "El equipo local dominó la posesión del balón durante todo el partido, generando múltiples ocasiones de gol, pero no logró concretar ninguna."<br>Resumen: "El equipo local no pudo capitalizar su dominio y el partido terminó en empate."</div>'
+                    ]
+                },
+                rolePrompting: {
+                    nombre: "Role prompting",
+                    simple: "Esta técnica implica asignarle a la IA un rol o una 'persona' específica, como 'un experto en finanzas'. Esto activa el conocimiento y el estilo de comunicación asociados a ese rol, generando respuestas más especializadas.",
+                    profundo: "El 'role prompting' o asignación de perspectivas es una técnica que mejora la calidad de las respuestas hasta en un 40% en dominios especializados, según Learn Prompting (2024). Al especificar un rol, se activan en el modelo conjuntos de asociaciones, vocabulario y patrones de razonamiento propios de ese dominio.",
+                    ejemplos: [
+                        '<strong>Ejemplo de experto:</strong><div class="example-box">"Actúa como un entrenador personal motivador. Tengo 35 años, trabajo sentado todo el día y quiero empezar a hacer ejercicio pero no tengo motivación. Dame un plan simple para comenzar y convénceme de que sí puedo lograrlo."</div>',
+                        '<strong>Ejemplo de personaje:</strong><div class="example-box">"Actúa como mi abuela que siempre sabe cómo arreglar las cosas en la casa. Mi lavadora hace un ruido extraño cuando está en el ciclo de centrifugado. ¿Qué podría ser y cómo lo soluciono antes de llamar al técnico?"</div>',
+                        '<strong>Ejemplo profesional:</strong><div class="example-box">"Actúa como un chef experimentado. Tengo pollo, arroz, cebolla y tomates. ¿Qué puedo cocinar que sea rico y no muy complicado?"</div>'
+                    ]
+                },
+                chainOfThought: {
+                    nombre: "Chain-of-Thought",
+                    simple: "También conocido como 'cadena de pensamiento', consiste en pedirle a la IA que desglose su razonamiento en pasos lógicos intermedios antes de dar la respuesta final. Es muy útil para problemas complejos.",
+                    profundo: "La técnica 'Chain-of-Thought' (CoT), introducida por Wei et al. (2023), permite a los modelos de lenguaje abordar problemas que requieren múltiples pasos de razonamiento lógico. Al solicitar explícitamente al modelo que 'piense paso a paso', se mejora significativamente la precisión en tareas analíticas, con mejoras de hasta un 32%.",
+                    ejemplos: [
+                        '<strong>Ejemplo de planificación financiera:</strong><div class="example-box">"Una familia tiene un ingreso mensual de $800.000. Sus gastos son: arriendo $350.000, supermercado $150.000 y servicios $60.000. ¿Cuánto pueden ahorrar? Resolvamos esto paso a paso."</div>',
+                        '<strong>Ejemplo de toma de decisiones:</strong><div class="example-box">"Estoy pensando en renunciar a mi trabajo porque mi jefe es muy difícil, pero tengo miedo de no encontrar algo mejor. Gano $800.000 y mis gastos son de $600.000. Piensa paso a paso para ayudarme a decidir si debo renunciar o no."</div>',
+                        '<strong>Ejemplo de lógica:</strong><div class="example-box">"Si en una carrera adelanto al segundo, ¿en qué posición quedo? Razona tu respuesta paso a paso."</div>'
+                    ]
+                },
+                treeOfThoughts: {
+                    nombre: "Tree of Thoughts",
+                    simple: "Es una versión avanzada de la 'cadena de pensamiento'. La IA explora múltiples líneas de razonamiento de forma simultánea, las evalúa y elige la más prometedora para resolver problemas complejos.",
+                    profundo: "El 'Tree of Thoughts' (ToT), documentado por Yao et al. (2023), es una evolución del CoT diseñada para problemas que requieren exploración estratégica. Permite al modelo explorar múltiples caminos de razonamiento como si fueran las ramas de un árbol, evaluar la viabilidad de cada uno y seleccionar la ruta más prometedora.",
+                    ejemplos: [
+                        '<strong>Ejemplo de planificación de eventos:</strong><div class="example-box">"Dame 3 opciones diferentes para celebrar mi aniversario con un presupuesto de $200.000. Para cada opción, evalúa el romanticismo, la factibilidad y el nivel de estrés. Recomienda la mejor."</div>',
+                        '<strong>Ejemplo de estrategia de carrera:</strong><div class="example-box">"Necesito cambiar de carrera a los 35 años. Dame 3 estrategias diferentes para hacer este cambio. Para cada una, evalúa el tiempo, el riesgo económico y la probabilidad de éxito. Recomienda la mejor."</div>',
+                        '<strong>Ejemplo de resolución de problemas:</strong><div class="example-box">"El tráfico en mi ciudad es terrible. Genera 3 soluciones posibles a nivel de política pública. Para cada una, analiza sus pros, contras y viabilidad de implementación."</div>'
+                    ]
+                },
+                stepBack: {
+                    nombre: "Step-back prompting",
+                    simple: "Con esta técnica, primero se le pide a la IA que reflexione sobre los principios generales detrás de una pregunta. Luego, aplica esos principios para resolver el problema particular.",
+                    profundo: "El 'step-back prompting' es una metodología que consiste en guiar al modelo para que abstraiga conceptos y principios de alto nivel a partir de una instancia específica. Este enfoque ayuda a generar respuestas más fundamentadas y robustas, especialmente en problemas complejos.",
+                    ejemplos: [
+                        '<strong>Ejemplo de relaciones interpersonales:</strong><div class="example-box">"1. En general, ¿cuáles son las mejores estrategias para manejar conflictos entre amigos? 2. Considerando eso, ¿cómo puedo manejar que mis dos mejores amigas se pelearon y ambas quieren que tome su lado?"</div>',
+                        '<strong>Ejemplo de finanzas personales:</strong><div class="example-box">"1. ¿Cuáles son los principios básicos para ahorrar dinero efectivamente? 2. Usando esos principios, ¿cómo puedo ahorrar para comprarme un auto en 2 años si gano $600.000 mensuales?"</div>',
+                        '<strong>Ejemplo de aprendizaje:</strong><div class="example-box">"1. ¿Cuáles son las técnicas de estudio más efectivas según la ciencia cognitiva? 2. En base a eso, ¿cómo debería prepararme para mi examen final de cálculo?"</div>'
+                    ]
+                }
+            };
+
+            // --- ELEMENTOS DEL DOM Y ESTADO ---
+            const chatWindow = document.getElementById('chat-window');
+            const menuOptions = document.getElementById('menu-options');
+            let currentTopic = null;
+            let currentExampleIndex = 0;
+            let deepDiveShown = false;
+
+            // --- FUNCIONES DE RENDERIZADO ---
+            function displayAssistantMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'chat-message';
+                messageElement.innerHTML = `
+                    <div class="assistant-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.084a1 1 0 0 0 0 1.838l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 6 0 0 0 12 0v-3.5"/></svg>
+                    </div>
+                    <div class="assistant-bubble"><p>${message}</p></div>
+                `;
+                chatWindow.appendChild(messageElement);
+                scrollToBottom();
+            }
+
+            function displayUserAction(text) {
+                const actionElement = document.createElement('div');
+                actionElement.className = 'chat-message user-action';
+                actionElement.innerHTML = `
+                    <div class="user-bubble"><p>${text}</p></div>
+                    <div class="user-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                `;
+                chatWindow.appendChild(actionElement);
+                scrollToBottom();
+            }
+
+            function renderButtons(buttons) {
+                menuOptions.innerHTML = '';
+                buttons.forEach(btn => {
+                    const button = document.createElement('button');
+                    button.textContent = btn.text;
+                    button.dataset.action = btn.action;
+                    if (btn.topic) button.dataset.topic = btn.topic;
+                    button.className = "menu-button";
+                    menuOptions.appendChild(button);
+                });
+            }
+
+            function scrollToBottom() {
+                setTimeout(() => {
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                }, 0);
+            }
+
+            // --- LÓGICA DE LA APLICACIÓN ---
+            function showMainMenu() {
+                currentTopic = null;
+                currentExampleIndex = 0;
+                deepDiveShown = false;
+                const menuButtons = Object.keys(knowledgeBase)
+                    .filter(key => key !== 'bienvenida')
+                    .map(key => ({ text: knowledgeBase[key].nombre, action: 'selectTopic', topic: key }));
+                renderButtons(menuButtons);
+            }
+
+            function showContextualMenu() {
+                let contextualButtons = [];
+                const topicData = knowledgeBase[currentTopic];
+
+                if (topicData.ejemplos && currentExampleIndex < topicData.ejemplos.length) {
+                    contextualButtons.push({ text: currentExampleIndex > 0 ? 'Ver otro ejemplo' : 'Ver ejemplos', action: 'showExample' });
+                }
+               
+                if (!deepDiveShown) {
+                    contextualButtons.push({ text: 'Analizar en detalle', action: 'deepDive' });
+                }
+
+                contextualButtons.push({ text: 'Retornar al menú', action: 'showMenu' });
+                renderButtons(contextualButtons);
+            }
+
+            function handleAction(action, topic, buttonText) {
+                displayUserAction(buttonText);
+                setTimeout(() => {
+                    switch (action) {
+                        case 'selectTopic':
+                            currentTopic = topic;
+                            currentExampleIndex = 0;
+                            deepDiveShown = false;
+                            displayAssistantMessage(knowledgeBase[topic].simple);
+                            setTimeout(showContextualMenu, 500);
+                            break;
+                        case 'deepDive':
+                            if (currentTopic && !deepDiveShown) {
+                                displayAssistantMessage(knowledgeBase[currentTopic].profundo);
+                                deepDiveShown = true;
+                            }
+                            setTimeout(showContextualMenu, 500);
+                            break;
+                        case 'showMenu':
+                            displayAssistantMessage("Entendido. A continuación, le presento nuevamente el menú principal para que pueda explorar otra técnica.");
+                            setTimeout(showMainMenu, 500);
+                            break;
+                        case 'showExample':
+                             if (currentTopic) {
+                                const examples = knowledgeBase[currentTopic].ejemplos;
+                                if (examples && currentExampleIndex < examples.length) {
+                                    displayAssistantMessage(examples[currentExampleIndex]);
+                                    currentExampleIndex++;
+                                    setTimeout(showContextualMenu, 500);
+                                }
+                            }
+                            break;
+                    }
+                }, 800);
+            }
+            
+            // --- INICIALIZACIÓN ---
+            function initializeChat() {
+                menuOptions.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'BUTTON') {
+                        const { action, topic } = e.target.dataset;
+                        setTimeout(() => {
+                            handleAction(action, topic, e.target.textContent);
+                        }, 150);
+                    }
+                });
+
+                setTimeout(() => {
+                    displayAssistantMessage(knowledgeBase.bienvenida.mensaje);
+                    setTimeout(showMainMenu, 1200);
+                }, 500);
+            }
+
+            // Iniciar el asistente
+            initializeChat();
+        })();
+    </script>
+
+</body>
+</html>

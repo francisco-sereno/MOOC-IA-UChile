@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Interactivo: Simulador de IA</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Paleta de colores personalizada */
+        :root {
+            --color-verde: #00843D;
+            --color-amarillo: #FCD116;
+            --color-rojo: #EF3340;
+            --color-azul: #003DA5; /* Un azul Pantone 287c ligeramente más brillante para UI */
+            --color-azul-dark: #002D72;
+            --color-verde-dark: #006A31;
+            
+            --color-verde-light: #e6f3ec;
+            --color-azul-light: #e6eef7;
+            --color-rojo-light: #fdebee;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Aplicación de la nueva paleta a clases personalizadas */
+        .text-custom-azul { color: var(--color-azul); }
+        .text-custom-azul-dark { color: var(--color-azul-dark); }
+        .text-custom-verde { color: var(--color-verde); }
+        .text-custom-rojo { color: var(--color-rojo); }
+
+        .bg-custom-azul { background-color: var(--color-azul); }
+        .hover\:bg-custom-azul-dark:hover { background-color: var(--color-azul-dark); }
+        
+        .bg-custom-verde { background-color: var(--color-verde); }
+        .hover\:bg-custom-verde-dark:hover { background-color: var(--color-verde-dark); }
+        
+        .border-custom-azul { border-color: var(--color-azul); }
+        .border-custom-verde { border-color: var(--color-verde); }
+
+        .bg-custom-verde-light { background-color: var(--color-verde-light); }
+        .bg-custom-azul-light { background-color: var(--color-azul-light); }
+
+
+        .toolbox-item {
+            cursor: grab;
+            transition: all 0.2s ease-in-out;
+        }
+        .toolbox-item:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .drop-zone {
+            transition: all 0.2s ease-in-out;
+            min-height: 120px;
+        }
+        .drop-zone.drag-over {
+            border-style: dashed;
+            border-color: var(--color-azul);
+            background-color: var(--color-azul-light);
+        }
+        .drop-zone.correct {
+            border-color: var(--color-verde);
+            background-color: var(--color-verde-light);
+        }
+        .prompt-part {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .prompt-part.selected {
+            background-color: var(--color-azul-light);
+            border-color: var(--color-azul);
+        }
+        .step-hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .step-visible {
+            display: flex; /* Changed for modal centering */
+            opacity: 1;
+        }
+        .loader {
+            border: 4px solid #e3e3e3;
+            border-top: 4px solid var(--color-amarillo);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Introducción Modal -->
+    <div id="intro-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="bg-white p-8 rounded-lg shadow-2xl max-w-2xl text-center animate-fade-in-up">
+            <h1 class="text-3xl font-bold text-custom-azul mb-4">Bienvenido al simulador de flujos de trabajo con IA</h1>
+            <p class="text-gray-700 mb-4">Tu misión es asistir a Isabella, una profesional que busca optimizar su preparación para entrevistas laborales. Para ello, diseñarás, configurarás y ejecutarás un flujo de trabajo que toma sus datos (percepción), los procesa inteligentemente (razonamiento) y genera un resultado de alto valor (acción).</p>
+            
+            <div class="mt-6 mb-6 border-t pt-6 text-left">
+                <h3 class="text-xl font-bold text-custom-azul-dark mb-4 text-center">Preguntas para la reflexión</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li>¿De qué otra manera podrías aplicar el ciclo "percepción-razonamiento-acción" para automatizar una tarea en tu entorno profesional o académico?</li>
+                    <li>¿Por qué la calidad y especificidad del "prompt" es un factor crítico para el éxito del resultado simulado?</li>
+                    <li>Considerando un escenario real, ¿qué limitaciones o riesgos éticos tendría un sistema automatizado como este?</li>
+                </ul>
+            </div>
+
+            <button onclick="startActivity()" class="bg-custom-azul text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-custom-azul-dark transition-transform hover:scale-105">Comenzar la actividad</button>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-custom-azul mb-2">Proyecto: Simulador de entrevistas con IA</h1>
+            <p class="text-lg text-gray-600">Tu misión: construir un flujo de trabajo para ayudar a Isabella.</p>
+        </header>
+        
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+            <div id="progress-bar" class="bg-custom-azul h-2.5 rounded-full" style="width: 0%; transition: width 0.5s;"></div>
+        </div>
+
+        <!-- Área de Construcción Principal -->
+        <div id="main-construction-area" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Caja de Herramientas -->
+            <div class="md:col-span-1" id="toolbox-container">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold mb-4 border-b pb-2">Caja de herramientas</h2>
+                    <div id="toolbox-parent" class="space-y-4">
+                        <div id="tool-input" draggable="true" class="toolbox-item bg-gray-50 p-4 border rounded-lg flex items-center space-x-3">
+                            <span class="text-2xl">📥</span>
+                            <div>
+                                <h3 class="font-semibold">Recopilar datos</h3>
+                                <p class="text-sm text-gray-500">Recibe el CV y la oferta de trabajo.</p>
+                            </div>
+                        </div>
+                        <div id="tool-ai" draggable="true" class="toolbox-item bg-gray-50 p-4 border rounded-lg flex items-center space-x-3">
+                            <span class="text-2xl">🧠</span>
+                             <div>
+                                <h3 class="font-semibold">Procesar con IA</h3>
+                                <p class="text-sm text-gray-500">Analiza, compara y genera.</p>
+                            </div>
+                        </div>
+                        <div id="tool-output" draggable="true" class="toolbox-item bg-gray-50 p-4 border rounded-lg flex items-center space-x-3">
+                            <span class="text-2xl">📤</span>
+                            <div>
+                                <h3 class="font-semibold">Entregar resultado</h3>
+                                <p class="text-sm text-gray-500">Envía las preguntas a Isabella.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tablero de Flujo de Trabajo y Reflexión -->
+            <div class="md:col-span-2 space-y-8">
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold mb-4 border-b pb-2">Tu flujo de trabajo</h2>
+                    <div class="space-y-6">
+                        <!-- Paso 1 -->
+                        <div>
+                            <h3 class="font-semibold text-lg mb-2">Paso 1: Percepción (la entrada)</h3>
+                            <div id="drop-1" class="drop-zone border-2 border-gray-300 rounded-lg p-4 text-center text-gray-500">
+                                Arrastra aquí el primer componente del flujo.
+                            </div>
+                        </div>
+                         <!-- Paso 2 -->
+                        <div id="step-2" class="step-hidden">
+                            <h3 class="font-semibold text-lg mb-2">Paso 2: Razonamiento (el proceso)</h3>
+                            <div id="drop-2" class="drop-zone border-2 border-gray-300 rounded-lg p-4 text-center text-gray-500">
+                                ¿Qué componente debe ir ahora?
+                            </div>
+                        </div>
+                         <!-- Paso 3 -->
+                        <div id="step-3" class="step-hidden">
+                            <h3 class="font-semibold text-lg mb-2">Paso 3: Acción (la salida)</h3>
+                            <div id="drop-3" class="drop-zone border-2 border-gray-300 rounded-lg p-4 text-center text-gray-500">
+                                Finaliza el flujo arrastrando el último componente.
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="bg-gray-50 p-6 rounded-lg shadow-inner border">
+                    <h3 class="text-xl font-bold text-custom-azul-dark mb-4 text-center">Preguntas para la reflexión</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li>¿De qué otra manera podrías aplicar el ciclo "percepción-razonamiento-acción" para automatizar una tarea?</li>
+                        <li>¿Por qué la calidad del "prompt" es un factor crítico para el éxito del resultado simulado?</li>
+                        <li>Considerando un escenario real, ¿qué limitaciones o riesgos éticos tendría un sistema automatizado como este?</li>
+                    </ul>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Constructor de Prompt Modal -->
+        <div id="prompt-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 items-center justify-center z-50 p-4 step-hidden">
+            <div class="bg-white p-8 rounded-lg shadow-2xl max-w-2xl w-full animate-fade-in-up">
+                <h2 class="text-2xl font-bold mb-2">Configura el cerebro de la IA</h2>
+                <p class="mb-4 text-gray-600">Ahora debes darle instrucciones claras a la IA. Selecciona las piezas clave para construir el "prompt" perfecto.</p>
+                <div class="bg-gray-50 p-4 rounded-lg border">
+                    <p class="font-mono text-sm" id="prompt-preview">
+                        <span id="part-1-preview" class="text-gray-400">[Rol] </span>
+                        <span id="part-2-preview" class="text-gray-400">[Tarea principal] </span>
+                        <span id="part-3-preview" class="text-gray-400">[Contexto] </span>
+                        <span id="part-4-preview" class="text-gray-400">[Formato de salida] </span>
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div id="part-1" onclick="togglePromptPart(this)" data-text="Actúa como un experto reclutador y coach de carrera." class="prompt-part border rounded-lg p-3 hover:bg-gray-100"><strong>Rol:</strong> Definir su personalidad.</div>
+                    <div id="part-2" onclick="togglePromptPart(this)" data-text="Tu tarea es analizar la descripción de un puesto y el CV de una candidata." class="prompt-part border rounded-lg p-3 hover:bg-gray-100"><strong>Tarea principal:</strong> Decirle qué debe hacer.</div>
+                    <div id="part-3" onclick="togglePromptPart(this)" data-text="Genera preguntas que conecten la experiencia del CV con los requisitos de la oferta." class="prompt-part border rounded-lg p-3 hover:bg-gray-100"><strong>Contexto:</strong> Darle los detalles específicos.</div>
+                    <div id="part-4" onclick="togglePromptPart(this)" data-text="Entrega una lista de 15 preguntas clasificadas en 'Conductuales', 'Técnicas' y 'De Adecuación'." class="prompt-part border rounded-lg p-3 hover:bg-gray-100"><strong>Formato de salida:</strong> Pedir un resultado ordenado.</div>
+                </div>
+                 <button id="build-prompt-btn" onclick="runSimulatedWorkflow()" class="mt-6 bg-custom-azul text-white font-bold py-2 px-6 rounded-lg hover:bg-custom-azul-dark transition-colors">Ejecutar flujo simulado ✨</button>
+                 <p id="prompt-feedback" class="mt-2 text-sm font-semibold"></p>
+            </div>
+        </div>
+        
+        <!-- Resultados y Coach Interactivo -->
+        <div id="simulation-results" class="step-hidden mt-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div id="loader-questions" class="loader" style="display: none;"></div>
+                <div id="questions-container" style="display:none;">
+                    <h2 class="text-2xl font-bold mb-4 text-custom-azul-dark">Preguntas generadas por el simulador</h2>
+                    <div id="questions-output" class="p-4 bg-gray-50 rounded-lg border prose max-w-none"></div>
+                    
+                    <div class="mt-8 border-t pt-6">
+                        <h3 class="text-xl font-bold mb-2">Practica con tu coach simulado</h3>
+                        <p class="mb-4 text-gray-600">Elige una de las preguntas de arriba, escribe tu respuesta y recibe feedback instantáneo.</p>
+                        <textarea id="answer-input" class="w-full p-2 border rounded-lg" rows="4" placeholder="Escribe tu respuesta aquí..."></textarea>
+                        <button onclick="getSimulatedFeedback()" class="mt-4 bg-custom-verde text-white font-bold py-2 px-6 rounded-lg hover:bg-custom-verde-dark transition-colors">Obtener feedback simulado ✨</button>
+                        <div id="loader-feedback" class="loader" style="display: none;"></div>
+                        <div id="feedback-output" class="mt-4 p-4 bg-custom-verde-light rounded-lg border-l-4 border-custom-verde" style="display: none;"></div>
+                    </div>
+                     <button onclick="showFinalScreen()" class="mt-8 w-full bg-gray-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-900 transition-colors">Finalizar y ver resumen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla Final -->
+        <div id="final-screen" class="step-hidden mt-8 text-center">
+             <div class="bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold text-custom-verde mb-4">¡Flujo de trabajo completado!</h2>
+                <p class="text-lg mb-6">¡Excelente trabajo! Has diseñado, configurado y ejecutado un agente de IA desde cero.</p>
+                 <p class="mb-4">No solo has arrastrado componentes, sino que has instruido a un sistema simulado y has visto el resultado de tu trabajo. Este es el núcleo del desarrollo de soluciones con IA en el mundo real.</p>
+                <p class="mb-6">Recuerda el ciclo fundamental que has dominado hoy:</p>
+                <div class="text-2xl font-bold">
+                    <span class="text-custom-azul">PERCEPCIÓN</span> &rarr; <span class="text-custom-azul">RAZONAMIENTO</span> &rarr; <span class="text-custom-azul">ACCIÓN</span>
+                </div>
+                
+                <div class="mt-8 border-t pt-6 text-left">
+                    <h3 class="text-xl font-bold text-custom-azul-dark mb-4 text-center">Repasa tus reflexiones</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li>¿De qué otra manera podrías aplicar el ciclo "percepción-razonamiento-acción" para automatizar una tarea en tu entorno profesional o académico?</li>
+                        <li>¿Por qué la calidad y especificidad del "prompt" que configuraste fue un factor crítico para el éxito del resultado simulado?</li>
+                        <li>Considerando un escenario real, ¿qué limitaciones o riesgos éticos tendría un sistema automatizado como este para la preparación de candidatos?</li>
+                    </ul>
+                </div>
+
+                <p class="mt-8">Ahora estás listo para profundizar en los conceptos del Módulo 3 y construir sistemas aún más avanzados.</p>
+                <button onclick="resetActivity()" class="mt-8 bg-gray-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-900 transition-colors">Reiniciar la actividad</button>
+             </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- State Management ---
+        const state = {
+            progress: 0,
+            steps: { one: false, two: false, three: false },
+            promptParts: { "1": false, "2": false, "3": false, "4": false }
+        };
+
+        const progressBar = document.getElementById('progress-bar');
+        
+        function updateProgress(value) {
+            state.progress = value;
+            progressBar.style.width = `${state.progress}%`;
+        }
+        
+        function startActivity() {
+            const modal = document.getElementById('intro-modal');
+            modal.style.display = 'none';
+        }
+        
+        // --- Drag and Drop Logic ---
+        const tools = document.querySelectorAll('.toolbox-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        let draggedItem = null;
+
+        tools.forEach(tool => {
+            tool.addEventListener('dragstart', (e) => {
+                draggedItem = e.target.closest('.toolbox-item');
+                setTimeout(() => { e.target.style.opacity = '0.5'; }, 0);
+            });
+            tool.addEventListener('dragend', (e) => {
+                setTimeout(() => { e.target.style.opacity = '1'; draggedItem = null; }, 0);
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+            zone.addEventListener('dragleave', () => { zone.classList.remove('drag-over'); });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                if (!draggedItem) return;
+
+                const correctToolId = `tool-${zone.id.split('-')[1] === '1' ? 'input' : zone.id.split('-')[1] === '2' ? 'ai' : 'output'}`;
+                
+                if (draggedItem.id === correctToolId) {
+                    zone.innerHTML = ''; zone.appendChild(draggedItem);
+                    zone.classList.add('correct');
+                    draggedItem.setAttribute('draggable', 'false');
+                    draggedItem.style.cursor = 'default';
+                    handleCorrectDrop(zone.id);
+                }
+            });
+        });
+        
+        function handleCorrectDrop(dropZoneId) {
+            if (dropZoneId === 'drop-1') {
+                state.steps.one = true;
+                updateProgress(25);
+                document.getElementById('step-2').classList.replace('step-hidden', 'step-visible');
+            } else if (dropZoneId === 'drop-2') {
+                state.steps.two = true;
+                updateProgress(50);
+                document.getElementById('step-3').classList.replace('step-hidden', 'step-visible');
+            } else if (dropZoneId === 'drop-3') {
+                state.steps.three = true;
+                updateProgress(75);
+                document.getElementById('prompt-modal').classList.replace('step-hidden', 'step-visible');
+                document.getElementById('toolbox-container').style.display = 'none';
+            }
+        }
+        
+        // --- Prompt Builder Logic ---
+        function togglePromptPart(element) {
+            element.classList.toggle('selected');
+            const partId = element.id.split('-')[1];
+            const previewEl = document.getElementById(`part-${partId}-preview`);
+            
+            const isSelected = element.classList.contains('selected');
+            state.promptParts[partId] = isSelected;
+            
+            if (isSelected) {
+                previewEl.textContent = element.dataset.text;
+                previewEl.classList.remove('text-gray-400');
+            } else {
+                previewEl.textContent = `[${element.querySelector('strong').textContent.replace(':', '')}] `;
+                previewEl.classList.add('text-gray-400');
+            }
+        }
+
+        // --- Simulated Workflow (No API) ---
+        function runSimulatedWorkflow() {
+            const allSelected = Object.values(state.promptParts).every(Boolean);
+            const feedbackEl = document.getElementById('prompt-feedback');
+
+            if (!state.steps.three) {
+                feedbackEl.textContent = 'Por favor, completa los tres pasos del flujo de trabajo en el tablero antes de ejecutar la simulación.';
+                feedbackEl.className = 'mt-2 text-sm font-semibold text-custom-rojo';
+                return;
+            }
+
+            if (!allSelected) {
+                feedbackEl.textContent = 'Asegúrate de seleccionar todas las partes para darle instrucciones completas al sistema.';
+                feedbackEl.className = 'mt-2 text-sm font-semibold text-custom-rojo';
+                return;
+            }
+            feedbackEl.textContent = '';
+            
+            document.getElementById('prompt-modal').style.display = 'none';
+            document.getElementById('main-construction-area').style.display = 'none';
+            const resultsSection = document.getElementById('simulation-results');
+            resultsSection.style.display = 'block'; // Use style.display for direct control
+            resultsSection.classList.add('animate-fade-in-up');
+            document.getElementById('loader-questions').style.display = 'block';
+            document.getElementById('questions-container').style.display = 'none';
+
+            // Simulate API delay
+            setTimeout(() => {
+                const mockQuestionsResponse = `
+                    <strong>Preguntas Conductuales:</strong><br>
+                    1. Háblame de un proyecto de e-commerce en el que trabajaste. ¿Cuál fue tu mayor desafío técnico con React?<br>
+                    2. Describe una situación en la que tuviste que aprender una nueva tecnología rápidamente para cumplir con los requisitos de un proyecto.<br>
+                    3. ¿Cómo manejas las diferencias de opinión con otros desarrolladores sobre la arquitectura de un componente en React?<br><br>
+                    <strong>Preguntas Técnicas:</strong><br>
+                    4. Viendo tu experiencia con Redux, ¿puedes explicar cómo manejarías el estado global en una aplicación compleja?<br>
+                    5. ¿Cómo optimizarías el rendimiento de una aplicación React que carga muchos datos de una API REST?<br>
+                    6. ¿Cuál es tu experiencia con TailwindCSS? Dame un ejemplo de cómo lo has utilizado para crear un diseño responsivo.<br><br>
+                    <strong>Preguntas de Adecuación:</strong><br>
+                    7. ¿Qué te atrae de trabajar en un puesto de Desarrollador Frontend en nuestra empresa?<br>
+                    8. ¿Cómo te mantienes actualizado con las últimas tendencias y cambios en el ecosistema de JavaScript y React?
+                `;
+
+                document.getElementById('loader-questions').style.display = 'none';
+                document.getElementById('questions-container').style.display = 'block';
+                document.getElementById('questions-output').innerHTML = mockQuestionsResponse;
+            }, 1500);
+        }
+
+        function getSimulatedFeedback() {
+            const answerInput = document.getElementById('answer-input');
+            const answer = answerInput.value.toLowerCase();
+            if (!answer) {
+                alert("Por favor, escribe una respuesta para obtener feedback.");
+                return;
+            }
+
+            const loader = document.getElementById('loader-feedback');
+            const output = document.getElementById('feedback-output');
+            loader.style.display = 'block';
+            output.style.display = 'none';
+
+            // Dynamic analysis logic
+            let strongPoints = [];
+            let improvementAreas = [];
+
+            // 1. Length analysis
+            if (answer.length < 100) {
+                improvementAreas.push("La respuesta es un poco breve. Intenta agregar más detalles sobre el contexto y el resultado de tus acciones.");
+            } else {
+                strongPoints.push("La respuesta tiene una buena extensión, lo que permite entregar detalles relevantes.");
+            }
+
+            // 2. Keyword analysis
+            const keywords = ['react', 'redux', 'tailwind', 'api', 'e-commerce'];
+            const foundKeywords = keywords.filter(kw => answer.includes(kw));
+            if (foundKeywords.length > 0) {
+                strongPoints.push(`Mencionas tecnologías clave como <strong>${foundKeywords.join(', ')}</strong>, lo cual es excelente para demostrar conocimiento técnico.`);
+            } else {
+                improvementAreas.push("Intenta conectar tu respuesta más directamente con las tecnologías de la oferta (ej: React, TailwindCSS).");
+            }
+
+            // 3. Action verb analysis
+            const actionVerbs = ['desarrollé', 'optimicé', 'implementé', 'lideré', 'gestioné', 'creé', 'mejoré', 'resolví'];
+            const foundActionVerbs = actionVerbs.filter(verb => answer.includes(verb));
+            if (foundActionVerbs.length > 0) {
+                strongPoints.push(`El uso de verbos de acción como <strong>'${foundActionVerbs[0]}'</strong> ayuda a demostrar tu impacto y proactividad.`);
+            } else {
+                improvementAreas.push("Considera usar verbos de acción más fuertes (ej: 'implementé', 'optimicé') para describir tus contribuciones de forma más activa.");
+            }
+            
+            // 4. Result analysis (STAR method proxy)
+            const resultWords = ['resultado', 'logré', 'aumento', 'reduje', '%', 'incrementé', 'disminuí', 'mejora'];
+            const foundResultWords = resultWords.filter(word => answer.includes(word));
+            if (foundResultWords.length > 0) {
+                strongPoints.push("¡Muy bien! Incluir resultados y métricas concretas hace tu respuesta mucho más sólida.");
+            } else {
+                improvementAreas.push("Para mejorar, intenta cuantificar el resultado de tus acciones. ¿Cuál fue el impacto medible de tu trabajo? (ej: 'reduje el tiempo de carga en un 20%'). Esto se alinea con el método STAR.");
+            }
+
+            // Build the final feedback HTML
+            let feedbackHtml = '<strong>Puntos fuertes:</strong><br><ul>';
+            strongPoints.forEach(point => { feedbackHtml += `<li>- ${point}</li>`; });
+            feedbackHtml += '</ul><br><strong>Áreas de mejora:</strong><br><ul>';
+            improvementAreas.forEach(point => { feedbackHtml += `<li>- ${point}</li>`; });
+            feedbackHtml += '</ul>';
+
+            // Simulate processing delay
+            setTimeout(() => {
+                loader.style.display = 'none';
+                output.innerHTML = feedbackHtml;
+                output.style.display = 'block';
+            }, 1500);
+        }
+
+        function showFinalScreen() {
+             document.getElementById('simulation-results').style.display = 'none';
+             document.getElementById('final-screen').classList.replace('step-hidden', 'step-visible');
+             updateProgress(100);
+        }
+        
+        function resetActivity() {
+            updateProgress(0);
+            state.steps = { one: false, two: false, three: false };
+            state.promptParts = { "1": false, "2": false, "3": false, "4": false };
+
+            const toolbox = document.getElementById('toolbox-parent');
+            const tools = [document.getElementById('tool-input'), document.getElementById('tool-ai'), document.getElementById('tool-output')];
+            tools.forEach(tool => {
+                tool.setAttribute('draggable', 'true');
+                tool.style.cursor = 'grab';
+                toolbox.appendChild(tool);
+            });
+            
+            dropZones.forEach((zone) => {
+                zone.classList.remove('correct');
+            });
+            document.getElementById('drop-1').innerHTML = 'Arrastra aquí el primer componente del flujo.';
+            document.getElementById('drop-2').innerHTML = '¿Qué componente debe ir ahora?';
+            document.getElementById('drop-3').innerHTML = 'Finaliza el flujo arrastrando el último componente.';
+
+            document.getElementById('main-construction-area').style.display = 'grid';
+            document.getElementById('toolbox-container').style.display = 'block';
+            document.getElementById('step-2').classList.replace('step-visible', 'step-hidden');
+            document.getElementById('step-3').classList.replace('step-visible', 'step-hidden');
+            
+            document.getElementById('prompt-modal').classList.replace('step-visible', 'step-hidden');
+            
+            const resultsSection = document.getElementById('simulation-results');
+            resultsSection.style.display = 'none';
+            resultsSection.classList.remove('animate-fade-in-up');
+            
+            document.getElementById('final-screen').classList.replace('step-visible', 'step-hidden');
+            
+            document.querySelectorAll('.prompt-part').forEach(part => {
+                 if (part.classList.contains('selected')) {
+                     togglePromptPart(part);
+                 }
+            });
+            document.getElementById('prompt-feedback').textContent = '';
+            
+            document.getElementById('questions-output').innerHTML = '';
+            document.getElementById('answer-input').value = '';
+            document.getElementById('feedback-output').style.display = 'none';
+            document.getElementById('feedback-output').innerHTML = '';
+
+            document.getElementById('intro-modal').style.display = 'flex';
+        }
+
+    </script>
+
+</body>
+</html>
+

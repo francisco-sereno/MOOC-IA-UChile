@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 3: Autenticidad y ética en IA - Caso Isabella Andrea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            max-height: 850px;
+            overflow-y: auto;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--azul), var(--azul-hover));
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--verde), var(--verde-hover));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, var(--verde-hover), var(--verde));
+            box-shadow: 0 6px 20px rgba(0, 168, 89, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Tarjetas de competencias */
+        .checkbox-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gris-200);
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
+        }
+
+        .checkbox-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .checkbox-item:hover::before {
+            opacity: 1;
+        }
+        
+        .checkbox-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 51, 160, 0.2);
+            border-color: var(--azul);
+        }
+        
+        .checkbox-item.checked {
+            background: linear-gradient(135deg, rgba(0, 168, 89, 0.08), rgba(0, 85, 165, 0.05));
+            border-color: var(--verde);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.15);
+        }
+        
+        input[type="checkbox"] {
+            accent-color: var(--verde);
+            transform: scale(1.4);
+            cursor: pointer;
+            border: 2px solid var(--gris-300);
+            border-radius: 4px;
+        }
+        
+        .progress-bar {
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, var(--verde), var(--azul));
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1.5rem;
+            margin: -2.5rem -2.5rem 1.5rem -2.5rem;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Accesibilidad para neurodivergencias */
+        .text-high-contrast {
+            color: var(--gris-800);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+        }
+
+        /* Espaciado mejorado para legibilidad */
+        .content-spacing {
+            margin-bottom: 1.25rem;
+        }
+
+        /* Focus visible para navegación por teclado */
+        *:focus-visible {
+            outline: 3px solid var(--amarillo);
+            outline-offset: 2px;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 16px;
+            margin-top: 2rem;
+            box-shadow: 0 -4px 20px rgba(0, 51, 160, 0.15);
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--verde), var(--azul));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--azul), var(--verde));
+        }
+
+        /* Etiqueta del caso */
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(0, 168, 89, 0.15), rgba(0, 85, 165, 0.15));
+            border: 2px solid var(--verde);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            color: var(--verde);
+            margin-bottom: 1rem;
+        }
+
+        /* Ajustes para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem 0.75rem;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                margin: -1.5rem -1.5rem 1rem -1.5rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-blue-50">
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="closeInstructions()" class="close-modal" aria-label="Cerrar modal">×</button>
+                <h2 class="text-2xl font-bold mb-2">📋 Bienvenido/a al Módulo 3</h2>
+                <p class="text-white text-opacity-90">Autenticidad y ética en IA generativa</p>
+            </div>
+            
+            <div class="text-high-contrast">
+                <div class="case-badge">
+                    🤖 Caso de estudio: Isabella Andrea en transición laboral
+                </div>
+                
+                <h3 class="text-lg font-bold mb-3 text-azul-dark">¿Cómo interactuar con este recurso?</h3>
+                
+                <div class="space-y-3 mb-4">
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">1️⃣</span>
+                        <p><strong>Actividad formativa:</strong> Esta autoevaluación no tiene calificación numérica. Su propósito es reflexionar sobre tu comprensión de principios éticos en IA.</p>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">2️⃣</span>
+                        <p><strong>Reflexiona honestamente:</strong> Marca solo las competencias que <strong>realmente aplicas</strong> en tu práctica con IA generativa.</p>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">3️⃣</span>
+                        <p><strong>Sin presión de tiempo:</strong> Tómate el tiempo que necesites. Estimado: 3-5 minutos.</p>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">4️⃣</span>
+                        <p><strong>Descarga opcional:</strong> Al finalizar, puedes descargar tu reporte en PDF para tu portafolio.</p>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">5️⃣</span>
+                        <p><strong>Navegación accesible:</strong> Puedes usar el teclado (Tab, Enter, Espacio) para navegar por las competencias.</p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-lg mb-4">
+                    <p class="text-sm"><strong class="text-yellow-800">💡 Contexto del caso:</strong> Isabella Andrea representa a un profesional en transición laboral que está aprendiendo a usar IA generativa de manera ética y responsable para su desarrollo profesional.</p>
+                </div>
+                
+                <div class="flex items-center gap-3 mt-6 p-3 bg-gray-50 rounded-lg">
+                    <input type="checkbox" id="dontShowAgain" class="w-5 h-5">
+                    <label for="dontShowAgain" class="text-sm cursor-pointer">No mostrar estas instrucciones nuevamente</label>
+                </div>
+                
+                <button onclick="closeInstructions()" class="btn btn-primary w-full mt-4">
+                    Comenzar autoevaluación
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner p-6 mb-6 animate-fadeIn">
+            <div class="relative z-10">
+                <div class="flex items-center justify-between flex-wrap gap-4 mb-4">
+                    <div>
+                        <div class="case-badge" style="background: rgba(255, 255, 255, 0.2); border-color: white; color: white;">
+                            🤖 Caso: Isabella Andrea en transición laboral
+                        </div>
+                        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                            Módulo 3: Autenticidad y ética
+                        </h1>
+                        <p class="text-white text-opacity-90 text-lg">Autoevaluación formativa - 10 competencias</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="openInstructions()" class="btn bg-white bg-opacity-20 text-white px-4 py-2 hover:bg-opacity-30" title="Ver instrucciones">
+                            ❓ Ayuda
+                        </button>
+                        <button onclick="generatePDF()" class="btn btn-secondary px-4 py-2" title="Descargar reporte en PDF">
+                            📄 Descargar PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Barra de progreso -->
+                <div class="bg-white bg-opacity-20 rounded-full h-4 mb-2 overflow-hidden">
+                    <div id="progress-bar" class="progress-bar h-full rounded-full" style="width: 0%;"></div>
+                </div>
+                <p class="text-white text-opacity-90 text-center font-semibold">
+                    <span id="progress-text">0/10 competencias completadas (0%)</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Nota importante -->
+        <div class="bg-yellow-50 rounded-xl p-5 mb-6 border-l-4 border-yellow-400 shadow-md animate-fadeIn">
+            <div class="flex items-start gap-4">
+                <div class="text-3xl">💡</div>
+                <div class="text-high-contrast">
+                    <p class="font-semibold text-yellow-800 mb-1">Importante sobre autenticidad y ética</p>
+                    <p class="text-sm">Esta autoevaluación te ayuda a reflexionar sobre tu práctica ética con IA generativa. El uso responsable es fundamental para mantener la autenticidad y credibilidad profesional, especialmente en procesos de transición laboral como el caso de Isabella Andrea.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competencias -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6 animate-fadeIn">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">
+                    <span style="color: var(--verde);">✓</span> Competencias éticas en uso de IA
+                </h3>
+            </div>
+            <p class="text-gray-600 mb-6 text-high-contrast">Marca las competencias que ya aplicas en tu práctica con IA generativa:</p>
+            
+            <div id="competencias-container" class="space-y-3"></div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="resultado-card" class="bg-white rounded-xl shadow-lg p-6 mb-6 hidden animate-fadeIn">
+            <h3 class="text-2xl font-bold mb-4 text-center" style="color: var(--verde);">
+                📊 Tu nivel ético alcanzado
+            </h3>
+            <div id="resultado-content" class="text-center"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="text-sm font-semibold mb-1">Oficina de Inteligencia Artificial</p>
+            <p class="text-xs text-white text-opacity-90 mb-1">Vicerrectoría de Tecnologías de la Información</p>
+            <p class="text-xs text-white text-opacity-80">Universidad de Chile © 2025 • Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        const competencias = [
+            { id: 'C1', text: 'Comprendo la importancia de mantener mi voz personal en textos generados con IA.' },
+            { id: 'C2', text: 'Sé cómo editar y personalizar contenido de IA para reflejar mi estilo auténtico.' },
+            { id: 'C3', text: 'Siempre verifico datos, fechas y cifras generadas por IA antes de usarlos.' },
+            { id: 'C4', text: 'Entiendo cuándo debo divulgar el uso de IA en mi trabajo.' },
+            { id: 'C5', text: 'Comprendo los riesgos de compartir datos sensibles con herramientas de IA.' },
+            { id: 'C6', text: 'Sé cómo anonimizar información personal antes de usar IA generativa.' },
+            { id: 'C7', text: 'Conozco las políticas de privacidad de las herramientas de IA que utilizo.' },
+            { id: 'C8', text: 'Comprendo qué son los sesgos algorítmicos y cómo identificarlos.' },
+            { id: 'C9', text: 'Puedo evaluar críticamente las respuestas de IA desde una perspectiva de equidad.' },
+            { id: 'C10', text: 'Entiendo mi responsabilidad al usar IA en contextos profesionales y de selección.' }
+        ];
+
+        let estado = {};
+
+        function inicializar() {
+            const container = document.getElementById('competencias-container');
+            
+            competencias.forEach((comp, index) => {
+                estado[comp.id] = false;
+                
+                const item = document.createElement('div');
+                item.className = 'checkbox-item p-5 rounded-xl bg-gray-50';
+                item.id = `item-${comp.id}`;
+                
+                item.innerHTML = `
+                    <label class="flex items-start cursor-pointer">
+                        <input type="checkbox" 
+                               id="${comp.id}" 
+                               onchange="toggleCompetencia('${comp.id}')" 
+                               class="mt-1 mr-4"
+                               aria-label="Competencia ${index + 1}: ${comp.text}">
+                        <span class="text-gray-700 text-high-contrast">
+                            <strong style="color: var(--azul);">${index + 1}.</strong> ${comp.text}
+                        </span>
+                    </label>
+                `;
+                
+                container.appendChild(item);
+            });
+            
+            actualizarProgreso();
+        }
+
+        function toggleCompetencia(id) {
+            estado[id] = !estado[id];
+            
+            const item = document.getElementById(`item-${id}`);
+            if (estado[id]) {
+                item.classList.add('checked');
+            } else {
+                item.classList.remove('checked');
+            }
+            
+            actualizarProgreso();
+        }
+
+        function actualizarProgreso() {
+            const total = competencias.length;
+            const completados = Object.values(estado).filter(v => v).length;
+            const porcentaje = Math.round((completados / total) * 100);
+            
+            document.getElementById('progress-text').textContent = 
+                `${completados}/${total} competencias completadas (${porcentaje}%)`;
+            document.getElementById('progress-bar').style.width = `${porcentaje}%`;
+            
+            if (completados > 0) {
+                mostrarResultado(completados, total);
+            } else {
+                document.getElementById('resultado-card').classList.add('hidden');
+            }
+        }
+
+        function mostrarResultado(completados, total) {
+            const resultadoCard = document.getElementById('resultado-card');
+            const resultadoContent = document.getElementById('resultado-content');
+            
+            resultadoCard.classList.remove('hidden');
+            
+            let nivel, color, descripcion, recomendacion;
+            
+            if (completados >= 9) {
+                nivel = '🏆 Excelente - Dominio integral';
+                color = 'text-green-600';
+                descripcion = 'Tu comprensión de los principios éticos en IA es sobresaliente. Estás preparado para usar estas herramientas de manera responsable, consciente y ética en contextos profesionales complejos.';
+                recomendacion = 'Continúa siendo modelo de uso ético y comparte estas prácticas con tu comunidad profesional. Mantén tu autenticidad y credibilidad como Isabella Andrea en su transición laboral.';
+            } else if (completados >= 7) {
+                nivel = '✅ Muy bueno - Sólido conocimiento';
+                color = 'text-blue-600';
+                descripcion = 'Posees un sólido entendimiento de ética en IA. Estás en buen camino para usar estas herramientas de manera responsable.';
+                recomendacion = 'Continúa reflexionando sobre estos principios en tu práctica diaria y profundiza en las áreas donde identificaste oportunidades de mejora.';
+            } else if (completados >= 5) {
+                nivel = '📚 Sólido - En desarrollo';
+                color = 'text-yellow-600';
+                descripcion = 'Tienes conocimientos fundamentales sobre ética en IA, pero hay áreas importantes por fortalecer.';
+                recomendacion = 'Es importante que profundices en todos los aspectos éticos antes de usar IA en contextos profesionales o de búsqueda laboral para mantener tu autenticidad.';
+            } else {
+                nivel = '⚠️ Por desarrollar - Nivel inicial';
+                color = 'text-orange-600';
+                descripcion = 'Te encuentras en etapa inicial de comprensión de ética en IA. Hay conceptos fundamentales que requieren atención.';
+                recomendacion = 'Es fundamental que estudies estos conceptos a profundidad antes de aplicar IA en tu desarrollo profesional para evitar comprometer tu autenticidad y credibilidad como Isabella Andrea.';
+            }
+            
+            resultadoContent.innerHTML = `
+                <div class="mb-6">
+                    <div class="text-5xl mb-3 font-bold">${completados}/${total}</div>
+                    <div class="text-2xl font-bold ${color} mb-2">${nivel}</div>
+                    <div class="text-gray-600 font-semibold">${Math.round((completados/total)*100)}% de competencias dominadas</div>
+                </div>
+                <div class="max-w-2xl mx-auto text-left bg-gradient-to-br from-green-50 to-blue-50 p-5 rounded-xl border-2 border-green-200">
+                    <p class="text-gray-700 mb-3 text-high-contrast"><strong>Análisis:</strong> ${descripcion}</p>
+                    <p class="text-gray-600 text-sm text-high-contrast"><strong>Recomendación:</strong> ${recomendacion}</p>
+                </div>
+            `;
+        }
+
+        function generatePDF() {
+            const completados = Object.values(estado).filter(v => v).length;
+            const porcentaje = Math.round((completados / 10) * 100);
+            
+            let nivel, nivelBg;
+            if (completados >= 9) {
+                nivel = 'Excelente - Dominio integral';
+                nivelBg = '#00A859';
+            } else if (completados >= 7) {
+                nivel = 'Muy bueno - Sólido conocimiento';
+                nivelBg = '#0055A5';
+            } else if (completados >= 5) {
+                nivel = 'Sólido - En desarrollo';
+                nivelBg = '#E6BC00';
+            } else {
+                nivel = 'Por desarrollar - Nivel inicial';
+                nivelBg = '#FF9800';
+            }
+            
+            let interpretacion;
+            if (completados >= 9) {
+                interpretacion = 'Tu comprensión de los principios éticos en IA es sobresaliente. Estás preparado para usar estas herramientas de manera responsable, consciente y ética en contextos profesionales complejos.';
+            } else if (completados >= 7) {
+                interpretacion = 'Posees un sólido entendimiento de ética en IA. Estás en buen camino para usar estas herramientas de manera responsable.';
+            } else if (completados >= 5) {
+                interpretacion = 'Tienes conocimientos fundamentales sobre ética en IA, pero hay áreas importantes por fortalecer antes de usar IA en contextos profesionales.';
+            } else {
+                interpretacion = 'Te encuentras en etapa inicial de comprensión de ética en IA. Es fundamental estudiar estos conceptos a profundidad.';
+            }
+            
+            const dateStr = new Date().toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const competenciasContent = competencias.map((comp, index) => {
+                const isChecked = estado[comp.id];
+                const mark = isChecked ? '[X]' : '[  ]';
+                return {
+                    columns: [
+                        { text: mark, width: 28, fontSize: 10, color: isChecked ? '#00A859' : '#888888', bold: isChecked },
+                        { text: (index + 1) + '. ' + comp.text, fontSize: 9, color: isChecked ? '#1A1A1A' : '#555555', bold: isChecked }
+                    ],
+                    columnGap: 5,
+                    margin: [0, 0, 0, 5]
+                };
+            });
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Módulo 3: Autenticidad y ética', fontSize: 20, bold: true, color: '#FFFFFF', alignment: 'center' },
+                                    { text: 'Autoevaluación formativa - IA generativa', fontSize: 12, color: '#FFFFFF', alignment: 'center', margin: [0, 5, 0, 0] },
+                                    { text: 'Caso de estudio: Isabella Andrea', fontSize: 10, color: '#FFFFFF', alignment: 'center', margin: [0, 3, 0, 0] }
+                                ],
+                                fillColor: '#00274D',
+                                margin: [20, 18, 20, 18]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    { text: 'Fecha de realización: ' + dateStr, fontSize: 9, color: '#666666', margin: [0, 0, 0, 15] },
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Resultado de la autoevaluación', fontSize: 13, bold: true, color: '#00A859', alignment: 'center' },
+                                    { text: completados + '/10', fontSize: 38, bold: true, color: '#00A859', alignment: 'center', margin: [0, 10, 0, 5] },
+                                    { text: porcentaje + '% de competencias éticas dominadas', fontSize: 10, color: '#666666', alignment: 'center' }
+                                ],
+                                fillColor: '#F0FFF0',
+                                margin: [15, 15, 15, 15]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    {
+                        table: { widths: ['*'], body: [[
+                            { text: 'Nivel ético alcanzado: ' + nivel, fontSize: 12, bold: true, color: '#FFFFFF', alignment: 'center', fillColor: nivelBg, margin: [15, 10, 15, 10] }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 20]
+                    },
+                    { text: 'Detalle de competencias éticas evaluadas', fontSize: 12, bold: true, color: '#00A859', margin: [0, 0, 0, 12] },
+                    ...competenciasContent,
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Interpretación y recomendaciones', fontSize: 12, bold: true, color: '#00A859', margin: [0, 0, 0, 8] },
+                                    { text: interpretacion, fontSize: 9, color: '#333333', lineHeight: 1.5 }
+                                ],
+                                fillColor: '#FFF9E6',
+                                margin: [15, 12, 15, 12]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 20, 0, 0]
+                    }
+                ],
+                footer: function(currentPage, pageCount) {
+                    return {
+                        stack: [
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información', fontSize: 7, color: '#888888', alignment: 'center' },
+                            { text: 'Universidad de Chile © 2025', fontSize: 7, color: '#888888', alignment: 'center', margin: [0, 2, 0, 0] }
+                        ],
+                        margin: [40, 10, 40, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('Modulo3_Isabella_Andrea_Autoevaluacion_' + new Date().toISOString().split('T')[0] + '.pdf');
+        }
+
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('modulo3_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('modulo3_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Accesibilidad: navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            // ESC para cerrar modal
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+
+        inicializar();
+    </script>
+</body>
+</html>

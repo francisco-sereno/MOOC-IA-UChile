@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tutoriales IA Generativa │ 2025</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    class AiTutorialsRepo extends HTMLElement {
+      constructor () {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = /* html */`
+          <style>
+            :host{
+              /* Paleta — se hereda al dark-mode automáticamente */
+              --bg: hsl(210, 40%, 98%);
+              --fg: hsl(222, 47%, 11%);
+              --accent: hsl(221, 79%, 66%);
+              --card: #fff;
+              --radius: 1.25rem;
+              --dur: .4s;
+              font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            }
+            @media (prefers-color-scheme: dark){
+              :host{
+                --bg: hsl(222, 47%, 11%);
+                --fg: hsl(210, 40%, 98%);
+                --card: hsl(220, 13%, 18%);
+              }
+            }
+            *{box-sizing:border-box;margin:0;padding:0}
+            .wrap{max-width:1100px;margin:auto;padding:2rem 1rem;background:var(--bg);color:var(--fg);}
+            h1{font-size:clamp(1.75rem,3.5vw,2.25rem);font-weight:800;margin-bottom:1.25rem;text-align:center;}
+            .grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+            article{background:var(--card);border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,.07);transition:transform var(--dur) ease, box-shadow var(--dur) ease;overflow:hidden;display:flex;flex-direction:column;}
+            article:hover{transform:translateY(-6px);box-shadow:0 16px 32px rgba(0,0,0,.12);}  
+            iframe{aspect-ratio:16/9;width:100%;border:0;}
+            .content{padding:1rem 1.25rem 1.5rem;display:flex;flex-direction:column;flex:1;}
+            h2{font-size:1.15rem;font-weight:700;margin-bottom:.6rem;color:var(--accent);}
+            p{margin-bottom:1rem;font-size:.93rem;line-height:1.55;}
+            ul{margin-left:1.1rem;margin-top:auto;}
+            li+li{margin-top:.4rem;}
+            a{color:var(--accent);text-decoration:none}
+            a:hover{text-decoration:underline}
+          </style>
+
+          <div class="wrap">
+            <h1>Tutoriales esenciales de IA generativa (2025)</h1>
+            <div class="grid">
+              ${this.card('Comparación CV con Ofertas Laborales', 'Pw7boZotLwo', 'VTI', [])}
+              ${this.card('Análisis del CV', 'TuVO0WT7Abk', 'VTI', [])}
+              
+            </div>
+          </div>`;
+      }
+
+      /** Devuelve la tarjeta HTML para cada tutorial */
+      card (title, youtubeId, description, links) {
+        const linksMarkup = links.map(([label, href]) => `<li><a href="${href}" target="_blank" rel="noopener">${label}</a></li>`).join('');
+        return `<article>
+                  <iframe src="https://www.youtube.com/embed/${youtubeId}" title="${title}"></iframe>
+                  <div class="content">
+                    <h2>${title}</h2>
+                    <p>${description}</p>
+                    <ul>${linksMarkup}</ul>
+                  </div>
+                </article>`;
+      }
+    }
+
+    customElements.define('ai-tutorials-repo', AiTutorialsRepo);
+  </script>
+</head>
+<body>
+  <ai-tutorials-repo></ai-tutorials-repo>
+</body>
+</html>

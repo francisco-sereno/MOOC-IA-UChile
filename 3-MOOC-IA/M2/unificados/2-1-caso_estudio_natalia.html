@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso de estudio: el desafío de Isabella Andrea con los prompts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            height: 850px;
+            overflow-y: auto;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+        
+            --verde-light: #E6F5EB;
+            --amarillo-light: #FFF9E6;
+            --rojo-light: #FFE6E8;
+            --azul-light: #E6F2FF;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-900: #0F172A;
+        }
+
+        /* Texto de alto contraste para neurodivergentes */
+        .text-high-contrast {
+            color: var(--gris-800);
+            line-height: 1.8;
+            letter-spacing: 0.3px;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .header-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: scaleIn 0.6s ease;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
+        /* Tarjetas mejoradas */
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--gris-200);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.15);
+            border-color: var(--azul);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--azul);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-emoji {
+            font-size: 2rem;
+        }
+
+        /* Timeline mejorado */
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--azul);
+            position: absolute;
+            left: -9px;
+            top: 8px;
+            border: 4px solid white;
+            box-shadow: 0 0 0 3px var(--azul);
+            z-index: 2;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 26px;
+            bottom: -26px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--azul), var(--verde));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--azul);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 16px rgba(0, 85, 165, 0.2);
+        }
+
+        .timeline-day {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--azul);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Escenarios interactivos */
+        .scenario-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--gris-200);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0, 85, 165, 0.2);
+            border-color: var(--azul);
+        }
+
+        .scenario-card:hover::before {
+            opacity: 1;
+        }
+
+        .scenario-card.active {
+            border-color: var(--verde);
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.05), rgba(0, 168, 89, 0.05));
+        }
+
+        .scenario-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-emoji {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .scenario-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gris-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-description {
+            color: var(--gris-600);
+            line-height: 1.6;
+        }
+
+        .scenario-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            padding: 0.875rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .scenario-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0, 85, 165, 0.3);
+        }
+
+        /* Zona de reflexión */
+        .reflection-zone {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s ease;
+            background: white;
+            border-radius: 16px;
+            border: 3px solid var(--gris-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .reflection-zone.open {
+            max-height: 1200px;
+            padding: 2rem;
+            border-color: var(--verde);
+        }
+
+        .reflection-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--azul);
+            margin-bottom: 1rem;
+        }
+
+        /* Cajas de prompts */
+        .prompt-box {
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prompt-box-bad {
+            background: #FEE2E2;
+            border-left: 4px solid var(--rojo);
+        }
+
+        .prompt-box-good {
+            background: #D1FAE5;
+            border-left: 4px solid var(--verde);
+        }
+
+        .prompt-label {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .prompt-label-bad {
+            color: #991B1B;
+        }
+
+        .prompt-label-good {
+            color: #065F46;
+        }
+
+        .prompt-text {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--gris-800);
+            line-height: 1.6;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--azul);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: var(--gris-600);
+            font-size: 1rem;
+        }
+
+        .modal-instructions {
+            margin-bottom: 2rem;
+        }
+
+        .instruction-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .instruction-number {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .instruction-text {
+            flex: 1;
+            color: var(--gris-700);
+            line-height: 1.6;
+        }
+
+        .modal-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--gris-50);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-checkbox:hover {
+            background: var(--gris-100);
+        }
+
+        .modal-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .modal-checkbox label {
+            color: var(--gris-700);
+            font-weight: 500;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .modal-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 85, 165, 0.3);
+        }
+
+        .help-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0, 85, 165, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 24px rgba(0, 85, 165, 0.5);
+        }
+
+        /* CTA Final */
+        .cta-section {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul), var(--verde));
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 85, 165, 0.3);
+            margin-top: 2rem;
+        }
+
+        .cta-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            background: white;
+            color: var(--azul);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--gris-600);
+            font-size: 0.875rem;
+            margin-top: 3rem;
+            border-top: 2px solid var(--gris-200);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.75rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .scenario-header {
+                flex-direction: column;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Prefers reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">📚</div>
+                <h2 class="modal-title">Cómo interactuar con este recurso</h2>
+                <p class="modal-subtitle">Caso de estudio: Isabella Andrea y el prompting efectivo</p>
+            </div>
+
+            <div class="modal-instructions">
+                <div class="instruction-item">
+                    <div class="instruction-number">1</div>
+                    <div class="instruction-text">
+                        <strong>Lee el contexto inicial:</strong> Comprende la situación de Isabella Andrea y su desafío con la formulación de prompts efectivos.
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <div class="instruction-number">2</div>
+                    <div class="instruction-text">
+                        <strong>Sigue la línea de tiempo:</strong> Observa cómo evoluciona el problema día a día y cómo Isabella Andrea aprende progresivamente.
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <div class="instruction-number">3</div>
+                    <div class="instruction-text">
+                        <strong>Explora los escenarios:</strong> Haz clic en cada tarjeta de escenario para ver el análisis detallado, comparar prompts inefectivos con efectivos.
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <div class="instruction-number">4</div>
+                    <div class="instruction-text">
+                        <strong>Reflexiona críticamente:</strong> Responde las preguntas de reflexión al final de cada escenario para profundizar tu comprensión.
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <div class="instruction-number">5</div>
+                    <div class="instruction-text">
+                        <strong>Integra el aprendizaje:</strong> Conecta los patrones identificados con tu propia práctica de prompting.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-checkbox">
+                <input type="checkbox" id="dontShowAgain">
+                <label for="dontShowAgain">No volver a mostrar estas instrucciones</label>
+            </div>
+
+            <button class="modal-button" onclick="closeInstructions()">
+                ¡Comenzar con el caso de estudio! 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- Botón de ayuda flotante -->
+    <button class="help-button" onclick="openInstructions()" title="Ver instrucciones">
+        💡
+    </button>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header-banner animate-fadeIn">
+            <div class="header-emoji">🤖</div>
+            <h1 class="header-title">El desafío de Isabella Andrea</h1>
+            <p class="header-subtitle">Caso de estudio: módulo 2 - Formulación efectiva de prompts para IA generativa</p>
+        </header>
+
+        <!-- Contexto inicial -->
+        <div class="content-card animate-slideIn" style="animation-delay: 0.1s;">
+            <h2 class="section-title">
+                <span class="section-emoji">📖</span>
+                Contexto de la situación
+            </h2>
+            <div class="text-high-contrast">
+                <p style="margin-bottom: 1rem;">
+                    Isabella Andrea, después de realizar el diagnóstico de sus competencias en el módulo 1, ahora enfrenta un nuevo desafío: <strong>comunicarse efectivamente con la inteligencia artificial generativa</strong> para obtener resultados útiles y precisos.
+                </p>
+                <p>
+                    Ha descubierto que herramientas como ChatGPT, Claude, Gemini y NotebookLM pueden ayudarla, pero sus primeros intentos no han dado los resultados esperados. Sus preguntas son demasiado vagas, los resultados son genéricos y siente que está perdiendo tiempo en lugar de ganarlo.
+                </p>
+            </div>
+        </div>
+
+        <!-- Línea de tiempo narrativa -->
+        <div class="content-card animate-slideIn" style="animation-delay: 0.2s;">
+            <h2 class="section-title">
+                <span class="section-emoji">📅</span>
+                La evolución del problema
+            </h2>
+            
+            <div class="timeline-container">
+                <!-- Lunes -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-day">📍 Lunes</div>
+                        <h4 style="font-weight: 700; color: var(--gris-800); margin-bottom: 0.75rem;">Primer intento frustrado</h4>
+                        <p class="text-high-contrast">
+                            Isabella Andrea abre ChatGPT y escribe: <em>"Ayúdame con mi currículum"</em>. Recibe una respuesta genérica con plantillas estándar que no reflejan su experiencia única en gestión de proyectos educativos. Pasa 2 horas tratando de adaptar estas sugerencias genéricas, sin éxito.
+                        </p>
+                        <div style="margin-top: 1rem; padding: 1rem; background: var(--gris-50); border-radius: 8px; border-left: 3px solid var(--rojo);">
+                            <strong style="color: var(--rojo);">Problema identificado:</strong>
+                            <span class="text-high-contrast"> Su prompt carece de contexto, especificidad y objetivos claros.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Martes -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-day">📍 Martes</div>
+                        <h4 style="font-weight: 700; color: var(--gris-800); margin-bottom: 0.75rem;">Mejora parcial</h4>
+                        <p class="text-high-contrast">
+                            Isabella Andrea refina su enfoque: <em>"Ayúdame a escribir mi CV. Tengo 8 años de experiencia en educación"</em>. Obtiene una respuesta más específica, pero sigue siendo insuficiente. La IA no sabe qué roles busca, qué competencias destacar, ni qué formato prefiere.
+                        </p>
+                        <div style="margin-top: 1rem; padding: 1rem; background: #FEF3C7; border-radius: 8px; border-left: 3px solid var(--amarillo-dark);">
+                            <strong style="color: #92400E;">Avance parcial:</strong>
+                            <span class="text-high-contrast"> Agregó contexto básico, pero falta dirección estratégica.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Miércoles -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-day">📍 Miércoles</div>
+                        <h4 style="font-weight: 700; color: var(--gris-800); margin-bottom: 0.75rem;">Breakthrough - Prompt estructurado</h4>
+                        <p class="text-high-contrast" style="margin-bottom: 1rem;">
+                            Isabella Andrea reformula completamente su enfoque con un prompt estructurado que incluye contexto, objetivo, restricciones y formato deseado. Finalmente obtiene resultados alineados con sus necesidades.
+                        </p>
+                        <div style="padding: 1rem; background: #D1FAE5; border-radius: 8px; border-left: 3px solid var(--verde);">
+                            <strong style="color: #065F46;">¡Éxito!</strong>
+                            <span class="text-high-contrast"> Descubrió que la calidad del prompt determina directamente la calidad de la respuesta.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Análisis de escenarios -->
+        <div class="content-card animate-slideIn" style="animation-delay: 0.3s;">
+            <h2 class="section-title">
+                <span class="section-emoji">🔍</span>
+                Análisis de escenarios: de prompts vagos a estructurados
+            </h2>
+            <p class="text-high-contrast" style="margin-bottom: 2rem;">
+                A continuación, explore tres situaciones específicas donde Isabella Andrea aplicó aprendizajes de prompting. Haga clic en cada escenario para ver el análisis detallado.
+            </p>
+
+            <!-- Escenario 1 -->
+            <div class="scenario-card" onclick="toggleReflection('scenario1')">
+                <div class="scenario-header">
+                    <div class="scenario-emoji">✍️</div>
+                    <div style="flex: 1;">
+                        <h3 class="scenario-title">Escenario 1: optimización del currículum vitae</h3>
+                        <p class="scenario-description">Isabella Andrea necesita un CV que destaque sus competencias clave para roles específicos</p>
+                    </div>
+                </div>
+                <button class="scenario-button">
+                    Ver detalles del análisis →
+                </button>
+            </div>
+
+            <div id="scenario1" class="reflection-zone">
+                <h4 class="reflection-title">Análisis del escenario</h4>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border: 2px solid var(--gris-200);">
+                    <p class="text-high-contrast" style="margin-bottom: 1rem;">
+                        <strong>El problema:</strong> Isabella Andrea tiene 8 años de experiencia en educación y tecnología educativa, pero su CV no refleja las competencias que buscan los empleadores en roles de coordinación de proyectos educativos digitales.
+                    </p>
+                    <p class="text-high-contrast">
+                        <strong>El desafío de prompting:</strong> Necesita que la IA entienda su trayectoria, identifique competencias transferibles y las presente usando el lenguaje que buscan los reclutadores.
+                    </p>
+                </div>
+
+                <div class="prompt-box prompt-box-bad">
+                    <p class="prompt-label prompt-label-bad">❌ Prompt inefectivo:</p>
+                    <div class="prompt-text">"Ayúdame con mi CV"</div>
+                </div>
+
+                <div class="prompt-box prompt-box-good">
+                    <p class="prompt-label prompt-label-good">✅ Prompt efectivo:</p>
+                    <div class="prompt-text">"Actúa como consultor de desarrollo profesional especializado en transiciones laborales en el sector educativo-tecnológico. Analiza mi trayectoria: 8 años como docente de educación media, 3 años coordinando implementación de plataformas LMS en 15 establecimientos, certificada en gestión de proyectos ágiles (Scrum Master). 
+
+Objetivo: Postular a roles de 'coordinador/a de proyectos EdTech' o 'product manager educativo'.
+
+Tareas específicas:
+1) Identifica 5 competencias clave transferibles a estos roles
+2) Reformula mi experiencia usando palabras clave que usan los ATS (sistemas de seguimiento de candidatos)
+3) Estructura un CV funcional con énfasis en logros cuantificables
+4) Sugiere 3 verbos de acción para cada competencia
+
+Formato: Primero la lista de competencias con justificación, luego el CV estructurado en formato markdown."</div>
+                </div>
+
+                <div style="margin-top: 1.5rem; padding: 1.5rem; background: var(--gris-50); border-radius: 12px;">
+                    <h5 style="font-weight: 700; margin-bottom: 1rem; color: var(--azul);">💭 Preguntas para la reflexión:</h5>
+                    <ul style="list-style: disc; padding-left: 1.5rem; color: var(--gris-700); line-height: 1.8;">
+                        <li style="margin-bottom: 0.75rem;">¿Qué elementos del prompt efectivo permiten a la IA comprender el contexto profesional de Isabella Andrea?</li>
+                        <li style="margin-bottom: 0.75rem;">¿Cómo ayuda especificar "verbos de acción" y "palabras clave ATS" a obtener un CV más competitivo?</li>
+                        <li>¿Por qué es importante definir tanto el rol objetivo como el formato de salida deseado?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Escenario 2 -->
+            <div class="scenario-card" onclick="toggleReflection('scenario2')">
+                <div class="scenario-header">
+                    <div class="scenario-emoji">🎯</div>
+                    <div style="flex: 1;">
+                        <h3 class="scenario-title">Escenario 2: preparación para entrevistas</h3>
+                        <p class="scenario-description">Isabella Andrea debe anticipar preguntas y estructurar respuestas efectivas</p>
+                    </div>
+                </div>
+                <button class="scenario-button">
+                    Ver detalles del análisis →
+                </button>
+            </div>
+
+            <div id="scenario2" class="reflection-zone">
+                <h4 class="reflection-title">Análisis del escenario</h4>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border: 2px solid var(--gris-200);">
+                    <p class="text-high-contrast" style="margin-bottom: 1rem;">
+                        <strong>El problema:</strong> Isabella Andrea tiene una entrevista próxima pero no sabe cómo articular sus experiencias concretas en respuestas estructuradas que demuestren sus competencias.
+                    </p>
+                    <p class="text-high-contrast">
+                        <strong>El desafío de prompting:</strong> Necesita que la IA la ayude a traducir proyectos específicos en evidencias de competencias usando metodologías reconocidas.
+                    </p>
+                </div>
+
+                <div class="prompt-box prompt-box-bad">
+                    <p class="prompt-label prompt-label-bad">❌ Prompt inefectivo:</p>
+                    <div class="prompt-text">"Dame preguntas de entrevista"</div>
+                </div>
+
+                <div class="prompt-box prompt-box-good">
+                    <p class="prompt-label prompt-label-good">✅ Prompt efectivo:</p>
+                    <div class="prompt-text">"Actúa como coach de entrevistas laborales. Basándote en mi experiencia coordinando un proyecto de optimización de procesos que involucró a 3 departamentos durante 6 meses, ayúdame a:
+
+1) Identificar 3 competencias clave demostradas en este proyecto (liderazgo, gestión del cambio, comunicación interdepartamental)
+2) Para cada competencia, formular una respuesta estructurada usando el método STAR (Situación, Tarea, Acción, Resultado)
+3) Anticipar 2 preguntas de seguimiento que podrían hacerme los entrevistadores
+4) Proporcionar tips de storytelling para hacer mis respuestas memorables
+
+Contexto adicional: El proyecto redujo tiempos de procesamiento en 40% y mejoró la satisfacción interna en 25% (según encuesta post-implementación).
+
+Usa un tono profesional pero accesible. Máximo 2 minutos por respuesta STAR."</div>
+                </div>
+
+                <div style="margin-top: 1.5rem; padding: 1.5rem; background: var(--gris-50); border-radius: 12px;">
+                    <h5 style="font-weight: 700; margin-bottom: 1rem; color: var(--azul);">💭 Preguntas para la reflexión:</h5>
+                    <ul style="list-style: disc; padding-left: 1.5rem; color: var(--gris-700); line-height: 1.8;">
+                        <li style="margin-bottom: 0.75rem;">¿Cómo ayuda proporcionar contexto específico sobre el proyecto en el prompt?</li>
+                        <li style="margin-bottom: 0.75rem;">¿Qué ventaja tiene solicitar "anticipar preguntas de seguimiento"?</li>
+                        <li>¿Por qué es relevante especificar el tono deseado en la respuesta y el límite de tiempo?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Escenario 3 -->
+            <div class="scenario-card" onclick="toggleReflection('scenario3')">
+                <div class="scenario-header">
+                    <div class="scenario-emoji">📊</div>
+                    <div style="flex: 1;">
+                        <h3 class="scenario-title">Escenario 3: análisis de ofertas laborales</h3>
+                        <p class="scenario-description">Isabella Andrea encuentra ofertas pero no sabe si cumple con los requisitos</p>
+                    </div>
+                </div>
+                <button class="scenario-button">
+                    Ver detalles del análisis →
+                </button>
+            </div>
+
+            <div id="scenario3" class="reflection-zone">
+                <h4 class="reflection-title">Análisis del escenario</h4>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border: 2px solid var(--gris-200);">
+                    <p class="text-high-contrast" style="margin-bottom: 1rem;">
+                        <strong>El problema:</strong> Isabella Andrea lee una oferta laboral con requisitos como "dominio de metodologías ágiles", "gestión de stakeholders" y "análisis de KPIs", pero no está segura si su experiencia real califica.
+                    </p>
+                    <p class="text-high-contrast">
+                        <strong>El desafío de prompting:</strong> Necesita un prompt que compare objetivamente sus competencias con los requisitos de la oferta y le indique las brechas.
+                    </p>
+                </div>
+
+                <div class="prompt-box prompt-box-bad">
+                    <p class="prompt-label prompt-label-bad">❌ Prompt inefectivo:</p>
+                    <div class="prompt-text">"¿Califico para este trabajo?"</div>
+                </div>
+
+                <div class="prompt-box prompt-box-good">
+                    <p class="prompt-label prompt-label-good">✅ Prompt efectivo:</p>
+                    <div class="prompt-text">"Actúa como analista de compatibilidad laboral. Compara sistemáticamente:
+
+[OFERTA]: Requisitos de la oferta laboral [pegar texto completo de la descripción del puesto]
+
+vs
+
+[MI PERFIL]: Mi experiencia detallada:
+- 8 años en educación (5 como docente, 3 como coordinadora pedagógica)
+- Implementación de plataforma Moodle en 15 establecimientos (2020-2022)
+- Certificación Scrum Master (2023)
+- Liderazgo de equipo de 8 docentes
+- Presupuesto gestionado: $50M anuales
+
+Proporciona:
+1) Matriz de compatibilidad (requisito vs evidencia en mi experiencia) - formato tabla
+2) Puntuación de match (0-100%) con justificación
+3) Top 3 fortalezas que debo destacar en mi postulación
+4) Top 3 brechas críticas y sugerencias concretas para abordarlas (cursos, certificaciones, proyectos)
+5) Recomendación: ¿Aplicar ahora o desarrollar competencias primero?
+
+Formato: Tabla + resumen ejecutivo de máximo 300 palabras."</div>
+                </div>
+
+                <div style="margin-top: 1.5rem; padding: 1.5rem; background: var(--gris-50); border-radius: 12px;">
+                    <h5 style="font-weight: 700; margin-bottom: 1rem; color: var(--azul);">💭 Preguntas para la reflexión:</h5>
+                    <ul style="list-style: disc; padding-left: 1.5rem; color: var(--gris-700); line-height: 1.8;">
+                        <li style="margin-bottom: 0.75rem;">¿Cómo facilita el análisis solicitar una "matriz de compatibilidad" estructurada?</li>
+                        <li style="margin-bottom: 0.75rem;">¿Por qué es útil pedir tanto fortalezas como brechas con puntuación numérica?</li>
+                        <li>¿Qué valor agrega pedir "sugerencias concretas" para abordar las brechas en lugar de solo identificarlas?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reflexión final -->
+        <div class="content-card animate-slideIn" style="animation-delay: 0.4s; background: linear-gradient(135deg, #FEF3C7 0%, #FED7AA 100%); border-color: var(--amarillo-dark);">
+            <h2 class="section-title" style="color: var(--rojo);">
+                <span class="section-emoji">🤔</span>
+                Reflexión integradora
+            </h2>
+
+            <div style="background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <h4 style="font-weight: 700; font-size: 1.125rem; margin-bottom: 1rem; color: var(--gris-800);">Preguntas de análisis crítico:</h4>
+                <ol style="list-style: decimal; padding-left: 1.5rem; color: var(--gris-700);">
+                    <li style="margin-bottom: 1rem; line-height: 1.8;">
+                        <strong>Sobre la estructura:</strong> Compare los tres prompts efectivos de Isabella Andrea. ¿Qué elementos estructurales comparten? ¿Por qué estos elementos son consistentemente importantes?
+                    </li>
+                    <li style="margin-bottom: 1rem; line-height: 1.8;">
+                        <strong>Sobre la especificidad:</strong> En los prompts inefectivos, Isabella Andrea fue vaga. ¿Cuál es la relación entre el nivel de detalle del prompt y la utilidad de la respuesta? ¿Existe un punto de "demasiado detalle"?
+                    </li>
+                    <li style="margin-bottom: 1rem; line-height: 1.8;">
+                        <strong>Sobre el contexto:</strong> Cuando Isabella Andrea proporcionó su experiencia específica (años, números, proyectos), ¿cómo cambió la calidad de la respuesta? ¿Qué tipo de contexto es más valioso?
+                    </li>
+                    <li style="margin-bottom: 1rem; line-height: 1.8;">
+                        <strong>Sobre la iteración:</strong> Isabella Andrea mejoró sus prompts progresivamente (lunes → martes → miércoles). ¿Qué aprendió en cada iteración? ¿Cómo se puede aplicar este aprendizaje iterativo a sus propios prompts?
+                    </li>
+                    <li style="line-height: 1.8;">
+                        <strong>Sobre la transferibilidad:</strong> ¿Los principios de prompting efectivo que funcionaron para Isabella Andrea en su búsqueda laboral son aplicables a otros contextos profesionales? Proporcione ejemplos.
+                    </li>
+                </ol>
+            </div>
+
+            <div style="background: #DBEAFE; border-left: 4px solid var(--azul); padding: 1.5rem; border-radius: 12px;">
+                <h5 style="font-weight: 700; margin-bottom: 1rem; color: #1E3A8A;">💡 Conexión con el aprendizaje</h5>
+                <p class="text-high-contrast" style="margin-bottom: 1rem;">
+                    El caso de Isabella Andrea ilustra una verdad fundamental: <strong>la calidad del prompt determina directamente la calidad de la respuesta</strong>. La transición de prompts vagos a estructurados no fue mágica: requirió que Isabella Andrea comprendiera qué información necesitaba proporcionar, qué formato deseaba recibir, y cómo contextualizar su solicitud.
+                </p>
+                <p class="text-high-contrast">
+                    Esta habilidad de "traducir" sus necesidades a instrucciones claras para la inteligencia artificial es precisamente lo que este módulo busca desarrollar en usted.
+                </p>
+            </div>
+        </div>
+
+        <!-- CTA Final -->
+        <div class="cta-section animate-fadeIn" style="animation-delay: 0.5s;">
+            <h3 class="cta-title">¿Está listo para aprender a formular prompts como Isabella Andrea?</h3>
+            <p class="cta-description">Continúe con los siguientes recursos del módulo para dominar las técnicas de prompting efectivo</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <strong>Oficina de Inteligencia Artificial</strong><br>
+                Vicerrectoría de Tecnologías de la Información<br>
+                Universidad de Chile<br>
+                © 2025 • Todos los derechos reservados
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('caso_natalia_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('caso_natalia_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Función para toggle de escenarios
+        function toggleReflection(id) {
+            const element = document.getElementById(id);
+            const card = element.previousElementSibling;
+            
+            if (element.classList.contains('open')) {
+                element.classList.remove('open');
+                card.classList.remove('active');
+            } else {
+                // Cerrar todos los demás
+                document.querySelectorAll('.reflection-zone').forEach(zone => {
+                    zone.classList.remove('open');
+                });
+                document.querySelectorAll('.scenario-card').forEach(c => {
+                    c.classList.remove('active');
+                });
+                
+                // Abrir el seleccionado
+                element.classList.add('open');
+                card.classList.add('active');
+                
+                // Scroll suave al elemento
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        }
+
+        // Accesibilidad: navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            // ESC para cerrar modal
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('instructionsModal');
+                if (modal.classList.contains('active')) {
+                    closeInstructions();
+                }
+            }
+        });
+
+        // Prevenir scroll del body cuando el modal está abierto
+        const modal = document.getElementById('instructionsModal');
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    if (modal.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+        });
+        observer.observe(modal, { attributes: true });
+    </script>
+</body>
+</html>

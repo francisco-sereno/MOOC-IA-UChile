@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZZWQZR8VQ');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso de estudio interactivo: optimizando comunicaciones con IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        :root {
+            --verde-pantone: #008751;
+            --amarillo-pantone: #FCD116;
+            --rojo-pantone: #EF3340;
+            --azul-pantone: #003087;
+        }
+        .bg-azul { background-color: var(--azul-pantone); }
+        .text-azul { color: var(--azul-pantone); }
+        .border-azul { border-color: var(--azul-pantone); }
+        
+        .sidebar-button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .sidebar-button.active {
+            background-color: white;
+            color: var(--azul-pantone);
+        }
+
+        .sidebar-button.inactive {
+            background-color: transparent;
+            color: #D1D5DB; /* gray-300 */
+        }
+        .sidebar-button.inactive:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-icon {
+            background-color: var(--azul-pantone);
+        }
+        .question-card {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--verde-pantone);
+        }
+        .justified-text {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex flex-col md:flex-row">
+        
+        <!-- Barra Lateral de Navegación (Fija en desktop) -->
+        <aside class="w-full md:w-1/4 lg:w-1/5 bg-azul text-white p-6 shadow-lg md:h-screen md:sticky md:top-0 flex flex-col">
+            <div class="text-center mb-10 border-b border-white/20 pb-6">
+                <img src="https://franciscosereno.cl/nextcloud/index.php/s/ccBogeNS6dHzyec/preview" alt="Logo VTI-IA" class="mx-auto w-auto max-h-16" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;" class="text-white font-bold text-2xl">VTI-IA Uchile</div>
+            </div>
+            
+            <nav id="tabs" class="flex-grow flex flex-col space-y-2">
+                <button data-tab="introduccion" class="sidebar-button active">1. Introducción</button>
+                <button data-tab="diagnostico" class="sidebar-button inactive">2. El problema</button>
+                <button data-tab="oportunidades" class="sidebar-button inactive">3. Las oportunidades</button>
+                <button data-tab="riesgos" class="sidebar-button inactive">4. Los riesgos</button>
+                <button data-tab="plan" class="sidebar-button inactive">5. Primeros pasos</button>
+                <button data-tab="metricas" class="sidebar-button inactive">6. Resultados</button>
+            </nav>
+
+            <div class="mt-6">
+                 <button id="instructions-button" class="sidebar-button inactive">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    Instrucciones
+                </button>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal (Scrollable en desktop) -->
+        <div class="w-full md:w-3/4 lg:w-4/5 p-6 md:p-10 bg-gray-50 md:h-screen md:overflow-y-auto">
+            <header class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-azul">Organizando un evento con ayuda de la IA</h1>
+                <p class="text-lg text-gray-600 mt-2">Un análisis interactivo de un caso cotidiano</p>
+            </header>
+            
+            <main id="tab-content" class="bg-white rounded-xl shadow-xl p-6 md:p-10">
+                <!-- Contenido se cargará aquí dinámicamente -->
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Instrucciones -->
+    <div id="instructions-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full transform transition-all" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-2xl text-azul" id="modal-headline">Instrucciones de uso</h3>
+                <button id="close-instructions-button-x" class="text-gray-400 hover:text-gray-600 text-3xl leading-none">&times;</button>
+            </div>
+            <p class="text-gray-700 mb-6 justified-text">¡Bienvenido/a! Este es un caso de estudio interactivo. Utilice la **barra de navegación a su izquierda** para explorar las diferentes secciones del caso. Cada sección presenta una parte del desafío de Isabella y termina con preguntas para fomentar su reflexión y análisis.</p>
+            <button id="close-instructions-button" class="w-full bg-azul text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors">Entendido</button>
+        </div>
+    </div>
+
+
+    <script>
+        const contentData = {
+            introduccion: {
+                title: "1. Bienvenida al módulo 1",
+                content: `
+                    <div class="bg-blue-50 border-l-4 border-azul p-6 rounded-lg mb-8">
+                        <h3 class="font-bold text-xl text-azul mb-2">Una nueva frontera tecnológica</h3>
+                        <p class="text-gray-800 justified-text">Le damos la bienvenida a este módulo introductorio a la <strong>inteligencia artificial generativa</strong>. A diferencia de la inteligencia artificial tradicional que solo analiza datos, esta tecnología revolucionaria tiene la capacidad de <strong>crear contenido completamente nuevo</strong>: textos, imágenes, ideas y código, a partir de una simple instrucción.</p>
+                        <p class="text-gray-800 mt-2 justified-text">Piense en ella como un asistente creativo personal. Este caso de estudio ha sido diseñado para que usted, sin necesidad de conocimientos técnicos previos, pueda comprender su funcionamiento y potencial a través de una situación cotidiana y fácil de reconocer.</p>
+                    </div>
+
+                    <h3 class="font-bold text-2xl text-gray-800 mb-4 border-b pb-2">Presentación del caso: la kermesse del colegio</h3>
+                    <p class="text-gray-700 mb-4 justified-text"><strong>Isabella Andrea</strong>, además de ser una trabajadora, es apoderada y la principal organizadora de la kermesse anual del colegio de sus hijos. Es una tarea que le gusta, pero que le consume muchísimo tiempo y energía: debe enviar correos a todos los apoderados, crear afiches, buscar ideas para los juegos, organizar a los voluntarios y planificar el presupuesto.</p>
+                    <p class="text-gray-700 mb-6 justified-text">Isabella tiene un trabajo demandante y poco tiempo libre. Este año, ha oído hablar de la "inteligencia artificial" y decide probar si esta nueva tecnología puede ayudarla a organizar una kermesse increíble sin tener que sacrificar sus fines de semana.</p>
+                    
+                    <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas iniciales para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Se ha sentido alguna vez como Isabella, con muchas ideas pero poco tiempo para llevarlas a cabo?</li>
+                            <li>¿Qué tareas de organización de un evento (un cumpleaños, un paseo, etc.) le parecen más agotadoras?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            diagnostico: {
+                title: "2. El problema: un mar de tareas y poco tiempo",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Analicemos el desafío de Isabella antes de usar cualquier herramienta nueva:</p>
+                    <div class="grid md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                            <h4 class="font-bold text-azul text-xl mb-2">Distribución del tiempo</h4>
+                            <p class="justified-text">Dedica tardes y fines de semana a redactar correos, diseñar afiches en Word y buscar ideas en internet.</p>
+                        </div>
+                        <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                            <h4 class="font-bold text-rojo-pantone text-xl mb-2" style="color: var(--rojo-pantone);">Puntos críticos</h4>
+                            <p class="justified-text">Se siente poco creativa, los afiches se ven "amateur", y teme que los comunicados sean confusos o aburridos.</p>
+                        </div>
+                        <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                            <h4 class="font-bold text-amarillo-pantone text-xl mb-2" style="color: #D4A100;">Consecuencia directa</h4>
+                            <p class="justified-text">El proceso le genera estrés, le quita tiempo familiar y siente que la kermesse podría ser mucho mejor.</p>
+                        </div>
+                    </div>
+                    <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Qué es lo primero que se "bloquea" cuando uno está estresado o con poco tiempo? ¿La creatividad? ¿La organización?</li>
+                            <li>Si estuviera en el lugar de Isabella, ¿qué tarea delegaría primero si tuviera un "asistente"?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            oportunidades: {
+                title: "3. Las oportunidades: un asistente creativo 24/7",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">La IA generativa le ofrece a Isabella un abanico de soluciones para sus tareas. Veamos algunas ideas:</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-azul text-white">
+                                    <th class="p-3 font-bold uppercase">Tarea de Isabella</th>
+                                    <th class="p-3 font-bold uppercase">¿Cómo puede ayudar la IA?</th>
+                                    <th class="p-3 font-bold uppercase">Beneficio principal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                <tr class="border-b"><td class="p-3 justified-text">Escribir correos a apoderados</td><td class="p-3 justified-text">Pedirle a la IA que redacte un borrador con un tono amigable y claro.</td><td class="p-3 justified-text">Comunicación rápida y efectiva.</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="p-3 justified-text">Diseñar el afiche</td><td class="p-3 justified-text">Pedirle a la IA que genere una imagen (ej: "niños felices en una kermesse estilo dibujo animado").</td><td class="p-3 justified-text">Diseños atractivos sin saber diseñar.</td></tr>
+                                <tr class="border-b"><td class="p-3 justified-text">Tener ideas para juegos</td><td class="p-3 justified-text">Preguntarle a la IA: "dame 10 ideas de juegos para una kermesse que no requieran electricidad".</td><td class="p-3 justified-text">Romper el bloqueo creativo.</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="p-3 justified-text">Planificar el presupuesto</td><td class="p-3 justified-text">Pedirle a la IA que cree una tabla para organizar gastos e ingresos estimados.</td><td class="p-3 justified-text">Orden y claridad en las finanzas.</td></tr>
+                                <tr class="border-b"><td class="p-3 justified-text">Escribir discurso final</td><td class="p-3 justified-text">Pedirle a la IA un borrador para el discurso de agradecimiento, mencionando a los voluntarios.</td><td class="p-3 justified-text">Un mensaje emotivo y bien estructurado.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿En cuál de estas tareas cree que la ayuda de la IA sería más valiosa? ¿Por qué?</li>
+                            <li>Además de ahorrar tiempo, ¿de qué otra forma podría un "asistente creativo" mejorar el resultado final de la kermesse?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            riesgos: {
+                title: "4. Los riesgos: no es magia, hay que supervisar",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Usar IA es como tener un asistente muy entusiasta pero a veces distraído. Isabella debe conocer las limitaciones para evitar problemas.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                            <h4 class="font-bold text-red-800 mb-2">"Alucinaciones": inventar datos</h4>
+                            <p class="text-gray-700 justified-text">Isabella le pide ideas de premios y la IA inventa que "la panadería del barrio donará 100 pasteles". <br><strong>Salvaguarda:</strong> Isabella debe verificar siempre la información importante (premios, fechas, lugares) antes de comunicarla.</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+                            <h4 class="font-bold text-yellow-800 mb-2">Sesgos: reflejar estereotipos</h4>
+                            <p class="text-gray-700 justified-text">Isabella pide ideas de juegos y la IA sugiere "fútbol para niños y maquillaje para niñas". <br><strong>Salvaguarda:</strong> Isabella debe usar su propio criterio para asegurarse de que las ideas sean inclusivas y para todos.</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold text-blue-800 mb-2">Confidencialidad de datos</h4>
+                            <p class="text-gray-700 justified-text">Isabella podría sentirse tentada a pegar la lista de teléfonos de los apoderados en la IA para que los organice. <br><strong>Salvaguarda:</strong> ¡Nunca se debe ingresar información personal o privada en herramientas de IA públicas!</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-bold text-green-800 mb-2">Originalidad y estilo</h4>
+                            <p class="text-gray-700 justified-text">Si Isabella solo copia y pega lo que la IA le da, todo sonará genérico y sin el "toque" del colegio. <br><strong>Salvaguarda:</strong> Usar las respuestas de la IA como un borrador o una inspiración, y siempre añadirle su propio estilo.</p>
+                        </div>
+                    </div>
+                     <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Cuál de estos riesgos le parece el más peligroso para un evento como una kermesse?</li>
+                            <li>¿Por qué es importante que Isabella no pierda su "sello personal" al usar estas herramientas?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            plan: {
+                title: "5. Primeros pasos: ¿cómo empezar?",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Isabella no necesita ser una experta para empezar. Puede seguir un plan simple y gradual.</p>
+                    <ol class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="card-icon text-white font-bold rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-azul">Paso 1: experimentar y jugar (1 tarde)</h4>
+                                <p class="text-gray-600 justified-text"><strong>Acción:</strong> Isabella abre una herramienta de IA (como ChatGPT, Gemini o Copilot) y simplemente conversa. Le pide ideas de temas para la kermesse, chistes sobre colegios, etc. <br><strong>Objetivo:</strong> Perderle el miedo y entender cómo funciona.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="card-icon text-white font-bold rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-azul">Paso 2: usarla para una tarea real y pequeña (1-2 horas)</h4>
+                                <p class="text-gray-600 justified-text"><strong>Acción:</strong> Le pide a la IA que le ayude a redactar el primer correo para invitar a los apoderados a participar. <br><strong>Objetivo:</strong> Ver el ahorro de tiempo en una tarea concreta y poder editar el resultado para darle su toque personal.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="card-icon text-white font-bold rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-azul">Paso 3: integrarla en varias tareas (durante la semana)</h4>
+                                <p class="text-gray-600 justified-text"><strong>Acción:</strong> A medida que avanza, le pide a la IA ideas para los afiches, ayuda para estructurar el presupuesto y borradores para los recordatorios. <br><strong>Objetivo:</strong> Convertir la IA en un compañero de trabajo habitual para diferentes necesidades.</p>
+                            </div>
+                        </li>
+                    </ol>
+                     <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Por qué es importante empezar con tareas pequeñas y "jugando"?</li>
+                            <li>¿Qué otra tarea cotidiana (fuera de la kermesse) podría simplificarse siguiendo estos tres pasos?</li>
+                        </ul>
+                    </div>
+                `
+            },
+            metricas: {
+                title: "6. Los resultados: más que solo ahorrar tiempo",
+                content: `
+                    <p class="text-gray-700 mb-6 justified-text">Para saber si la ayuda de la IA realmente funcionó, Isabella puede comparar los resultados de este año con los del año anterior.</p>
+                    <div>
+                        <canvas id="metricsChart"></canvas>
+                    </div>
+                    <div class="mt-8">
+                        <h4 class="font-bold text-xl text-azul mb-2">Conclusión del caso</h4>
+                        <p class="text-gray-700 justified-text">La IA generativa no reemplazó a Isabella. Al contrario, la potenció. Al quitarle las tareas más repetitivas y que le consumían más tiempo, le permitió enfocarse en lo que realmente importa: <strong>conversar con los otros apoderados, motivar a los voluntarios y disfrutar del evento con su familia</strong>. La tecnología fue un copiloto que le ayudó a ser más creativa y organizada, no un piloto automático.</p>
+                    </div>
+                     <div class="question-card p-4 rounded-lg mt-8">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Preguntas para la reflexión</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 justified-text">
+                            <li>¿Cree que el mayor beneficio de usar IA en este caso fue el tiempo ahorrado o la reducción del estrés?</li>
+                            <li>¿Cómo puede cambiar la percepción de una tarea (de "una carga" a "un proyecto entretenido") con las herramientas adecuadas?</li>
+                        </ul>
+                    </div>
+                `
+            }
+        };
+
+        const tabContainer = document.getElementById('tab-content');
+        const tabs = document.querySelectorAll('.sidebar-button');
+        const instructionsButton = document.getElementById('instructions-button');
+        const instructionsModal = document.getElementById('instructions-modal');
+        const closeInstructionsButton = document.getElementById('close-instructions-button');
+        const closeInstructionsButtonX = document.getElementById('close-instructions-button-x');
+
+        function renderContent(tabName) {
+            const data = contentData[tabName];
+            if (!data) return;
+
+            tabContainer.innerHTML = `
+                <div class="fade-in">
+                    <h2 class="text-2xl md:text-3xl font-bold text-azul mb-6">${data.title}</h2>
+                    ${data.content}
+                </div>
+            `;
+            
+            if (tabName === 'metricas') {
+                loadChart();
+            }
+        }
+        
+        function loadChart() {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+            script.onload = () => {
+                const ctx = document.getElementById('metricsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Horas de planificación', 'Voluntarios conseguidos', 'Satisfacción (nota 1-7)', 'Fondos recaudados (en miles $)'],
+                        datasets: [{
+                            label: 'Kermesse anterior (sin IA)',
+                            data: [20, 15, 5.5, 500],
+                            backgroundColor: 'rgba(0, 48, 135, 0.6)', // Azul
+                            borderColor: 'rgba(0, 48, 135, 1)',
+                            borderWidth: 1
+                        }, {
+                            label: 'Kermesse actual (con IA)',
+                            data: [12, 25, 6.5, 750],
+                            backgroundColor: 'rgba(0, 135, 81, 0.6)', // Verde
+                            borderColor: 'rgba(0, 135, 81, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        scales: {
+                            x: { beginAtZero: true }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Comparativa de resultados de la kermesse',
+                                font: { size: 16, family: 'Montserrat' }
+                            },
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            };
+            document.head.appendChild(script);
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.classList.add('inactive');
+                });
+                
+                tab.classList.add('active');
+                tab.classList.remove('inactive');
+                
+                renderContent(tabName);
+            });
+        });
+
+        // Funcionalidad del modal de instrucciones
+        function showInstructionsModal() {
+            instructionsModal.classList.remove('hidden');
+        }
+
+        function hideInstructionsModal() {
+            instructionsModal.classList.add('hidden');
+        }
+
+        instructionsButton.addEventListener('click', showInstructionsModal);
+        closeInstructionsButton.addEventListener('click', hideInstructionsModal);
+        closeInstructionsButtonX.addEventListener('click', hideInstructionsModal);
+
+        instructionsModal.addEventListener('click', (e) => {
+            if (e.target === instructionsModal) {
+                hideInstructionsModal();
+            }
+        });
+
+        // Carga inicial
+        renderContent('introduccion');
+    </script>
+</body>
+</html>

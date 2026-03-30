@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 1: Mitos, oportunidades y adopción de IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+        
+        /* Animaciones optimizadas */
+        .slide {
+            display: none;
+        }
+        
+        .slide.active {
+            display: block;
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Cards de opciones mejoradas */
+        .myth-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid var(--gris-200);
+            background: white;
+            position: relative;
+            overflow: visible;
+        }
+
+        .myth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .myth-card:hover::before {
+            opacity: 1;
+        }
+        
+        .myth-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.15);
+            border-color: var(--azul);
+        }
+
+        /* Cajas de ayuda mejoradas */
+        .help-box {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 4px solid var(--amarillo);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(255, 209, 0, 0.15);
+        }
+        
+        /* Barra de progreso mejorada */
+        .progress-bar {
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            box-shadow: 0 2px 8px rgba(0, 85, 165, 0.3);
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            height: calc(850px - 220px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Mejoras de accesibilidad para neurodivergentes */
+        *:focus-visible {
+            outline: 3px solid var(--azul);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* Modal mejorado */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(23, 43, 77, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px -15px rgba(0, 85, 165, 0.4);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            border: 2px solid var(--gris-200);
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Concept boxes */
+        .concept-box {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gris-200);
+        }
+
+        .concept-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.15);
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Navegación fija inferior */
+        .navigation-bar {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            border-top: 2px solid var(--gris-200);
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+
+        /* Optimización para altura 850px */
+        .slide-content {
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 1rem 1rem 1rem;
+                height: auto;
+                min-height: calc(850px - 220px);
+            }
+
+            .header-banner {
+                border-radius: 28px;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Reducir animaciones para usuarios que lo prefieran */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Video responsive */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-slate-50 to-green-50">
+
+    <!-- Modal de Bienvenida -->
+    <div id="welcome-modal" class="modal-overlay active">
+        <div class="modal-content">
+            <div class="flex items-center justify-center mb-6">
+                <div class="w-20 h-20 rounded-full flex items-center justify-center text-5xl" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                    👋
+                </div>
+            </div>
+            <h3 class="text-3xl font-extrabold text-center mb-4" style="color: var(--azul-dark);">¡Bienvenido/a!</h3>
+            
+            <div class="space-y-4 mb-6">
+                <div class="help-box p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="text-3xl">🎯</span>
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">Sobre este recurso</p>
+                            <p class="text-gray-700 text-sm leading-relaxed">Presentación que aborda críticamente los <strong>mitos comunes sobre IA generativa</strong>, identifica oportunidades reales y examina factores clave en los procesos de adopción.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-4 border-2 border-blue-200">
+                    <p class="font-semibold mb-3 flex items-center gap-2" style="color: var(--azul-dark);">
+                        <span class="text-2xl">🧭</span>
+                        Cómo navegar
+                    </p>
+                    <ul class="text-sm space-y-2 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>Usa los botones <strong>◀ Anterior</strong> y <strong>Siguiente ▶</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>O las flechas del teclado <strong>← →</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>Incluye un video introductorio en la primera diapositiva</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold" style="color: var(--azul);">•</span>
+                            <span>Tu progreso se guarda automáticamente</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl p-4 border-2 border-yellow-200">
+                    <p class="font-semibold mb-2" style="color: var(--amarillo-dark);">💡 Recomendaciones</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Identifica qué mitos habías creído antes</li>
+                        <li>• Analiza las oportunidades aplicables a tu sector</li>
+                        <li>• Reflexiona sobre barreras en tu contexto</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border-2 border-green-200">
+                    <p class="font-semibold mb-2" style="color: var(--verde);">♿ Accesibilidad</p>
+                    <p class="text-sm text-gray-700">Este recurso está optimizado para personas neurodivergentes con contraste alto, espaciado generoso y navegación clara.</p>
+                </div>
+            </div>
+
+            <button onclick="closeWelcomeModal()" class="btn w-full py-4 text-white font-bold text-lg" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                ¡Comenzar! →
+            </button>
+        </div>
+    </div>
+
+    <!-- Header Banner fijo -->
+    <div class="sticky top-0 z-50 bg-gradient-to-br from-blue-50 via-slate-50 to-green-50 pb-4">
+        <div class="max-w-7xl mx-auto px-6 pt-6">
+            <div class="header-banner p-6 text-white relative">
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-3xl">
+                            🧠
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-extrabold mb-1">Mitos, oportunidades y adopción de IA</h1>
+                            <p class="text-lg font-medium opacity-95">Módulo 1: Una mirada crítica</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de progreso -->
+            <div class="bg-white rounded-2xl p-5 mt-4 shadow-lg border border-gray-100">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-base" style="color: var(--azul-dark);">Tu progreso</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded-full" style="background: linear-gradient(135deg, #EFF6FF, #F0F9FF); color: var(--azul);">
+                        <span id="current-slide-num">1</span> de 8 diapositivas
+                    </span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+                    <div id="progress-bar" class="progress-bar h-3 rounded-full" style="width: 12.5%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container pt-0">
+        <!-- Contenedor de diapositivas -->
+        <div class="flex-1 relative">
+            
+            <!-- Slide 1: Video introductorio -->
+            <div class="slide active" id="slide-1">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold text-center mb-4" style="color: var(--azul-dark);">
+                            Módulo 1: El diagnóstico de competencias
+                        </h2>
+                        <p class="text-lg text-center text-gray-700 mb-6">
+                            Derribando mitos sobre la inteligencia artificial generativa
+                        </p>
+                        
+                        <div class="mb-6">
+                            <div class="video-container">
+                                <iframe src="https://player.vimeo.com/video/1133329482?h=406f879eed&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Derribando mitos sobre la IA"></iframe>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-blue-50 to-green-50 p-6 rounded-xl border-2 border-blue-200">
+                            <p class="text-gray-700 text-base leading-relaxed">
+                                En este módulo exploraremos cómo la inteligencia artificial generativa puede apoyar tu transición profesional, comenzando por comprender <strong>qué es realmente esta tecnología</strong> y cómo puede ayudarte a identificar y potenciar tus competencias laborales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Portada -->
+            <div class="slide" id="slide-2">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 text-center">
+                        <div class="mb-6">
+                            <div class="text-8xl mb-4">🧠</div>
+                        </div>
+                        <h1 class="text-5xl font-black mb-6" style="background: linear-gradient(135deg, var(--azul), var(--verde)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            Mitos, oportunidades y adopción de IA
+                        </h1>
+                        <p class="text-3xl text-gray-600 font-medium">Una mirada crítica</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Mitos comunes -->
+            <div class="slide" id="slide-3">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6 text-center" style="color: var(--azul);">
+                            🔍 Mitos comunes sobre IA generativa
+                        </h2>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="myth-card bg-gradient-to-br from-red-50 to-pink-50 p-5 rounded-xl border-2 border-red-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-4xl">❌</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2 text-red-700">Mito: La IA reemplazará todos los trabajos</h3>
+                                        <p class="text-sm text-gray-700">Realidad: La IA transforma trabajos, no los elimina. Crea nuevas oportunidades y requiere habilidades complementarias humanas.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="myth-card bg-gradient-to-br from-red-50 to-pink-50 p-5 rounded-xl border-2 border-red-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-4xl">❌</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2 text-red-700">Mito: La IA es perfecta y nunca se equivoca</h3>
+                                        <p class="text-sm text-gray-700">Realidad: Las IAs cometen errores, pueden "alucinar" información y requieren supervisión humana constante.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="myth-card bg-gradient-to-br from-red-50 to-pink-50 p-5 rounded-xl border-2 border-red-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-4xl">❌</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2 text-red-700">Mito: Solo los expertos pueden usar IA</h3>
+                                        <p class="text-sm text-gray-700">Realidad: Las herramientas actuales son cada vez más accesibles. Lo importante es entender sus capacidades y limitaciones.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="myth-card bg-gradient-to-br from-red-50 to-pink-50 p-5 rounded-xl border-2 border-red-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-4xl">❌</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2 text-red-700">Mito: La IA tiene consciencia y entiende</h3>
+                                        <p class="text-sm text-gray-700">Realidad: La IA procesa patrones estadísticos, no "comprende" en el sentido humano. No tiene consciencia ni intencionalidad.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Oportunidades -->
+            <div class="slide" id="slide-4">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6 text-center" style="color: var(--verde);">
+                            ✨ Oportunidades reales de uso
+                        </h2>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-xl border-2 border-blue-200">
+                                <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--azul);">
+                                    <span class="text-2xl">💼</span>
+                                    Desarrollo profesional
+                                </h3>
+                                <ul class="space-y-2 text-gray-700 text-sm">
+                                    <li>• Análisis de competencias laborales</li>
+                                    <li>• Mejora de CV y cartas de presentación</li>
+                                    <li>• Preparación para entrevistas</li>
+                                    <li>• Identificación de brechas formativas</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
+                                <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--verde);">
+                                    <span class="text-2xl">📝</span>
+                                    Creación de contenido
+                                </h3>
+                                <ul class="space-y-2 text-gray-700 text-sm">
+                                    <li>• Generación de borradores iniciales</li>
+                                    <li>• Lluvia de ideas y brainstorming</li>
+                                    <li>• Estructuración de documentos</li>
+                                    <li>• Edición y mejora de textos</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-xl border-2 border-orange-200">
+                                <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: #FF6B35;">
+                                    <span class="text-2xl">🔍</span>
+                                    Investigación y análisis
+                                </h3>
+                                <ul class="space-y-2 text-gray-700 text-sm">
+                                    <li>• Búsqueda y síntesis de información</li>
+                                    <li>• Comparación de alternativas</li>
+                                    <li>• Análisis de tendencias del mercado</li>
+                                    <li>• Identificación de patrones</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-5 rounded-xl border-2 border-purple-200">
+                                <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: #8B5CF6;">
+                                    <span class="text-2xl">🎓</span>
+                                    Aprendizaje personal
+                                </h3>
+                                <ul class="space-y-2 text-gray-700 text-sm">
+                                    <li>• Explicaciones personalizadas</li>
+                                    <li>• Práctica de idiomas</li>
+                                    <li>• Resolución de dudas</li>
+                                    <li>• Generación de ejercicios</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Factores de adopción -->
+            <div class="slide" id="slide-5">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6 text-center" style="color: var(--amarillo-dark);">
+                            📊 Factores clave en la adopción de IA
+                        </h2>
+
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="concept-box text-center p-5 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
+                                <div class="text-5xl mb-3">✅</div>
+                                <h3 class="font-bold text-lg mb-3" style="color: var(--verde);">Facilitadores</h3>
+                                <ul class="text-sm text-left text-gray-700 space-y-1">
+                                    <li>• Interfaces intuitivas</li>
+                                    <li>• Bajo costo inicial</li>
+                                    <li>• Resultados inmediatos</li>
+                                    <li>• Comunidad activa</li>
+                                </ul>
+                            </div>
+
+                            <div class="concept-box text-center p-5 bg-gradient-to-br from-red-50 to-pink-50 rounded-xl">
+                                <div class="text-5xl mb-3">⚠️</div>
+                                <h3 class="font-bold text-lg mb-3" style="color: var(--rojo);">Barreras</h3>
+                                <ul class="text-sm text-left text-gray-700 space-y-1">
+                                    <li>• Curva de aprendizaje</li>
+                                    <li>• Preocupaciones éticas</li>
+                                    <li>• Resistencia al cambio</li>
+                                    <li>• Acceso a tecnología</li>
+                                </ul>
+                            </div>
+
+                            <div class="concept-box text-center p-5 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+                                <div class="text-5xl mb-3">🎯</div>
+                                <h3 class="font-bold text-lg mb-3" style="color: var(--azul);">Estrategias</h3>
+                                <ul class="text-sm text-left text-gray-700 space-y-1">
+                                    <li>• Comenzar con casos simples</li>
+                                    <li>• Aprendizaje progresivo</li>
+                                    <li>• Experimentación segura</li>
+                                    <li>• Uso ético y responsable</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="help-box p-5">
+                            <div class="flex items-start gap-3">
+                                <span class="text-3xl">💡</span>
+                                <div>
+                                    <p class="font-bold mb-2 text-yellow-800">Clave del éxito</p>
+                                    <p class="text-sm text-gray-700">
+                                        La adopción efectiva de IA requiere <strong>equilibrio entre entusiasmo y pensamiento crítico</strong>. 
+                                        No se trata de usar la tecnología por usarla, sino de identificar dónde puede agregar valor real a tu trabajo.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Proceso de adopción -->
+            <div class="slide" id="slide-6">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6 text-center" style="color: var(--azul);">
+                            🔄 Proceso de adopción responsable
+                        </h2>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl border-l-4" style="border-color: var(--azul);">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold" style="background: var(--azul);">1</div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-2">Educación y concienciación</h3>
+                                    <p class="text-sm text-gray-700">Comprende qué es la IA, sus capacidades reales y limitaciones. Separa mitos de realidad.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4 bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-xl border-l-4" style="border-color: var(--verde);">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold" style="background: var(--verde);">2</div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-2">Experimentación controlada</h3>
+                                    <p class="text-sm text-gray-700">Prueba herramientas en contextos seguros. Comienza con tareas de bajo riesgo y aprende de los resultados.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4 bg-gradient-to-r from-yellow-50 to-amber-50 p-5 rounded-xl border-l-4 border-yellow-400">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center text-gray-800 text-xl font-bold">3</div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-2">Integración gradual</h3>
+                                    <p class="text-sm text-gray-700">Incorpora la IA en flujos de trabajo existentes. Identifica dónde agrega valor real sin reemplazar criterio humano.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4 bg-gradient-to-r from-red-50 to-pink-50 p-5 rounded-xl border-l-4" style="border-color: var(--rojo);">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold" style="background: var(--rojo);">4</div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-2">Evaluación continua</h3>
+                                    <p class="text-sm text-gray-700">Monitorea resultados, ajusta estrategias y mantente actualizado sobre mejores prácticas y consideraciones éticas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Aplicación al diagnóstico -->
+            <div class="slide" id="slide-7">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6 text-center" style="background: linear-gradient(135deg, var(--azul), var(--verde)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            🎯 Aplicación: Diagnóstico de competencias
+                        </h2>
+
+                        <div class="bg-gradient-to-r from-blue-50 to-green-50 p-6 rounded-xl border-2 border-blue-200 mb-6">
+                            <p class="text-base text-gray-700 mb-4 leading-relaxed">
+                                Una de las aplicaciones más poderosas de la IA generativa es el <strong>análisis de competencias profesionales</strong>. 
+                                La herramienta puede ayudarte a identificar tus fortalezas, mapear experiencias y alinear tu perfil con oportunidades laborales.
+                            </p>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-white p-5 rounded-lg border-l-4" style="border-color: var(--azul);">
+                                    <h4 class="font-bold text-base mb-3" style="color: var(--azul);">¿Qué puede hacer?</h4>
+                                    <ul class="space-y-2 text-gray-700 text-sm">
+                                        <li>✓ Extraer habilidades de tu historial</li>
+                                        <li>✓ Identificar competencias transferibles</li>
+                                        <li>✓ Mapear con ofertas laborales</li>
+                                        <li>✓ Detectar brechas de formación</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-5 rounded-lg border-l-4" style="border-color: var(--verde);">
+                                    <h4 class="font-bold text-base mb-3" style="color: var(--verde);">Tu rol crítico</h4>
+                                    <ul class="space-y-2 text-gray-700 text-sm">
+                                        <li>✓ Validar la información extraída</li>
+                                        <li>✓ Aportar contexto cualitativo</li>
+                                        <li>✓ Priorizar según tus objetivos</li>
+                                        <li>✓ Decidir pasos de acción</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="help-box p-5">
+                            <div class="flex items-start gap-3">
+                                <span class="text-3xl">⚡</span>
+                                <div>
+                                    <p class="font-bold mb-2 text-yellow-800">Próximos pasos</p>
+                                    <p class="text-sm text-gray-700">
+                                        En las siguientes actividades, utilizarás la IA para realizar tu propio diagnóstico de competencias. 
+                                        Recuerda: la herramienta facilita el análisis, pero <strong>tú eres quien valida, interpreta y decide</strong> cómo usar esa información.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Principios de uso responsable -->
+            <div class="slide" id="slide-8">
+                <div class="slide-content">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                        <h2 class="text-3xl font-extrabold mb-6 text-center" style="color: var(--rojo);">
+                            ⚖️ Principios de uso responsable
+                        </h2>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="concept-box bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-3xl">✓</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2" style="color: var(--azul);">Verificación crítica</h3>
+                                        <p class="text-sm text-gray-700">Siempre revisa y valida la información generada por IA. No aceptes resultados sin cuestionamiento.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="concept-box bg-gradient-to-r from-red-50 to-pink-50 p-5 rounded-xl">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-3xl">👤</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2" style="color: var(--rojo);">Responsabilidad humana</h3>
+                                        <p class="text-sm text-gray-700">Tú eres responsable final de las decisiones y contenidos, no la IA.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="concept-box bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-xl">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-3xl">🔒</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2" style="color: var(--verde);">Privacidad de datos</h3>
+                                        <p class="text-sm text-gray-700">No compartas información sensible o confidencial con sistemas de IA.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="concept-box bg-gradient-to-r from-yellow-50 to-amber-50 p-5 rounded-xl">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-3xl">✨</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2" style="color: var(--amarillo-dark);">Autenticidad</h3>
+                                        <p class="text-sm text-gray-700">Usa la IA como borrador inicial, pero añade tu voz y perspectiva personal.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="concept-box bg-gradient-to-r from-purple-50 to-indigo-50 p-5 rounded-xl md:col-span-2">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-3xl">📚</div>
+                                    <div>
+                                        <h3 class="font-bold text-base mb-2" style="color: #8B5CF6;">Aprendizaje continuo</h3>
+                                        <p class="text-sm text-gray-700">La tecnología evoluciona rápidamente. Mantente actualizado sobre mejores prácticas y consideraciones éticas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navegación inferior fija -->
+        <div class="navigation-bar mt-6 rounded-2xl p-4">
+            <div class="flex items-center justify-between gap-4">
+                <button id="prevBtn" class="btn flex items-center gap-2 px-6 py-3 text-white font-semibold" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Anterior</span>
+                </button>
+                
+                <div class="flex items-center gap-2">
+                    <span id="slide-counter" class="text-sm font-bold text-gray-700 px-3 py-1 rounded-full bg-gray-100">1 / 8</span>
+                </div>
+                
+                <button id="nextBtn" class="btn flex items-center gap-2 px-6 py-3 text-white font-semibold" style="background: linear-gradient(135deg, var(--verde), var(--verde-hover));">
+                    <span>Siguiente</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script>
+        // LocalStorage para guardar progreso
+        const STORAGE_KEY = 'ppt2_m1_mitos_progress';
+        
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                currentSlide = data.currentSlide || 0;
+            }
+        }
+        
+        function saveProgress() {
+            const data = {
+                currentSlide: currentSlide,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slide-counter');
+        const currentSlideNum = document.getElementById('current-slide-num');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updateSlide() {
+            slides.forEach((slide) => {
+                slide.classList.remove('active');
+            });
+            
+            slides[currentSlide].classList.add('active');
+
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+
+            slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            currentSlideNum.textContent = currentSlide + 1;
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+            
+            saveProgress();
+
+            // Scroll al inicio del slide
+            const slideContent = slides[currentSlide].querySelector('.slide-content');
+            if (slideContent) {
+                slideContent.scrollTop = 0;
+            }
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && !prevBtn.disabled) prevBtn.click();
+            if (e.key === 'ArrowRight' && !nextBtn.disabled) nextBtn.click();
+        });
+
+        // Modal de bienvenida
+        function closeWelcomeModal() {
+            document.getElementById('welcome-modal').classList.remove('active');
+            localStorage.setItem('ppt2_m1_mitos_welcome_seen', 'true');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const welcomeSeen = localStorage.getItem('ppt2_m1_mitos_welcome_seen');
+            if (welcomeSeen) {
+                document.getElementById('welcome-modal').classList.remove('active');
+            }
+            
+            loadProgress();
+            updateSlide();
+        });
+
+        // Inicialización
+        loadProgress();
+        updateSlide();
+    </script>
+</body>
+</html>

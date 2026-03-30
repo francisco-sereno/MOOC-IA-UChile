@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción al Módulo 1: Diagnóstico de competencias con IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        /* Header moderno refinado con mejor gradiente */
+        .gradient-bg, /* Header moderno refinado con mejor gradiente */
+        .gradient-bg, .header-modern {
+            background: linear-gradient(135deg, 
+                #00274D 0%, 
+                #0055A5 30%, 
+                #0077C8 60%, 
+                #00A859 100%);
+            border-radius: 28px;
+            box-shadow: 
+                0 4px 20px rgba(0, 39, 77, 0.15),
+                0 20px 60px rgba(0, 85, 165, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Gradiente de texto actualizado */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--azul) 0%, var(--verde) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Estilo de tarjeta sólida (reemplaza .card) */
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0, 51, 160, 0.08);
+            border: 1px solid var(--gris-200);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 12px 48px rgba(0, 51, 160, 0.15);
+            border-color: var(--verde);
+            transform: translateY(-4px);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.6s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .icon-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .text-justify {
+            text-align: justify;
+        }
+        
+        /* Estilo de tarjeta interactiva actualizado */
+        .interactive-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gris-200);
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 4px 16px rgba(0, 51, 160, 0.08);
+        }
+        
+        .interactive-card:hover {
+            border-color: var(--azul);
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.12);
+        }
+        
+        .interactive-card.active {
+            border-color: var(--verde);
+            background-color: var(--verde-light);
+        }
+        
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul), var(--verde), var(--amarillo));
+            margin: 3rem 0;
+            border-radius: 2px;
+        }
+        
+        /* Estilo de stat-box actualizado */
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 4px 16px rgba(0, 51, 160, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gris-200);
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.12);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+        
+        /* Timeline actualizada */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            padding-bottom: 2rem;
+            border-left: 3px solid var(--azul-light);
+        }
+        
+        .timeline-item:last-child {
+            border-left-color: transparent;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.75rem;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--azul);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px var(--gris-50), 0 0 0 6px var(--azul);
+        }
+        
+        .quote-box {
+            border-left: 4px solid var(--amarillo);
+            background: var(--amarillo-light);
+            padding: 1.5rem;
+            border-radius: 0 16px 16px 0; /* Más redondeado */
+            font-style: italic;
+        }
+        
+        /* Botón actualizado */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul), var(--azul-hover));
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.3);
+        }
+        
+        /* Badge actualizado */
+        .concept-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--azul-light);
+            color: var(--azul);
+            border: 1px solid var(--azul);
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .concept-badge:hover {
+            background: var(--azul);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Acordeón actualizado y mejorado */
+        .accordion-header {
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none;
+            padding: 1.25rem;
+            background-color: var(--gris-50);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .accordion-header:hover {
+            background-color: var(--azul-light);
+            color: var(--azul);
+        }
+
+        .accordion-container {
+            border: 1px solid var(--gris-200);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .accordion-container:hover {
+            border-color: var(--gris-300);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Cuando el acordeón está activo */
+        .accordion-header.active {
+            background-color: var(--azul);
+            color: white;
+        }
+        
+        .accordion-header.active i {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-header i {
+            transition: transform 0.4s ease;
+            color: var(--azul);
+        }
+        /* El color del icono activo se hereda de .accordion-header.active { color: white; } */
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+            background: white;
+            color: var(--gris-700); /* Asegurar color de texto */
+        }
+        
+        .accordion-content.active {
+            max-height: 1000px;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-top: 1px solid var(--gris-200);
+        }
+        
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Progress Indicator -->
+    <div id="progress-indicator" class="progress-indicator"></div>
+    
+    <!-- Header -->
+    <header class="gradient-bg text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center fade-in">
+                <div class="text-5xl mb-3 icon-float">🚀</div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Bienvenido al Módulo 1</h1>
+                <p class="text-lg md:text-xl mb-2 font-semibold">Diagnóstico de competencias con IA generativa</p>
+                <p class="text-base opacity-90">Descubra cómo la inteligencia artificial puede ayudarle a identificar y comunicar sus competencias profesionales</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 max-w-6xl">
+        
+        <!-- Sección 1: El caso de Isabella Andrea -->
+        <section class="mb-8 fade-in">
+            <div class="card">
+                <div class="flex items-center mb-6">
+                    <div class="text-5xl mr-4">👩‍💼</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gradient">Conozca a Isabella Andrea</h2>
+                        <p class="text-gray-600 text-lg">Una profesional que enfrenta un desafío común</p>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-6">
+                    <div class="slide-in-left">
+                        <div class="p-6 rounded-lg border-l-4" style="border-color: var(--azul); background-color: var(--azul-light);">
+                            <h3 class="font-bold text-xl mb-3" style="color: var(--azul);">
+                                <i class="fas fa-briefcase mr-2"></i>Su experiencia
+                            </h3>
+                            <p class="text-gray-700 text-justify leading-relaxed mb-4">
+                                Isabella Andrea tiene más de 10 años de experiencia en roles administrativos y de gestión operativa. Ha coordinado equipos, optimizado procesos internos y supervisado proyectos de mediana envergadura.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle mr-2 mt-1" style="color: var(--verde);"></i>
+                                    <span class="text-sm text-gray-700">Coordinación de eventos corporativos</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle mr-2 mt-1" style="color: var(--verde);"></i>
+                                    <span class="text-sm text-gray-700">Gestión de presupuestos y proveedores</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle mr-2 mt-1" style="color: var(--verde);"></i>
+                                    <span class="text-sm text-gray-700">Liderazgo de equipos multidisciplinarios</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slide-in-right">
+                        <div class="p-6 rounded-lg border-l-4" style="border-color: var(--amarillo); background-color: var(--amarillo-light);">
+                            <h3 class="font-bold text-xl mb-3 text-yellow-800">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Su desafío
+                            </h3>
+                            <p class="text-gray-700 text-justify leading-relaxed mb-4">
+                                Isabella Andrea sabe que tiene experiencia valiosa, pero no sabe cómo identificar y comunicar sus competencias profesionales de manera estructurada. Enfrenta dos obstáculos:
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-times-circle mr-2 mt-1" style="color: var(--rojo);"></i>
+                                    <span class="text-sm text-gray-700">No reconoce todas las competencias que ha desarrollado en su trayectoria</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-times-circle mr-2 mt-1" style="color: var(--rojo);"></i>
+                                    <span class="text-sm text-gray-700">No sabe cómo expresar sus habilidades en lenguaje profesional estructurado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quote-box">
+                    <p class="text-gray-700 text-lg mb-2">
+                        "Sé que he hecho muchas cosas importantes en mi trabajo, pero cuando intento explicar qué competencias tengo, no encuentro las palabras adecuadas. ¿Cómo puedo hacer un diagnóstico claro de lo que realmente sé hacer?"
+                    </p>
+                    <p class="text-gray-600 font-semibold text-right">— Isabella Andrea</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 2: El problema es común -->
+        <section class="mb-8 fade-in">
+            <div class="card">
+                <div class="text-center mb-6">
+                    <div class="text-4xl mb-3">🌎</div>
+                    <h2 class="text-2xl font-bold text-gradient mb-2">Este desafío es más común de lo que cree</h2>
+                    <p class="text-gray-600">Miles de profesionales enfrentan la misma situación</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="stat-box">
+                        <div class="stat-number text-gradient">50%</div>
+                        <p class="text-gray-600 font-semibold mt-2">de la fuerza laboral podría acelerar al menos un 30% de sus tareas con IA generativa</p>
+                        <p class="text-xs text-gray-500 mt-2">(CEPAL, 2024)</p>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <div class="stat-number" style="color: var(--verde);">3 de 4</div>
+                        <p class="text-gray-600 font-semibold mt-2">profesionales no reconocen todas las competencias que han desarrollado en su carrera</p>
+                        <p class="text-xs text-gray-500 mt-2">(Deloitte, 2025)</p>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <div class="stat-number" style="color: var(--amarillo);">65%</div>
+                        <p class="text-gray-600 font-semibold mt-2">de las empresas ya utilizan IA en procesos de desarrollo de talento interno</p>
+                        <p class="text-xs text-gray-500 mt-2">(García Llamas, 2024)</p>
+                    </div>
+                </div>
+                
+                <div class="border-l-4 p-6 rounded-r-lg" style="border-color: var(--rojo); background-color: #FEF2F2;">
+                    <h3 class="font-bold text-xl mb-3" style="color: var(--rojo);">
+                        <i class="fas fa-lightbulb mr-2"></i>La brecha de autoconocimiento profesional
+                    </h3>
+                    <p class="text-gray-700 text-justify leading-relaxed">
+                        Muchos profesionales, como Isabella Andrea, poseen habilidades valiosas que han desarrollado a lo largo de su trayectoria, pero no saben cómo <strong>identificarlas, articularlas y comunicarlas</strong> de manera estructurada. Esta brecha entre la experiencia real y su representación consciente es precisamente donde la inteligencia artificial generativa puede marcar una diferencia significativa.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 3: ¿Qué es la IA generativa? -->
+        <section class="mb-8 fade-in">
+            <div class="card">
+                <div class="text-center mb-6">
+                    <div class="text-4xl mb-3">🤖</div>
+                    <h2 class="text-2xl font-bold text-gradient mb-2">¿Qué es la inteligencia artificial generativa?</h2>
+                    <p class="text-gray-600">Una tecnología que está transformando el análisis de competencias</p>
+                </div>
+                
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-lg mb-6 border border-gray-200">
+                    <p class="text-gray-700 text-justify leading-relaxed text-lg mb-4">
+                        La <strong>inteligencia artificial generativa</strong> (IA generativa) es una rama de la inteligencia artificial enfocada en crear contenido nuevo y original a partir de datos ya existentes. A diferencia de otros tipos de IA que solo clasifican o analizan información, la IA generativa puede <strong>producir textos, análisis y reformulaciones</strong> que antes requerían intervención humana directa (García Llamas, 2024).
+                    </p>
+                    <p class="text-gray-700 text-justify leading-relaxed text-lg">
+                        Esta tecnología funciona mediante <strong>modelos de lenguaje grandes</strong> (LLM, por sus siglas en inglés) que han sido entrenados con extensos conjuntos de datos textuales. Estos modelos aprenden a predecir la siguiente palabra más probable en una secuencia a partir del contexto anterior, lo que les permite generar texto coherente y gramaticalmente correcto (Cevallos et al., 2023).
+                    </p>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="font-bold text-2xl mb-4" style="color: var(--azul);">
+                        <i class="fas fa-cogs mr-2"></i>Conceptos clave para entender
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="concept-badge">
+                            <strong>Modelo de lenguaje:</strong> Sistema que procesa y genera texto en lenguaje natural
+                        </div>
+                        <div class="concept-badge">
+                            <strong>Entrenamiento:</strong> Proceso por el cual la IA aprende patrones de grandes cantidades de datos
+                        </div>
+                        <div class="concept-badge">
+                            <strong>Prompt:</strong> Instrucción o pregunta que se le da a la IA para obtener una respuesta
+                        </div>
+                        <div class="concept-badge">
+                            <strong>Contexto:</strong> Información previa que la IA usa para comprender mejor la solicitud
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-l-4 p-6 rounded-r-lg" style="border-color: var(--verde); background-color: var(--verde-light);">
+                    <h3 class="font-bold text-xl mb-3" style="color: var(--verde);">
+                        <i class="fas fa-check-circle mr-2"></i>Lo importante para usted
+                    </h3>
+                    <p class="text-gray-700 text-justify leading-relaxed">
+                        <strong>No necesita ser un experto en tecnología para usar IA generativa.</strong> Herramientas como ChatGPT, Claude o Gemini funcionan mediante conversaciones en lenguaje natural. Usted puede hacerles preguntas, darles instrucciones o pedirles que analicen información, y ellas responderán de manera comprensible y útil.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 4: ¿Cómo puede ayudarle la IA? -->
+        <section class="mb-8 fade-in">
+            <div class="card">
+                <div class="text-center mb-6">
+                    <div class="text-4xl mb-3">💡</div>
+                    <h2 class="text-2xl font-bold text-gradient mb-2">¿Cómo puede la IA generativa ayudarle?</h2>
+                    <p class="text-gray-600">Del desafío al diagnóstico profesional</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="font-bold text-xl mb-3" style="color: var(--azul);">
+                            <i class="fas fa-search mr-2"></i>Paso 1: Análisis de su experiencia
+                        </h3>
+                        <p class="text-gray-700 text-justify leading-relaxed">
+                            La IA generativa puede leer y analizar descripciones de su experiencia laboral, identificando <strong>habilidades implícitas</strong> que usted posee pero que tal vez no ha articulado explícitamente. Por ejemplo, si coordinó eventos, la IA reconocerá competencias en gestión de proyectos, negociación con proveedores y trabajo bajo presión.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="font-bold text-xl mb-3" style="color: var(--azul);">
+                            <i class="fas fa-map-marked-alt mr-2"></i>Paso 2: Mapeo de competencias
+                        </h3>
+                        <p class="text-gray-700 text-justify leading-relaxed">
+                            Una vez identificadas sus competencias, la IA puede ayudarle a <strong>organizarlas y categorizarlas</strong> según estándares profesionales reconocidos. Esto le permite ver un panorama completo de sus capacidades y cómo se relacionan entre sí.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="font-bold text-xl mb-3" style="color: var(--azul);">
+                            <i class="fas fa-language mr-2"></i>Paso 3: Traducción al lenguaje profesional
+                        </h3>
+                        <p class="text-gray-700 text-justify leading-relaxed">
+                            La IA puede reformular su experiencia utilizando <strong>lenguaje técnico y profesional estructurado</strong>. Por ejemplo, transformar "organicé reuniones semanales del equipo" en "lideré sesiones de coordinación interdepartamental para optimizar flujos de trabajo y facilitar la comunicación efectiva".
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="font-bold text-xl mb-3" style="color: var(--azul);">
+                            <i class="fas fa-chart-line mr-2"></i>Paso 4: Diagnóstico estructurado
+                        </h3>
+                        <p class="text-gray-700 text-justify leading-relaxed">
+                            Finalmente, la IA genera un <strong>diagnóstico profesional completo</strong> que muestra sus competencias identificadas, áreas de fortaleza y oportunidades de desarrollo. Este diagnóstico se convierte en una herramienta de autoconocimiento profesional.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 5: Ejemplo práctico -->
+        <section class="mb-8 fade-in">
+            <div class="card">
+                <div class="text-center mb-6">
+                    <div class="text-4xl mb-3">🎯</div>
+                    <h2 class="text-2xl font-bold text-gradient mb-2">Un ejemplo concreto</h2>
+                    <p class="text-gray-600">Cómo la IA transforma la experiencia de Isabella Andrea</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-100 p-6 rounded-lg border border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold mr-3">
+                                ❌
+                            </div>
+                            <h3 class="font-bold text-xl text-gray-800">Antes de usar IA</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <p class="text-sm text-gray-700"><strong>Descripción simple:</strong></p>
+                                <p class="text-sm text-gray-600 italic">"Organicé eventos corporativos y reuniones para el equipo."</p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <p class="text-sm text-gray-700"><strong>Problema:</strong></p>
+                                <p class="text-sm text-gray-600">No se identifican competencias específicas ni se usa lenguaje profesional estructurado.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 rounded-lg border-2" style="border-color: var(--verde); background-color: var(--verde-light);">
+                        <div class="flex items-center mb-4">
+                            <div class="text-white w-10 h-10 rounded-full flex items-center justify-center font-bold mr-3" style="background-color: var(--verde);">
+                                ✓
+                            </div>
+                            <h3 class="font-bold text-xl text-gray-800">Después de usar IA</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-white p-3 rounded border" style="border-color: var(--verde);">
+                                <p class="text-sm text-gray-700"><strong>Competencias identificadas:</strong></p>
+                                <p class="text-sm text-gray-600 italic">"Gestión de proyectos, coordinación de equipos multidisciplinarios, administración presupuestaria, negociación con proveedores y stakeholders, logística operacional."</p>
+                            </div>
+                            <div class="bg-white p-3 rounded border" style="border-color: var(--verde);">
+                                <p class="text-sm text-gray-700"><strong>Resultado:</strong></p>
+                                <p class="text-sm font-semibold" style="color: var(--verde);">7 competencias profesionales específicas claramente articuladas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 6: Qué aprenderá -->
+        <section class="mb-8 fade-in">
+            <div class="card">
+                <div class="text-center mb-6">
+                    <div class="text-4xl mb-3">📚</div>
+                    <h2 class="text-2xl font-bold text-gradient mb-2">¿Qué aprenderá en este módulo?</h2>
+                    <p class="text-gray-600">Objetivos de aprendizaje del Módulo 1</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="interactive-card bg-white p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="text-4xl mr-4">🎯</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2" style="color: var(--azul);">Identificar competencias ocultas</h3>
+                                <p class="text-gray-700 text-justify text-sm">
+                                    Aprenderá a usar la IA generativa para analizar descripciones de experiencia laboral y extraer habilidades que no están explícitamente articuladas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-card bg-white p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="text-4xl mr-4">🗺️</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2" style="color: var(--azul);">Mapear competencias</h3>
+                                <p class="text-gray-700 text-justify text-sm">
+                                    Aprenderá a organizar y categorizar competencias identificadas según criterios profesionales estructurados.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-card bg-white p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="text-4xl mr-4">💬</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2" style="color: var(--azul);">Usar lenguaje profesional</h3>
+                                <p class="text-gray-700 text-justify text-sm">
+                                    Aprenderá a reformular experiencia práctica utilizando vocabulario técnico y estructurado del ámbito profesional.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-card bg-white p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="text-4xl mr-4">📊</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2" style="color: var(--azul);">Crear un diagnóstico</h3>
+                                <p class="text-gray-700 text-justify text-sm">
+                                    Aprenderá a generar un diagnóstico profesional estructurado que documente competencias y áreas de desarrollo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-blue-600 to-green-600 text-white p-8 rounded-lg text-center shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4">🏆 Evaluación del módulo</h3>
+                    <p class="text-lg mb-4">
+                        Al finalizar, demostrará que puede utilizar la IA generativa para analizar experiencia laboral, extraer competencias relevantes y mapearlas con criterios profesionales para realizar un diagnóstico de competencias estructurado.
+                    </p>
+                    <div class="inline-block bg-white text-gray-800 px-6 py-2 rounded-full font-bold">
+                        Ponderación: 40% de la calificación final del curso
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 7: Preguntas frecuentes -->
+        <section class="mb-8 fade-in">
+            <div class="card">
+                <div class="text-center mb-6">
+                    <div class="text-4xl mb-3">❓</div>
+                    <h2 class="text-2xl font-bold text-gradient mb-2">Preguntas frecuentes</h2>
+                    <p class="text-gray-600">Aclarando dudas antes de comenzar</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="accordion-container">
+                        <div class="accordion-header" onclick="toggleAccordion(1)">
+                            <h3 class="font-bold">¿Necesito conocimientos previos de tecnología?</h3>
+                            <i id="icon-1" class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="accordion-1" class="accordion-content">
+                            <p class="text-gray-700 text-justify">
+                                <strong>No.</strong> Este curso está diseñado para personas sin conocimientos previos de inteligencia artificial. Las herramientas de IA generativa funcionan mediante conversaciones en lenguaje natural, por lo que si puede escribir un correo electrónico, puede usar IA generativa.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-container">
+                        <div class="accordion-header" onclick="toggleAccordion(2)">
+                            <h3 class="font-bold">¿La IA hará el diagnóstico por mí?</h3>
+                            <i id="icon-2" class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="accordion-2" class="accordion-content">
+                            <p class="text-gray-700 text-justify">
+                                <strong>No exactamente.</strong> La IA generativa es una <strong>herramienta de apoyo</strong>, no un reemplazo de su reflexión. Ella puede ayudarle a identificar y reformular competencias, pero usted debe revisar, validar y apropiarse del contenido. El autoconocimiento profesional requiere su participación activa (Cevallos et al., 2023).
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-container">
+                        <div class="accordion-header" onclick="toggleAccordion(3)">
+                            <h3 class="font-bold">¿Es ético usar IA para el diagnóstico de competencias?</h3>
+                            <i id="icon-3" class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="accordion-3" class="accordion-content">
+                            <p class="text-gray-700 text-justify mb-3">
+                                <strong>Sí, cuando se usa de manera responsable.</strong> El uso ético de IA implica:
+                            </p>
+                            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                                <li><strong>Honestidad:</strong> No inventar experiencias o competencias que no posee</li>
+                                <li><strong>Verificación:</strong> Revisar y validar toda la información generada por la IA</li>
+                                <li><strong>Autenticidad:</strong> Asegurarse de que el diagnóstico refleje su experiencia real</li>
+                                <li><strong>Privacidad:</strong> No compartir información confidencial con herramientas de IA</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-container">
+                        <div class="accordion-header" onclick="toggleAccordion(4)">
+                            <h3 class="font-bold">¿Qué herramientas de IA usaré?</h3>
+                            <i id="icon-4" class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="accordion-4" class="accordion-content">
+                            <p class="text-gray-700 text-justify">
+                                En este curso aprenderá a trabajar con herramientas de IA generativa como <strong>ChatGPT, Claude o Gemini</strong>. Estas herramientas son gratuitas en sus versiones básicas y accesibles desde cualquier navegador web. No necesita instalar software especial.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-container">
+                        <div class="accordion-header" onclick="toggleAccordion(5)">
+                            <h3 class="font-bold">¿Cuánto tiempo me tomará completar el módulo?</h3>
+                            <i id="icon-5" class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="accordion-5" class="accordion-content">
+                            <p class="text-gray-700 text-justify">
+                                El Módulo 1 está diseñado para completarse en <strong>aproximadamente 2-3 horas</strong>, incluyendo las actividades interactivas y la evaluación. Puede avanzar a su propio ritmo y retomar donde dejó en cualquier momento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 8: Cierre -->
+        <section class="mb-8 fade-in">
+            <div class="card text-center">
+                <div class="text-5xl mb-3">✅</div>
+                <h2 class="text-2xl font-bold text-gradient mb-3">Ha completado la introducción</h2>
+                <p class="text-gray-700 mb-4">
+                    Ahora que comprende los fundamentos de la IA generativa para el diagnóstico de competencias, está listo para la actividad interactiva donde pondrá en práctica estos conceptos.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Referencias -->
+        <section class="mb-12">
+            <div class="card bg-gray-100 border border-gray-200">
+                <h3 class="text-xl font-bold mb-4 text-gray-800">
+                    <i class="fas fa-book mr-2" style="color: var(--azul);"></i>Referencias bibliográficas
+                </h3>
+                <div class="text-sm text-gray-700 space-y-3">
+                    <p style="text-indent: -2rem; padding-left: 2rem;">
+                        Cevallos, A., Boruchowicz, C., López Boo, F., Coffey, C., & Lafortune, J. (2023). <em>IA generativa</em>. Banco Interamericano de Desarrollo. https://publications.iadb.org/es/ia-generativa
+                    </p>
+                    <p style="text-indent: -2rem; padding-left: 2rem;">
+                        Comisión Económica para América Latina y el Caribe. (2024). <em>Índice Latinoamericano de Inteligencia Artificial (ILIA) 2025</em>. https://www.cepal.org/es/proyectos/indice-latinoamericano-inteligencia-artificial-ilia
+                    </p>
+                    <p style="text-indent: -2rem; padding-left: 2rem;">
+                        Deloitte. (2025). <em>State of generative AI in the enterprise: Quarter four report</em>. https://www2.deloitte.com/us/en/pages/consulting/articles/state-of-generative-ai-in-enterprise.html
+                    </p>
+                    <p style="text-indent: -2rem; padding-left: 2rem;">
+                        García Llamas, J. J. (2024). Inteligencia artificial generativa (IAG): el nuevo paradigma en el diseño y producción de contenido. En <em>Aprendizaje y enseñanza en la era digital</em>. Editorial Universidad de Granada.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="text-white py-8 text-center" style="background: var(--azul-dark);">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center">
+                <p class="text-white/90 text-sm font-medium mb-2">
+                    Oficina de Inteligencia Artificial
+                </p>
+                <p class="text-white/70 text-sm mb-2">
+                    Vicerrectoría de Tecnologías de la Información
+                </p>
+                <p class="text-white/70 text-sm">
+                    Universidad de Chile
+                </p>
+                <p class="text-white/50 text-xs mt-3">
+                    © 2025 • Todos los derechos reservados
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-indicator').style.width = scrolled + '%';
+        });
+        
+        // Accordion functionality
+        function toggleAccordion(id) {
+            const content = document.getElementById(`accordion-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            const header = icon.closest('.accordion-header'); // Get the header
+            
+            // Toggle content
+            content.classList.toggle('active');
+            
+            // Toggle header style
+            header.classList.toggle('active');
+            
+            // El CSS se encarga de la rotación del icono basado en header.active
+        }
+        
+        // Interactive cards
+        document.querySelectorAll('.interactive-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Desactivar otras tarjetas si se quiere selección única
+                // document.querySelectorAll('.interactive-card').forEach(c => c.classList.remove('active'));
+                this.classList.toggle('active');
+            });
+        });
+        
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

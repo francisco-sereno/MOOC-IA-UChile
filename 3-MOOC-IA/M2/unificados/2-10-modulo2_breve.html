@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 2: Ingeniería de prompts - Autoevaluación formativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+        
+            --verde-light: #E6F5EB;
+            --amarillo-light: #FFF9E6;
+            --rojo-light: #FFE6E8;
+            --azul-light: #E6F2FF;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .animate-pulse-subtle {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Header mejorado con efecto shine */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Tarjetas mejoradas */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gris-200);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.2);
+            border-color: var(--azul);
+        }
+
+        /* Barra de progreso mejorada */
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, var(--amarillo), var(--verde));
+            box-shadow: 0 2px 8px rgba(255, 209, 0, 0.4);
+        }
+
+        /* Items de competencias mejorados */
+        .checkbox-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gris-200);
+            border-left-width: 4px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .checkbox-item:hover {
+            background: linear-gradient(135deg, rgba(255, 209, 0, 0.05), rgba(0, 168, 89, 0.05));
+            border-left-color: var(--amarillo);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .checkbox-item.checked {
+            background: linear-gradient(135deg, rgba(0, 168, 89, 0.08), rgba(0, 168, 89, 0.05));
+            border-left-color: var(--verde);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.15);
+        }
+        
+        input[type="checkbox"] {
+            accent-color: var(--verde);
+            transform: scale(1.4);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="checkbox"]:hover {
+            transform: scale(1.5);
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7C3AED, #6D28D9);
+            color: white;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Modal mejorado */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Accesibilidad mejorada */
+        .text-high-contrast {
+            color: var(--gris-800);
+            line-height: 1.8;
+            letter-spacing: 0.015em;
+        }
+
+        .focus-visible {
+            outline: 3px solid var(--azul);
+            outline-offset: 3px;
+        }
+
+        /* Adaptación para pantallas de 850px de alto */
+        @media (max-height: 850px) {
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .header-banner {
+                padding: 1.5rem;
+            }
+            
+            .card {
+                margin-bottom: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .checkbox-item {
+                padding: 0.875rem;
+            }
+        }
+
+        /* Mejoras para neurodivergencias */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Alto contraste */
+        .high-contrast {
+            background: white;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        /* Espaciado mejorado para lectura */
+        .spaced-text {
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+
+        /* Footer mejorado */
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            border-radius: 20px;
+            box-shadow: 0 -4px 20px rgba(0, 51, 160, 0.2);
+            color: white;
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--amarillo);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--azul-hover), var(--verde-hover));
+        }
+
+        /* Indicador de navegación */
+        .nav-indicator {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-indicator {
+                display: block;
+            }
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gris-300);
+            margin: 12px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--azul);
+            transform: scale(1.3);
+        }
+
+        .nav-dot:hover {
+            background: var(--verde);
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-2xl font-bold flex items-center gap-3">
+                    <span class="text-4xl">🤖</span>
+                    <span>Bienvenida al diagnóstico con Isabella Andrea</span>
+                </h2>
+                <p class="mt-2 opacity-90">Autoevaluación formativa de competencias en ingeniería de prompts</p>
+            </div>
+            
+            <div class="p-6">
+                <div class="space-y-6 text-high-contrast spaced-text">
+                    <div class="bg-gradient-to-r from-yellow-50 to-green-50 p-4 rounded-lg border-l-4 border-yellow-500">
+                        <h3 class="font-bold text-lg mb-2 flex items-center gap-2">
+                            <span>📋</span>
+                            <span>Instrucciones de uso</span>
+                        </h3>
+                        <ol class="space-y-3 ml-6 list-decimal">
+                            <li><strong>Actividad formativa:</strong> Esta evaluación no tiene calificación numérica. Su propósito es ayudarte a identificar áreas de mejora.</li>
+                            <li><strong>Autoevaluación honesta:</strong> Marca cada competencia solo si realmente la dominas en la práctica.</li>
+                            <li><strong>Competencias aplicadas:</strong> Evalúa tu capacidad real de aplicar ingeniería de prompts con Isabella Andrea.</li>
+                            <li><strong>Tiempo estimado:</strong> 3-5 minutos para completar las 10 competencias.</li>
+                            <li><strong>Reporte PDF:</strong> Al finalizar, puedes descargar un informe personalizado (opcional).</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                        <h3 class="font-bold text-lg mb-2 flex items-center gap-2">
+                            <span>♿</span>
+                            <span>Características de accesibilidad</span>
+                        </h3>
+                        <ul class="space-y-2 ml-6 list-disc">
+                            <li><strong>Alto contraste:</strong> Diseño optimizado para facilitar la lectura</li>
+                            <li><strong>Navegación por teclado:</strong> Usa Tab y Enter para navegar</li>
+                            <li><strong>Texto espaciado:</strong> Mayor legibilidad para neurodivergencias</li>
+                            <li><strong>Movimiento reducido:</strong> Respeta preferencias del sistema</li>
+                            <li><strong>Checkboxes grandes:</strong> Fácil interacción táctil y visual</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                        <h3 class="font-bold text-lg mb-2 flex items-center gap-2">
+                            <span>🎯</span>
+                            <span>Caso de estudio: Isabella Andrea</span>
+                        </h3>
+                        <p><strong>Isabella Andrea</strong> es un asistente virtual de IA generativa diseñado para ayudar en la transición profesional. A través de este módulo aprenderás a crear prompts efectivos para optimizar tu CV, cartas de presentación y preparación para entrevistas, aplicando las técnicas que Isabella Andrea utiliza para democratizar el acceso a herramientas profesionales.</p>
+                    </div>
+
+                    <div class="flex items-center gap-3 mt-6 p-4 bg-gray-50 rounded-lg">
+                        <input type="checkbox" id="dontShowAgain" class="scale-125">
+                        <label for="dontShowAgain" class="cursor-pointer font-medium">
+                            No volver a mostrar estas instrucciones
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-end">
+                    <button onclick="closeInstructions()" class="btn btn-primary px-6 py-3 text-lg">
+                        Comenzar evaluación
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-container">
+        <!-- Header con Isabella Andrea -->
+        <div class="header-banner mb-6 animate-fadeIn">
+            <div class="flex items-center justify-between flex-wrap gap-4 relative z-10">
+                <div class="flex items-center gap-4">
+                    <div class="text-6xl animate-pulse-subtle">🤖</div>
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                            Módulo 2: Ingeniería de prompts
+                        </h1>
+                        <p class="text-white text-lg opacity-90">
+                            Diagnóstico de competencias con Isabella Andrea
+                        </p>
+                    </div>
+                </div>
+                <button onclick="openInstructions()" class="btn bg-white text-blue-900 px-4 py-2 font-semibold hover:bg-yellow-400 transition-all">
+                    ℹ️ Ver instrucciones
+                </button>
+            </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="card p-6 mb-6 animate-fadeIn" style="animation-delay: 0.1s;">
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+                <div>
+                    <h2 class="text-xl font-bold" style="color: var(--azul);">Tu progreso de evaluación</h2>
+                    <p class="text-gray-600 mt-1">Autoevaluación formativa - 10 competencias</p>
+                </div>
+                <button onclick="generatePDF()" class="btn btn-primary px-5 py-3 text-sm">
+                    📄 Descargar reporte PDF
+                </button>
+            </div>
+            
+            <div class="bg-gray-200 rounded-full h-4 mb-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar h-full rounded-full" style="width: 0%;"></div>
+            </div>
+            <p class="text-center font-semibold text-gray-700">
+                <span id="progress-text">0/10 competencias completadas (0%)</span>
+            </p>
+        </div>
+
+        <!-- Nota importante -->
+        <div class="card p-5 mb-6 border-l-4 animate-fadeIn" style="border-left-color: var(--amarillo); animation-delay: 0.2s;">
+            <div class="flex items-start gap-4">
+                <div class="text-3xl">💡</div>
+                <div class="text-high-contrast spaced-text">
+                    <p class="font-semibold mb-2" style="color: var(--amarillo-dark);">Importante sobre esta actividad formativa</p>
+                    <p class="text-gray-700">
+                        Esta autoevaluación es <strong>solo para tu reflexión personal</strong>. No tiene calificación numérica ni impacta en tu avance en el curso. 
+                        Su propósito es ayudarte a identificar qué técnicas de prompt engineering necesitas practicar más con Isabella Andrea 
+                        para optimizar tu proceso de transición profesional.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competencias -->
+        <div class="card p-6 mb-6 animate-fadeIn" style="animation-delay: 0.3s;">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold mb-2" style="color: var(--azul);">
+                    Competencias en ingeniería de prompts
+                </h3>
+                <p class="text-gray-600 text-lg spaced-text">
+                    Marca las competencias que ya dominas en tu trabajo con Isabella Andrea:
+                </p>
+            </div>
+            
+            <div id="competencias-container" class="space-y-4"></div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="resultado-card" class="card p-8 hidden animate-scaleIn">
+            <h3 class="text-2xl font-bold mb-6 text-center" style="color: var(--verde);">
+                🎯 Tu diagnóstico de competencias
+            </h3>
+            <div id="resultado-content" class="text-center"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="max-w-3xl mx-auto">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="flex items-center gap-2 text-2xl">
+                        <span>🏛️</span>
+                        <span class="font-bold">Universidad de Chile</span>
+                    </div>
+                    <div class="text-sm opacity-90">
+                        <strong>Oficina de Inteligencia Artificial</strong><br>
+                        Vicerrectoría de Tecnologías de la Información
+                    </div>
+                    <div class="text-sm opacity-75 mt-2">
+                        Universidad de Chile © 2025 • Todos los derechos reservados
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const competencias = [
+            { id: 'C1', text: 'Comprendo qué es un prompt y su función en la interacción con IA generativa.' },
+            { id: 'C2', text: 'Conozco la estructura básica de un prompt efectivo (contexto, instrucción, formato).' },
+            { id: 'C3', text: 'Sé cómo usar ejemplos para mejorar la calidad de las respuestas de IA.' },
+            { id: 'C4', text: 'Puedo solicitar a la IA que analice y extraiga competencias de mi historial laboral.' },
+            { id: 'C5', text: 'Sé formular prompts para convertir funciones en logros cuantificables.' },
+            { id: 'C6', text: 'Comprendo cómo adaptar mi CV a descripciones de cargo específicas usando IA.' },
+            { id: 'C7', text: 'Puedo generar cartas de presentación personalizadas y persuasivas con IA.' },
+            { id: 'C8', text: 'Comprendo qué son los sistemas ATS y cómo optimizar documentos para ellos.' },
+            { id: 'C9', text: 'Sé identificar y usar palabras clave relevantes de ofertas laborales.' },
+            { id: 'C10', text: 'Puedo verificar y editar efectivamente los resultados generados por IA.' }
+        ];
+
+        let estado = {};
+
+        // Cargar estado desde localStorage
+        function cargarEstado() {
+            const estadoGuardado = localStorage.getItem('modulo2_competencias_estado');
+            if (estadoGuardado) {
+                try {
+                    estado = JSON.parse(estadoGuardado);
+                } catch (e) {
+                    estado = {};
+                }
+            }
+        }
+
+        // Guardar estado en localStorage
+        function guardarEstado() {
+            localStorage.setItem('modulo2_competencias_estado', JSON.stringify(estado));
+        }
+
+        function inicializar() {
+            cargarEstado();
+            const container = document.getElementById('competencias-container');
+            
+            competencias.forEach((comp, index) => {
+                if (estado[comp.id] === undefined) {
+                    estado[comp.id] = false;
+                }
+                
+                const item = document.createElement('div');
+                item.className = 'checkbox-item p-4 rounded-xl';
+                item.id = `item-${comp.id}`;
+                item.style.animationDelay = `${index * 0.05}s`;
+                item.classList.add('animate-slideIn');
+                
+                if (estado[comp.id]) {
+                    item.classList.add('checked');
+                }
+                
+                item.innerHTML = `
+                    <label class="flex items-start cursor-pointer">
+                        <input type="checkbox" id="${comp.id}" ${estado[comp.id] ? 'checked' : ''} onchange="toggleCompetencia('${comp.id}')" class="mt-1 mr-4">
+                        <span class="text-gray-800 font-medium spaced-text flex-1">
+                            <strong style="color: var(--azul);">${index + 1}.</strong> ${comp.text}
+                        </span>
+                    </label>
+                `;
+                
+                container.appendChild(item);
+            });
+            
+            actualizarProgreso();
+        }
+
+        function toggleCompetencia(id) {
+            estado[id] = !estado[id];
+            guardarEstado();
+            
+            const item = document.getElementById(`item-${id}`);
+            const checkbox = document.getElementById(id);
+            
+            if (estado[id]) {
+                item.classList.add('checked');
+                checkbox.checked = true;
+            } else {
+                item.classList.remove('checked');
+                checkbox.checked = false;
+            }
+            
+            actualizarProgreso();
+        }
+
+        function actualizarProgreso() {
+            const total = competencias.length;
+            const completados = Object.values(estado).filter(v => v).length;
+            const porcentaje = Math.round((completados / total) * 100);
+            
+            document.getElementById('progress-bar').style.width = `${porcentaje}%`;
+            document.getElementById('progress-text').textContent = 
+                `${completados}/${total} competencias completadas (${porcentaje}%)`;
+            
+            if (completados > 0) {
+                mostrarResultado(completados, total);
+            } else {
+                document.getElementById('resultado-card').classList.add('hidden');
+            }
+        }
+
+        function mostrarResultado(completados, total) {
+            const resultadoCard = document.getElementById('resultado-card');
+            const resultadoContent = document.getElementById('resultado-content');
+            
+            let nivel, color, emoji, descripcion, recomendacion;
+            
+            if (completados >= 9) {
+                nivel = '🏆 Excelente';
+                color = 'text-green-600';
+                emoji = '🌟';
+                descripcion = 'Tu dominio de ingeniería de prompts es <strong>sobresaliente</strong>. Puedes crear prompts altamente efectivos para optimizar CV, cartas de presentación y preparación de entrevistas con Isabella Andrea.';
+                recomendacion = 'Sigue perfeccionando tus habilidades y comparte tu experiencia con otros. Estás listo para aplicar técnicas avanzadas de prompt engineering en contextos profesionales complejos.';
+            } else if (completados >= 7) {
+                nivel = '👍 Muy bueno';
+                color = 'text-blue-600';
+                emoji = '💪';
+                descripcion = 'Tienes una <strong>comprensión sólida</strong> de ingeniería de prompts. Con práctica adicional en las áreas identificadas, podrás alcanzar un nivel experto.';
+                recomendacion = 'Refuerza las competencias pendientes con ejercicios prácticos. Experimenta con diferentes estructuras de prompts y analiza los resultados que obtienes de Isabella Andrea.';
+            } else if (completados >= 5) {
+                nivel = '📚 Sólido';
+                color = 'text-yellow-600';
+                emoji = '🎯';
+                descripcion = 'Posees los <strong>fundamentos</strong> de ingeniería de prompts. Tienes una base que te permite comenzar a aplicar estas técnicas en contextos reales.';
+                recomendacion = 'Practica intensivamente con casos reales de tu propia experiencia laboral. Experimenta con diferentes estructuras de prompts y refina tus técnicas con Isabella Andrea.';
+            } else {
+                nivel = '🌱 Por desarrollar';
+                color = 'text-orange-600';
+                emoji = '📖';
+                descripcion = 'Te encuentras en <strong>etapa inicial</strong> de aprendizaje. Este es el momento perfecto para fortalecer tus bases en ingeniería de prompts.';
+                recomendacion = 'Revisa cuidadosamente los materiales del módulo. Experimenta con las herramientas de IA disponibles y practica la formulación de prompts estructurados antes de aplicarlos a tu búsqueda laboral real.';
+            }
+            
+            resultadoContent.innerHTML = `
+                <div class="mb-6">
+                    <div class="text-6xl mb-4">${emoji}</div>
+                    <div class="text-5xl font-bold mb-3">${completados}/${total}</div>
+                    <div class="text-2xl font-bold ${color} mb-3">${nivel}</div>
+                    <div class="text-gray-600 text-lg">${Math.round((completados/total)*100)}% de competencias dominadas</div>
+                </div>
+                <div class="max-w-2xl mx-auto text-left space-y-4">
+                    <div class="bg-gradient-to-r from-blue-50 to-green-50 p-5 rounded-xl border-l-4" style="border-left-color: var(--azul);">
+                        <p class="text-gray-700 mb-3 text-high-contrast spaced-text">${descripcion}</p>
+                        <p class="text-gray-600 text-sm spaced-text"><strong>Recomendación:</strong> ${recomendacion}</p>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500">
+                        <p class="text-sm text-gray-700 spaced-text">
+                            <strong class="text-yellow-800">💡 Siguiente paso:</strong> 
+                            Descarga tu reporte en PDF para llevar un registro de tu progreso y revisarlo cuando quieras reforzar alguna competencia específica.
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            resultadoCard.classList.remove('hidden');
+            resultadoCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function generatePDF() {
+            const completados = Object.values(estado).filter(v => v).length;
+            const porcentaje = Math.round((completados / 10) * 100);
+            
+            let nivel, nivelBg;
+            if (completados >= 9) {
+                nivel = 'Excelente';
+                nivelBg = '#00A859';
+            } else if (completados >= 7) {
+                nivel = 'Muy bueno';
+                nivelBg = '#0055A5';
+            } else if (completados >= 5) {
+                nivel = 'Sólido';
+                nivelBg = '#E6BC00';
+            } else {
+                nivel = 'Por desarrollar';
+                nivelBg = '#FF9800';
+            }
+            
+            let interpretacion;
+            if (completados >= 9) {
+                interpretacion = 'Tu dominio de ingeniería de prompts es sobresaliente. Puedes crear prompts altamente efectivos para optimizar CV, cartas de presentación y preparación de entrevistas con Isabella Andrea.';
+            } else if (completados >= 7) {
+                interpretacion = 'Tienes una comprensión sólida de ingeniería de prompts. Con práctica adicional en las áreas identificadas, podrás alcanzar un nivel experto.';
+            } else if (completados >= 5) {
+                interpretacion = 'Posees los fundamentos de ingeniería de prompts. Te recomendamos practicar intensivamente con casos reales de tu experiencia laboral.';
+            } else {
+                interpretacion = 'Te encuentras en etapa inicial. Revisa cuidadosamente los materiales del módulo y practica la formulación de prompts estructurados.';
+            }
+            
+            const dateStr = new Date().toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const competenciasContent = competencias.map((comp, index) => {
+                const isChecked = estado[comp.id];
+                const mark = isChecked ? '[X]' : '[  ]';
+                return {
+                    columns: [
+                        { text: mark, width: 28, fontSize: 10, color: isChecked ? '#00A859' : '#888888', bold: isChecked },
+                        { text: (index + 1) + '. ' + comp.text, fontSize: 9, color: isChecked ? '#1A1A1A' : '#555555', bold: isChecked }
+                    ],
+                    columnGap: 5,
+                    margin: [0, 0, 0, 5]
+                };
+            });
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Diagnóstico con Isabella Andrea', fontSize: 20, bold: true, color: '#FFFFFF', alignment: 'center' },
+                                        { text: 'Módulo 2: Ingeniería de prompts', fontSize: 12, color: '#FFFFFF', alignment: 'center', margin: [0, 5, 0, 0] },
+                                        { text: 'Autoevaluación formativa', fontSize: 10, color: '#FFFFFF', alignment: 'center', margin: [0, 3, 0, 0] }
+                                    ],
+                                    fillColor: '#0055A5',
+                                    margin: [20, 18, 20, 18]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    { text: 'Fecha de realización: ' + dateStr, fontSize: 9, color: '#666666', margin: [0, 0, 0, 15] },
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Resultado de la autoevaluación', fontSize: 13, bold: true, color: '#0055A5', alignment: 'center' },
+                                        { text: completados + '/10', fontSize: 38, bold: true, color: '#0055A5', alignment: 'center', margin: [0, 10, 0, 5] },
+                                        { text: porcentaje + '% de competencias dominadas', fontSize: 10, color: '#666666', alignment: 'center' }
+                                    ],
+                                    fillColor: '#FFFCF0',
+                                    margin: [15, 15, 15, 15]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                { text: 'Nivel alcanzado: ' + nivel, fontSize: 13, bold: true, color: '#FFFFFF', alignment: 'center', fillColor: nivelBg, margin: [15, 10, 15, 10] }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 20]
+                    },
+                    { text: 'Detalle de competencias evaluadas', fontSize: 12, bold: true, color: '#0055A5', margin: [0, 0, 0, 12] },
+                    ...competenciasContent,
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Interpretación y recomendaciones', fontSize: 12, bold: true, color: '#0055A5', margin: [0, 0, 0, 8] },
+                                        { text: interpretacion, fontSize: 9, color: '#333333', lineHeight: 1.5 }
+                                    ],
+                                    fillColor: '#FFF9E6',
+                                    margin: [15, 12, 15, 12]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 20, 0, 0]
+                    }
+                ],
+                footer: function(currentPage, pageCount) {
+                    return {
+                        stack: [
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información', fontSize: 7, color: '#888888', alignment: 'center' },
+                            { text: 'Universidad de Chile © 2025', fontSize: 7, color: '#888888', alignment: 'center', margin: [0, 2, 0, 0] }
+                        ],
+                        margin: [40, 10, 40, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('Isabella_Andrea_Modulo2_Autoevaluacion_' + new Date().toISOString().split('T')[0] + '.pdf');
+        }
+
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('modulo2_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            inicializar();
+            
+            const hasSeenInstructions = localStorage.getItem('modulo2_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Accesibilidad: navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            // ESC para cerrar modal
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+
+        // Prevenir cierre accidental del navegador si hay progreso
+        window.addEventListener('beforeunload', function(e) {
+            const completados = Object.values(estado).filter(v => v).length;
+            if (completados > 0 && completados < 10) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
+</body>
+</html>

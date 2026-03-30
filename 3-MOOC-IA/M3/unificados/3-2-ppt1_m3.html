@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los 5 desafíos éticos de la IA en el desarrollo profesional - Módulo 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #00274D 0%, #0055A5 50%, #00A859 100%);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal */
+        .contenedor-guia {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 51, 160, 0.35);
+            overflow: hidden;
+            max-height: 850px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            padding: 1.5rem 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Pasos */
+        .paso {
+            display: none;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease-in-out;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .paso.activo {
+            display: block;
+        }
+
+        .titulo-paso {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--azul);
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .subtitulo-paso {
+            font-size: 1.125rem;
+            color: var(--gris-600);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Tarjetas mejoradas */
+        .tarjeta {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 2px solid var(--gris-200);
+            height: 100%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tarjeta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.25);
+            border-color: var(--azul);
+        }
+
+        /* Botones mejorados */
+        .boton {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 0.875rem 1.75rem;
+            background: linear-gradient(135deg, var(--azul), var(--azul-hover));
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.3);
+            font-size: 0.95rem;
+        }
+
+        .boton:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 85, 165, 0.4);
+            background: linear-gradient(135deg, var(--azul-hover), var(--azul-dark));
+        }
+
+        .boton:disabled {
+            background: var(--gris-300);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
+        /* Barra de progreso */
+        .barra-progreso-fondo {
+            background-color: var(--gris-200);
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+
+        .barra-progreso-relleno {
+            background: linear-gradient(90deg, var(--verde), var(--verde-hover));
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+            position: relative;
+        }
+
+        .barra-progreso-relleno::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        /* Badge del personaje */
+        .badge-natalia {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--azul) 0%, var(--verde) 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Puntos de gamificación */
+        .puntos-gamificacion {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 85, 165, 0.25);
+            z-index: 1000;
+            border: 2px solid var(--verde);
+        }
+
+        /* Iconos de conceptos */
+        .icono-concepto {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Citas y referencias */
+        .citation {
+            font-size: 0.875rem;
+            color: var(--gris-600);
+            font-style: italic;
+            margin-top: 1rem;
+            padding-left: 1rem;
+            border-left: 3px solid var(--verde);
+        }
+
+        /* Cajas especiales */
+        .reflexion-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFBF0 100%);
+            border-left: 4px solid var(--amarillo);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .conexion-natalia {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8F4 100%);
+            border-left: 4px solid var(--verde);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.3s ease-out;
+            position: relative;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--rojo);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--rojo-hover);
+            transform: rotate(90deg);
+        }
+
+        .instruction-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--gris-50);
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--azul);
+        }
+
+        .instruction-icon {
+            font-size: 1.5rem;
+            color: var(--azul);
+            flex-shrink: 0;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--gris-50);
+            border-radius: 0.5rem;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 2px solid var(--gris-200);
+            background: var(--gris-50);
+            padding: 1.25rem 2rem;
+        }
+
+        .footer-info {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--gris-100);
+            color: var(--gris-700);
+            font-size: 0.875rem;
+            border-top: 2px solid var(--gris-200);
+        }
+
+        /* Accesibilidad mejorada */
+        .text-high-contrast {
+            color: var(--gris-800);
+            line-height: 1.7;
+        }
+
+        /* Enfoque visible para teclado */
+        *:focus {
+            outline: 3px solid var(--amarillo);
+            outline-offset: 2px;
+        }
+
+        .boton:focus {
+            outline: 3px solid var(--amarillo);
+        }
+
+        /* Adaptación a altura de 850px */
+        @media (max-height: 850px) {
+            .contenedor-guia {
+                max-height: 90vh;
+            }
+            
+            .paso {
+                padding: 1.5rem;
+            }
+            
+            .titulo-paso {
+                font-size: 1.625rem;
+            }
+            
+            .tarjeta {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Mejoras para neurodivergencias */
+        .texto-claro {
+            line-height: 1.8;
+            letter-spacing: 0.015em;
+        }
+
+        /* Reducir movimiento si el usuario lo prefiere */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Scrollbar personalizado */
+        .paso::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .paso::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 10px;
+        }
+
+        .paso::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 10px;
+        }
+
+        .paso::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeInstructions()" aria-label="Cerrar instrucciones">×</button>
+            
+            <div class="modal-header">
+                <h2 class="text-2xl font-bold mb-2">📚 Instrucciones de navegación</h2>
+                <p class="text-sm opacity-90">Aprende a usar esta presentación interactiva</p>
+            </div>
+
+            <div>
+                <div class="instruction-item">
+                    <span class="instruction-icon">🎯</span>
+                    <div class="texto-claro">
+                        <strong class="block mb-1">Navegación principal</strong>
+                        <p class="text-sm text-gray-600">Usa los botones "Anterior" y "Siguiente" en la parte inferior para avanzar entre los pasos de la presentación.</p>
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <span class="instruction-icon">📊</span>
+                    <div class="texto-claro">
+                        <strong class="block mb-1">Barra de progreso</strong>
+                        <p class="text-sm text-gray-600">En la parte superior verás tu avance a través de los 5 desafíos éticos. La barra se llenará conforme avances.</p>
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <span class="instruction-icon">🎮</span>
+                    <div class="texto-claro">
+                        <strong class="block mb-1">Sistema de gamificación</strong>
+                        <p class="text-sm text-gray-600">Gana 100 puntos por cada paso completado. Al finalizar habrás acumulado 500 puntos.</p>
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <span class="instruction-icon">🤖</span>
+                    <div class="texto-claro">
+                        <strong class="block mb-1">Caso de Isabella Andrea</strong>
+                        <p class="text-sm text-gray-600">A lo largo de la presentación verás conexiones con el caso de Isabella Andrea, un asistente de IA en transición laboral.</p>
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <span class="instruction-icon">⌨️</span>
+                    <div class="texto-claro">
+                        <strong class="block mb-1">Accesibilidad</strong>
+                        <p class="text-sm text-gray-600">Puedes navegar con el teclado (Tab, Enter, Escape). Los elementos importantes tienen alto contraste y enfoque visible.</p>
+                    </div>
+                </div>
+
+                <div class="instruction-item">
+                    <span class="instruction-icon">💡</span>
+                    <div class="texto-claro">
+                        <strong class="block mb-1">Reflexiona mientras avanzas</strong>
+                        <p class="text-sm text-gray-600">Cada desafío incluye preguntas clave para tu reflexión personal. Tómate tu tiempo para considerar las implicaciones éticas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="dontShowAgain" />
+                <label for="dontShowAgain" class="text-sm cursor-pointer">No mostrar estas instrucciones nuevamente</label>
+            </div>
+
+            <button class="boton w-full mt-4" onclick="closeInstructions()">
+                <i class="fas fa-check mr-2"></i>Entendido, comenzar
+            </button>
+        </div>
+    </div>
+
+    <!-- Puntos de gamificación -->
+    <div class="puntos-gamificacion">
+        <div class="flex items-center gap-2">
+            <i class="fas fa-trophy text-yellow-500 text-2xl"></i>
+            <div>
+                <div class="text-xs text-gray-500 uppercase tracking-wide">Puntos</div>
+                <div class="text-2xl font-bold text-gray-800" id="puntos">0</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="contenedor-guia">
+        
+        <!-- Header con barra de progreso -->
+        <header class="header-banner">
+            <div class="relative z-10">
+                <div class="flex justify-between items-center mb-3">
+                    <h1 class="text-xl font-bold">Módulo 3: Ética y responsabilidad en IA</h1>
+                    <button onclick="openInstructions()" class="bg-white/20 hover:bg-white/30 transition px-3 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2" aria-label="Ver instrucciones">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Instrucciones</span>
+                    </button>
+                </div>
+                <div class="barra-progreso-fondo">
+                    <div id="barra-progreso" class="barra-progreso-relleno" style="width: 0%"></div>
+                </div>
+                <div class="text-sm mt-2 opacity-90" id="contador-pasos"></div>
+            </div>
+        </header>
+
+        <main style="flex-grow: 1; overflow: hidden; display: flex; flex-direction: column;">
+            
+            <!-- Paso 0: Portada -->
+            <div class="paso activo" id="paso-0">
+                <div class="text-center py-8">
+                    <span class="icono-concepto">⚖️</span>
+                    <h1 class="titulo-paso text-4xl mb-4">Los 5 desafíos éticos de la IA en el desarrollo profesional</h1>
+                    <p class="subtitulo-paso text-lg mb-6">Una guía reflexiva para el uso responsable de inteligencia artificial generativa</p>
+                    
+                    <div class="max-w-2xl mx-auto">
+                        <div class="badge-natalia">
+                            <i class="fas fa-robot"></i>
+                            <span>Caso de estudio: Isabella Andrea en transición laboral</span>
+                        </div>
+                        
+                        <div class="tarjeta text-left">
+                            <h3 class="font-bold text-xl mb-4 text-center" style="color: var(--azul);">Sobre esta presentación</h3>
+                            <p class="texto-claro mb-4">Esta presentación interactiva explora los cinco desafíos éticos fundamentales que enfrentan los profesionales al usar herramientas de IA generativa para su desarrollo profesional.</p>
+                            
+                            <div class="grid gap-3 text-sm">
+                                <div class="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
+                                    <i class="fas fa-graduation-cap text-blue-600 text-xl mt-1"></i>
+                                    <div>
+                                        <strong>Módulo:</strong> Módulo 3 - Ética y responsabilidad en IA
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                                    <i class="fas fa-clock text-green-600 text-xl mt-1"></i>
+                                    <div>
+                                        <strong>Duración estimada:</strong> 15-20 minutos
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-purple-50 rounded-lg">
+                                    <i class="fas fa-gamepad text-purple-600 text-xl mt-1"></i>
+                                    <div>
+                                        <strong>Gamificación:</strong> Gana hasta 500 puntos
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="boton mt-8 text-lg px-8 py-4" onclick="irAPaso(1)">
+                        <i class="fas fa-play mr-2"></i>Comenzar presentación
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paso 1: Video introductorio -->
+            <div class="paso" id="paso-1">
+                <span class="badge-natalia">
+                    <i class="fas fa-play-circle"></i>
+                    Video introductorio
+                </span>
+                
+                <h2 class="titulo-paso">🎥 Ética en la IA generativa</h2>
+                <p class="subtitulo-paso">Video introductorio sobre los desafíos éticos</p>
+                
+                <div class="tarjeta">
+                    <div style="padding:56.25% 0 0 0;position:relative;">
+                        <iframe src="https://player.vimeo.com/video/1133329658?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:0.75rem;" title="course-v1:openuchile+VTI-AIA+2025_1_Etica_en_la_IA_Generativa"></iframe>
+                    </div>
+                    <script src="https://player.vimeo.com/api/player.js"></script>
+                </div>
+
+                <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                    <p class="texto-claro text-sm text-center">
+                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                        Tómate tu tiempo para ver el video completo antes de continuar con los desafíos éticos.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Paso 2: Privacidad y protección de datos -->
+            <div class="paso" id="paso-2">
+                <span class="badge-natalia">
+                    <i class="fas fa-shield-alt"></i>
+                    Desafío #1 de 5
+                </span>
+                
+                <h2 class="titulo-paso">🔒 Privacidad y protección de datos</h2>
+                <p class="subtitulo-paso">¿Qué información estamos compartiendo y con quién?</p>
+                
+                <div class="tarjeta mb-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--azul);">
+                        <i class="fas fa-exclamation-triangle"></i>El desafío
+                    </h3>
+                    <p class="texto-claro leading-relaxed">Cuando usamos herramientas de IA generativa para mejorar nuestro currículum o carta de presentación, estamos compartiendo información personal sensible: historial laboral, logros, habilidades, e incluso aspiraciones profesionales.</p>
+                    <p class="texto-claro leading-relaxed mt-3">La pregunta fundamental es: <strong>¿dónde va esa información, quién puede acceder a ella, y cómo será utilizada?</strong></p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--rojo);">
+                            <i class="fas fa-database"></i>Riesgos potenciales
+                        </h3>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>Recopilación no transparente de datos personales y profesionales</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>Uso de nuestra información para entrenar modelos sin consentimiento explícito</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>Posible compartición con terceros o venta de datos agregados</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>Brechas de seguridad que expongan información confidencial</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--verde);">
+                            <i class="fas fa-shield-alt"></i>Buenas prácticas
+                        </h3>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Leer detenidamente las políticas de privacidad y términos de uso</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Anonimizar datos sensibles antes de ingresarlos (nombres, empresas específicas)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Optar por servicios que garanticen no usar tus datos para entrenamiento</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Verificar si el proveedor cumple con regulaciones de protección de datos</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="reflexion-box">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-lightbulb"></i>Pregunta de reflexión
+                    </h4>
+                    <p class="texto-claro text-sm">¿Estás dispuesto/a a que tu información profesional sea parte del conjunto de datos de entrenamiento de una IA? ¿Qué implicaciones tiene esto para tu privacidad a largo plazo?</p>
+                </div>
+
+                <div class="conexion-natalia">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-link"></i>Conexión con el caso de Isabella Andrea
+                    </h4>
+                    <p class="texto-claro text-sm">Isabella Andrea, como asistente en transición laboral, debe manejar información sensible sobre trayectorias profesionales. Un diseño ético requeriría: procesamiento local de datos, anonimización de información personal, y control total del usuario sobre qué datos se comparten y con quién.</p>
+                </div>
+
+                <p class="citation">
+                    Reglamento General de Protección de Datos (GDPR, 2018): "Los datos personales deben ser tratados de forma lícita, leal y transparente en relación con el interesado"
+                </p>
+            </div>
+
+            <!-- Paso 3: Sesgos algorítmicos -->
+            <div class="paso" id="paso-3">
+                <span class="badge-natalia">
+                    <i class="fas fa-balance-scale"></i>
+                    Desafío #2 de 5
+                </span>
+                
+                <h2 class="titulo-paso">⚖️ Sesgos algorítmicos y equidad</h2>
+                <p class="subtitulo-paso">¿La IA reproduce desigualdades existentes?</p>
+                
+                <div class="tarjeta mb-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--azul);">
+                        <i class="fas fa-info-circle"></i>El problema del sesgo
+                    </h3>
+                    <p class="texto-claro leading-relaxed">Los modelos de IA generativa aprenden de grandes volúmenes de texto que reflejan patrones históricos de la sociedad, incluyendo sus prejuicios y desigualdades. Cuando usamos estas herramientas para presentarnos profesionalmente, podríamos estar perpetuando inadvertidamente estos sesgos.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--rojo);">
+                            <i class="fas fa-exclamation-triangle"></i>Tipos de sesgos
+                        </h3>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-red-500 mt-1"></i>
+                                <span><strong>Sesgo de género:</strong> Asociaciones entre roles laborales y géneros específicos</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-red-500 mt-1"></i>
+                                <span><strong>Sesgo de edad:</strong> Preferencias implícitas por ciertos grupos etarios</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-red-500 mt-1"></i>
+                                <span><strong>Sesgo cultural:</strong> Suposiciones basadas en contextos culturales dominantes</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-red-500 mt-1"></i>
+                                <span><strong>Sesgo socioeconómico:</strong> Lenguaje que favorece ciertos entornos educativos o laborales</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--verde);">
+                            <i class="fas fa-user-check"></i>Estrategias de mitigación
+                        </h3>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Revisar críticamente las sugerencias de la IA buscando estereotipos</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Reescribir contenido que refuerce asociaciones problemáticas</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Ser explícito sobre inclusión y diversidad en los prompts</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Contrastar con perspectivas diversas antes de finalizar</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="reflexion-box">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-lightbulb"></i>Pregunta de reflexión
+                    </h4>
+                    <p class="texto-claro text-sm">Si la IA sugiere lenguaje o enfoques que parecen reforzar estereotipos sobre tu profesión, género, edad o background, ¿cómo respondes? ¿Aceptas la sugerencia por conveniencia o la cuestionas?</p>
+                </div>
+
+                <div class="conexion-natalia">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-link"></i>Conexión con el caso de Isabella Andrea
+                    </h4>
+                    <p class="texto-claro text-sm">Isabella Andrea debe ser especialmente consciente de los sesgos en el lenguaje profesional. Por ejemplo, evitar asociar automáticamente ciertas habilidades con géneros específicos, o asumir que ciertos perfiles son "más apropiados" para determinados roles basándose en patrones históricos discriminatorios.</p>
+                </div>
+
+                <p class="citation">
+                    UNESCO (2021, p. 12): "Los sistemas de IA deben ser diseñados para promover la inclusión y respetar la diversidad... minimizando sesgos injustos y discriminación"
+                </p>
+            </div>
+
+            <!-- Paso 4: Transparencia y explicabilidad -->
+            <div class="paso" id="paso-4">
+                <span class="badge-natalia">
+                    <i class="fas fa-search"></i>
+                    Desafío #3 de 5
+                </span>
+                
+                <h2 class="titulo-paso">🔍 Transparencia y explicabilidad</h2>
+                <p class="subtitulo-paso">¿Entendemos cómo y por qué la IA genera sus sugerencias?</p>
+                
+                <div class="tarjeta mb-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--azul);">
+                        <i class="fas fa-brain"></i>La "caja negra" de la IA
+                    </h3>
+                    <p class="texto-claro leading-relaxed">Los modelos de lenguaje de gran escala son sistemas extremadamente complejos. A menudo, ni siquiera sus propios creadores pueden explicar completamente por qué generan una respuesta específica. Esta falta de transparencia plantea desafíos significativos.</p>
+                    <p class="texto-claro leading-relaxed mt-3">Cuando la IA reformula tu experiencia profesional, ¿cómo sabes si lo está haciendo de manera precisa y justa? ¿Qué criterios está usando para decidir qué enfatizar y qué omitir?</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--rojo);">
+                            <i class="fas fa-question-circle"></i>Problemas de opacidad
+                        </h3>
+                        <p class="text-sm texto-claro leading-relaxed mb-2">La falta de transparencia genera:</p>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times text-red-500 mt-1"></i>
+                                <span>Dificultad para identificar errores o imprecisiones</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times text-red-500 mt-1"></i>
+                                <span>Incapacidad para cuestionar la lógica detrás de las sugerencias</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times text-red-500 mt-1"></i>
+                                <span>Riesgo de aceptar acríticamente contenido problemático</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times text-red-500 mt-1"></i>
+                                <span>Pérdida de agencia sobre nuestra propia narrativa profesional</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--amarillo-dark);">
+                            <i class="fas fa-lightbulb"></i>Demandas de transparencia
+                        </h3>
+                        <p class="text-sm texto-claro leading-relaxed mb-2">Los usuarios deberían exigir:</p>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-yellow-600 mt-1"></i>
+                                <span>Documentación clara de las capacidades y limitaciones del sistema</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-yellow-600 mt-1"></i>
+                                <span>Explicaciones sobre los datos usados para entrenar el modelo</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-yellow-600 mt-1"></i>
+                                <span>Información sobre posibles sesgos conocidos del sistema</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-arrow-right text-yellow-600 mt-1"></i>
+                                <span>Mecanismos para reportar problemas y obtener aclaraciones</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="reflexion-box">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-lightbulb"></i>Pregunta de reflexión
+                    </h4>
+                    <p class="texto-claro text-sm">¿Qué nivel de comprensión sobre el funcionamiento de una herramienta de IA consideras necesario antes de confiar en ella para decisiones profesionales importantes? ¿Es suficiente que "funcione bien" o necesitas entender el "por qué"?</p>
+                </div>
+
+                <div class="conexion-natalia">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-link"></i>Conexión con el caso de Isabella Andrea
+                    </h4>
+                    <p class="texto-claro text-sm">Un diseño ético de Isabella Andrea incluiría "explicabilidad" en sus recomendaciones: cuando sugiere reformular una experiencia laboral de cierta manera, debería poder justificar por qué (por ejemplo: "Esta formulación enfatiza competencias transferibles que aparecen frecuentemente en ofertas de tu sector objetivo").</p>
+                </div>
+
+                <p class="citation">
+                    Principios de Barcelona para una IA ética (2024): "Los sistemas de IA deben ser comprensibles y sus procesos de toma de decisiones deben poder ser explicados a los usuarios afectados"
+                </p>
+            </div>
+
+            <!-- Paso 5: Responsabilidad y atribución -->
+            <div class="paso" id="paso-5">
+                <span class="badge-natalia">
+                    <i class="fas fa-signature"></i>
+                    Desafío #4 de 5
+                </span>
+                
+                <h2 class="titulo-paso">✍️ Responsabilidad y atribución</h2>
+                <p class="subtitulo-paso">¿Quién es responsable del contenido generado con IA?</p>
+                
+                <div class="tarjeta mb-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--azul);">
+                        <i class="fas fa-gavel"></i>El dilema de la autoría
+                    </h3>
+                    <p class="texto-claro leading-relaxed">Cuando presentas un currículum o carta de presentación co-creados con IA, surgen preguntas éticas y legales importantes: ¿Es este contenido realmente "tuyo"? ¿Tienes la obligación de revelar que usaste IA? ¿Qué pasa si contiene errores o inexactitudes?</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--rojo);">
+                            <i class="fas fa-exclamation-circle"></i>Riesgos de irresponsabilidad
+                        </h3>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span><strong>Deshonestidad académica/profesional:</strong> Presentar contenido generado por IA como completamente propio</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span><strong>Inexactitudes no detectadas:</strong> La IA puede "alucinar" logros o experiencias que no tuviste</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span><strong>Falta de verificación:</strong> Aceptar información sin confirmar su veracidad</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span><strong>Daño reputacional:</strong> Si se descubre el uso no divulgado de IA</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--verde);">
+                            <i class="fas fa-check-double"></i>Prácticas responsables
+                        </h3>
+                        <ul class="space-y-2 text-sm texto-claro">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span><strong>Verificación exhaustiva:</strong> Revisa cada afirmación generada por la IA</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span><strong>Edición sustancial:</strong> Personaliza y reescribe el contenido con tu voz</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span><strong>Transparencia selectiva:</strong> Considera divulgar el uso de IA cuando sea apropiado</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span><strong>Responsabilidad total:</strong> Asume la autoría completa del producto final</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="reflexion-box">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-lightbulb"></i>Pregunta de reflexión
+                    </h4>
+                    <p class="texto-claro text-sm">Si un reclutador te preguntara directamente si usaste IA para crear tu postulación, ¿cómo responderías? ¿Tu nivel de edición y personalización del contenido generado hace que te sientas cómodo/a atribuyéndotelo completamente?</p>
+                </div>
+
+                <div class="conexion-natalia">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-link"></i>Conexión con el caso de Isabella Andrea
+                    </h4>
+                    <p class="texto-claro text-sm">Isabella Andrea debe diseñarse con mecanismos que promuevan la responsabilidad del usuario: advertencias sobre verificar toda información generada, sugerencias explícitas de personalización, y recordatorios de que el usuario final es siempre responsable del contenido que presenta.</p>
+                </div>
+
+                <p class="citation">
+                    Código de Ética Profesional, Colegio de Profesionales: "Todo profesional debe garantizar la autenticidad y veracidad de la información que presenta en contextos laborales"
+                </p>
+            </div>
+
+            <!-- Paso 6: Autonomía humana -->
+            <div class="paso" id="paso-6">
+                <span class="badge-natalia">
+                    <i class="fas fa-user-circle"></i>
+                    Desafío #5 de 5
+                </span>
+                
+                <h2 class="titulo-paso">🙋 Autonomía humana y control</h2>
+                <p class="subtitulo-paso">¿Estamos cediendo demasiado control a las máquinas?</p>
+                
+                <div class="tarjeta mb-4">
+                    <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--azul);">
+                        <i class="fas fa-users-cog"></i>El principio de "humano en el ciclo"
+                    </h3>
+                    <p class="texto-claro leading-relaxed">El concepto de "human-in-the-loop" (humano en el ciclo) sostiene que en decisiones significativas que afectan la vida de las personas, debe haber siempre una persona con capacidad de supervisión, intervención y veto. En el contexto del desarrollo profesional, esto significa que la IA debe ser una herramienta de apoyo, nunca un sustituto de tu juicio y agencia personal.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--rojo);">
+                            <i class="fas fa-robot"></i>El problema
+                        </h3>
+                        <p class="text-sm texto-claro leading-relaxed">A medida que los sistemas de IA se vuelven más sofisticados, existe el riesgo de delegar completamente la creación de contenido profesional a estas herramientas, perdiendo el toque humano y la autenticidad que distingue a cada profesional.</p>
+                        <p class="text-sm texto-claro leading-relaxed mt-3">En el extremo, algunos candidatos podrían permitir que la IA genere completamente sus postulaciones, resultando en perfiles genéricos que no reflejan sus verdaderas capacidades ni su voz personal.</p>
+                    </div>
+                    <div class="tarjeta">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2" style="color: var(--amarillo-dark);">
+                            <i class="fas fa-user-check"></i>La pregunta clave
+                        </h3>
+                        <p class="text-sm texto-claro leading-relaxed">¿Qué decisiones sobre nuestra presentación profesional nunca deberían ser completamente delegadas a una máquina? ¿Cómo diseñamos flujos de trabajo de "humano en el ciclo" (human-in-the-loop) que aseguren que el control y el juicio final siempre sean humanos?</p>
+                        <p class="text-sm texto-claro leading-relaxed mt-3">La UNESCO enfatiza que "debe garantizarse una supervisión y una determinación humanas" en decisiones que afectan significativamente la vida de las personas (UNESCO, 2021, p. 14).</p>
+                    </div>
+                </div>
+
+                <div class="conexion-natalia">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-link"></i>Conexión con el caso de Isabella Andrea
+                    </h4>
+                    <p class="texto-claro text-sm">La estrategia de Isabella Andrea ejemplifica el principio de autonomía humana: usar la IA estrictamente como "asistente de redacción", no como autor principal. Quien usa Isabella Andrea mantiene el control editorial total, revisando y reescribiendo cada sugerencia para asegurar que refleje fielmente su experiencia. La tecnología amplifica sus capacidades, pero nunca las reemplaza.</p>
+                </div>
+            </div>
+
+            <!-- Paso 7: Conclusión -->
+            <div class="paso" id="paso-7">
+                <div class="text-center">
+                    <span class="icono-concepto">🎯</span>
+                    <h2 class="titulo-paso" style="color: var(--verde);">Conclusión: Forjando un futuro responsable con IA</h2>
+                    <p class="subtitulo-paso">Has completado la presentación sobre los desafíos éticos de la IA en el desarrollo profesional</p>
+                    
+                    <div class="tarjeta max-w-2xl mx-auto text-left">
+                        <h3 class="font-bold text-xl mb-4 text-center">Principios para una práctica ética</h3>
+                        <p class="texto-claro leading-relaxed mb-4">Enfrentar estos cinco desafíos no es una opción, sino una necesidad imperativa para profesionales que usan IA. Requiere un enfoque consciente y reflexivo que equilibre la innovación tecnológica con la integridad personal.</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4 mt-6">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <div>
+                                    <strong>Supervisión humana:</strong>
+                                    <p class="text-sm text-gray-600">Mantén siempre el control final sobre el contenido generado</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <div>
+                                    <strong>Transparencia:</strong>
+                                    <p class="text-sm text-gray-600">Sé consciente de cómo funcionan las herramientas que utilizas</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <div>
+                                    <strong>Responsabilidad:</strong>
+                                    <p class="text-sm text-gray-600">Asume la autoría completa de tu presentación profesional</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <div>
+                                    <strong>Autenticidad:</strong>
+                                    <p class="text-sm text-gray-600">Preserva tu voz única y tu verdadera experiencia</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                            <p class="text-sm italic text-center texto-claro">
+                                "La tarea no es detener el progreso tecnológico, sino guiarlo con sabiduría, asegurando que la inteligencia artificial sirva como una fuerza para el bien común y el desarrollo profesional ético" (UNESCO, 2021).
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+                        <h4 class="font-bold text-lg mb-3">🏆 ¡Felicitaciones!</h4>
+                        <p class="text-sm mb-2">Has completado esta presentación y ganado <strong>500 puntos</strong></p>
+                        <p class="text-sm text-gray-600">Ahora comprendes los 5 desafíos éticos fundamentales de la IA en el desarrollo profesional</p>
+                    </div>
+                    
+                    <button class="boton mt-6" onclick="irAPaso(0)">
+                        <i class="fas fa-redo mr-2"></i>Reiniciar la presentación
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Navegación -->
+        <footer class="flex justify-between items-center">
+            <button id="boton-anterior" class="boton" onclick="pasoAnterior()">
+                <i class="fas fa-arrow-left mr-2"></i>Anterior
+            </button>
+            <button id="boton-siguiente" class="boton" onclick="pasoSiguiente()">
+                Siguiente<i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </footer>
+    </div>
+
+    <!-- Footer informativo -->
+    <div class="footer-info">
+        Oficina de Inteligencia Artificial<br>
+        Vicerrectoría de Tecnologías de la Información<br>
+        Universidad de Chile © 2025 • Todos los derechos reservados
+    </div>
+    
+    <script>
+        let pasoActual = 0;
+        const pasos = document.querySelectorAll('.paso');
+        const NUM_PASOS_CONTENIDO = 5; // 5 desafíos éticos
+        const PASO_INICIO_DESAFIOS = 2; // Los desafíos comienzan en el paso 2
+        const PUNTOS_POR_PASO = 100;
+        
+        const botonAnterior = document.getElementById('boton-anterior');
+        const botonSiguiente = document.getElementById('boton-siguiente');
+        const barraProgreso = document.getElementById('barra-progreso');
+        const contadorPasos = document.getElementById('contador-pasos');
+        const elementoPuntos = document.getElementById('puntos');
+
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('ppt_m3_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('ppt_m3_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+
+        function actualizarUI() {
+            pasos.forEach((paso, index) => {
+                paso.classList.toggle('activo', index === pasoActual);
+            });
+
+            const esPrimerPaso = pasoActual === 0;
+            const esUltimoPaso = pasoActual === pasos.length - 1;
+
+            // Ocultar header y footer solo en portada y conclusión
+            if (esPrimerPaso || esUltimoPaso) {
+                document.querySelector('footer').classList.add('hidden');
+                document.querySelector('header').classList.add('hidden');
+            } else {
+                document.querySelector('footer').classList.remove('hidden');
+                document.querySelector('header').classList.remove('hidden');
+            }
+            
+            // Deshabilitar botón anterior en el video (paso 1)
+            botonAnterior.disabled = pasoActual === 1;
+            
+            if (pasoActual === pasos.length - 2) {
+                botonSiguiente.innerHTML = 'Finalizar presentación<i class="fas fa-check ml-2"></i>';
+            } else {
+                botonSiguiente.innerHTML = 'Siguiente<i class="fas fa-arrow-right ml-2"></i>';
+            }
+
+            // Calcular progreso basado en los 5 desafíos (pasos 2-6)
+            let progreso = 0;
+            if (pasoActual >= PASO_INICIO_DESAFIOS && pasoActual <= PASO_INICIO_DESAFIOS + NUM_PASOS_CONTENIDO - 1) {
+                const pasoDesafio = pasoActual - PASO_INICIO_DESAFIOS;
+                progreso = (pasoDesafio / (NUM_PASOS_CONTENIDO - 1)) * 100;
+            } else if (pasoActual > PASO_INICIO_DESAFIOS + NUM_PASOS_CONTENIDO - 1) {
+                progreso = 100;
+            }
+            
+            barraProgreso.style.width = `${progreso}%`;
+           
+            // Mostrar contador solo para desafíos (pasos 2-6)
+            if (pasoActual >= PASO_INICIO_DESAFIOS && pasoActual <= PASO_INICIO_DESAFIOS + NUM_PASOS_CONTENIDO - 1) {
+                const numeroDesafio = pasoActual - PASO_INICIO_DESAFIOS + 1;
+                contadorPasos.textContent = `Desafío ${numeroDesafio} de ${NUM_PASOS_CONTENIDO}`;
+            } else if (pasoActual === 1) {
+                contadorPasos.textContent = 'Video introductorio';
+            } else {
+                contadorPasos.textContent = '';
+            }
+
+            // Actualizar puntos de gamificación
+            if (pasoActual >= PASO_INICIO_DESAFIOS && pasoActual <= PASO_INICIO_DESAFIOS + NUM_PASOS_CONTENIDO - 1) {
+                const numeroDesafio = pasoActual - PASO_INICIO_DESAFIOS + 1;
+                const puntos = numeroDesafio * PUNTOS_POR_PASO;
+                elementoPuntos.textContent = puntos;
+            } else if (pasoActual > PASO_INICIO_DESAFIOS + NUM_PASOS_CONTENIDO - 1) {
+                elementoPuntos.textContent = 500;
+            } else {
+                elementoPuntos.textContent = 0;
+            }
+        }
+
+        function irAPaso(n) {
+            pasoActual = n;
+            actualizarUI();
+            window.scrollTo(0, 0);
+        }
+
+        function pasoSiguiente() {
+            if (pasoActual < pasos.length - 1) {
+                pasoActual++;
+                actualizarUI();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function pasoAnterior() {
+            if (pasoActual > 0) {
+                pasoActual--;
+                actualizarUI();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' && pasoActual < pasos.length - 1 && !document.getElementById('instructionsModal').classList.contains('active')) {
+                pasoSiguiente();
+            } else if (e.key === 'ArrowLeft' && pasoActual > 0 && !document.getElementById('instructionsModal').classList.contains('active')) {
+                pasoAnterior();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', actualizarUI);
+    </script>
+</body>
+</html>

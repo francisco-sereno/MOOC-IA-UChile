@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoevaluación - Módulo 1: Fundamentos de IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Contenedor principal - optimizado para 100% x 850px */
+        .main-container {
+            width: 100%;
+            min-height: 850px;
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            padding: 1.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h1 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-title p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Barra de progreso mejorada */
+        .progress-container {
+            background: var(--gris-100);
+            padding: 1rem 2rem;
+            flex-shrink: 0;
+            border-bottom: 2px solid var(--gris-200);
+        }
+
+        .progress-bar-wrapper {
+            position: relative;
+            background: var(--gris-200);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 168, 89, 0.3);
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gris-700);
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* Contenido con scroll */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .content-area::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 6px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Alert box mejorado */
+        .alert-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 4px solid var(--amarillo);
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(255, 209, 0, 0.1);
+            line-height: 1.8;
+        }
+
+        .alert-box strong {
+            color: var(--amarillo-dark);
+            font-weight: 700;
+        }
+
+        /* Competencias mejoradas */
+        .competencias-section {
+            background: white;
+            border: 2px solid var(--gris-200);
+            border-radius: 28px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .competencias-section h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--azul-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .competencias-section > p {
+            color: var(--gris-600);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Competencia item mejorado para neurodivergencias */
+        .competencia-item {
+            background: var(--gris-50);
+            border-left: 4px solid var(--gris-300);
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .competencia-item:hover {
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.05), rgba(0, 168, 89, 0.05));
+            border-left-color: var(--azul);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+            transform: translateX(4px);
+        }
+
+        .competencia-item.checked {
+            background: linear-gradient(135deg, rgba(0, 168, 89, 0.1), rgba(0, 168, 89, 0.05));
+            border-left-color: var(--verde);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.2);
+        }
+
+        .competencia-item.checked:hover {
+            transform: translateX(4px) scale(1.02);
+        }
+
+        /* Checkbox personalizado y accesible */
+        .competencia-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--gris-300);
+            border-radius: 8px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: white;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .competencia-item:hover .competencia-checkbox {
+            border-color: var(--azul);
+            background: rgba(0, 85, 165, 0.05);
+        }
+
+        .competencia-item.checked .competencia-checkbox {
+            background: var(--verde);
+            border-color: var(--verde);
+        }
+
+        .competencia-checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .competencia-item.checked .competencia-checkbox::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .competencia-text {
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--gris-700);
+            font-weight: 500;
+        }
+
+        .competencia-item.checked .competencia-text {
+            color: var(--gris-800);
+            font-weight: 600;
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul), var(--azul-hover));
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--verde), var(--verde-hover));
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--gris-600), var(--gris-700));
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--rojo), var(--rojo-hover));
+            color: white;
+        }
+
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--gris-200);
+        }
+
+        /* Footer mejorado */
+        .footer {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+            border-top: 3px solid var(--verde);
+        }
+
+        .footer strong {
+            font-weight: 700;
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 4px solid var(--azul);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 6px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .modal-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .modal-body h3 {
+            color: var(--azul-dark);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-body ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body li {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+            color: var(--gris-700);
+        }
+
+        .modal-body strong {
+            color: var(--azul-dark);
+            font-weight: 700;
+        }
+
+        .accessibility-note {
+            background: linear-gradient(135deg, var(--gris-50), #F0F4FF);
+            border-left: 4px solid var(--azul);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gris-700);
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 2px solid var(--gris-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-container label {
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--gris-700);
+        }
+
+        /* Notificación XP mejorada */
+        .xp-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--verde), var(--verde-hover));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 168, 89, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 999;
+            max-width: 300px;
+        }
+
+        .xp-notification.show {
+            transform: translateX(0);
+            animation: pulse 0.5s ease;
+        }
+
+        .xp-notification strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Accesibilidad - Alto contraste y espaciado */
+        .text-high-contrast {
+            color: #1a1a1a;
+            line-height: 1.9;
+        }
+
+        /* Focus visible para navegación por teclado */
+        *:focus-visible {
+            outline: 4px solid var(--amarillo);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* Reducir movimiento para usuarios que lo prefieran */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                height: 100vh;
+            }
+
+            .header-banner {
+                padding: 1rem 1.5rem;
+            }
+
+            .header-title h1 {
+                font-size: 1.25rem;
+            }
+
+            .content-area {
+                padding: 1.5rem;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 90vh;
+                margin: 1rem;
+            }
+        }
+
+        /* Asegurar que el contenido sea legible en pantallas de 850px de alto */
+        @media (max-height: 850px) {
+            .modal-content {
+                max-height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-slate-50 to-green-50">
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🤖 Caso Isabella Andrea</h2>
+                <p>Caso de estudio central del curso</p>
+            </div>
+            <div class="modal-body">
+                <h3>📋 Instrucciones para la autoevaluación</h3>
+                <ol>
+                    <li><strong>Lee cada competencia cuidadosamente:</strong> Tómate el tiempo necesario para reflexionar sobre cada una.</li>
+                    <li><strong>Marca las competencias que dominas:</strong> Haz clic en cada competencia que consideres que has alcanzado.</li>
+                    <li><strong>Observa tu progreso:</strong> La barra superior muestra tu avance en tiempo real.</li>
+                    <li><strong>Gana puntos de experiencia (XP):</strong> Cada competencia marcada suma puntos que reflejan tu desarrollo.</li>
+                    <li><strong>Descarga tu reporte:</strong> Al finalizar, puedes generar un PDF con tu diagnóstico completo.</li>
+                </ol>
+
+                <div class="accessibility-note">
+                    <strong>♿ Accesibilidad:</strong> Este recurso está optimizado para personas neurodivergentes con alto contraste, espaciado aumentado, navegación por teclado y animaciones suaves. Usa Tab para navegar y Enter/Espacio para seleccionar.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="dontShowAgain">
+                    <label for="dontShowAgain">No volver a mostrar</label>
+                </div>
+                <button onclick="closeInstructions()" class="btn btn-primary">
+                    ¡Entendido! 🚀
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación XP -->
+    <div id="xpNotification" class="xp-notification">
+        <div id="xpMessage"></div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>🎯 Autoevaluación Módulo 1</h1>
+                    <p>Diagnóstico de competencias en IA generativa</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-badge">
+                        <span>⭐</span>
+                        <span id="totalXP">0</span>
+                        <span>XP</span>
+                    </div>
+                    <button onclick="openInstructions()" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                        ❓ Ayuda
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-container">
+            <div class="progress-bar-wrapper">
+                <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% completado (0/10 competencias)</div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="content-area" id="contentArea">
+            <div class="alert-box animate-fadeIn">
+                <strong>💡 Importante:</strong> Esta autoevaluación es una herramienta de reflexión personal. No hay respuestas correctas o incorrectas. Marca las competencias que genuinamente consideras haber alcanzado al finalizar este módulo.
+            </div>
+
+            <div class="competencias-section animate-fadeIn">
+                <h3>📚 Competencias del Módulo 1</h3>
+                <p>Fundamentos de inteligencia artificial generativa aplicados a la transición profesional</p>
+                
+                <div id="competenciasContainer">
+                    <!-- Las competencias se generarán dinámicamente -->
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="completeEvaluation()" class="btn btn-success">
+                    ✅ Completar evaluación
+                </button>
+                <button onclick="generatePDF()" class="btn btn-primary">
+                    📄 Descargar PDF
+                </button>
+                <button onclick="resetProgress()" class="btn btn-danger">
+                    🔄 Reiniciar
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <strong>Oficina de Inteligencia Artificial</strong><br>
+            Vicerrectoría de Tecnologías de la Información<br>
+            Universidad de Chile © 2025 • Todos los derechos reservados
+        </div>
+    </div>
+
+    <script>
+        // Configuración localStorage
+        const STORAGE_KEY = 'modulo1_autoevaluacion_estado';
+        const XP_KEY = 'modulo1_autoevaluacion_xp';
+        const INSTRUCTIONS_KEY = 'autoevaluacion_instructions_seen';
+
+        // Competencias del módulo
+        const competencias = [
+            { id: 'c1', text: 'Comprendo qué es la inteligencia artificial generativa y cómo se diferencia de otras formas de IA.' },
+            { id: 'c2', text: 'Puedo explicar los conceptos fundamentales de modelos de lenguaje grandes (LLMs) y su funcionamiento básico.' },
+            { id: 'c3', text: 'Reconozco las capacidades y limitaciones actuales de la IA generativa en contextos profesionales.' },
+            { id: 'c4', text: 'Identifico casos de uso apropiados de IA generativa en procesos de transición profesional.' },
+            { id: 'c5', text: 'Entiendo el concepto de "prompt" y su importancia en la interacción efectiva con herramientas de IA.' },
+            { id: 'c6', text: 'Conozco las principales herramientas de IA generativa disponibles y sus características distintivas.' },
+            { id: 'c7', text: 'Comprendo el caso de Isabella Andrea y su relevancia para democratizar el acceso a herramientas de desarrollo profesional.' },
+            { id: 'c8', text: 'Reconozco consideraciones éticas básicas en el uso de IA generativa (privacidad, sesgos, transparencia).' },
+            { id: 'c9', text: 'Puedo formular prompts básicos que generan respuestas útiles de herramientas de IA generativa.' },
+            { id: 'c10', text: 'Identifico oportunidades donde la IA generativa puede apoyar mi propio desarrollo o transición profesional.' }
+        ];
+
+        // Estado inicial
+        let estado = {};
+        let totalXP = 0;
+
+        // Inicializar estado
+        competencias.forEach(comp => {
+            estado[comp.id] = false;
+        });
+
+        // Cargar progreso guardado
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            const savedXP = localStorage.getItem(XP_KEY);
+            
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    Object.assign(estado, parsed);
+                } catch (e) {
+                    console.error('Error cargando progreso:', e);
+                }
+            }
+            
+            if (savedXP) {
+                totalXP = parseInt(savedXP) || 0;
+                document.getElementById('totalXP').textContent = totalXP;
+            }
+        }
+
+        // Guardar progreso
+        function saveProgress() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+            localStorage.setItem(XP_KEY, totalXP.toString());
+        }
+
+        // Renderizar competencias
+        function renderCompetencias() {
+            const container = document.getElementById('competenciasContainer');
+            container.innerHTML = '';
+            
+            competencias.forEach((comp, index) => {
+                const div = document.createElement('div');
+                div.className = `competencia-item ${estado[comp.id] ? 'checked' : ''} animate-slideIn`;
+                div.style.animationDelay = `${index * 0.05}s`;
+                div.onclick = () => toggleCompetencia(comp.id);
+                div.setAttribute('tabindex', '0');
+                div.setAttribute('role', 'checkbox');
+                div.setAttribute('aria-checked', estado[comp.id] ? 'true' : 'false');
+                div.setAttribute('aria-label', comp.text);
+                
+                div.onkeydown = (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleCompetencia(comp.id);
+                    }
+                };
+                
+                div.innerHTML = `
+                    <div class="competencia-checkbox"></div>
+                    <div class="competencia-text">${comp.text}</div>
+                `;
+                
+                container.appendChild(div);
+            });
+            
+            updateProgress();
+        }
+
+        // Toggle competencia
+        function toggleCompetencia(id) {
+            const wasChecked = estado[id];
+            estado[id] = !estado[id];
+            
+            if (estado[id] && !wasChecked) {
+                gainXP(10, '¡Competencia marcada!');
+            } else if (!estado[id] && wasChecked) {
+                totalXP = Math.max(0, totalXP - 10);
+                document.getElementById('totalXP').textContent = totalXP;
+            }
+            
+            renderCompetencias();
+            saveProgress();
+        }
+
+        // Actualizar progreso
+        function updateProgress() {
+            const completados = Object.values(estado).filter(v => v).length;
+            const porcentaje = Math.round((completados / 10) * 100);
+            
+            document.getElementById('progressBar').style.width = porcentaje + '%';
+            document.getElementById('progressText').textContent = 
+                `${porcentaje}% completado (${completados}/10 competencias)`;
+        }
+
+        // Ganar XP
+        function gainXP(amount, message) {
+            totalXP += amount;
+            document.getElementById('totalXP').textContent = totalXP;
+            showXPNotification('🎉 ¡XP ganado!', `+${amount} XP: ${message}`);
+            saveProgress();
+        }
+
+        // Mostrar notificación XP
+        function showXPNotification(title, message) {
+            const notification = document.getElementById('xpNotification');
+            const xpMessage = document.getElementById('xpMessage');
+            
+            xpMessage.innerHTML = `<strong>${title}</strong><br>${message}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Completar evaluación
+        function completeEvaluation() {
+            const completados = Object.values(estado).filter(v => v).length;
+            
+            if (completados === 0) {
+                alert('Por favor, marca al menos una competencia antes de completar la autoevaluación.');
+                return;
+            }
+
+            if (completados === 10) {
+                gainXP(50, '¡Autoevaluación completa al 100%!');
+            } else {
+                gainXP(25, 'Autoevaluación completada');
+            }
+
+            setTimeout(() => {
+                alert(`¡Felicitaciones! Has completado la autoevaluación.\n\nCompetencias dominadas: ${completados}/10\nTotal XP: ${totalXP}\n\n💡 Puedes descargar tu reporte en PDF o continuar con el siguiente recurso.`);
+            }, 500);
+        }
+
+        // Reiniciar progreso
+        function resetProgress() {
+            if (confirm('¿Estás seguro de que deseas reiniciar tu autoevaluación? Esta acción no se puede deshacer.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                localStorage.removeItem(XP_KEY);
+                totalXP = 0;
+                competencias.forEach(comp => {
+                    estado[comp.id] = false;
+                });
+                document.getElementById('totalXP').textContent = '0';
+                renderCompetencias();
+                updateProgress();
+                document.getElementById('contentArea').scrollTop = 0;
+            }
+        }
+
+        // Generar PDF
+        function generatePDF() {
+            const completados = Object.values(estado).filter(v => v).length;
+            
+            if (completados === 0) {
+                alert('Por favor, marca al menos una competencia antes de generar el PDF.');
+                return;
+            }
+
+            const porcentaje = Math.round((completados / 10) * 100);
+            
+            // Determinar nivel SIN emojis
+            let nivel, nivelBg;
+            if (completados >= 9) {
+                nivel = 'Excelente';
+                nivelBg = '#00A859';
+            } else if (completados >= 7) {
+                nivel = 'Muy bueno';
+                nivelBg = '#0055A5';
+            } else if (completados >= 5) {
+                nivel = 'Sólido';
+                nivelBg = '#009688';
+            } else {
+                nivel = 'Por desarrollar';
+                nivelBg = '#FF9800';
+            }
+            
+            let interpretacion;
+            if (completados >= 9) {
+                interpretacion = 'Tu dominio de los fundamentos de IA generativa es sobresaliente. Estás preparado/a para aplicar estas herramientas en contextos profesionales complejos y avanzar hacia técnicas más sofisticadas de ingeniería de prompts.';
+            } else if (completados >= 7) {
+                interpretacion = 'Posees una comprensión sólida de IA generativa que te permite aplicarla efectivamente en diversos contextos. Te recomendamos profundizar en las competencias que aún no dominas completamente.';
+            } else if (completados >= 5) {
+                interpretacion = 'Tienes una base apropiada para comenzar a trabajar con IA generativa en contextos guiados. Es importante que revises los materiales del módulo enfocándote en las áreas de mejora.';
+            } else {
+                interpretacion = 'Te encuentras en etapa inicial de familiarización con IA generativa. Te sugerimos revisar cuidadosamente todos los materiales del módulo, explorar las herramientas de forma práctica y experimentar con casos simples.';
+            }
+            
+            const dateStr = new Date().toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // Construir lista de competencias SIN emojis
+            const competenciasContent = competencias.map((comp, index) => {
+                const isChecked = estado[comp.id];
+                const mark = isChecked ? '[X]' : '[  ]';
+                return {
+                    columns: [
+                        { text: mark, width: 28, fontSize: 10, color: isChecked ? '#00A859' : '#888888', bold: isChecked },
+                        { text: (index + 1) + '. ' + comp.text, fontSize: 9, color: isChecked ? '#1A1A1A' : '#555555', bold: isChecked }
+                    ],
+                    columnGap: 5,
+                    margin: [0, 0, 0, 5]
+                };
+            });
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    // Header
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Autoevaluación Módulo 1', fontSize: 20, bold: true, color: '#FFFFFF', alignment: 'center' },
+                                        { text: 'Diagnóstico de competencias en IA generativa', fontSize: 11, color: '#FFFFFF', alignment: 'center', margin: [0, 5, 0, 0] },
+                                        { text: 'IA generativa para la transición profesional', fontSize: 10, color: '#FFFFFF', alignment: 'center', margin: [0, 3, 0, 0] }
+                                    ],
+                                    fillColor: '#0033A0',
+                                    margin: [20, 18, 20, 18]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    
+                    { text: 'Fecha de realización: ' + dateStr, fontSize: 9, color: '#666666', margin: [0, 0, 0, 15] },
+                    
+                    // Resultado
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Resultado de la autoevaluación', fontSize: 13, bold: true, color: '#0033A0', alignment: 'center' },
+                                        { text: completados + '/10', fontSize: 38, bold: true, color: '#0033A0', alignment: 'center', margin: [0, 10, 0, 5] },
+                                        { text: porcentaje + '% de competencias dominadas  •  ' + totalXP + ' XP ganados', fontSize: 10, color: '#666666', alignment: 'center' }
+                                    ],
+                                    fillColor: '#F0F8FF',
+                                    margin: [15, 15, 15, 15]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    
+                    // Nivel
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                { text: 'Nivel alcanzado: ' + nivel, fontSize: 13, bold: true, color: '#FFFFFF', alignment: 'center', fillColor: nivelBg, margin: [15, 10, 15, 10] }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 20]
+                    },
+                    
+                    // Competencias
+                    { text: 'Detalle de competencias evaluadas', fontSize: 12, bold: true, color: '#0033A0', margin: [0, 0, 0, 12] },
+                    ...competenciasContent,
+                    
+                    // Interpretación
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Interpretación y recomendaciones', fontSize: 12, bold: true, color: '#0033A0', margin: [0, 0, 0, 8] },
+                                        { text: interpretacion, fontSize: 9, color: '#333333', lineHeight: 1.5 }
+                                    ],
+                                    fillColor: '#FFF9E6',
+                                    margin: [15, 12, 15, 12]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 20, 0, 0]
+                    }
+                ],
+                footer: function(currentPage, pageCount) {
+                    return {
+                        stack: [
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información', fontSize: 7, color: '#888888', alignment: 'center' },
+                            { text: 'Universidad de Chile © 2025                                                                   Página ' + currentPage + ' de ' + pageCount, fontSize: 7, color: '#888888', alignment: 'center', margin: [0, 2, 0, 0] }
+                        ],
+                        margin: [40, 10, 40, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('Modulo1_Autoevaluacion_' + new Date().toISOString().split('T')[0] + '.pdf');
+            
+            gainXP(15, '¡PDF descargado exitosamente!');
+        }
+
+        // Modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem(INSTRUCTIONS_KEY, 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Event listeners
+        document.getElementById('instructionsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'instructionsModal') {
+                closeInstructions();
+            }
+        });
+
+        // Navegación por teclado
+        document.addEventListener('keydown', function(e) {
+            // ESC para cerrar modal
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+
+        // Inicialización
+        window.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            renderCompetencias();
+            
+            // Mostrar instrucciones si es la primera vez
+            const hasSeenInstructions = localStorage.getItem(INSTRUCTIONS_KEY);
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

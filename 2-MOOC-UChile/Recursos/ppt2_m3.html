@@ -1,0 +1,322 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casos de Uso de Agentes Autónomos - Columnas y Acordeón</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <!-- Fuente Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* --- variables --- */
+        #agentes-component-v3 {
+            --color-primario: #003087; /* Azul Pantone 287c */
+            --color-primario-oscuro: #002466; /* Azul más oscuro */
+            --color-secundario: #008751; /* Verde Pantone 348c */
+            --color-riesgo: #EF3340;   /* Rojo Pantone 032c */
+            --color-alerta: #FCD116;   /* Amarillo Pantone 122c */
+            --bg: #f4f6fa;
+            --white: #ffffff;
+            --shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --radius: 1rem;
+            font-family: "Montserrat", sans-serif;
+            background-color: var(--bg);
+            color: #212529;
+        }
+        #agentes-component-v3 * { box-sizing: border-box; }
+
+        /* --- hero --- */
+        #agentes-component-v3 .ag-hero {
+            background: linear-gradient(135deg, var(--color-primario-oscuro) 0%, var(--color-primario) 100%);
+            text-align: center;
+            padding: 4rem 1rem 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+        #agentes-component-v3 .ag-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0 0 .8rem;
+            color: var(--white);
+        }
+        #agentes-component-v3 .ag-hero p {
+            font-size: 1.2rem;
+            max-width: 680px;
+            margin: 0 auto;
+            color: var(--white);
+            opacity: .95;
+        }
+        #agentes-component-v3 .ag-hero-shape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+        #agentes-component-v3 .ag-hero-shape svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+        #agentes-component-v3 .ag-hero-shape .shape-fill {
+            fill: var(--bg);
+        }
+
+        /* --- Contenedor de Acordeones en Grid --- */
+        #agentes-component-v3 .ag-grid-container {
+            max-width: 1200px;
+            margin: -6rem auto 3rem;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* --- Acordeón Individual (era la tarjeta) --- */
+        #agentes-component-v3 .ag-accordion-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+            border-top: 4px solid var(--color-primario);
+        }
+        #agentes-component-v3 .ag-accordion-card[open] {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        #agentes-component-v3 .ag-accordion-header {
+            padding: 1.25rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--color-primario-oscuro);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            list-style: none; /* Oculta el marcador por defecto */
+            position: relative;
+        }
+        /* Oculta el marcador en Webkit/Blink */
+        #agentes-component-v3 .ag-accordion-header::-webkit-details-marker {
+            display: none;
+        }
+
+        /* Icono de flecha personalizado */
+        #agentes-component-v3 .ag-accordion-header::after {
+            content: '›';
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            position: absolute;
+            right: 1.5rem;
+            transition: transform 0.3s ease;
+            transform: rotate(90deg);
+        }
+        #agentes-component-v3 .ag-accordion-card[open] .ag-accordion-header::after {
+            transform: rotate(-90deg);
+        }
+
+
+        #agentes-component-v3 .ag-accordion-content {
+            padding: 0 1.5rem 1.5rem;
+            line-height: 1.6;
+        }
+        #agentes-component-v3 .ag-accordion-content p {
+            margin-bottom: 0.75rem;
+        }
+        #agentes-component-v3 .ag-label {
+            font-weight: 600;
+            color: var(--color-primario);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        #agentes-component-v3 .ag-icon { 
+            margin-right: .75rem;
+            font-size: 1.5rem;
+        }
+        #agentes-component-v3 .ag-tools-footer { 
+            margin-top: 1rem;
+            padding: 1.25rem 1.5rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        #agentes-component-v3 .ag-tools-footer .ag-label {
+            color: var(--color-secundario);
+            margin-bottom: 0.5rem;
+        }
+        #agentes-component-v3 .ag-tools-list {
+            margin: 0;
+            padding-left: 1.2rem;
+            list-style-type: none;
+        }
+        #agentes-component-v3 .ag-tools-list li {
+            position: relative;
+            margin-bottom: 0.25rem;
+            padding-left: 0.25rem;
+        }
+        #agentes-component-v3 .ag-tools-list li::before {
+            content: '✓';
+            position: absolute;
+            left: -1.2rem;
+            color: var(--color-secundario);
+            font-weight: bold;
+        }
+
+
+        /* --- animación --- */
+        #agentes-component-v3 .ag-fade-up {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        #agentes-component-v3 .ag-fade-up.ag-visible {
+            opacity: 1;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="agentes-component-v3">
+        <!-- --- contenido --- -->
+        <header class="ag-hero">
+            <h1>Casos de uso de agentes autónomos</h1>
+            <p>Explorando escenarios prácticos donde estos sistemas agregan valor significativo.</p>
+            <div class="ag-hero-shape">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                </svg>
+            </div>
+        </header>
+
+        <section class="ag-grid-container" id="ag-grid-container">
+            <!-- caso 1 -->
+            <details class="ag-accordion-card ag-fade-up">
+                <summary class="ag-accordion-header">
+                    <span class="ag-icon">🤖</span><h3>Agente de respuesta a consultas frecuentes (FAQ)</h3>
+                </summary>
+                <div class="ag-accordion-content">
+                    <p><span class="ag-label">Contexto:</span> Consultas repetitivas que consumen tiempo y recursos del equipo de soporte.</p>
+                    <p><span class="ag-label">Funcionamiento:</span> Monitorea un canal de entrada, utiliza IA para comprender la pregunta, consulta una base de conocimiento y genera una respuesta personalizada.</p>
+                    <div class="ag-tools-footer">
+                        <span class="ag-label">Herramientas sugeridas</span>
+                        <ul class="ag-tools-list">
+                            <li>Zendesk Answer Bot</li>
+                            <li>Freshdesk Freddy</li>
+                            <li>Intercom AI Response</li>
+                            <li>Dialogflow FAQ Bot</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- caso 2 -->
+             <details class="ag-accordion-card ag-fade-up">
+                <summary class="ag-accordion-header">
+                    <span class="ag-icon">🛣️</span><h3>Agente de clasificación y enrutamiento</h3>
+                </summary>
+                <div class="ag-accordion-content">
+                    <p><span class="ag-label">Contexto:</span> Un punto de entrada único recibe solicitudes destinadas a múltiples departamentos o equipos.</p>
+                    <p><span class="ag-label">Funcionamiento:</span> Analiza el contenido y los metadatos de cada solicitud para determinar su categoría, urgencia y sentimiento, y la asigna al equipo correcto.</p>
+                    <div class="ag-tools-footer">
+                        <span class="ag-label">Herramientas sugeridas</span>
+                        <ul class="ag-tools-list">
+                            <li>Microsoft Power Automate + AI Builder</li>
+                            <li>Google Vertex AI Classifier</li>
+                            <li>Zapier + OpenAI</li>
+                            <li>Amazon Comprehend Custom Classifier</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- caso 3 -->
+             <details class="ag-accordion-card ag-fade-up">
+                <summary class="ag-accordion-header">
+                    <span class="ag-icon">🔔</span><h3>Agente de seguimiento proactivo</h3>
+                </summary>
+                <div class="ag-accordion-content">
+                    <p><span class="ag-label">Contexto:</span> Procesos largos donde el cliente necesita ser informado sobre el progreso (ej. un envío, una reparación, un trámite).</p>
+                    <p><span class="ag-label">Funcionamiento:</span> Monitorea el estado de un proceso en una base de datos y envía actualizaciones automáticas y personalizadas en hitos clave.</p>
+                     <div class="ag-tools-footer">
+                        <span class="ag-label">Herramientas sugeridas</span>
+                        <ul class="ag-tools-list">
+                            <li>Salesforce Service Cloud Flows</li>
+                            <li>HubSpot Workflows</li>
+                            <li>Mailchimp Customer Journeys</li>
+                            <li>SendGrid Automation</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- caso 4 -->
+             <details class="ag-accordion-card ag-fade-up">
+                <summary class="ag-accordion-header">
+                    <span class="ag-icon">😊</span><h3>Agente de análisis de sentimiento y priorización</h3>
+                </summary>
+                <div class="ag-accordion-content">
+                    <p><span class="ag-label">Contexto:</span> Alto volumen de mensajes donde es crucial identificar y atender primero los casos más urgentes o negativos.</p>
+                    <p><span class="ag-label">Funcionamiento:</span> Utiliza PLN para evaluar el tono y la emoción del texto, asigna una puntuación de prioridad y puede generar alertas para los supervisores.</p>
+                    <div class="ag-tools-footer">
+                        <span class="ag-label">Herramientas sugeridas</span>
+                        <ul class="ag-tools-list">
+                            <li>Azure Text Analytics</li>
+                            <li>Amazon Comprehend</li>
+                            <li>Google Cloud Natural Language</li>
+                            <li>MonkeyLearn</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- caso 5 -->
+            <details class="ag-accordion-card ag-fade-up">
+                <summary class="ag-accordion-header">
+                    <span class="ag-icon">📈</span><h3>Agente de recolección de feedback</h3>
+                </summary>
+                <div class="ag-accordion-content">
+                    <p><span class="ag-label">Contexto:</span> Necesidad de recopilar y analizar sistemáticamente la opinión de los clientes después de una interacción.</p>
+                    <p><span class="ag-label">Funcionamiento:</span> Envía encuestas de satisfacción personalizadas, recopila las respuestas y las procesa para identificar tendencias y áreas de mejora.</p>
+                    <div class="ag-tools-footer">
+                        <span class="ag-label">Herramientas sugeridas</span>
+                        <ul class="ag-tools-list">
+                            <li>Typeform</li>
+                            <li>SurveyMonkey</li>
+                            <li>Qualtrics</li>
+                            <li>Google Forms + Apps Script</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <!-- --- script animación --- -->
+        <script>
+            (function(){
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add('ag-visible');
+                            observer.unobserve(e.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('#agentes-component-v3 .ag-fade-up').forEach(el => observer.observe(el));
+            })();
+        </script>
+    </div>
+</body>
+</html>
+

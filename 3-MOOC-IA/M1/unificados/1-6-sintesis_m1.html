@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Síntesis: IA generativa - Módulo 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+        
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Header banner mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Info cards mejoradas */
+        .info-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid var(--gris-200);
+            background: white;
+            position: relative;
+            overflow: visible;
+            border-radius: 28px;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: 28px;
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.15);
+            border-color: var(--azul);
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Barra de progreso mejorada */
+        .progress-bar {
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            box-shadow: 0 2px 8px rgba(0, 85, 165, 0.3);
+        }
+
+        /* Help boxes */
+        .help-box {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 4px solid var(--amarillo);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(255, 209, 0, 0.15);
+        }
+
+        /* Contenedor de slides */
+        .slides-container {
+            position: relative;
+            min-height: 600px;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .slide.active {
+            display: block;
+        }
+
+        /* Modal mejorado */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 85, 165, 0.25);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 3px solid var(--azul);
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Estilos para accesibilidad */
+        .accessible-text {
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+
+        *:focus-visible {
+            outline: 3px solid var(--azul);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .header-banner {
+                border-radius: 28px;
+                padding: 1.5rem !important;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .main-container {
+                padding: 1rem 0.75rem;
+            }
+        }
+
+        /* Footer */
+        .footer-modern {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            border-radius: 20px;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-slate-50 to-green-50 min-h-screen">
+
+    <!-- Modal de bienvenida -->
+    <div id="welcome-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-100 to-green-100 rounded-full flex items-center justify-center text-5xl mb-4">
+                    🤖
+                </div>
+                <h2 class="text-3xl font-extrabold mb-3" style="color: var(--azul-dark);">¡Bienvenido/a!</h2>
+                <p class="text-lg text-gray-700 font-semibold">Isabella Andrea te acompaña en esta síntesis</p>
+            </div>
+            
+            <div class="help-box p-5 mb-5">
+                <h3 class="font-bold text-xl mb-3 flex items-center" style="color: var(--azul-dark);">
+                    <span class="text-2xl mr-2">📖</span>
+                    Instrucciones de navegación
+                </h3>
+                <ul class="space-y-3 text-gray-700 accessible-text">
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">✅</span>
+                        <span>Usa los <strong>botones de navegación</strong> para avanzar entre diapositivas</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">⌨️</span>
+                        <span>También puedes usar las <strong>flechas del teclado</strong></span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">🎯</span>
+                        <span>Haz clic en las <strong>tarjetas interactivas</strong> para más detalles</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">📊</span>
+                        <span>Tu <strong>progreso se guarda automáticamente</strong></span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">📄</span>
+                        <span>Puedes <strong>descargar esta síntesis en PDF</strong></span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-blue-50 border-2 border-green-200 rounded-xl p-5 mb-6">
+                <h3 class="font-bold text-lg mb-2 flex items-center" style="color: var(--verde);">
+                    <span class="text-2xl mr-2">♿</span>
+                    Diseño accesible
+                </h3>
+                <p class="text-gray-700 accessible-text">
+                    Este recurso está optimizado para personas neurodivergentes con espaciado amplio, 
+                    contrastes claros y navegación simplificada.
+                </p>
+            </div>
+
+            <button onclick="closeWelcomeModal()" class="btn w-full py-4 text-white font-bold text-lg" style="background: linear-gradient(135deg, var(--azul), var(--verde));">
+                ¡Comenzar! 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de conceptos -->
+    <div id="modal" class="modal-overlay" onclick="if(event.target.id === 'modal') closeModal()">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-2xl font-extrabold mb-4" style="color: var(--azul-dark);"></h3>
+            <div id="modal-body" class="text-gray-700 accessible-text mb-6"></div>
+            <button onclick="closeModal()" class="btn w-full py-3 text-white font-semibold" style="background-color: var(--azul);">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner p-8 mb-8 text-white relative">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl">
+                        🤖
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-extrabold mb-2">Síntesis: IA generativa</h1>
+                        <p class="text-xl font-medium opacity-95">Módulo 1 - Conceptos fundamentales</p>
+                    </div>
+                </div>
+                <p class="text-lg opacity-90 max-w-3xl leading-relaxed">
+                    Isabella Andrea te acompaña en este recorrido por los conceptos fundamentales de la inteligencia artificial generativa y su aplicación en el contexto laboral.
+                </p>
+            </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="bg-white rounded-2xl p-6 mb-8 shadow-xl border border-gray-100">
+            <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                <h3 class="font-bold text-lg" style="color: var(--azul-dark);">Tu progreso en la síntesis</h3>
+                <div class="flex gap-3 flex-wrap">
+                    <span class="text-sm font-semibold px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-100 to-blue-50" style="color: var(--azul);">
+                        <span id="current-slide">1</span> de 8 diapositivas
+                    </span>
+                    <button onclick="downloadPDF()" class="text-sm font-semibold px-4 py-1.5 rounded-full bg-gradient-to-r from-red-100 to-red-50 hover:shadow-md transition-all" style="color: var(--rojo);">
+                        📄 Descargar PDF
+                    </button>
+                </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+                <div id="progress-bar" class="progress-bar h-3 rounded-full" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Contenedor de slides -->
+        <div class="slides-container">
+            
+            <!-- Slide 1: Portada -->
+            <div id="slide-0" class="slide active">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="text-center space-y-6">
+                        <div class="w-32 h-32 mx-auto bg-gradient-to-br from-blue-100 to-green-100 rounded-full flex items-center justify-center text-7xl mb-6">
+                            🤖
+                        </div>
+                        <h2 class="text-5xl font-extrabold mb-4" style="color: var(--azul-dark);">Síntesis: IA generativa</h2>
+                        <p class="text-2xl font-semibold mb-6" style="color: var(--azul);">Módulo 1</p>
+                        <div class="max-w-2xl mx-auto help-box p-6">
+                            <p class="text-lg text-gray-800 accessible-text">
+                                <strong>Isabella Andrea</strong> te acompaña en este recorrido por los conceptos fundamentales 
+                                de la inteligencia artificial generativa y su aplicación en el contexto laboral.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: ¿Qué es la IA generativa? -->
+            <div id="slide-1" class="slide">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                        Conceptos clave
+                    </span>
+                    <h2 class="text-4xl font-extrabold mb-6 flex items-center gap-3" style="color: var(--azul-dark);">
+                        <span class="text-5xl">💡</span>
+                        ¿Qué es la IA generativa?
+                    </h2>
+                    
+                    <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-8 mb-6 border-2 border-blue-200">
+                        <p class="text-xl leading-relaxed text-gray-800 accessible-text mb-6">
+                            Es una rama de la inteligencia artificial que <strong>crea contenido original y novedoso</strong>, 
+                            como textos, imágenes o música, a partir de los <strong>patrones aprendidos</strong> de grandes 
+                            volúmenes de información existente.
+                        </p>
+                        <div class="bg-white/80 rounded-xl p-6 border-2 border-green-200">
+                            <p class="text-lg text-gray-700 accessible-text">
+                                <span class="font-bold" style="color: var(--verde);">🎯 En términos prácticos:</span><br>
+                                Es como tener un asistente que ha leído millones de documentos y ahora puede ayudarte a 
+                                redactar, analizar, resumir y crear contenido adaptado a tus necesidades específicas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Las 4 claves -->
+            <div id="slide-2" class="slide">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F7F0; color: var(--verde);">
+                        Características
+                    </span>
+                    <h2 class="text-4xl font-extrabold mb-6 flex items-center gap-3" style="color: var(--verde);">
+                        <span class="text-5xl">🔑</span>
+                        Las 4 claves de la generatividad
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div onclick="openModal('creatividad')" class="info-card p-6">
+                            <div class="text-5xl mb-3">🎨</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--azul);">Creatividad</h3>
+                            <p class="text-gray-700 accessible-text">Produce variaciones infinitas de contenido sin repetir literalmente sus fuentes.</p>
+                        </div>
+                        <div onclick="openModal('adaptabilidad')" class="info-card p-6">
+                            <div class="text-5xl mb-3">🔄</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--verde);">Adaptabilidad</h3>
+                            <p class="text-gray-700 accessible-text">Se ajusta a diferentes contextos mediante instrucciones específicas (prompts).</p>
+                        </div>
+                        <div onclick="openModal('escalabilidad')" class="info-card p-6">
+                            <div class="text-5xl mb-3">📈</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--amarillo-dark);">Escalabilidad</h3>
+                            <p class="text-gray-700 accessible-text">Puede generar miles de variaciones en cuestión de segundos.</p>
+                        </div>
+                        <div onclick="openModal('multimodalidad')" class="info-card p-6">
+                            <div class="text-5xl mb-3">🎭</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--rojo);">Multimodalidad</h3>
+                            <p class="text-gray-700 accessible-text">Opera en múltiples formatos: texto, imagen, audio y video.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="help-box p-4 text-center">
+                        <p class="text-sm font-semibold text-gray-700">💡 Haz clic en cada tarjeta para conocer más detalles</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Software vs IA -->
+            <div id="slide-3" class="slide">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #FFF9E6; color: var(--amarillo-dark);">
+                        Comparación
+                    </span>
+                    <h2 class="text-4xl font-extrabold mb-6 flex items-center gap-3" style="color: var(--amarillo-dark);">
+                        <span class="text-5xl">⚖️</span>
+                        Software tradicional vs. IA generativa
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div onclick="openModal('tradicional')" class="info-card p-8">
+                            <div class="text-6xl mb-4 text-center">💻</div>
+                            <h3 class="font-bold text-2xl mb-4 text-center" style="color: var(--azul);">Software tradicional</h3>
+                            <ul class="space-y-3 text-gray-700 accessible-text">
+                                <li class="flex items-start">
+                                    <span class="mr-2">•</span>
+                                    <span>Reglas fijas y programadas manualmente</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-2">•</span>
+                                    <span>Salida determinista y predecible</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-2">•</span>
+                                    <span>Ejemplo: calculadora, Excel</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div onclick="openModal('generativa')" class="info-card p-8">
+                            <div class="text-6xl mb-4 text-center">🤖</div>
+                            <h3 class="font-bold text-2xl mb-4 text-center" style="color: var(--verde);">IA generativa</h3>
+                            <ul class="space-y-3 text-gray-700 accessible-text">
+                                <li class="flex items-start">
+                                    <span class="mr-2">•</span>
+                                    <span>Aprendizaje de patrones probabilísticos</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-2">•</span>
+                                    <span>Salida creativa y adaptable</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-2">•</span>
+                                    <span>Ejemplo: ChatGPT, Claude</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="help-box p-4 mt-6 text-center">
+                        <p class="text-sm font-semibold text-gray-700">💡 Haz clic en cada tarjeta para ver ejemplos concretos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: ¿Cómo funciona? -->
+            <div id="slide-4" class="slide">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                        Funcionamiento
+                    </span>
+                    <h2 class="text-4xl font-extrabold mb-6 flex items-center gap-3" style="color: var(--azul-dark);">
+                        <span class="text-5xl">⚙️</span>
+                        ¿Cómo funciona la IA generativa?
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-gradient-to-r from-blue-50 to-white border-2 border-blue-200 p-6 rounded-xl">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: var(--azul);">1</div>
+                                <div>
+                                    <h3 class="font-bold text-xl mb-2" style="color: var(--azul);">Entrenamiento (Pre-training)</h3>
+                                    <p class="text-gray-700 accessible-text">
+                                        La IA analiza vastos corpus de textos (libros, artículos, sitios web) para 
+                                        aprender estructuras del lenguaje, patrones y relaciones entre conceptos.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-green-50 to-white border-2 border-green-200 p-6 rounded-xl">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: var(--verde);">2</div>
+                                <div>
+                                    <h3 class="font-bold text-xl mb-2" style="color: var(--verde);">Afinamiento (Fine-tuning)</h3>
+                                    <p class="text-gray-700 accessible-text">
+                                        Se entrena con datos más específicos y tareas particulares para mejorar su 
+                                        desempeño en dominios especializados.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-yellow-50 to-white border-2 border-yellow-200 p-6 rounded-xl">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: var(--amarillo-dark);">3</div>
+                                <div>
+                                    <h3 class="font-bold text-xl mb-2" style="color: var(--amarillo-dark);">Refuerzo (RLHF)</h3>
+                                    <p class="text-gray-700 accessible-text">
+                                        Refinamiento mediante retroalimentación humana para alinear las respuestas con 
+                                        valores, preferencias y estándares de calidad.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Aplicaciones laborales -->
+            <div id="slide-5" class="slide">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F7F0; color: var(--verde);">
+                        Aplicaciones prácticas
+                    </span>
+                    <h2 class="text-4xl font-extrabold mb-6 flex items-center gap-3" style="color: var(--verde);">
+                        <span class="text-5xl">💼</span>
+                        Aplicaciones en el contexto laboral
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 p-6 rounded-xl">
+                            <div class="text-5xl mb-3">📝</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--azul);">Optimización de CVs</h3>
+                            <p class="text-gray-700 accessible-text">
+                                Reformular competencias con lenguaje corporativo apropiado y destacar logros cuantificables.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-50 to-white border-2 border-green-200 p-6 rounded-xl">
+                            <div class="text-5xl mb-3">✉️</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--verde);">Cartas personalizadas</h3>
+                            <p class="text-gray-700 accessible-text">
+                                Generar cartas de presentación adaptadas a ofertas específicas con tono profesional.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-yellow-50 to-white border-2 border-yellow-200 p-6 rounded-xl">
+                            <div class="text-5xl mb-3">🎯</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--amarillo-dark);">Preparación de entrevistas</h3>
+                            <p class="text-gray-700 accessible-text">
+                                Simular entrevistas con preguntas típicas y desarrollar narrativas convincentes (storytelling).
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-red-50 to-white border-2 border-red-200 p-6 rounded-xl">
+                            <div class="text-5xl mb-3">🔍</div>
+                            <h3 class="font-bold text-xl mb-2" style="color: var(--rojo);">Análisis de ofertas</h3>
+                            <p class="text-gray-700 accessible-text">
+                                Identificar competencias requeridas y mapear gaps entre tu perfil y los requisitos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Metodología -->
+            <div id="slide-6" class="slide">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #FFE6E6; color: var(--rojo);">
+                        Proceso de implementación
+                    </span>
+                    <h2 class="text-4xl font-extrabold mb-6 flex items-center gap-3" style="color: var(--rojo);">
+                        <span class="text-5xl">🚀</span>
+                        Metodología de 5 pasos
+                    </h2>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-gradient-to-r from-blue-50 to-white border-l-4 p-5 rounded-lg" style="border-color: var(--azul);">
+                            <div class="flex items-center gap-4">
+                                <div class="text-3xl font-bold flex-shrink-0" style="color: var(--azul);">1</div>
+                                <div>
+                                    <h3 class="font-bold text-lg" style="color: var(--azul);">Diagnóstico</h3>
+                                    <p class="text-gray-700 accessible-text">Identificar competencias actuales y áreas de mejora</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-green-50 to-white border-l-4 p-5 rounded-lg" style="border-color: var(--verde);">
+                            <div class="flex items-center gap-4">
+                                <div class="text-3xl font-bold flex-shrink-0" style="color: var(--verde);">2</div>
+                                <div>
+                                    <h3 class="font-bold text-lg" style="color: var(--verde);">Diseño</h3>
+                                    <p class="text-gray-700 accessible-text">Estructurar prompts efectivos y planificar iteraciones</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-yellow-50 to-white border-l-4 p-5 rounded-lg" style="border-color: var(--amarillo-dark);">
+                            <div class="flex items-center gap-4">
+                                <div class="text-3xl font-bold flex-shrink-0" style="color: var(--amarillo-dark);">3</div>
+                                <div>
+                                    <h3 class="font-bold text-lg" style="color: var(--amarillo-dark);">Pilotaje</h3>
+                                    <p class="text-gray-700 accessible-text">Probar con casos reales y ajustar estrategias</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-purple-50 to-white border-l-4 p-5 rounded-lg" style="border-color: #9333EA;">
+                            <div class="flex items-center gap-4">
+                                <div class="text-3xl font-bold flex-shrink-0" style="color: #9333EA;">4</div>
+                                <div>
+                                    <h3 class="font-bold text-lg" style="color: #9333EA;">Escalamiento</h3>
+                                    <p class="text-gray-700 accessible-text">Aplicar a múltiples ofertas y contextos laborales</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-red-50 to-white border-l-4 p-5 rounded-lg" style="border-color: var(--rojo);">
+                            <div class="flex items-center gap-4">
+                                <div class="text-3xl font-bold flex-shrink-0" style="color: var(--rojo);">5</div>
+                                <div>
+                                    <h3 class="font-bold text-lg" style="color: var(--rojo);">Optimización continua</h3>
+                                    <p class="text-gray-700 accessible-text">Refinar prompts basándose en resultados y feedback</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Conclusión -->
+            <div id="slide-7" class="slide">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="text-center space-y-6">
+                        <div class="w-32 h-32 mx-auto bg-gradient-to-br from-blue-100 to-green-100 rounded-full flex items-center justify-center text-7xl mb-6">
+                            🎓
+                        </div>
+                        <h2 class="text-4xl font-extrabold mb-6" style="color: var(--azul-dark);">Conclusión clave</h2>
+                        
+                        <div class="bg-gradient-to-br from-blue-50 via-green-50 to-yellow-50 border-2 border-blue-200 rounded-xl p-10 mb-6">
+                            <p class="text-2xl font-semibold text-gray-800 leading-relaxed accessible-text mb-6">
+                                La IA generativa es un <strong style="color: var(--azul);">"copiloto profesional"</strong> 
+                                que aumenta el <strong style="color: var(--verde);">juicio humano</strong>.
+                            </p>
+                            <div class="bg-white/80 rounded-xl p-6 border-2 border-green-200">
+                                <p class="text-lg text-gray-700 accessible-text">
+                                    El imperativo es desarrollar una <strong style="color: var(--azul);">alfabetización en IA</strong> 
+                                    que permita una colaboración <strong style="color: var(--verde);">eficaz</strong> y 
+                                    <strong style="color: var(--amarillo-dark);">ética</strong> con estos sistemas.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="help-box p-6">
+                            <p class="text-lg font-semibold" style="color: var(--verde);">
+                                🎉 ¡Has completado la síntesis del Módulo 1!
+                            </p>
+                            <p class="text-gray-700 mt-2">
+                                Isabella Andrea te acompaña en tu aprendizaje continuo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controles de navegación -->
+        <div class="flex justify-between items-center mt-8 gap-4">
+            <button id="prev-btn" onclick="prevSlide()" class="btn flex items-center gap-2 px-6 py-3 text-white font-bold" style="background-color: var(--azul);">
+                <span class="text-2xl">←</span>
+                <span>Anterior</span>
+            </button>
+            
+            <button onclick="location.reload()" class="btn px-6 py-3 text-white font-semibold" style="background-color: var(--amarillo-dark);">
+                🔄 Reiniciar
+            </button>
+            
+            <button id="next-btn" onclick="nextSlide()" class="btn flex items-center gap-2 px-6 py-3 text-white font-bold" style="background-color: var(--verde);">
+                <span>Siguiente</span>
+                <span class="text-2xl">→</span>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer-modern">
+            <div class="relative z-10">
+                <p class="text-lg font-bold mb-2">Oficina de Inteligencia Artificial</p>
+                <p class="text-sm">Vicerrectoría de Tecnologías de la Información</p>
+                <p class="text-sm font-semibold">Universidad de Chile</p>
+                <div class="text-sm opacity-90 mt-3">
+                    © 2025 • Todos los derechos reservados
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 8;
+        const LOCAL_STORAGE_KEY = 'sintesis_m1_progress';
+
+        // Cargar progreso guardado
+        function loadProgress() {
+            const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (saved) {
+                const progress = JSON.parse(saved);
+                currentSlide = progress.lastSlide || 0;
+                updateSlide();
+            }
+        }
+
+        // Guardar progreso
+        function saveProgress() {
+            const progress = {
+                lastSlide: currentSlide,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(progress));
+        }
+
+        function updateSlide() {
+            // Ocultar todas las diapositivas
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Mostrar diapositiva actual
+            document.getElementById(`slide-${currentSlide}`).classList.add('active');
+            
+            // Actualizar indicador
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Actualizar barra de progreso
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            
+            // Actualizar botones
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+            
+            // Guardar progreso
+            saveProgress();
+            
+            // Scroll al inicio
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        // Sistema de modales
+        const modalData = {
+            creatividad: {
+                title: '🎨 Creatividad',
+                content: '<p class="mb-4">La IA generativa produce <strong>variaciones infinitas de contenido</strong> sin repetir literalmente sus fuentes de entrenamiento.</p><div class="help-box p-4"><strong>Ejemplo práctico:</strong> Puede redactar una carta de presentación de 10 formas distintas, cada una con matices diferentes, adaptándose a diferentes contextos y tonos sin que ninguna sea una copia exacta de otra.</div>'
+            },
+            adaptabilidad: {
+                title: '🔄 Adaptabilidad',
+                content: '<p class="mb-4">Se adapta a <strong>diferentes contextos</strong> mediante instrucciones específicas (prompts).</p><div class="help-box p-4"><strong>Ejemplo práctico:</strong> Si le pides un tono formal para una carta corporativa o un tono coloquial para una red social, ajusta su lenguaje automáticamente para satisfacer tus necesidades específicas.</div>'
+            },
+            escalabilidad: {
+                title: '📈 Escalabilidad',
+                content: '<p class="mb-4">Puede generar <strong>miles de variaciones</strong> en cuestión de segundos.</p><div class="help-box p-4"><strong>Ejemplo práctico:</strong> Un reclutador que necesite personalizar 50 respuestas a candidatos podría hacerlo en minutos con IA generativa, manteniendo calidad y coherencia en cada respuesta.</div>'
+            },
+            multimodalidad: {
+                title: '🎭 Multimodalidad',
+                content: '<p class="mb-4">Opera en <strong>múltiples formatos:</strong> texto, imagen, audio y video.</p><div class="help-box p-4"><strong>Ejemplo práctico:</strong> Puede convertir un CV en una descripción visual infográfica, generar un podcast explicativo de tu experiencia, o crear presentaciones visuales atractivas, todo desde la misma información base.</div>'
+            },
+            tradicional: {
+                title: '💻 Software tradicional',
+                content: '<p class="mb-4"><strong>Características principales:</strong></p><ul class="space-y-2 mb-4"><li>• Reglas fijas programadas manualmente</li><li>• Salida determinista y predecible</li><li>• No aprende ni se adapta</li></ul><div class="help-box p-4"><strong>Ejemplo concreto:</strong> Excel o una calculadora. Si sumas 2+2, siempre obtendrás 4. Las reglas son fijas y programadas manualmente. No hay ambigüedad ni variación: el resultado es siempre predecible y determinista.</div>'
+            },
+            generativa: {
+                title: '🤖 IA generativa',
+                content: '<p class="mb-4"><strong>Características principales:</strong></p><ul class="space-y-2 mb-4"><li>• Aprendizaje de patrones probabilísticos</li><li>• Salida creativa y adaptable</li><li>• Mejora con retroalimentación</li></ul><div class="help-box p-4"><strong>Ejemplo concreto:</strong> ChatGPT o Claude. Si le pides "Escribe una introducción para mi CV", cada vez generará una versión diferente. Aprende de patrones en millones de textos y adapta su respuesta al contexto que le proporciones.</div>'
+            }
+        };
+
+        function openModal(type) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            modalTitle.textContent = modalData[type].title;
+            modalBody.innerHTML = modalData[type].content;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Modal de bienvenida
+        function showWelcomeModal() {
+            const welcomeShown = localStorage.getItem('sintesis_m1_welcome_shown');
+            if (!welcomeShown) {
+                document.getElementById('welcome-modal').classList.add('active');
+            }
+        }
+
+        function closeWelcomeModal() {
+            document.getElementById('welcome-modal').classList.remove('active');
+            localStorage.setItem('sintesis_m1_welcome_shown', 'true');
+        }
+
+        // Función para descargar PDF con pdfmake
+        function downloadPDF() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const slides = [
+                { num: '1', title: '¿Qué es la IA generativa?', content: 'Es una rama de la inteligencia artificial que crea contenido original y novedoso, como textos, imágenes o música, a partir de los patrones aprendidos.', color: '#0055A5' },
+                { num: '2', title: 'Las 4 claves de la generatividad', content: 'Creatividad: produce variaciones infinitas sin repetir. Adaptabilidad: se ajusta a diferentes contextos. Escalabilidad: genera miles de variaciones en segundos. Multimodalidad: opera en texto, imagen, audio y video.', color: '#00A859' },
+                { num: '3', title: 'Software tradicional vs. IA generativa', content: 'Software tradicional: reglas fijas programadas, salida determinista. IA generativa: aprendizaje probabilístico, salida creativa y adaptable.', color: '#E6BC00' },
+                { num: '4', title: '¿Cómo funciona?', content: 'Tres fases: (1) Entrenamiento con vastos corpus de textos, (2) Afinamiento con datos específicos, (3) Refuerzo con retroalimentación humana.', color: '#0055A5' },
+                { num: '5', title: 'Aplicaciones en el contexto laboral', content: 'Optimización de CVs, cartas personalizadas, preparación de entrevistas y análisis de ofertas laborales.', color: '#00A859' },
+                { num: '6', title: 'Metodología de 5 pasos', content: '(1) Diagnóstico, (2) Diseño, (3) Pilotaje, (4) Escalamiento, (5) Optimización continua.', color: '#E3000F' }
+            ];
+            
+            const slideContent = slides.map(slide => ({
+                columns: [
+                    {
+                        canvas: [{ type: 'ellipse', x: 12, y: 12, r1: 12, r2: 12, color: slide.color }],
+                        width: 30
+                    },
+                    {
+                        stack: [
+                            { text: slide.num + '. ' + slide.title, fontSize: 11, bold: true, color: slide.color, margin: [0, 0, 0, 4] },
+                            { text: slide.content, fontSize: 9, color: '#333333', lineHeight: 1.4 }
+                        ],
+                        width: '*'
+                    }
+                ],
+                columnGap: 10,
+                margin: [0, 0, 0, 12]
+            }));
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Síntesis: IA generativa', style: 'headerTitle' },
+                                        { text: 'Módulo 1 - Conceptos clave', style: 'headerSubtitle' }
+                                    ],
+                                    fillColor: '#0055A5',
+                                    margin: [20, 15, 20, 15]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 20]
+                    },
+                    ...slideContent,
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Conclusión clave', fontSize: 12, bold: true, color: '#FFFFFF', margin: [0, 0, 0, 8] },
+                                        { text: 'La IA generativa es un "copiloto profesional" que aumenta el juicio humano. El imperativo es desarrollar una alfabetización en IA que permita una colaboración eficaz y ética con estos sistemas.', fontSize: 10, color: '#FFFFFF', lineHeight: 1.4 }
+                                    ],
+                                    fillColor: '#00A859',
+                                    margin: [15, 12, 15, 12]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 20, 0, 0]
+                    }
+                ],
+                styles: {
+                    headerTitle: { fontSize: 20, bold: true, color: '#FFFFFF', alignment: 'center' },
+                    headerSubtitle: { fontSize: 12, color: '#FFFFFF', alignment: 'center', marginTop: 5 }
+                },
+                footer: {
+                    columns: [
+                        { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información', fontSize: 7, color: '#888888', margin: [40, 0, 0, 0] },
+                        { text: 'Universidad de Chile', fontSize: 7, color: '#888888', alignment: 'right', margin: [0, 0, 40, 0] }
+                    ],
+                    margin: [0, 20, 0, 0]
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('Sintesis_IA_Generativa_Modulo1.pdf');
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            updateSlide();
+            showWelcomeModal();
+        });
+    </script>
+</body>
+</html>

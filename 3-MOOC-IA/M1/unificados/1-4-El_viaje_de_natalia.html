@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Interactivo: El viaje de Isabella Andrea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+        
+        /* Animaciones optimizadas */
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Cards de opciones mejoradas */
+        .option-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid var(--gris-200);
+            background: white;
+            position: relative;
+            overflow: visible;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .option-card:hover::before {
+            opacity: 1;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 51, 160, 0.15);
+            border-color: var(--azul);
+        }
+        
+        .option-card.selected {
+            border-color: var(--azul);
+            background: linear-gradient(135deg, #EFF6FF, #F0F9FF);
+            box-shadow: 0 4px 16px rgba(0, 85, 165, 0.2);
+        }
+        
+        .option-card.correct {
+            border-color: var(--verde) !important;
+            background: linear-gradient(135deg, #ECFDF5, #F0FDF4) !important;
+            animation: correctPulse 0.5s ease;
+        }
+        
+        .option-card.incorrect {
+            border-color: var(--rojo) !important;
+            background: linear-gradient(135deg, #FEF2F2, #FFF1F2) !important;
+            animation: shake 0.5s ease;
+        }
+
+        /* Estilos mejorados para inputs */
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            min-height: 24px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: 3px solid var(--gris-300);
+            border-radius: 50%;
+            background: white;
+            position: relative;
+            transition: all 0.2s ease;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="radio"]:hover {
+            border-color: var(--azul);
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.1);
+        }
+
+        input[type="radio"]:checked {
+            border-color: var(--azul);
+            background: white;
+        }
+
+        input[type="radio"]:checked::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--azul);
+        }
+
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: 3px solid var(--gris-300);
+            border-radius: 5px;
+            background: white;
+            position: relative;
+            transition: all 0.2s ease;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="checkbox"]:hover {
+            border-color: var(--azul);
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.1);
+        }
+
+        input[type="checkbox"]:checked {
+            border-color: var(--azul);
+            background: var(--azul);
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        input[type="radio"]:focus,
+        input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.3);
+        }
+
+        .option-card label,
+        .option-card {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Cajas de ayuda mejoradas */
+        .help-box {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 4px solid var(--amarillo);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(255, 209, 0, 0.15);
+        }
+        
+        /* Barra de progreso mejorada */
+        .progress-bar {
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            box-shadow: 0 2px 8px rgba(0, 85, 165, 0.3);
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Feedback mejorado */
+        .feedback-positive {
+            background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+            border-left: 6px solid var(--verde);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+        
+        .feedback-negative {
+            background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
+            border-left: 6px solid var(--rojo);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+        
+        .feedback-partial {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 6px solid var(--amarillo);
+            border-radius: 28px;
+            animation: scaleIn 0.4s ease;
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Mejoras de accesibilidad */
+        *:focus-visible {
+            outline: 3px solid var(--azul);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        input[type="checkbox"]:focus-visible,
+        input[type="radio"]:focus-visible {
+            outline: 3px solid var(--azul);
+        }
+
+        /* Responsive optimizado */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .header-banner {
+                border-radius: 28px;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Drag and drop */
+        .draggable {
+            cursor: move;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid var(--gris-200);
+        }
+        
+        .draggable:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+            border-color: var(--azul);
+        }
+        
+        .dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+        
+        .drop-zone {
+            min-height: 100px;
+            transition: all 0.3s ease;
+            border: 2px dashed var(--gris-300);
+        }
+        
+        .drop-zone.drag-over {
+            background-color: #e0f2fe;
+            border-color: var(--azul);
+            border-style: solid;
+            transform: scale(1.02);
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-slate-50 to-green-50 min-h-screen">
+
+    <!-- Modal de Instrucciones -->
+    <div id="instructions-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl max-w-2xl mx-4 p-8 max-h-[90vh] overflow-y-auto">
+            <div class="text-center mb-6">
+                <div class="text-6xl mb-4">🎮</div>
+                <h2 class="text-3xl font-extrabold mb-3" style="color: var(--azul-dark);">Bienvenido/a al viaje de Isabella Andrea</h2>
+                <p class="text-lg text-gray-600">Simulador interactivo de búsqueda laboral con IA generativa</p>
+            </div>
+            
+            <div class="help-box p-6 mb-6">
+                <h3 class="font-bold text-xl mb-4" style="color: var(--azul);">📋 Instrucciones de uso</h3>
+                <div class="space-y-3 text-gray-700">
+                    <p class="flex items-start">
+                        <span class="text-2xl mr-3">1️⃣</span>
+                        <span><strong>Toma decisiones:</strong> En cada capítulo deberás elegir entre diferentes opciones que afectarán tu progreso.</span>
+                    </p>
+                    <p class="flex items-start">
+                        <span class="text-2xl mr-3">2️⃣</span>
+                        <span><strong>Observa tus estadísticas:</strong> Confianza, postulaciones, entrevistas y puntos se actualizarán según tus elecciones.</span>
+                    </p>
+                    <p class="flex items-start">
+                        <span class="text-2xl mr-3">3️⃣</span>
+                        <span><strong>Completa actividades:</strong> Resuelve ejercicios interactivos como análisis de palabras clave y construcción de prompts.</span>
+                    </p>
+                    <p class="flex items-start">
+                        <span class="text-2xl mr-3">4️⃣</span>
+                        <span><strong>Desbloquea logros:</strong> Acumula puntos y consigue medallas por buenas prácticas.</span>
+                    </p>
+                    <p class="flex items-start">
+                        <span class="text-2xl mr-3">💾</span>
+                        <span><strong>Progreso guardado:</strong> Tu avance se guarda automáticamente para que puedas continuar más tarde.</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-yellow-50 to-amber-50 border-2 border-yellow-400 rounded-xl p-5 mb-6">
+                <p class="text-sm text-gray-700">
+                    <strong class="text-yellow-800">⚡ Nota importante:</strong> Este simulador está diseñado pensando en la accesibilidad. 
+                    Si experimentas dificultades con las animaciones o el contenido, puedes ajustar las preferencias de movimiento reducido en tu navegador.
+                </p>
+            </div>
+
+            <button onclick="closeInstructionsModal()" class="btn w-full py-4 text-white font-semibold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                Comenzar el viaje 🚀
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner p-8 mb-8 text-white relative">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl">
+                        🚀
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-extrabold mb-2">El viaje de Isabella Andrea</h1>
+                        <p class="text-xl font-medium opacity-95">Simulador interactivo: Búsqueda laboral con IA generativa</p>
+                    </div>
+                </div>
+                <p class="text-lg opacity-90 max-w-3xl leading-relaxed">
+                    Acompaña a Isabella Andrea en su proceso de búsqueda laboral y aprende a usar la IA generativa de manera ética y efectiva para mejorar tu CV y postulaciones.
+                </p>
+            </div>
+        </div>
+
+        <!-- Barra de progreso y estadísticas -->
+        <div class="bg-white rounded-2xl p-6 mb-8 shadow-lg border border-gray-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg" style="color: var(--azul-dark);">Tu progreso</h3>
+                <span class="text-sm font-semibold px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-100 to-green-100" style="color: var(--azul);">
+                    <span id="chapter-indicator">Capítulo 1</span> de 6
+                </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner mb-4">
+                <div id="progress-bar" class="progress-bar h-3 rounded-full" style="width: 0%;"></div>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl text-center">
+                    <div class="text-xs text-gray-600 font-semibold mb-1">Confianza</div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <div class="text-2xl font-extrabold" style="color: var(--azul);" id="confidence-value">50%</div>
+                        <div class="text-lg" id="confidence-emoji">😐</div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl text-center">
+                    <div class="text-xs text-gray-600 font-semibold mb-1">Postulaciones</div>
+                    <div class="text-2xl font-extrabold" style="color: var(--verde);" id="applications-value">0</div>
+                </div>
+                <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-xl text-center">
+                    <div class="text-xs text-gray-600 font-semibold mb-1">Entrevistas</div>
+                    <div class="text-2xl font-extrabold" style="color: var(--amarillo-dark);" id="interviews-value">0</div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl text-center">
+                    <div class="text-xs text-gray-600 font-semibold mb-1">Puntos</div>
+                    <div class="text-2xl font-extrabold text-purple-700" id="points-value">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel de logros (flotante) -->
+        <div id="achievements-panel" class="hidden fixed top-4 right-4 bg-white rounded-xl shadow-2xl p-4 max-w-xs z-30 border-2" style="border-color: var(--amarillo);">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-lg" style="color: var(--amarillo);">🏆 Logros</h3>
+                <button onclick="closeAchievements()" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">×</button>
+            </div>
+            <div id="achievements-list" class="space-y-2"></div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div id="main-content">
+            <!-- El contenido se cargará dinámicamente aquí -->
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 bg-gradient-to-r from-blue-900 to-blue-800 text-white p-8 rounded-2xl shadow-xl">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-center md:text-left">
+                    <p class="font-bold text-lg mb-1">Universidad de Chile</p>
+                    <p class="text-sm text-blue-200">Vicerrectoría de Tecnologías de la Información</p>
+                    <p class="text-sm text-blue-200">Oficina de Inteligencia Artificial</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-sm mb-1">Recurso educativo interactivo</p>
+                    <p class="text-xs text-blue-300">Desarrollado con fines pedagógicos • 2025</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal de Feedback -->
+    <div id="feedback-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl max-w-2xl mx-4 p-8 max-h-[80vh] overflow-y-auto">
+            <div id="feedback-content"></div>
+            <button onclick="closeFeedback()" class="btn mt-6 w-full py-3 bg-gray-200 hover:bg-gray-300 rounded-xl font-semibold">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Estado del juego
+        let gameState = {
+            chapter: 1,
+            confidence: 50,
+            applications: 0,
+            interviews: 0,
+            points: 0,
+            achievements: [],
+            goodPractices: 0,
+            badDecisions: 0
+        };
+
+        let currentStep = 1;
+
+        // Definición de logros
+        const achievements = {
+            first_step: { name: 'Primer Paso', icon: '🎯', description: 'Iniciaste tu viaje laboral con IA' },
+            investigator: { name: 'Investigador', icon: '🔍', description: 'Investigaste antes de aplicar IA' },
+            prompt_master: { name: 'Maestro del Prompt', icon: '✍️', description: 'Construiste un prompt efectivo' },
+            honest: { name: 'Integridad', icon: '⚖️', description: 'Mantuviste honestidad en tu CV' },
+            confident: { name: 'Confianza Plena', icon: '💪', description: 'Alcanzaste 100% de confianza' },
+            success: { name: 'Éxito Laboral', icon: '🎓', description: 'Completaste el simulador' }
+        };
+
+        // Cargar estado guardado
+        function loadSavedState() {
+            const saved = localStorage.getItem('nataliaGameState');
+            if (saved) {
+                try {
+                    const parsedState = JSON.parse(saved);
+                    gameState = { ...gameState, ...parsedState };
+                    
+                    if (gameState.chapter > 1) {
+                        const continueGame = confirm('¿Deseas continuar donde lo dejaste?\n\nCapítulo ' + gameState.chapter + ' de 6');
+                        if (!continueGame) {
+                            resetGame();
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error al cargar estado guardado:', e);
+                }
+            }
+        }
+
+        // Guardar estado
+        function saveState() {
+            try {
+                localStorage.setItem('nataliaGameState', JSON.stringify(gameState));
+            } catch (e) {
+                console.error('Error al guardar estado:', e);
+            }
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            document.getElementById('confidence-value').textContent = gameState.confidence + '%';
+            document.getElementById('applications-value').textContent = gameState.applications;
+            document.getElementById('interviews-value').textContent = gameState.interviews;
+            document.getElementById('points-value').textContent = gameState.points;
+            document.getElementById('chapter-indicator').textContent = `Capítulo ${gameState.chapter}`;
+            
+            const confEmoji = gameState.confidence >= 80 ? '😊' : 
+                             gameState.confidence >= 60 ? '🙂' : 
+                             gameState.confidence >= 40 ? '😐' : '😟';
+            document.getElementById('confidence-emoji').textContent = confEmoji;
+            
+            const progress = (gameState.chapter / 6) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            
+            saveState();
+        }
+
+        // Sistema de puntos con notificación
+        function addPoints(points, reason) {
+            gameState.points += points;
+            updateStats();
+            
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-purple-600 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+            notification.style.animation = 'slideIn 0.5s ease-out';
+            notification.innerHTML = `<strong>+${points} puntos</strong><br><span class="text-sm">${reason}</span>`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(20px)';
+                notification.style.transition = 'all 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 2500);
+        }
+
+        // Desbloquear logros
+        function unlockAchievement(achievementId) {
+            if (!gameState.achievements.includes(achievementId)) {
+                gameState.achievements.push(achievementId);
+                const achievement = achievements[achievementId];
+                
+                const panel = document.getElementById('achievements-panel');
+                const list = document.getElementById('achievements-list');
+                
+                const achievementEl = document.createElement('div');
+                achievementEl.className = 'bg-gradient-to-r from-yellow-100 to-yellow-200 p-3 rounded-lg border-2 border-yellow-400';
+                achievementEl.style.animation = 'scaleIn 0.5s ease-out';
+                achievementEl.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="text-3xl">${achievement.icon}</div>
+                        <div>
+                            <div class="font-bold text-sm">${achievement.name}</div>
+                            <div class="text-xs text-gray-600">${achievement.description}</div>
+                        </div>
+                    </div>
+                `;
+                
+                list.appendChild(achievementEl);
+                panel.classList.remove('hidden');
+                
+                addPoints(50, 'Logro desbloqueado: ' + achievement.name);
+                saveState();
+            }
+        }
+
+        function closeAchievements() {
+            document.getElementById('achievements-panel').classList.add('hidden');
+        }
+
+        // Sistema de feedback mejorado
+        function showFeedback(content, isPositive = true) {
+            const modal = document.getElementById('feedback-modal');
+            const feedbackContent = document.getElementById('feedback-content');
+            
+            const className = isPositive ? 'feedback-positive' : 'feedback-negative';
+            feedbackContent.innerHTML = `<div class="${className} p-6 rounded-xl">${content}</div>`;
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeFeedback() {
+            document.getElementById('feedback-modal').classList.add('hidden');
+        }
+
+        // Modal de instrucciones
+        function showInstructionsModal() {
+            document.getElementById('instructions-modal').classList.remove('hidden');
+        }
+
+        function closeInstructionsModal() {
+            document.getElementById('instructions-modal').classList.add('hidden');
+        }
+
+        // Función para cambiar de paso/capítulo
+        function nextStep() {
+            const currentStepEl = document.getElementById(`step-${currentStep}`);
+            if (currentStepEl) {
+                currentStepEl.classList.remove('active');
+            }
+            
+            currentStep++;
+            gameState.chapter = currentStep;
+            
+            const nextStepEl = document.getElementById(`step-${currentStep}`);
+            if (nextStepEl) {
+                nextStepEl.classList.add('active');
+            }
+            
+            updateStats();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Definición de capítulos con estructura de pasos
+        const chapters = `
+            <!-- Capítulo 1 -->
+            <div id="step-1" class="step active">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="mb-6">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                            Capítulo 1
+                        </span>
+                        <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">El inicio del viaje</h2>
+                        <p class="text-lg text-gray-700 leading-relaxed">Conoce a Isabella Andrea y su decisión de usar IA generativa en su búsqueda laboral.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-50 to-green-50 p-6 rounded-xl mb-6 border-2 border-blue-200">
+                        <p class="text-lg mb-4 leading-relaxed">
+                            <strong class="text-blue-900">Isabella Andrea</strong> es una profesional con 5 años de experiencia en administración de empresas. 
+                            Después de trabajar en una empresa familiar, decidió buscar nuevas oportunidades que le permitan crecer profesionalmente.
+                        </p>
+                        <p class="text-lg leading-relaxed">
+                            Ha escuchado que las <strong class="text-green-700">herramientas de IA generativa</strong> como ChatGPT pueden ayudarle 
+                            a mejorar su CV y postulaciones, pero no está segura de cómo usarlas correctamente.
+                        </p>
+                    </div>
+
+                    <div class="help-box p-6 mb-8">
+                        <div class="flex items-start gap-3">
+                            <span class="text-3xl">🤔</span>
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">Primera decisión: ¿Cómo usar la IA?</p>
+                                <p class="text-gray-700 leading-relaxed">Isabella Andrea abre ChatGPT por primera vez y piensa en cómo empezar. ¿Qué debería hacer primero?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="form-cap1" class="space-y-4 mb-6">
+                        <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                            <input type="radio" name="q-cap1" value="research" class="mt-1.5">
+                            <div>
+                                <span class="font-semibold text-gray-800">🔍 Investigar sobre el uso responsable de IA</span>
+                                <p class="text-sm text-gray-600 mt-1">Buscar información sobre cómo usar IA de manera ética y efectiva en procesos laborales</p>
+                            </div>
+                        </label>
+
+                        <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                            <input type="radio" name="q-cap1" value="direct" class="mt-1.5">
+                            <div>
+                                <span class="font-semibold text-gray-800">⚡ Pedirle directamente que escriba su CV completo</span>
+                                <p class="text-sm text-gray-600 mt-1">Darle a ChatGPT algunos datos y pedirle que genere un CV profesional listo para usar</p>
+                            </div>
+                        </label>
+                    </form>
+
+                    <div id="feedback-cap1" class="hidden mb-6"></div>
+
+                    <button onclick="checkChapter1()" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                        Continuar →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Capítulo 2 - Research Path -->
+            <div id="step-2" class="step">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="mb-6">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                            Capítulo 2
+                        </span>
+                        <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Comprendiendo el sistema ATS</h2>
+                    </div>
+
+                    <div class="feedback-positive p-6 mb-6">
+                        <p class="font-bold text-2xl mb-3" style="color: var(--verde);">✅ ¡Buena decisión!</p>
+                        <p class="text-gray-700 leading-relaxed">
+                            Isabella Andrea decide investigar primero. Descubre que muchas empresas usan sistemas ATS (Applicant Tracking System) 
+                            que filtran CVs basándose en palabras clave antes de que un humano los vea.
+                        </p>
+                    </div>
+
+                    <div class="help-box p-6 mb-8">
+                        <div class="flex items-start gap-3">
+                            <span class="text-3xl">💡</span>
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">Información clave sobre ATS:</p>
+                                <div class="space-y-2 text-gray-700">
+                                    <p>✓ Los ATS escanean CVs buscando palabras clave que coincidan con la descripción del trabajo</p>
+                                    <p>✓ Es crucial usar el lenguaje específico de la industria y el cargo</p>
+                                    <p>✓ La IA puede ayudar a identificar estas palabras clave, pero NO debe inventar experiencias</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-gray-50 to-green-50 rounded-xl p-6 mb-6 border-2 border-green-200">
+                        <h3 class="font-bold text-xl mb-4 flex items-center gap-2" style="color: var(--azul-dark);">
+                            <span class="text-2xl">🎯</span>
+                            Actividad: Identificación de palabras clave
+                        </h3>
+                        <p class="text-gray-700 mb-4">Isabella Andrea encuentra esta oferta de trabajo. Ayúdala a identificar las palabras clave más importantes.</p>
+                        
+                        <div class="bg-white p-4 rounded-lg mb-4 border-2 border-gray-200">
+                            <p class="font-bold mb-2">Oferta: Gerente de Operaciones</p>
+                            <p class="text-sm text-gray-700">
+                                "Buscamos un profesional con experiencia en <strong>gestión de equipos</strong>, 
+                                sólidos conocimientos en <strong>optimización de procesos</strong> y <strong>logística</strong>. 
+                                Debe manejar <strong>Excel avanzado</strong> y herramientas de <strong>Business Intelligence</strong>. 
+                                Se valorará experiencia con <strong>sistemas ERP</strong> y habilidades de <strong>negociación</strong>."
+                            </p>
+                        </div>
+
+                        <div id="keywords-game" class="mb-6">
+                            <p class="text-sm font-semibold mb-3">Arrastra las palabras clave técnicas a la zona de selección:</p>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4" id="keywords-source">
+                                <div class="draggable bg-white p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="gestion-equipos">Gestión de equipos</div>
+                                <div class="draggable bg-white p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="optimizacion">Optimización de procesos</div>
+                                <div class="draggable bg-white p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="logistica">Logística</div>
+                                <div class="draggable bg-white p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="excel">Excel avanzado</div>
+                                <div class="draggable bg-white p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="bi">Business Intelligence</div>
+                                <div class="draggable bg-white p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="erp">Sistemas ERP</div>
+                                <div class="draggable bg-white p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="negociacion">Negociación</div>
+                                <div class="draggable bg-gray-100 p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="wrong1">Buena presencia</div>
+                                <div class="draggable bg-gray-100 p-3 rounded-lg text-center shadow-sm" draggable="true" data-keyword="wrong2">Trabajo en equipo</div>
+                            </div>
+
+                            <div class="drop-zone bg-blue-50 p-6 rounded-xl mb-4" id="keywords-drop">
+                                <p class="text-center text-gray-500 text-sm mb-2">Arrastra aquí las palabras clave técnicas</p>
+                                <div id="selected-keywords" class="flex flex-wrap gap-2 min-h-[60px] justify-center"></div>
+                            </div>
+
+                            <button onclick="checkKeywords()" class="btn w-full py-3 text-white font-bold rounded-xl" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                                Verificar selección
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="feedback-cap2" class="hidden"></div>
+                </div>
+            </div>
+
+            <!-- Capítulo 3 -->
+            <div id="step-3" class="step">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="mb-6">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                            Capítulo 3
+                        </span>
+                        <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Construyendo el prompt perfecto</h2>
+                    </div>
+
+                    <div class="feedback-positive p-6 mb-6">
+                        <p class="font-bold text-xl mb-3" style="color: var(--verde);">✅ ¡Excelente progreso!</p>
+                        <p class="text-gray-700">Isabella Andrea ha identificado las palabras clave importantes. Ahora necesita escribir un prompt efectivo.</p>
+                    </div>
+
+                    <div class="help-box p-6 mb-8">
+                        <div class="flex items-start gap-3">
+                            <span class="text-3xl">✍️</span>
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">Elementos de un prompt efectivo:</p>
+                                <div class="space-y-2 text-sm text-gray-700">
+                                    <p>1. <strong>Contexto claro:</strong> Explicar quién eres y qué necesitas</p>
+                                    <p>2. <strong>Información específica:</strong> Proporcionar tus experiencias reales</p>
+                                    <p>3. <strong>Instrucciones precisas:</strong> Indicar qué debe y qué NO debe hacer la IA</p>
+                                    <p>4. <strong>Formato deseado:</strong> Especificar cómo quieres el resultado</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="form-cap3" class="space-y-4 mb-6">
+                        <div class="bg-gray-50 p-5 rounded-xl border-2 border-gray-300">
+                            <p class="font-bold mb-3">Selecciona el CONTEXTO más apropiado:</p>
+                            <div class="space-y-2">
+                                <label class="option-card flex items-start p-3 rounded-lg">
+                                    <input type="radio" name="context" value="correct" class="mt-1 mr-3">
+                                    <span class="text-sm">"Soy una profesional con 5 años de experiencia en administración de empresas, especializada en gestión de operaciones y logística. Necesito reformular mi CV para una oferta de Gerente de Operaciones."</span>
+                                </label>
+                                <label class="option-card flex items-start p-3 rounded-lg">
+                                    <input type="radio" name="context" value="wrong" class="mt-1 mr-3">
+                                    <span class="text-sm">"Ayúdame con mi CV."</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-5 rounded-xl border-2 border-gray-300">
+                            <p class="font-bold mb-3">Selecciona las INSTRUCCIONES correctas:</p>
+                            <div class="space-y-2">
+                                <label class="option-card flex items-start p-3 rounded-lg">
+                                    <input type="radio" name="instructions" value="correct" class="mt-1 mr-3">
+                                    <span class="text-sm">"Reformula mi experiencia usando las siguientes palabras clave: gestión de equipos, optimización de procesos, logística. NO inventes logros ni experiencias. Usa lenguaje profesional pero mantén la veracidad de mi información."</span>
+                                </label>
+                                <label class="option-card flex items-start p-3 rounded-lg">
+                                    <input type="radio" name="instructions" value="wrong" class="mt-1 mr-3">
+                                    <span class="text-sm">"Haz que mi CV se vea impresionante. Agrega los logros y experiencias que creas necesarios."</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-5 rounded-xl border-2 border-gray-300">
+                            <p class="font-bold mb-3">Selecciona el FORMATO deseado:</p>
+                            <div class="space-y-2">
+                                <label class="option-card flex items-start p-3 rounded-lg">
+                                    <input type="radio" name="format" value="correct" class="mt-1 mr-3">
+                                    <span class="text-sm">"Presenta cada experiencia en formato: Cargo - Empresa - Período - 3 bullets con logros específicos."</span>
+                                </label>
+                                <label class="option-card flex items-start p-3 rounded-lg">
+                                    <input type="radio" name="format" value="wrong" class="mt-1 mr-3">
+                                    <span class="text-sm">"Escríbelo como quieras."</span>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="feedback-cap3" class="hidden mb-6"></div>
+
+                    <button onclick="checkChapter3()" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                        Construir prompt
+                    </button>
+                </div>
+            </div>
+
+            <!-- Capítulo 4 -->
+            <div id="step-4" class="step">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="mb-6">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                            Capítulo 4
+                        </span>
+                        <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">El momento de la verdad</h2>
+                    </div>
+
+                    <div class="feedback-positive p-6 mb-6">
+                        <p class="font-bold text-xl mb-3" style="color: var(--verde);">🎉 ¡Prompt perfecto!</p>
+                        <p class="text-gray-700">Isabella Andrea ha construido un prompt efectivo. La IA le devuelve una versión mejorada de su CV.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-red-50 p-5 rounded-xl border-2 border-red-200">
+                            <p class="font-bold text-red-900 mb-3">❌ Versión original</p>
+                            <p class="text-sm mb-2"><strong>Administradora</strong><br>Empresa Familiar (2019-2024)</p>
+                            <ul class="text-sm space-y-1">
+                                <li>• Ayudaba con las cuentas</li>
+                                <li>• Coordinaba entregas</li>
+                                <li>• Atendía clientes</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 p-5 rounded-xl border-2 border-green-300">
+                            <p class="font-bold text-green-900 mb-3">✅ Versión reformulada</p>
+                            <p class="text-sm mb-2"><strong>Gerente de Operaciones</strong><br>Empresa Familiar (2019-2024)</p>
+                            <ul class="text-sm space-y-1">
+                                <li>• Gestión integral de operaciones administrativas y financieras</li>
+                                <li>• Optimización de procesos logísticos y cadena de distribución</li>
+                                <li>• Coordinación de equipos y gestión de relaciones con clientes corporativos</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="help-box p-6 mb-8">
+                        <div class="flex items-start gap-3">
+                            <span class="text-3xl">🤔</span>
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">Decisión crítica: La tentación de exagerar</p>
+                                <p class="text-gray-700 mb-3">La IA le sugiere agregar logros adicionales como:</p>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• "Incrementé la eficiencia operacional en un 40%"</li>
+                                    <li>• "Lideré la implementación de un sistema ERP enterprise"</li>
+                                    <li>• "Gestioné equipos de hasta 15 personas"</li>
+                                </ul>
+                                <p class="text-gray-700 mt-3 font-semibold">Estas cifras suenan bien, pero Isabella Andrea no puede documentarlas. ¿Qué debería hacer?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="form-cap4" class="space-y-4 mb-6">
+                        <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                            <input type="radio" name="q-cap4" value="honest" class="mt-1.5">
+                            <div>
+                                <span class="font-semibold text-gray-800">⚖️ Mantener solo información verificable</span>
+                                <p class="text-sm text-gray-600 mt-1">Usar únicamente logros y experiencias que pueda explicar y defender en una entrevista</p>
+                            </div>
+                        </label>
+
+                        <label class="option-card p-5 rounded-xl flex items-start gap-4 cursor-pointer">
+                            <input type="radio" name="q-cap4" value="exaggerate" class="mt-1.5">
+                            <div>
+                                <span class="font-semibold text-gray-800">📈 Incluir las sugerencias de la IA</span>
+                                <p class="text-sm text-gray-600 mt-1">Agregar los logros sugeridos para hacer el CV más competitivo</p>
+                            </div>
+                        </label>
+                    </form>
+
+                    <div id="feedback-cap4" class="hidden mb-6"></div>
+
+                    <button onclick="checkChapter4()" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                        Tomar decisión →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Capítulo 5 -->
+            <div id="step-5" class="step">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="mb-6">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                            Capítulo 5
+                        </span>
+                        <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">Validando con pensamiento crítico</h2>
+                    </div>
+
+                    <div class="feedback-positive p-6 mb-6">
+                        <p class="font-bold text-2xl mb-3" style="color: var(--verde);">🏆 ¡Excelente decisión ética!</p>
+                        <p class="text-gray-700">Isabella Andrea decidió mantener solo información verificable. Esto demuestra integridad profesional.</p>
+                    </div>
+
+                    <div class="help-box p-6 mb-8">
+                        <div class="flex items-start gap-3">
+                            <span class="text-3xl">🧠</span>
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">Ejercicio de pensamiento crítico</p>
+                                <p class="text-gray-700">Ayuda a Isabella Andrea a identificar señales de alerta en un CV generado por IA para un amigo.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-5 rounded-xl mb-4 border-2 border-gray-300">
+                        <p class="font-bold mb-3">CV generado por IA:</p>
+                        <p class="text-sm mb-2"><strong>Gerente Senior de Marketing Digital</strong><br>Tech Startup (2021-2023)</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• Reduje el costo de adquisición de clientes en un 40%</li>
+                            <li>• Lideré un equipo de 12 especialistas</li>
+                            <li>• Implementé estrategias de SEO que aumentaron el tráfico en 200%</li>
+                            <li>• Gestioné presupuestos superiores a $500,000 USD anuales</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-5 rounded-xl mb-4 border-2 border-yellow-300">
+                        <p class="font-bold mb-2 text-yellow-900">📋 Información real:</p>
+                        <p class="text-sm">Trabajó 2 años como coordinador de marketing, manejando redes sociales. El equipo total era de 3 personas. No tenía acceso a métricas de costos ni presupuestos.</p>
+                    </div>
+
+                    <form id="form-cap5" class="space-y-3 mb-6">
+                        <label class="option-card flex items-start p-4 rounded-lg">
+                            <input type="checkbox" data-correct="true" class="mt-1 mr-3">
+                            <span class="text-sm"><strong>Cargo inflado:</strong> "Gerente Senior" cuando era "Coordinador"</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-lg">
+                            <input type="checkbox" data-correct="true" class="mt-1 mr-3">
+                            <span class="text-sm"><strong>Métrica inventada:</strong> Reducción del 40% sin datos reales</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-lg">
+                            <input type="checkbox" data-correct="true" class="mt-1 mr-3">
+                            <span class="text-sm"><strong>Tamaño de equipo exagerado:</strong> 12 personas cuando eran 3</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-lg">
+                            <input type="checkbox" data-correct="false" class="mt-1 mr-3">
+                            <span class="text-sm"><strong>Experiencia en redes sociales:</strong> Parte real del trabajo</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-lg">
+                            <input type="checkbox" data-correct="true" class="mt-1 mr-3">
+                            <span class="text-sm"><strong>Cifras de presupuesto:</strong> $500,000 sin tener acceso</span>
+                        </label>
+                    </form>
+
+                    <div id="feedback-cap5" class="hidden mb-6"></div>
+
+                    <button onclick="checkChapter5()" class="btn px-8 py-4 text-white font-semibold text-lg rounded-xl w-full md:w-auto" style="background: linear-gradient(135deg, var(--azul), var(--azul-hover));">
+                        Verificar análisis
+                    </button>
+                </div>
+            </div>
+
+            <!-- Capítulo 6 -->
+            <div id="step-6" class="step">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                    <div class="mb-6">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style="background-color: #E6F0FF; color: var(--azul);">
+                            Capítulo 6
+                        </span>
+                        <h2 class="text-3xl font-extrabold mb-4" style="color: var(--azul-dark);">¡El éxito de Isabella Andrea!</h2>
+                    </div>
+
+                    <div class="feedback-positive p-6 mb-6">
+                        <p class="font-bold text-3xl mb-4" style="color: var(--verde);">🎊 ¡Felicitaciones!</p>
+                        <p class="text-lg mb-4">Después de aplicar todas las mejores prácticas, Isabella Andrea consiguió el trabajo de Gerente de Operaciones.</p>
+                        <p class="text-lg">Pudo explicar con confianza cada punto de su CV y demostrar su conocimiento real.</p>
+                    </div>
+
+                    <div id="performance-summary" class="mb-8"></div>
+
+                    <div class="bg-gradient-to-br from-blue-50 to-green-50 p-6 rounded-xl mb-6 border-2 border-blue-200">
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--azul);">🎓 Lecciones clave del viaje</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start p-4 bg-white rounded-lg">
+                                <span class="text-2xl mr-3">1️⃣</span>
+                                <div>
+                                    <p class="font-bold mb-1">Investiga antes de usar IA</p>
+                                    <p class="text-sm text-gray-700">Comprende los sistemas ATS y herramientas de reclutamiento</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-4 bg-white rounded-lg">
+                                <span class="text-2xl mr-3">2️⃣</span>
+                                <div>
+                                    <p class="font-bold mb-1">Usa palabras clave estratégicamente</p>
+                                    <p class="text-sm text-gray-700">Identifica términos técnicos relevantes para cada oferta</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-4 bg-white rounded-lg">
+                                <span class="text-2xl mr-3">3️⃣</span>
+                                <div>
+                                    <p class="font-bold mb-1">Construye prompts efectivos</p>
+                                    <p class="text-sm text-gray-700">Contexto claro + instrucciones precisas</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-4 bg-white rounded-lg">
+                                <span class="text-2xl mr-3">4️⃣</span>
+                                <div>
+                                    <p class="font-bold mb-1">Mantén la honestidad siempre</p>
+                                    <p class="text-sm text-gray-700">Solo incluye información verificable</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-4 bg-white rounded-lg">
+                                <span class="text-2xl mr-3">5️⃣</span>
+                                <div>
+                                    <p class="font-bold mb-1">Aplica pensamiento crítico</p>
+                                    <p class="text-sm text-gray-700">Valida outputs de IA antes de usarlos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <button onclick="showCertificate()" class="btn flex-1 py-4 text-white font-bold text-lg rounded-xl" style="background: linear-gradient(135deg, var(--verde), var(--verde-hover));">
+                            📜 Ver certificado
+                        </button>
+                        <button onclick="resetGame()" class="btn flex-1 py-4 border-2 font-bold text-lg rounded-xl" style="border-color: var(--azul); color: var(--azul); background: white;">
+                            🔄 Reiniciar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Cargar capítulos al inicio
+        document.getElementById('main-content').innerHTML = chapters;
+
+        // Funciones de verificación de capítulos
+        function checkChapter1() {
+            const selected = document.querySelector('input[name="q-cap1"]:checked');
+            if (!selected) {
+                alert('Por favor selecciona una opción');
+                return;
+            }
+
+            const feedback = document.getElementById('feedback-cap1');
+            
+            if (selected.value === 'research') {
+                gameState.confidence += 15;
+                gameState.goodPractices++;
+                addPoints(100, 'Investigación responsable');
+                unlockAchievement('investigator');
+                
+                feedback.innerHTML = '<div class="feedback-positive p-6 rounded-xl"><p class="font-bold text-xl mb-2" style="color: var(--verde);">✅ ¡Excelente decisión!</p><p>Has demostrado responsabilidad al investigar antes de usar la IA. +15% Confianza | +100 Puntos</p></div>';
+                feedback.classList.remove('hidden');
+                
+                setTimeout(nextStep, 2000);
+            } else {
+                gameState.confidence -= 10;
+                gameState.badDecisions++;
+                
+                feedback.innerHTML = '<div class="feedback-negative p-6 rounded-xl"><p class="font-bold text-xl mb-2" style="color: var(--rojo);">⚠️ Decisión arriesgada</p><p>Usar IA sin investigar puede llevar a errores. -10% Confianza</p></div>';
+                feedback.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    feedback.innerHTML += '<p class="mt-4 text-center"><button onclick="nextStep()" class="btn px-6 py-3 text-white rounded-xl" style="background: var(--azul);">Continuar de todos modos →</button></p>';
+                }, 2000);
+            }
+            
+            updateStats();
+        }
+
+        // Sistema drag and drop para palabras clave
+        let draggedElement = null;
+
+        function initKeywordsGame() {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZone = document.getElementById('keywords-drop');
+            const selectedContainer = document.getElementById('selected-keywords');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+
+                draggable.addEventListener('click', function() {
+                    if (this.getAttribute('draggable') === 'true') {
+                        const clone = this.cloneNode(true);
+                        clone.setAttribute('draggable', 'false');
+                        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.textContent = '×';
+                        removeBtn.className = 'ml-2 text-red-600 hover:text-red-800 font-bold text-xl';
+                        removeBtn.onclick = function() {
+                            clone.remove();
+                            draggable.style.opacity = '1';
+                            draggable.setAttribute('draggable', 'true');
+                        };
+                        clone.appendChild(removeBtn);
+                        
+                        selectedContainer.appendChild(clone);
+                        this.style.opacity = '0.3';
+                        this.setAttribute('draggable', 'false');
+                    }
+                });
+            });
+
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+
+            dropZone.addEventListener('dragleave', function() {
+                this.classList.remove('drag-over');
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+
+                if (draggedElement) {
+                    const clone = draggedElement.cloneNode(true);
+                    clone.setAttribute('draggable', 'false');
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = '×';
+                    removeBtn.className = 'ml-2 text-red-600 hover:text-red-800 font-bold text-xl';
+                    removeBtn.onclick = function() {
+                        clone.remove();
+                        draggedElement.style.opacity = '1';
+                        draggedElement.setAttribute('draggable', 'true');
+                    };
+                    clone.appendChild(removeBtn);
+                    
+                    selectedContainer.appendChild(clone);
+                    draggedElement.style.opacity = '0.3';
+                    draggedElement.setAttribute('draggable', 'false');
+                }
+            });
+        }
+
+        function checkKeywords() {
+            const selectedKeywords = document.querySelectorAll('#selected-keywords .draggable');
+            const correctKeywords = ['gestion-equipos', 'optimizacion', 'logistica', 'excel', 'bi', 'erp', 'negociacion'];
+            const wrongKeywords = ['wrong1', 'wrong2'];
+            
+            let correct = 0;
+            let hasWrong = false;
+
+            selectedKeywords.forEach(kw => {
+                const keyword = kw.dataset.keyword;
+                if (correctKeywords.includes(keyword)) {
+                    correct++;
+                } else if (wrongKeywords.includes(keyword)) {
+                    hasWrong = true;
+                }
+            });
+
+            if (hasWrong) {
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-yellow-700">📚 Revisa tu selección</h3><p class="mb-3">Incluiste palabras que NO son competencias técnicas específicas.</p>', false);
+            } else if (correct >= 5) {
+                gameState.confidence += 10;
+                gameState.goodPractices++;
+                addPoints(100, 'Identificación correcta');
+                updateStats();
+                
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-green-700">✅ ¡Excelente análisis!</h3><p class="mb-3">Identificaste correctamente las palabras clave técnicas.</p><p class="text-sm font-semibold">+10% Confianza | +100 Puntos</p>', true);
+                
+                setTimeout(() => {
+                    closeFeedback();
+                    nextStep();
+                }, 3000);
+            } else {
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-yellow-700">📚 Te faltan palabras clave</h3><p>Seleccionaste solo ' + correct + ' de 7 esenciales.</p>', false);
+            }
+        }
+
+        function checkChapter3() {
+            const context = document.querySelector('input[name="context"]:checked');
+            const instructions = document.querySelector('input[name="instructions"]:checked');
+            const format = document.querySelector('input[name="format"]:checked');
+
+            if (!context || !instructions || !format) {
+                alert('Debes seleccionar una opción en cada categoría');
+                return;
+            }
+
+            const allCorrect = context.value === 'correct' && instructions.value === 'correct' && format.value === 'correct';
+
+            if (allCorrect) {
+                gameState.confidence += 15;
+                gameState.goodPractices++;
+                gameState.applications += 5;
+                addPoints(150, 'Prompt efectivo');
+                unlockAchievement('prompt_master');
+                updateStats();
+                
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-green-700">🎯 ¡Prompt perfecto!</h3><p class="mb-3">Has construido un prompt efectivo con contexto claro, instrucciones precisas y formato específico.</p><p class="text-sm font-semibold">+15% Confianza | +150 Puntos</p>', true);
+                
+                setTimeout(() => {
+                    closeFeedback();
+                    nextStep();
+                }, 3500);
+            } else {
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-yellow-700">📝 Revisa tu prompt</h3><p>Algunos elementos necesitan mejorar para obtener mejores resultados.</p>', false);
+            }
+        }
+
+        function checkChapter4() {
+            const selected = document.querySelector('input[name="q-cap4"]:checked');
+            if (!selected) {
+                alert('Por favor selecciona una opción');
+                return;
+            }
+
+            if (selected.value === 'honest') {
+                gameState.confidence += 20;
+                gameState.goodPractices++;
+                addPoints(150, 'Integridad profesional');
+                unlockAchievement('honest');
+                updateStats();
+                
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-green-700">🏆 ¡Excelente ética!</h3><p class="mb-3">Mantuviste la honestidad, lo cual es fundamental.</p><p class="text-sm font-semibold">+20% Confianza | +150 Puntos</p>', true);
+                
+                setTimeout(() => {
+                    closeFeedback();
+                    nextStep();
+                }, 3000);
+            } else {
+                gameState.confidence -= 20;
+                gameState.badDecisions++;
+                gameState.interviews += 3;
+                updateStats();
+                
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-red-700">⚠️ Decisión arriesgada</h3><p class="mb-3">Las exageraciones se descubren en entrevistas.</p><p class="text-sm">-20% Confianza</p>', false);
+                
+                setTimeout(() => {
+                    closeFeedback();
+                    nextStep();
+                }, 3000);
+            }
+        }
+
+        function checkChapter5() {
+            const checkboxes = document.querySelectorAll('#form-cap5 input[type="checkbox"]');
+            let allCorrect = true;
+            
+            checkboxes.forEach(cb => {
+                const shouldBeChecked = cb.dataset.correct === 'true';
+                const isChecked = cb.checked;
+                
+                if (shouldBeChecked !== isChecked) {
+                    allCorrect = false;
+                }
+                
+                const label = cb.parentElement;
+                if (isChecked) {
+                    if (shouldBeChecked) {
+                        label.classList.add('correct');
+                    } else {
+                        label.classList.add('incorrect');
+                    }
+                } else {
+                    if (shouldBeChecked) {
+                        label.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            if (allCorrect) {
+                gameState.confidence += 15;
+                gameState.goodPractices++;
+                gameState.interviews += 3;
+                addPoints(150, 'Análisis crítico');
+                updateStats();
+                
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-green-700">🧠 ¡Análisis perfecto!</h3><p class="mb-3">Identificaste correctamente todas las señales de alerta.</p><p class="text-sm font-semibold">+15% Confianza | +150 Puntos</p>', true);
+                
+                setTimeout(() => {
+                    closeFeedback();
+                    nextStep();
+                }, 3500);
+            } else {
+                showFeedback('<h3 class="font-bold text-xl mb-3 text-yellow-700">🔍 Revisa tu análisis</h3><p>Algunas respuestas no son correctas.</p>', false);
+            }
+        }
+
+        function generatePerformanceSummary() {
+            const summaryDiv = document.getElementById('performance-summary');
+            
+            let summaryHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-green-50 border-2 p-6 rounded-2xl shadow-lg" style="border-color: var(--azul);">
+                    <h3 class="font-bold text-2xl mb-6 text-center" style="color: var(--azul);">📊 Tu desempeño final</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                            <div class="text-3xl font-extrabold" style="color: var(--azul);">${gameState.points}</div>
+                            <div class="text-sm font-semibold">Puntos</div>
+                        </div>
+                        <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                            <div class="text-3xl font-extrabold" style="color: var(--verde);">${gameState.goodPractices}</div>
+                            <div class="text-sm font-semibold">Buenas prácticas</div>
+                        </div>
+                        <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                            <div class="text-3xl font-extrabold text-purple-600">${gameState.achievements.length}</div>
+                            <div class="text-sm font-semibold">Logros</div>
+                        </div>
+                        <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                            <div class="text-3xl font-extrabold" style="color: var(--amarillo);">${gameState.confidence}%</div>
+                            <div class="text-sm font-semibold">Confianza final</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            summaryDiv.innerHTML = summaryHTML;
+            
+            if (gameState.confidence >= 100) {
+                unlockAchievement('confident');
+            }
+            unlockAchievement('success');
+        }
+
+        function showCertificate() {
+            const totalScore = gameState.points;
+            const performance = totalScore >= 500 ? 'Excelente' : totalScore >= 350 ? 'Muy Bueno' : 'Bueno';
+            
+            const certificateHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-green-50 border-4 border-blue-600 p-6 rounded-2xl">
+                    <div class="text-center mb-4">
+                        <h2 class="text-3xl font-extrabold mb-2" style="color: var(--azul-dark);">Certificado de completación</h2>
+                        <div class="text-6xl mb-3">🎓</div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-center mb-4" style="color: var(--azul);">
+                            Simulador interactivo: El viaje de Isabella Andrea
+                        </h3>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                                <div class="text-3xl font-bold" style="color: var(--azul);">${totalScore}</div>
+                                <div class="text-sm font-semibold">Puntos totales</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
+                                <div class="text-3xl font-bold" style="color: var(--verde);">${performance}</div>
+                                <div class="text-sm font-semibold">Desempeño</div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg border-2 border-yellow-300">
+                            <p class="text-sm font-bold mb-2 text-center">🏆 Logros completados:</p>
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                ${gameState.achievements.map(id => {
+                                    const ach = achievements[id];
+                                    return `<span class="bg-white px-3 py-2 rounded-full text-sm border-2 border-yellow-400 font-semibold">${ach.icon} ${ach.name}</span>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            showFeedback(certificateHTML, true);
+        }
+
+        function resetGame() {
+            if (confirm('¿Estás seguro de que deseas reiniciar? Perderás tu progreso.')) {
+                gameState = {
+                    chapter: 1,
+                    confidence: 50,
+                    applications: 0,
+                    interviews: 0,
+                    points: 0,
+                    achievements: [],
+                    goodPractices: 0,
+                    badDecisions: 0
+                };
+                
+                localStorage.removeItem('nataliaGameState');
+                currentStep = 1;
+                
+                // Ocultar todos los pasos
+                document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+                
+                // Mostrar paso 1
+                document.getElementById('step-1').classList.add('active');
+                
+                // Limpiar logros
+                document.getElementById('achievements-panel').classList.add('hidden');
+                document.getElementById('achievements-list').innerHTML = '';
+                
+                updateStats();
+                unlockAchievement('first_step');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedState();
+            updateStats();
+            unlockAchievement('first_step');
+            
+            // Inicializar drag and drop después de un breve delay
+            setTimeout(initKeywordsGame, 100);
+            
+            // Generar resumen si estamos en el capítulo final
+            if (currentStep === 6) {
+                generatePerformanceSummary();
+            }
+            
+            // Mostrar modal de instrucciones solo la primera vez
+            const hasSeenInstructions = localStorage.getItem('nataliaSeenInstructions');
+            if (!hasSeenInstructions) {
+                showInstructionsModal();
+                localStorage.setItem('nataliaSeenInstructions', 'true');
+            }
+        });
+    </script>
+</body>
+</html>

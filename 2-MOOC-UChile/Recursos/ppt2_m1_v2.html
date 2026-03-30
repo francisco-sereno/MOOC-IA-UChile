@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZZWQZR8VQ');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derribando mitos de la IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primario: #4f46e5; /* Indigo 600 */
+            --color-secundario: #10b981; /* Emerald 500 */
+            --color-riesgo: #ef4444;   /* Red 500 */
+            --color-alerta: #f59e0b;   /* Amber 500 */
+            --fuente-principal: 'Montserrat', sans-serif;
+            --color-fondo: #f3f4f6; /* Gray 100 */
+            --color-texto: #111827; /* Gray 900 */
+            --color-texto-secundario: #4b5563; /* Gray 600 */
+        }
+        body {
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+        }
+        .contenedor-guia {
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        .paso {
+            display: none;
+            padding: 2.5rem;
+        }
+        .paso.activo {
+            display: block;
+        }
+        .titulo-paso {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--color-primario);
+            margin-bottom: 0.5rem;
+        }
+        .subtitulo-paso {
+            font-size: 1.125rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .tarjeta {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb; /* Gray 200 */
+        }
+        .boton {
+            background-color: var(--color-primario);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .boton:hover {
+            background-color: #4338ca; /* Indigo 700 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.3);
+        }
+        .boton:disabled {
+            background-color: #a5b4fc; /* Indigo 300 */
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .barra-progreso-fondo {
+            background-color: #e5e7eb; /* Gray 200 */
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+        .barra-progreso-relleno {
+            background-color: var(--color-secundario);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+        .opcion-quiz {
+            border: 2px solid #d1d5db;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .opcion-quiz:hover {
+            border-color: var(--color-primario);
+            background-color: #eef2ff; /* Indigo 50 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-guia">
+        <!-- Encabezado con Progreso -->
+        <header class="p-6 border-b border-gray-200">
+            <div class="barra-progreso-fondo">
+                <div id="barra-progreso" class="barra-progreso-relleno" style="width: 0%;"></div>
+            </div>
+            <p id="contador-pasos" class="text-center text-sm text-gray-500 mt-2"></p>
+        </header>
+
+        <main>
+            <!-- Paso 0: Bienvenida -->
+            <div class="paso activo" id="paso-0">
+                <div class="text-center">
+                    <h2 class="titulo-paso">Derribando mitos sobre la IA generativa</h2>
+                    <p class="subtitulo-paso">Una guía para separar la realidad de la ficción.</p>
+                    <p class="mb-8 max-w-2xl mx-auto">La inteligencia artificial generativa está transformando nuestro mundo, pero su popularidad viene acompañada de grandes mitos. Esta guía interactiva le ayudará a distinguir qué es real y qué es ficción. ¿Comenzamos?</p>
+                    <button class="boton" onclick="irAPaso(1)">Comenzar la guía</button>
+                </div>
+            </div>
+
+            <!-- Paso 1: Mito 1 -->
+            <div class="paso" id="paso-1">
+                <h2 class="titulo-paso">Mito 1: La IA "piensa" y "entiende" como un humano</h2>
+                <p class="subtitulo-paso">Realidad: Es un sistema avanzado de predicción de patrones, no de comprensión.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">La IA está escribiendo:</h3>
+                        <p class="text-lg bg-gray-100 p-4 rounded-lg">El equipo se reunió para revisar el informe y el primer acuerdo fue <span class="font-bold text-white bg-indigo-500 px-2 py-1 rounded-md ml-1 animate-pulse">|</span></p>
+                    </div>
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">¿Cuál será la siguiente palabra?</h3>
+                        <p class="text-sm text-gray-500 mb-4">La IA no "sabe" qué es un acuerdo, solo calcula estadísticamente la palabra más probable que sigue en la secuencia.</p>
+                        <div id="contenedor-prediccion" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paso 2: Mito 2 -->
+            <div class="paso" id="paso-2">
+                <h2 class="titulo-paso">Mito 2: La IA siempre es precisa y confiable</h2>
+                <p class="subtitulo-paso">Realidad: Puede "alucinar", es decir, inventar información con total seguridad.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2 text-red-600">Resumen generado por IA</h3>
+                        <p class="text-sm text-gray-500 mb-4">La IA resumió un reglamento. Su misión es encontrar la frase que <strong class="text-red-600">la IA inventó</strong>.</p>
+                        <div id="quiz-alucinacion" class="space-y-2">
+                            <p class="opcion-quiz" data-correcta="false">La carga académica máxima es de 10 cursos.</p>
+                            <p class="opcion-quiz" data-correcta="false">Los planes de estudio se revisan cada 5 años.</p>
+                            <p class="opcion-quiz" data-correcta="true">Todos los alumnos tendrán un mentor obligatorio.</p>
+                            <p class="opcion-quiz" data-correcta="false">Las evaluaciones deben tener un componente práctico.</p>
+                        </div>
+                        <div id="feedback-alucinacion" class="mt-4 p-3 rounded-lg text-sm font-semibold hidden"></div>
+                    </div>
+                    <div class="tarjeta bg-gray-50">
+                        <h3 class="font-bold mb-2">Fuente de verdad: El reglamento</h3>
+                        <div class="text-xs space-y-2 text-gray-600 mt-4 border-t pt-4">
+                            <p><strong>Art. 5:</strong> La carga académica máxima se fija en 10 cursos.</p>
+                            <p><strong>Art. 9:</strong> Los planes de estudio se someterán a revisión cada cinco (5) años.</p>
+                            <p><strong>Art. 12:</strong> Se fomenta la creación de programas de <strong class="text-green-600">mentorías voluntarias.</strong></p>
+                            <p><strong>Art. 15:</strong> Los métodos de evaluación incluirán una instancia práctica.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 3: Mito 3 -->
+            <div class="paso" id="paso-3">
+                <h2 class="titulo-paso">Mito 3: La IA es completamente objetiva y neutral</h2>
+                <p class="subtitulo-paso">Realidad: Hereda los sesgos presentes en los datos (textos, imágenes, etc.) con los que fue entrenada.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">Editor inclusivo</h3>
+                        <p class="text-sm text-gray-500 mb-4">Edite el texto para que sea más inclusivo. Fíjese cómo cambia el "inclusivómetro".</p>
+                        <div id="editor-sesgo" contenteditable="true" class="w-full min-h-[150px] p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">Se convoca a todos los alumnos interesados en ser tutores. Los expertos del departamento seleccionarán a los mejores candidatos.</div>
+                    </div>
+                    <div class="tarjeta bg-gray-50 flex flex-col justify-center">
+                        <h3 class="font-bold mb-2 text-center">Inclusivómetro</h3>
+                        <div class="w-full bg-gray-200 rounded-full h-8 mt-4">
+                            <div id="medidor-inclusividad" class="h-8 rounded-full transition-all duration-500 flex items-center justify-center text-white font-bold"></div>
+                        </div>
+                        <p id="feedback-inclusividad" class="mt-4 text-sm font-semibold text-center"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 4: Mito 4 -->
+            <div class="paso" id="paso-4">
+                <h2 class="titulo-paso">Mito 4: Es seguro usar IA para cualquier tipo de información</h2>
+                <p class="subtitulo-paso">Realidad: Introducir datos sensibles en herramientas públicas es un grave riesgo de seguridad y privacidad.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">Tareas pendientes</h3>
+                        <p class="text-sm text-gray-500 mb-4">Arrastre cada tarea a su nivel de riesgo correspondiente.</p>
+                        <div id="lista-tareas" class="space-y-2 p-2 min-h-[250px]">
+                            <div class="tarea" draggable="true" data-riesgo="bajo">Generar ideas para un evento</div>
+                            <div class="tarea" draggable="true" data-riesgo="medio">Redactar borrador de correo masivo</div>
+                            <div class="tarea" draggable="true" data-riesgo="alto">Resumir acta confidencial</div>
+                            <div class="tarea" draggable="true" data-riesgo="alto">Analizar datos personales de estudiantes</div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="zona-riesgo" data-zona="bajo"><h3 class="font-bold text-green-700">✅ Riesgo bajo</h3><p class="text-xs text-gray-500">Datos públicos, no sensibles.</p></div>
+                        <div class="zona-riesgo" data-zona="medio"><h3 class="font-bold text-amber-700">⚠️ Riesgo medio</h3><p class="text-xs text-gray-500">Información interna, no confidencial.</p></div>
+                        <div class="zona-riesgo" data-zona="alto"><h3 class="font-bold text-red-700">❌ Riesgo alto</h3><p class="text-xs text-gray-500">Datos privados o confidenciales.</p></div>
+                    </div>
+                </div>
+                 <div class="text-center mt-6">
+                    <button id="validar-riesgo" class="boton">Validar clasificación</button>
+                    <p id="feedback-riesgo" class="mt-2 font-semibold text-sm"></p>
+                 </div>
+            </div>
+
+            <!-- Paso 5: Mito 5 -->
+            <div class="paso" id="paso-5">
+                <h2 class="titulo-paso">Mito 5: La IA reemplazará por completo el trabajo humano</h2>
+                <p class="subtitulo-paso">Realidad: Es una herramienta de colaboración que potencia, no sustituye, el juicio y la creatividad humana.</p>
+                <div class="tarjeta max-w-2xl mx-auto">
+                    <h3 class="font-bold mb-2">Escenario: Un correo con un error</h3>
+                    <p class="text-sm text-gray-500 mb-4">La IA redactó una respuesta para un estudiante, pero usó una norma que ya no es válida (una alucinación). ¿Qué haría usted?</p>
+                    <div class="p-4 bg-gray-100 rounded-lg text-sm mb-4">
+                        "...puede convalidar hasta un 40% de los créditos. <span class="bg-amber-200 p-1 rounded">Según el Artículo 99 (derogado), debe pagar una tasa extra.</span>"
+                    </div>
+                    <div id="botones-escenario" class="flex flex-col sm:flex-row justify-center gap-3">
+                        <button class="boton-decision" onclick="evaluarEscenario('aprobar')">Aprobar y enviar</button>
+                        <button class="boton-decision" onclick="evaluarEscenario('editar')">Corregir el error y enviar</button>
+                        <button class="boton-decision" onclick="evaluarEscenario('rechazar')">Descartar todo y escribir de cero</button>
+                    </div>
+                    <div id="feedback-escenario" class="mt-4 p-3 rounded-lg text-sm font-semibold hidden"></div>
+                </div>
+            </div>
+
+            <!-- Paso 6: Conclusión -->
+            <div class="paso" id="paso-6">
+                <div class="text-center">
+                    <h2 class="titulo-paso text-green-600">Mitos derribados: una conclusión clara</h2>
+                    <p class="subtitulo-paso">Ahora posee una visión más crítica y realista sobre la IA generativa.</p>
+                    <div class="tarjeta max-w-lg mx-auto text-left">
+                        <h3 class="font-bold mb-4 text-center">Mitos derribados en esta guía:</h3>
+                        <ul class="space-y-2 list-disc list-inside">
+                            <li><strong class="text-indigo-600">Mito:</strong> La IA "entiende". <strong class="text-green-600">Realidad:</strong> Predice patrones.</li>
+                            <li><strong class="text-indigo-600">Mito:</strong> Es siempre precisa. <strong class="text-green-600">Realidad:</strong> Puede "alucinar".</li>
+                            <li><strong class="text-indigo-600">Mito:</strong> Es objetiva. <strong class="text-green-600">Realidad:</strong> Hereda sesgos.</li>
+                            <li><strong class="text-indigo-600">Mito:</strong> Es 100% segura. <strong class="text-green-600">Realidad:</strong> Implica riesgos de datos.</li>
+                            <li><strong class="text-indigo-600">Mito:</strong> Reemplazará a los humanos. <strong class="text-green-600">Realidad:</strong> Es una herramienta de colaboración.</li>
+                        </ul>
+                    </div>
+                    <p class="mt-8 font-semibold">El futuro es la colaboración informada entre humanos y máquinas.</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Navegación -->
+        <footer class="flex justify-between items-center p-6 border-t border-gray-200">
+            <button id="boton-anterior" class="boton" style="background-color: #6b7280;" onclick="pasoAnterior()">Anterior</button>
+            <button id="boton-siguiente" class="boton" onclick="pasoSiguiente()">Siguiente</button>
+        </footer>
+    </div>
+    
+    <style>
+        .tarea { padding: 0.75rem; background-color: white; border: 1px solid #d1d5db; border-radius: 0.5rem; cursor: move; }
+        .tarea.arrastrando { opacity: 0.5; }
+        .zona-riesgo { padding: 1rem; border: 2px dashed #d1d5db; border-radius: 0.75rem; min-height: 80px; transition: background-color 0.2s; }
+        .zona-riesgo.hover { background-color: #eef2ff; }
+        .boton-decision { flex: 1; padding: 0.75rem; border: 2px solid #d1d5db; border-radius: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .boton-decision:hover { border-color: var(--color-primario); background-color: #eef2ff; }
+    </style>
+
+    <script>
+        let pasoActual = 0;
+        const pasos = document.querySelectorAll('.paso');
+        const totalPasosReales = pasos.length - 1; // No contamos la bienvenida para el progreso
+        const botonAnterior = document.getElementById('boton-anterior');
+        const botonSiguiente = document.getElementById('boton-siguiente');
+        const barraProgreso = document.getElementById('barra-progreso');
+        const contadorPasos = document.getElementById('contador-pasos');
+
+        function actualizarUI() {
+            pasos.forEach((paso, index) => {
+                paso.classList.toggle('activo', index === pasoActual);
+            });
+
+            const esPrimerPaso = pasoActual === 0;
+            const esUltimoPaso = pasoActual === pasos.length - 1;
+
+            if (esPrimerPaso || esUltimoPaso) {
+                document.querySelector('footer').classList.add('hidden');
+                document.querySelector('header').classList.add('hidden');
+            } else {
+                document.querySelector('footer').classList.remove('hidden');
+                document.querySelector('header').classList.remove('hidden');
+            }
+            
+            botonAnterior.disabled = pasoActual === 1;
+            botonSiguiente.textContent = (pasoActual === totalPasosReales - 1) ? 'Finalizar guía' : 'Siguiente';
+
+            const progreso = pasoActual > 0 ? ((pasoActual) / (totalPasosReales-1)) * 100 : 0;
+            barraProgreso.style.width = `${progreso}%`;
+            if (pasoActual > 0 && pasoActual < totalPasosReales) {
+                 contadorPasos.textContent = `Mito ${pasoActual} de ${totalPasosReales - 1}`;
+            } else {
+                contadorPasos.textContent = '';
+            }
+
+            if (pasoActual === 1) iniciarMaquinaPrediccion();
+            if (pasoActual === 3) actualizarInclusivometro();
+        }
+
+        function irAPaso(n) {
+            pasoActual = n;
+            actualizarUI();
+        }
+
+        function pasoSiguiente() {
+            if (pasoActual < pasos.length - 1) {
+                pasoActual++;
+                actualizarUI();
+            }
+        }
+
+        function pasoAnterior() {
+            if (pasoActual > 0) {
+                pasoActual--;
+                actualizarUI();
+            }
+        }
+
+        function iniciarMaquinaPrediccion() {
+            const contenedor = document.getElementById('contenedor-prediccion');
+            if (contenedor.innerHTML !== '') return;
+
+            const predicciones = [
+                { palabra: "aprobar", prob: 55 }, { palabra: "implementar", prob: 25 },
+                { palabra: "revisar", prob: 15 }, { palabra: "descartar", prob: 5 },
+            ];
+
+            predicciones.forEach(p => {
+                const colorBarra = p.prob > 50 ? 'var(--color-secundario)' : p.prob > 20 ? 'var(--color-primario)' : 'var(--color-alerta)';
+                const elemento = document.createElement('div');
+                elemento.innerHTML = `
+                    <div class="flex justify-between mb-1 text-sm font-semibold"><span>"${p.palabra}"</span><span>${p.prob}%</span></div>
+                    <div class="w-full bg-gray-200 rounded-full h-4"><div class="barra-prediccion-relleno h-4 rounded-full" style="width: 0%; background-color: ${colorBarra}; transition: width 0.8s ease-out;"></div></div>`;
+                contenedor.appendChild(elemento);
+            });
+
+            setTimeout(() => {
+                contenedor.querySelectorAll('.barra-prediccion-relleno').forEach((barra, index) => {
+                    barra.style.width = `${predicciones[index].prob}%`;
+                });
+            }, 100);
+        }
+
+        document.querySelectorAll('#quiz-alucinacion .opcion-quiz').forEach(opcion => {
+            opcion.addEventListener('click', (e) => {
+                const esCorrecta = e.target.getAttribute('data-correcta') === 'true';
+                const feedbackEl = document.getElementById('feedback-alucinacion');
+                
+                document.querySelectorAll('#quiz-alucinacion .opcion-quiz').forEach(el => {
+                    el.style.backgroundColor = '';
+                    el.style.borderColor = '#d1d5db';
+                });
+
+                if (esCorrecta) {
+                    feedbackEl.innerHTML = '<strong>¡Correcto!</strong> La fuente menciona mentorías "voluntarias", no "obligatorias". Ha detectado la alucinación.';
+                    feedbackEl.className = "mt-4 p-3 rounded-lg text-sm font-semibold text-green-800 bg-green-100";
+                    e.target.style.borderColor = 'var(--color-secundario)';
+                } else {
+                    feedbackEl.innerHTML = '<strong>Inténtelo de nuevo.</strong> Esa frase sí corresponde (o es muy similar) a la información del reglamento real.';
+                    feedbackEl.className = "mt-4 p-3 rounded-lg text-sm font-semibold text-red-800 bg-red-100";
+                    e.target.style.borderColor = 'var(--color-riesgo)';
+                }
+                feedbackEl.classList.remove('hidden');
+            });
+        });
+
+        const editorSesgo = document.getElementById('editor-sesgo');
+        const medidorInclusividad = document.getElementById('medidor-inclusividad');
+        const feedbackInclusividad = document.getElementById('feedback-inclusividad');
+        const palabrasSesgadas = ['alumnos', 'interesados', 'expertos', 'candidatos'];
+
+        function actualizarInclusivometro() {
+            const texto = editorSesgo.innerText.toLowerCase();
+            let conteoSesgos = 0;
+            palabrasSesgadas.forEach(palabra => {
+                if (new RegExp(`\\b${palabra}\\b`).test(texto)) {
+                    conteoSesgos++;
+                }
+            });
+
+            const puntaje = Math.max(0, ((palabrasSesgadas.length - conteoSesgos) / palabrasSesgadas.length) * 100);
+            medidorInclusividad.style.width = `${puntaje}%`;
+            medidorInclusividad.textContent = `${Math.round(puntaje)}%`;
+            
+            if (puntaje < 40) {
+                medidorInclusividad.style.backgroundColor = "var(--color-riesgo)";
+                feedbackInclusividad.textContent = "Lenguaje con sesgos de género.";
+                feedbackInclusividad.style.color = "var(--color-riesgo)";
+            } else if (puntaje < 99) {
+                medidorInclusividad.style.backgroundColor = "var(--color-alerta)";
+                feedbackInclusividad.textContent = "¡Casi! Aún puede mejorar.";
+                feedbackInclusividad.style.color = "var(--color-alerta)";
+            } else {
+                medidorInclusividad.style.backgroundColor = "var(--color-secundario)";
+                feedbackInclusividad.textContent = "¡Excelente! Lenguaje inclusivo.";
+                feedbackInclusividad.style.color = "var(--color-secundario)";
+            }
+        }
+        editorSesgo.addEventListener('input', actualizarInclusivometro);
+
+        const tareas = document.querySelectorAll('.tarea');
+        const zonas = document.querySelectorAll('.zona-riesgo');
+        let tareaArrastrada = null;
+        
+        tareas.forEach(tarea => {
+            tarea.addEventListener('dragstart', () => {
+                tareaArrastrada = tarea;
+                setTimeout(() => tarea.classList.add('arrastrando'), 0);
+            });
+            tarea.addEventListener('dragend', () => tarea.classList.remove('arrastrando'));
+        });
+
+        zonas.forEach(zona => {
+            zona.addEventListener('dragover', e => { e.preventDefault(); zona.classList.add('hover'); });
+            zona.addEventListener('dragleave', () => zona.classList.remove('hover'));
+            zona.addEventListener('drop', e => {
+                e.preventDefault();
+                zona.classList.remove('hover');
+                if (tareaArrastrada) {
+                    zona.appendChild(tareaArrastrada);
+                }
+            });
+        });
+        
+        document.getElementById('validar-riesgo').addEventListener('click', () => {
+             if (document.getElementById('lista-tareas').children.length > 0) {
+                document.getElementById('feedback-riesgo').textContent = "Debe clasificar todas las tareas primero.";
+                document.getElementById('feedback-riesgo').style.color = 'var(--color-alerta)';
+                return;
+             }
+             let correctas = 0;
+             zonas.forEach(zona => {
+                const riesgoZona = zona.dataset.zona;
+                zona.querySelectorAll('.tarea').forEach(tarea => {
+                    const riesgoTarea = tarea.dataset.riesgo;
+                    if (riesgoTarea === riesgoZona) {
+                        tarea.style.border = '2px solid var(--color-secundario)';
+                        correctas++;
+                    } else {
+                        tarea.style.border = '2px solid var(--color-riesgo)';
+                    }
+                });
+             });
+             const feedbackEl = document.getElementById('feedback-riesgo');
+             if(correctas === tareas.length){
+                 feedbackEl.textContent = "¡Excelente! Ha clasificado todos los riesgos correctamente.";
+                 feedbackEl.style.color = 'var(--color-secundario)';
+             } else {
+                 feedbackEl.textContent = `Tiene ${correctas} de ${tareas.length} correctas. Revise las marcadas en rojo.`;
+                 feedbackEl.style.color = 'var(--color-alerta)';
+             }
+        });
+
+        function evaluarEscenario(decision) {
+            const feedbackEl = document.getElementById('feedback-escenario');
+            document.getElementById('botones-escenario').classList.add('hidden');
+            
+            if (decision === 'aprobar') {
+                feedbackEl.innerHTML = `<strong>❌ Decisión incorrecta.</strong> Enviar un correo con información falsa, aunque sea sin querer, es un error grave que daña la confianza.`;
+                feedbackEl.className = "mt-4 p-3 rounded-lg text-sm font-semibold text-red-800 bg-red-100";
+            } else if (decision === 'editar') {
+                feedbackEl.innerHTML = `<strong>✅ ¡La mejor decisión!</strong> Aprovecha la eficiencia de la IA para el 90% del trabajo y aplica su juicio crítico para corregir el error. Es la colaboración ideal.`;
+                feedbackEl.className = "mt-4 p-3 rounded-lg text-sm font-semibold text-green-800 bg-green-100";
+            } else if (decision === 'rechazar') {
+                feedbackEl.innerHTML = `<strong>⚠️ Decisión segura, pero ineficiente.</strong> Evita el error, pero pierde el tiempo al descartar el borrador útil que la IA ya había creado.`;
+                feedbackEl.className = "mt-4 p-3 rounded-lg text-sm font-semibold text-amber-800 bg-amber-100";
+            }
+            feedbackEl.classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', actualizarUI);
+    </script>
+</body>
+</html>
+
+

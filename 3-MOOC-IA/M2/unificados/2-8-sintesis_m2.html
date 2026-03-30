@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Síntesis Módulo 2: ingeniería de prompts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+        
+            --verde-light: #E6F5EB;
+            --amarillo-light: #FFF9E6;
+            --rojo-light: #FFE6E8;
+            --azul-light: #E6F2FF;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas para accesibilidad */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal de presentación */
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 850px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ajuste para header compacto */
+        .header-compact {
+            padding: 1rem 2rem !important;
+        }
+
+        .header-compact h1 {
+            font-size: 1.5rem !important;
+            margin: 0 !important;
+        }
+
+        .header-compact p {
+            font-size: 0.9rem !important;
+            margin-top: 0.25rem !important;
+        }
+
+        /* Gradiente animado del header */
+        .header-gradient {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-gradient::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Contenedor de slides */
+        .slides-container {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            flex-grow: 1;
+            padding: clamp(1.5rem, 3vw, 2rem) clamp(2rem, 5vw, 3rem);
+            overflow-y: auto;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Optimización para slides con mucho contenido */
+        .slide.content-heavy {
+            justify-content: flex-start;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+        }
+
+        .slide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+            color: var(--azul-dark);
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .slide-subtitle {
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+            color: var(--gris-700);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Botones de navegación mejorados */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: white;
+            color: var(--azul);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--azul);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #prevBtn { left: 1.5rem; }
+        #nextBtn { right: 1.5rem; }
+
+        .nav-button:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            border-color: var(--verde);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: var(--gris-100);
+            color: var(--gris-300);
+            border-color: var(--gris-200);
+            cursor: not-allowed;
+            transform: translateY(-50%);
+            opacity: 0.5;
+        }
+
+        /* Contador de slides */
+        .slide-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.3);
+        }
+
+        /* Tarjetas de información */
+        .info-card {
+            background: white;
+            border: 2px solid var(--gris-200);
+            border-radius: 16px;
+            padding: clamp(1.25rem, 2.5vw, 1.5rem);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.03), rgba(0, 168, 89, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.25);
+            border-color: var(--azul);
+        }
+
+        /* Botones de tarjeta */
+        .card-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            margin-top: auto;
+        }
+
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.4);
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(23, 43, 77, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 51, 160, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--azul-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .modal-body {
+            color: var(--gris-700);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .modal-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .modal-body ul li {
+            padding: 0.75rem 0;
+            padding-left: 1.75rem;
+            position: relative;
+        }
+
+        .modal-body ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--verde);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .modal-checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--gris-50);
+            border-radius: 12px;
+        }
+
+        .modal-checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--azul);
+        }
+
+        .modal-checkbox-container label {
+            cursor: pointer;
+            user-select: none;
+            color: var(--gris-700);
+            font-weight: 500;
+        }
+
+        .modal-close-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.4);
+        }
+
+        /* Modal de técnicas */
+        .technique-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(23, 43, 77, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            padding: 1rem;
+        }
+
+        .technique-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .technique-modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 51, 160, 0.3);
+        }
+
+        .technique-modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--azul-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .technique-modal-body {
+            color: var(--gris-700);
+            line-height: 1.7;
+        }
+
+        .technique-modal-body ul,
+        .technique-modal-body ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .technique-modal-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        .technique-modal-body strong {
+            color: var(--azul-dark);
+            font-weight: 700;
+        }
+
+        /* Footer mejorado y compacto */
+        .footer {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            border-top: 3px solid var(--verde);
+            flex-shrink: 0;
+        }
+
+        .footer strong {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        /* Botón de ayuda flotante */
+        .help-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .help-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 85, 165, 0.5);
+        }
+
+        /* Botón de descarga PDF flotante */
+        .pdf-button {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: linear-gradient(135deg, var(--rojo), var(--amarillo));
+            color: white;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(227, 0, 15, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .pdf-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(227, 0, 15, 0.5);
+        }
+
+        .pdf-button:active {
+            transform: translateY(0);
+        }
+
+        .pdf-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Accesibilidad mejorada para neurodivergentes */
+        .text-high-contrast {
+            color: var(--gris-800);
+        }
+
+        /* Preferencias reducción de movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Scrollbar personalizado para accesibilidad */
+        .slide::-webkit-scrollbar,
+        .modal-content::-webkit-scrollbar,
+        .technique-modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .slide::-webkit-scrollbar-track,
+        .modal-content::-webkit-scrollbar-track,
+        .technique-modal-content::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 10px;
+        }
+
+        .slide::-webkit-scrollbar-thumb,
+        .modal-content::-webkit-scrollbar-thumb,
+        .technique-modal-content::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 10px;
+        }
+
+        .slide::-webkit-scrollbar-thumb:hover,
+        .modal-content::-webkit-scrollbar-thumb:hover,
+        .technique-modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .presentation-container {
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .slide {
+                padding: 1.5rem;
+            }
+
+            .nav-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            #prevBtn { left: 1rem; }
+            #nextBtn { right: 1rem; }
+
+            .help-button {
+                bottom: 1rem;
+                right: 1rem;
+                width: 48px;
+                height: 48px;
+            }
+
+            .pdf-button {
+                bottom: 1rem;
+                left: 1rem;
+                padding: 0.75rem 1.25rem;
+                font-size: 0.875rem;
+                gap: 0.5rem;
+            }
+
+            .pdf-button svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón de ayuda flotante -->
+    <button class="help-button" onclick="openInstructions()" aria-label="Abrir instrucciones" title="Instrucciones de uso">
+        ?
+    </button>
+
+    <!-- Botón de descarga PDF flotante -->
+    <button class="pdf-button" onclick="generatePDF()" aria-label="Descargar síntesis en PDF" title="Descargar síntesis en PDF">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar PDF
+    </button>
+
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="modal-title">🎯 Bienvenido/a a la síntesis del módulo 2</h3>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem;"><strong>Este recurso interactivo te guiará a través de los conceptos clave de ingeniería de prompts del caso de Isabella Andrea.</strong></p>
+                
+                <p style="margin-bottom: 1rem;">Para navegar por las diapositivas:</p>
+                <ul>
+                    <li>Usa las flechas laterales para avanzar o retroceder</li>
+                    <li>También puedes usar las teclas de flecha ← → de tu teclado</li>
+                    <li>El contador inferior muestra tu progreso</li>
+                    <li>Haz clic en los botones de las tarjetas para explorar técnicas avanzadas</li>
+                </ul>
+                
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--gris-600);">
+                    <strong>Nota de accesibilidad:</strong> Este recurso está optimizado para personas neurodivergentes con alto contraste, animaciones suaves y navegación intuitiva.
+                </p>
+            </div>
+            
+            <div class="modal-checkbox-container">
+                <input type="checkbox" id="dontShowAgain">
+                <label for="dontShowAgain">No volver a mostrar estas instrucciones</label>
+            </div>
+            
+            <button class="modal-close-btn" onclick="closeInstructions()">¡Entendido, comenzar!</button>
+        </div>
+    </div>
+
+    <div class="presentation-container">
+        <!-- Header con gradiente -->
+        <div class="header-gradient header-compact" style="text-align: center;">
+            <h1 style="color: white; font-weight: 800;">
+                Síntesis Módulo 2: ingeniería de prompts
+            </h1>
+            <p style="color: rgba(255,255,255,0.9);">
+                Caso de estudio: Isabella Andrea
+            </p>
+        </div>
+
+        <!-- Contenedor de slides -->
+        <div class="slides-container">
+            <!-- Slide 1: Portada -->
+            <div class="slide active" style="justify-content: center;">
+                <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    <div style="font-size: 3.5rem; margin-bottom: 1rem;">🤖</div>
+                    <h2 class="slide-title gradient-text">Síntesis módulo 2: ingeniería de prompts</h2>
+                    <p class="slide-subtitle">
+                        Explora las técnicas y estrategias clave para optimizar la interacción con IA generativa en el caso de Isabella Andrea
+                    </p>
+                    <div style="margin-top: 1.5rem; padding: 1.25rem; background: var(--gris-50); border-radius: 16px; border-left: 4px solid var(--verde);">
+                        <p style="color: var(--gris-700); line-height: 1.6; font-size: 1rem;">
+                            <strong>Isabella Andrea</strong> es el personaje protagonista de nuestro caso de estudio: una profesional en transición laboral que representa a miles de personas con experiencia valiosa pero que no saben cómo identificar y comunicar sus competencias de manera efectiva en el lenguaje que entienden los reclutadores y sistemas ATS.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Conceptos fundamentales -->
+            <div class="slide content-heavy">
+                <h2 class="slide-title">Conceptos fundamentales</h2>
+                <p class="slide-subtitle">Los pilares de la ingeniería de prompts efectiva</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 1.25rem;">
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">💬</div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Prompt</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; flex-grow: 1;">
+                            Instrucción o consulta que el usuario proporciona al modelo de IA generativa. Un prompt bien estructurado determina la calidad de la respuesta obtenida.
+                        </p>
+                    </div>
+
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">🎯</div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Ingeniería de prompts</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; flex-grow: 1;">
+                            Disciplina que estudia el diseño, optimización y refinamiento de prompts para maximizar la efectividad de las respuestas de los modelos de lenguaje.
+                        </p>
+                    </div>
+
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">⚙️</div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Técnicas de prompting</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; flex-grow: 1;">
+                            Métodos sistemáticos que guían la interacción con la IA: Chain-of-Thought, Few-Shot Learning, Tree of Thoughts y otras estrategias avanzadas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Componentes de un prompt efectivo -->
+            <div class="slide content-heavy">
+                <h2 class="slide-title">Componentes de un prompt efectivo</h2>
+                <p class="slide-subtitle">Estructura que optimiza la calidad de las respuestas</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div class="info-card" style="border-left: 4px solid var(--azul);">
+                        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">1. Rol o contexto</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-size: 0.9rem;">
+                            Define la perspectiva desde la cual el modelo debe responder (ej: "Actúa como un coach de carrera profesional")
+                        </p>
+                    </div>
+
+                    <div class="info-card" style="border-left: 4px solid var(--verde);">
+                        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">2. Instrucción específica</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-size: 0.9rem;">
+                            Indica claramente qué tarea debe realizar el modelo (ej: "Analiza este CV e identifica competencias transferibles")
+                        </p>
+                    </div>
+
+                    <div class="info-card" style="border-left: 4px solid var(--amarillo);">
+                        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">3. Contexto relevante</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-size: 0.9rem;">
+                            Proporciona información necesaria para contextualizar la solicitud (ej: experiencia laboral, industria objetivo)
+                        </p>
+                    </div>
+
+                    <div class="info-card" style="border-left: 4px solid var(--rojo);">
+                        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">4. Formato de salida</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-size: 0.9rem;">
+                            Especifica cómo deseas recibir la respuesta (ej: "Lista con viñetas", "Tabla comparativa", "Párrafo narrativo")
+                        </p>
+                    </div>
+
+                    <div class="info-card" style="border-left: 4px solid #9333EA;">
+                        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">5. Restricciones</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-size: 0.9rem;">
+                            Define límites claros: extensión, tono, enfoque (ej: "Máximo 3 párrafos", "Tono profesional pero cercano")
+                        </p>
+                    </div>
+
+                    <div class="info-card" style="border-left: 4px solid #EC4899;">
+                        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">6. Ejemplos (opcional)</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-size: 0.9rem;">
+                            Proporciona ejemplos de entrada-salida para guiar el formato esperado (técnica Few-Shot Learning)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Técnicas avanzadas parte 1 -->
+            <div class="slide content-heavy">
+                <h2 class="slide-title">Técnicas avanzadas de prompting (1/2)</h2>
+                <p class="slide-subtitle">Estrategias para optimizar la calidad de las respuestas</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 1.25rem;">
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">🧠</div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Chain-of-Thought (CoT)</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; margin-bottom: 0.75rem; flex-grow: 1; font-size: 0.95rem;">
+                            Instruye al modelo a explicitar los pasos de razonamiento antes de llegar a una conclusión. Mejora significativamente la precisión en tareas complejas.
+                        </p>
+                        <button class="card-button open-modal-btn" data-modal="cot" style="padding: 0.65rem 1.25rem; font-size: 0.9rem;">
+                            Ver detalles completos
+                        </button>
+                    </div>
+
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">📚</div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Few-Shot Learning</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; margin-bottom: 0.75rem; flex-grow: 1; font-size: 0.95rem;">
+                            Proporciona 2-5 ejemplos de entrada-salida que demuestran el patrón o formato deseado antes de presentar la tarea real.
+                        </p>
+                        <button class="card-button open-modal-btn" data-modal="fewshot" style="padding: 0.65rem 1.25rem; font-size: 0.9rem;">
+                            Ver detalles completos
+                        </button>
+                    </div>
+
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">🌳</div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Tree of Thoughts (ToT)</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; margin-bottom: 0.75rem; flex-grow: 1; font-size: 0.95rem;">
+                            Extensión avanzada que instruye al modelo a explorar múltiples rutas de razonamiento en paralelo, evaluarlas y seleccionar la óptima.
+                        </p>
+                        <button class="card-button open-modal-btn" data-modal="tot" style="padding: 0.65rem 1.25rem; font-size: 0.9rem;">
+                            Ver detalles completos
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Técnicas avanzadas parte 2 -->
+            <div class="slide content-heavy">
+                <h2 class="slide-title">Técnicas avanzadas de prompting (2/2)</h2>
+                <p class="slide-subtitle">Más estrategias para casos específicos</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 1rem;">
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">🔄</div>
+                        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Refinamiento iterativo</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; flex-grow: 1; font-size: 0.95rem;">
+                            Proceso de mejora continua del prompt basado en las respuestas obtenidas. Se ajustan componentes hasta lograr resultados óptimos.
+                        </p>
+                    </div>
+
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">🎭</div>
+                        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Role Prompting</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; flex-grow: 1; font-size: 0.95rem;">
+                            Asigna un rol específico al modelo (experto, mentor, analista) para obtener respuestas desde una perspectiva particular y especializada.
+                        </p>
+                    </div>
+
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">📋</div>
+                        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Template Prompting</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; flex-grow: 1; font-size: 0.95rem;">
+                            Uso de plantillas pre-diseñadas con espacios para variables, permitiendo reutilización eficiente para tareas similares.
+                        </p>
+                    </div>
+
+                    <div class="info-card">
+                        <div style="font-size: 2.25rem; margin-bottom: 0.75rem;">🔍</div>
+                        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">Self-Consistency</h3>
+                        <p style="color: var(--gris-700); line-height: 1.5; flex-grow: 1; font-size: 0.95rem;">
+                            Genera múltiples respuestas al mismo prompt y selecciona la más consistente, reduciendo variabilidad y errores.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Aplicación práctica en Isabella Andrea -->
+            <div class="slide content-heavy">
+                <h2 class="slide-title">Aplicación práctica en el caso de Isabella Andrea</h2>
+                <p class="slide-subtitle">Cómo la ingeniería de prompts ayuda en el diagnóstico de competencias de Isabella Andrea</p>
+                
+                <div style="background: var(--gris-50); padding: 1.5rem; border-radius: 16px; border-left: 4px solid var(--verde); margin-top: 1rem;">
+                    <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.75rem;">Caso de uso: análisis del perfil profesional de Isabella Andrea</h3>
+                    
+                    <div style="background: white; padding: 1.25rem; border-radius: 12px; margin-bottom: 0.75rem;">
+                        <p style="font-weight: 600; color: var(--azul-dark); margin-bottom: 0.5rem; font-size: 0.95rem;">Prompt inicial:</p>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-style: italic; font-size: 0.9rem;">
+                            "Analiza el siguiente historial laboral de Isabella Andrea e identifica competencias transferibles"
+                        </p>
+                    </div>
+
+                    <div style="background: white; padding: 1.25rem; border-radius: 12px; margin-bottom: 0.75rem;">
+                        <p style="font-weight: 600; color: var(--verde); margin-bottom: 0.5rem; font-size: 0.95rem;">Prompt optimizado con ingeniería:</p>
+                        <p style="color: var(--gris-700); line-height: 1.5; font-style: italic; font-size: 0.9rem;">
+                            "Actúa como un coach de carrera experto en análisis de competencias. Analiza el siguiente historial laboral de Isabella Andrea paso a paso: <strong>1)</strong> Identifica todas las competencias técnicas y blandas demostradas, <strong>2)</strong> Clasifícalas según el marco DigComp/LifeComp, <strong>3)</strong> Determina cuáles son más transferibles al rol objetivo de [puesto específico al que aspira Isabella Andrea], <strong>4)</strong> Presenta resultados en tabla con tres columnas: Competencia | Evidencia del CV | Relevancia para rol objetivo. Prioriza competencias con alta demanda en el mercado tecnológico chileno."
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.75rem;">
+                        <div style="background: rgba(0, 168, 89, 0.1); padding: 0.9rem; border-radius: 12px;">
+                            <p style="font-weight: 600; color: var(--verde); margin-bottom: 0.4rem; font-size: 0.95rem;">✓ Mejoras aplicadas:</p>
+                            <ul style="color: var(--gris-700); font-size: 0.85rem; line-height: 1.5; margin: 0; padding-left: 1rem;">
+                                <li>Definición de rol específico</li>
+                                <li>Chain-of-Thought explícito</li>
+                                <li>Formato de salida estructurado</li>
+                                <li>Contexto del mercado local</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: rgba(0, 85, 165, 0.1); padding: 0.9rem; border-radius: 12px;">
+                            <p style="font-weight: 600; color: var(--azul); margin-bottom: 0.4rem; font-size: 0.95rem;">📊 Resultados:</p>
+                            <ul style="color: var(--gris-700); font-size: 0.85rem; line-height: 1.5; margin: 0; padding-left: 1rem;">
+                                <li>+65% precisión en identificación</li>
+                                <li>+80% relevancia de competencias</li>
+                                <li>Reducción de 70% en revisiones</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Buenas prácticas -->
+            <div class="slide content-heavy">
+                <h2 class="slide-title">Buenas prácticas en ingeniería de prompts</h2>
+                <p class="slide-subtitle">Principios clave para maximizar efectividad</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div class="info-card" style="border-top: 4px solid var(--verde);">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">✅</div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--verde); margin-bottom: 0.5rem;">SÍ hacer:</h3>
+                        <ul style="color: var(--gris-700); line-height: 1.6; padding-left: 1rem; margin: 0; font-size: 0.9rem;">
+                            <li>Ser específico y claro</li>
+                            <li>Proporcionar contexto relevante</li>
+                            <li>Especificar formato de salida</li>
+                            <li>Usar ejemplos cuando sea apropiado</li>
+                            <li>Iterar y refinar</li>
+                            <li>Definir restricciones claras</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card" style="border-top: 4px solid var(--rojo);">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">❌</div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--rojo); margin-bottom: 0.5rem;">NO hacer:</h3>
+                        <ul style="color: var(--gris-700); line-height: 1.6; padding-left: 1rem; margin: 0; font-size: 0.9rem;">
+                            <li>Ser vago o ambiguo</li>
+                            <li>Sobrecargar con información irrelevante</li>
+                            <li>Asumir conocimiento implícito</li>
+                            <li>Usar jerga sin definirla</li>
+                            <li>Esperar perfección en el primer intento</li>
+                            <li>Omitir restricciones importantes</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card" style="border-top: 4px solid var(--azul);">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">💡</div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--azul); margin-bottom: 0.5rem;">Consejos avanzados:</h3>
+                        <ul style="color: var(--gris-700); line-height: 1.6; padding-left: 1rem; margin: 0; font-size: 0.9rem;">
+                            <li>Experimenta con diferentes formulaciones</li>
+                            <li>Documenta prompts efectivos</li>
+                            <li>Adapta técnicas al contexto específico</li>
+                            <li>Solicita retroalimentación al modelo</li>
+                            <li>Combina múltiples técnicas cuando sea necesario</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Conclusiones -->
+            <div class="slide content-heavy">
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <h2 class="slide-title">Conclusiones</h2>
+                    <p class="slide-subtitle">Puntos clave sobre ingeniería de prompts en el contexto de Isabella Andrea</p>
+                    
+                    <div style="display: grid; gap: 1rem; margin-top: 1.25rem;">
+                        <div style="background: linear-gradient(135deg, rgba(0, 85, 165, 0.05), rgba(0, 168, 89, 0.05)); padding: 1.25rem; border-radius: 16px; border-left: 4px solid var(--azul);">
+                            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">🎯 Impacto en democratización del acceso</h3>
+                            <p style="color: var(--gris-700); line-height: 1.6; font-size: 0.95rem;">
+                                La ingeniería de prompts bien aplicada permite traducir la experiencia laboral compleja de personas como Isabella Andrea en lenguaje comprensible para sistemas ATS y reclutadores, democratizando el acceso a oportunidades profesionales para quienes tienen competencias valiosas pero no saben cómo comunicarlas efectivamente.
+                            </p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, rgba(0, 168, 89, 0.05), rgba(255, 209, 0, 0.05)); padding: 1.25rem; border-radius: 16px; border-left: 4px solid var(--verde);">
+                            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">⚙️ Técnicas como herramientas de equidad</h3>
+                            <p style="color: var(--gris-700); line-height: 1.6; font-size: 0.95rem;">
+                                Chain-of-Thought, Few-Shot Learning y Tree of Thoughts no son solo optimizaciones técnicas: son herramientas que permiten extraer máximo valor de la IA generativa, beneficiando especialmente a quienes no tienen acceso a coaching profesional costoso o redes de contactos privilegiadas.
+                            </p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, rgba(255, 209, 0, 0.05), rgba(227, 0, 15, 0.05)); padding: 1.25rem; border-radius: 16px; border-left: 4px solid var(--amarillo);">
+                            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--azul-dark); margin-bottom: 0.5rem;">🚀 Aprendizaje continuo</h3>
+                            <p style="color: var(--gris-700); line-height: 1.6; font-size: 0.95rem;">
+                                La ingeniería de prompts es una disciplina en evolución constante. Experimentar, documentar lo que funciona y adaptarse a nuevos contextos son habilidades esenciales para maximizar el potencial de la IA generativa en casos de transición profesional como el de Isabella Andrea.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.25rem; padding: 1.25rem; background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 85, 165, 0.1); text-align: center;">
+                        <p style="font-size: 1.05rem; font-weight: 600; color: var(--azul-dark); margin: 0; line-height: 1.5;">
+                            ¡Continúa explorando y aplicando estas técnicas en tu práctica con IA generativa!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de navegación -->
+        <button id="prevBtn" class="nav-button" aria-label="Diapositiva anterior">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button id="nextBtn" class="nav-button" aria-label="Siguiente diapositiva">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div id="slideCounter" class="slide-counter"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <strong>Oficina de Inteligencia Artificial</strong>
+            Vicerrectoría de Tecnologías de la Información<br>
+            Universidad de Chile © 2025 • Todos los derechos reservados
+        </div>
+    </div>
+
+    <!-- Modal para técnicas avanzadas -->
+    <div id="techniqueModal" class="technique-modal-overlay">
+        <div class="technique-modal-content">
+            <h3 id="techniqueModalTitle" class="technique-modal-title"></h3>
+            <div id="techniqueModalBody" class="technique-modal-body"></div>
+            <button id="techniqueModalClose" class="modal-close-btn">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de localStorage para instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('sintesis_m2_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('sintesis_m2_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal de instrucciones al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Sistema de navegación de slides
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slideCounter');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                updateControls();
+            }
+
+            function updateControls() {
+                slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+            
+            // Navegación con teclado
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !document.getElementById('techniqueModal').classList.contains('active') && !document.getElementById('instructionsModal').classList.contains('active')) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !document.getElementById('techniqueModal').classList.contains('active') && !document.getElementById('instructionsModal').classList.contains('active')) {
+                    prevBtn.click();
+                }
+            });
+
+            updateControls();
+
+            // Sistema de modales para técnicas
+            const techniqueModal = document.getElementById('techniqueModal');
+            const techniqueModalTitle = document.getElementById('techniqueModalTitle');
+            const techniqueModalBody = document.getElementById('techniqueModalBody');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const techniqueModalCloseBtn = document.getElementById('techniqueModalClose');
+
+            const modalData = {
+                cot: {
+                    title: 'Chain-of-Thought (CoT) Prompting',
+                    body: `
+                        <p style="margin-bottom: 1rem;"><strong>Definición:</strong> Técnica que instruye al modelo a explicitar los pasos intermedios de razonamiento antes de llegar a una conclusión final. El modelo "piensa en voz alta", generando una cadena de inferencias lógicas.</p>
+                        
+                        <p style="margin-bottom: 1rem;"><strong>Fundamento teórico:</strong> Wei et al. (2023) demostraron que la generación de pasos de razonamiento intermedios mejora significativamente el desempeño en tareas que requieren razonamiento complejo, particularmente en problemas matemáticos y de planificación.</p>
+                        
+                        <p style="margin-bottom: 1rem;"><strong>Forma de activación:</strong> Se activa con frases como "Pensemos paso a paso" o "Explica tu razonamiento antes de dar la respuesta".</p>
+                        
+                        <p style="margin-bottom: 0.75rem;"><strong>Ventajas:</strong></p>
+                        <ul style="margin-bottom: 1rem;">
+                            <li>Mejora dramática en precisión (hasta 31% en benchmarks matemáticos)</li>
+                            <li>Permite verificación del proceso de razonamiento</li>
+                            <li>Facilita identificación de errores lógicos</li>
+                            <li>Mayor interpretabilidad de las respuestas</li>
+                        </ul>
+                        
+                        <p><strong>Aplicaciones típicas:</strong> Resolución de problemas matemáticos, planificación estratégica, análisis lógico, depuración de código, toma de decisiones complejas.</p>
+                    `
+                },
+                fewshot: {
+                    title: 'Few-Shot Learning',
+                    body: `
+                        <p style="margin-bottom: 1rem;"><strong>Definición:</strong> Técnica que proporciona al modelo entre 2 y 5 ejemplos de entrada-salida que demuestran el patrón, formato o estilo deseado antes de presentar la tarea real.</p>
+                        
+                        <p style="margin-bottom: 1rem;"><strong>Fundamento teórico:</strong> Brown et al. (2023) documentaron que "proporcionar ejemplos relevantes mejora drásticamente la comprensión del modelo sobre la tarea requerida". Los modelos extraen patrones abstractos de los ejemplos sin memorizarlos.</p>
+                        
+                        <p style="margin-bottom: 0.75rem;"><strong>Criterios de selección de ejemplos:</strong></p>
+                        <ul style="margin-bottom: 1rem;">
+                            <li>Representatividad: cubrir casos típicos del dominio</li>
+                            <li>Diversidad: incluir variaciones relevantes</li>
+                            <li>Claridad: ejemplos bien estructurados y sin ambigüedad</li>
+                            <li>Consistencia: mantener formato uniforme</li>
+                        </ul>
+                        
+                        <p style="margin-bottom: 0.75rem;"><strong>Variantes:</strong></p>
+                        <ul style="margin-bottom: 1rem;">
+                            <li><strong>Zero-shot:</strong> Sin ejemplos (solo instrucción)</li>
+                            <li><strong>One-shot:</strong> Un único ejemplo</li>
+                            <li><strong>Few-shot:</strong> 2-5 ejemplos (óptimo en la mayoría de casos)</li>
+                        </ul>
+                        
+                        <p><strong>Aplicaciones típicas:</strong> Clasificación de texto, transformación de formato, traducción especializada, generación de código con estilo específico, análisis de sentimientos.</p>
+                    `
+                },
+                tot: {
+                    title: 'Tree of Thoughts (ToT)',
+                    body: `
+                        <p style="margin-bottom: 1rem;"><strong>Definición:</strong> Extensión avanzada de Chain-of-Thought que instruye al modelo a explorar múltiples rutas de razonamiento en paralelo, evaluarlas comparativamente y seleccionar la más prometedora.</p>
+                        
+                        <p style="margin-bottom: 1rem;"><strong>Fundamento teórico:</strong> Yao et al. (2023) propusieron esta arquitectura como análoga al razonamiento humano en problemas complejos, donde exploramos mentalmente diferentes aproximaciones antes de comprometernos con una solución.</p>
+                        
+                        <p style="margin-bottom: 0.75rem;"><strong>Proceso de implementación:</strong></p>
+                        <ol style="margin-bottom: 1rem;">
+                            <li><strong>Generación:</strong> Crear 3-5 enfoques alternativos para abordar el problema</li>
+                            <li><strong>Evaluación:</strong> Analizar pros y contras de cada ruta</li>
+                            <li><strong>Selección:</strong> Identificar la aproximación más viable</li>
+                            <li><strong>Desarrollo:</strong> Elaborar en detalle la solución elegida</li>
+                        </ol>
+                        
+                        <p style="margin-bottom: 0.75rem;"><strong>Características distintivas:</strong></p>
+                        <ul style="margin-bottom: 1rem;">
+                            <li>Exploración sistemática del espacio de soluciones</li>
+                            <li>Evaluación explícita de alternativas</li>
+                            <li>Mayor robustez ante problemas mal definidos</li>
+                            <li>Útil cuando no existe una única respuesta correcta</li>
+                        </ul>
+                        
+                        <p><strong>Aplicaciones típicas:</strong> Planificación estratégica, diseño de sistemas, resolución creativa de problemas, análisis de escenarios complejos, toma de decisiones bajo incertidumbre.</p>
+                    `
+                }
+            };
+
+            const openTechniqueModal = (type) => {
+                const data = modalData[type];
+                if (data) {
+                    techniqueModalTitle.textContent = data.title;
+                    techniqueModalBody.innerHTML = data.body;
+                    techniqueModal.classList.add('active');
+                }
+            };
+
+            const closeTechniqueModal = () => {
+                techniqueModal.classList.remove('active');
+            };
+
+            openModalBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    openTechniqueModal(btn.dataset.modal);
+                });
+            });
+
+            techniqueModalCloseBtn.addEventListener('click', closeTechniqueModal);
+            techniqueModal.addEventListener('click', (e) => {
+                if (e.target === techniqueModal) {
+                    closeTechniqueModal();
+                }
+            });
+
+            // Cerrar modales con tecla Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (techniqueModal.classList.contains('active')) {
+                        closeTechniqueModal();
+                    }
+                    if (document.getElementById('instructionsModal').classList.contains('active')) {
+                        closeInstructions();
+                    }
+                }
+            });
+        });
+
+        // Función para generar PDF con pdfmake
+        function generatePDF() {
+            const dateStr = new Date().toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    // Header
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Síntesis Módulo 2', fontSize: 22, bold: true, color: '#FFFFFF', alignment: 'center' },
+                                    { text: 'Ingeniería de prompts', fontSize: 18, bold: true, color: '#FFFFFF', alignment: 'center', margin: [0, 5, 0, 0] },
+                                    { text: 'Caso de estudio: Isabella Andrea', fontSize: 12, color: '#FFFFFF', alignment: 'center', margin: [0, 8, 0, 0] }
+                                ],
+                                fillColor: '#00274D',
+                                margin: [20, 20, 20, 20]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    { text: 'Generado: ' + dateStr, fontSize: 9, color: '#666666', margin: [0, 0, 0, 15] },
+                    
+                    // Sección 1
+                    { text: '1. Conceptos fundamentales', fontSize: 14, bold: true, color: '#00274D', margin: [0, 10, 0, 10] },
+                    { text: 'Prompt: Instrucción o consulta que el usuario proporciona al modelo de IA generativa. Un prompt bien estructurado determina la calidad de la respuesta.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Ingeniería de prompts: Disciplina que estudia el diseño, optimización y refinamiento de prompts para maximizar la efectividad de las respuestas.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Técnicas de prompting: Métodos sistemáticos que guían la interacción con la IA: Chain-of-Thought, Few-Shot Learning, Tree of Thoughts.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    
+                    // Sección 2
+                    { text: '2. Componentes de un prompt efectivo', fontSize: 14, bold: true, color: '#00274D', margin: [0, 15, 0, 10] },
+                    { ul: [
+                        'Rol o contexto: Define la perspectiva desde la cual debe responder el modelo',
+                        'Instrucción específica: Indica claramente qué tarea debe realizar',
+                        'Contexto relevante: Proporciona información necesaria',
+                        'Formato de salida: Especifica cómo deseas recibir la respuesta',
+                        'Restricciones: Define límites de extensión, tono y enfoque',
+                        'Ejemplos (opcional): Proporciona ejemplos entrada-salida'
+                    ], fontSize: 10, margin: [10, 0, 0, 0] },
+                    
+                    // Sección 3
+                    { text: '3. Técnicas avanzadas de prompting', fontSize: 14, bold: true, color: '#00274D', margin: [0, 15, 0, 10], pageBreak: 'before' },
+                    { text: 'Chain-of-Thought (CoT): Explicita pasos de razonamiento antes de la conclusión. Mejora precisión en tareas complejas.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Few-Shot Learning: Proporciona 2-5 ejemplos que demuestran el patrón deseado antes de la tarea real.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Tree of Thoughts (ToT): Explora múltiples rutas de razonamiento en paralelo y selecciona la óptima.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Role-Playing: Asigna una identidad profesional específica al modelo para respuestas especializadas.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    
+                    // Sección 4
+                    { text: '4. Aplicación práctica con Isabella Andrea', fontSize: 14, bold: true, color: '#00274D', margin: [0, 15, 0, 10] },
+                    { text: 'Diagnóstico de competencias: Usa prompts estructurados para extraer habilidades del historial laboral.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Optimización de CV: Aplica técnicas para reformular experiencias en lenguaje de competencias.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Cartas de presentación: Genera contenido personalizado usando contexto específico de la oferta.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    { text: 'Preparación de entrevistas: Simula escenarios con role-playing para practicar respuestas.', fontSize: 10, margin: [10, 0, 0, 8] },
+                    
+                    // Conclusión
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Conclusión clave', fontSize: 12, bold: true, color: '#FFFFFF', margin: [0, 0, 0, 8] },
+                                    { text: 'La ingeniería de prompts es una competencia fundamental para maximizar el valor de la IA generativa. Dominar estas técnicas permite obtener resultados más precisos, relevantes y útiles en contextos profesionales.', fontSize: 10, color: '#FFFFFF', lineHeight: 1.4 }
+                                ],
+                                fillColor: '#0055A5',
+                                margin: [15, 12, 15, 12]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 20, 0, 0]
+                    }
+                ],
+                footer: function(currentPage, pageCount) {
+                    return {
+                        stack: [
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información', fontSize: 7, color: '#888888', alignment: 'center' },
+                            { text: 'Universidad de Chile © 2025                    Página ' + currentPage + ' de ' + pageCount, fontSize: 7, color: '#888888', alignment: 'center', margin: [0, 2, 0, 0] }
+                        ],
+                        margin: [40, 10, 40, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('sintesis_modulo2_ingenieria_prompts.pdf');
+        }
+    </script>
+</body>
+</html>

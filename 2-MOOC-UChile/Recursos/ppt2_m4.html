@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Marcos de uso responsable de IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primario: #0033A0; /* Azul UChile */
+            --color-secundario: #009639; /* Verde */
+            --color-riesgo: #E3000F;   /* Rojo */
+            --color-alerta: #FFD100;   /* Amarillo */
+            --fuente-principal: 'Montserrat', sans-serif;
+            --color-fondo: #f3f4f6;
+            --color-texto: #111827;
+            --color-texto-secundario: #4b5563;
+        }
+        body {
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+        }
+        .contenedor-guia {
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        .paso {
+            display: none;
+            padding: 2.5rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .paso.activo {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .titulo-paso {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--color-primario);
+            margin-bottom: 0.5rem;
+        }
+        .subtitulo-paso {
+            font-size: 1.125rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .tarjeta {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb;
+            height: 100%;
+        }
+        .boton {
+            background-color: var(--color-primario);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .boton:hover {
+            background-color: #002466;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px 0 rgba(0, 48, 135, 0.3);
+        }
+        .boton:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .barra-progreso-fondo {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+        .barra-progreso-relleno {
+            background-color: var(--color-secundario);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-guia">
+        <!-- Encabezado con Progreso -->
+        <header class="p-6 border-b border-gray-200">
+            <div class="barra-progreso-fondo">
+                <div id="barra-progreso" class="barra-progreso-relleno" style="width: 0%;"></div>
+            </div>
+            <p id="contador-pasos" class="text-center text-sm text-gray-500 mt-2"></p>
+        </header>
+
+        <main>
+            <!-- Paso 0: Bienvenida -->
+            <div class="paso activo" id="paso-0">
+                <div class="text-center">
+                    <h2 class="titulo-paso">De los principios a la práctica</h2>
+                    <p class="subtitulo-paso">Una presentación sobre marcos para una inteligencia artificial generativa responsable.</p>
+                    <p class="mb-8 max-w-3xl mx-auto text-justify">La ética individual es necesaria, pero insuficiente para gobernar la IA generativa a escala organizacional. Para que una institución como la de Isabella adopte la IA generativa de forma segura y coherente, se requiere un paso más allá: la creación de un <strong>marco de uso responsable</strong>. Este no es solo un documento, sino un sistema de gobernanza que traduce los principios éticos en políticas, roles y procesos concretos. Esta presentación explora cómo construirlo.</p>
+                    <button class="boton" onclick="irAPaso(1)">Comenzar la presentación</button>
+                </div>
+            </div>
+
+            <!-- Paso 1: ¿Por qué un marco? -->
+            <div class="paso" id="paso-1">
+                <h2 class="titulo-paso">1. ¿Por qué un marco de gobernanza?</h2>
+                <p class="subtitulo-paso">De la ética individual a la responsabilidad organizacional.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-riesgo);">Riesgos de la improvisación</h3>
+                        <p class="text-sm">Sin un marco, el uso de la IA generativa es inconsistente, personalista y reactivo, exponiendo a la organización a riesgos legales, reputacionales y operativos.</p>
+                    </div>
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-secundario);">Beneficios de un marco</h3>
+                        <p class="text-sm">Proporciona coherencia, fomenta la confianza, asegura el cumplimiento normativo y promueve una cultura de innovación responsable y proactiva.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paso 2: Componentes clave -->
+            <div class="paso" id="paso-2">
+                <h2 class="titulo-paso">2. Anatomía de un marco robusto</h2>
+                <p class="subtitulo-paso">Los seis pilares para una gobernanza efectiva de la IA generativa.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="tarjeta"><h3 class="font-bold text-sm" style="color: var(--color-primario);">1. Principios éticos</h3><p class="text-xs mt-1">La base: equidad, transparencia, responsabilidad.</p></div>
+                    <div class="tarjeta"><h3 class="font-bold text-sm" style="color: var(--color-primario);">2. Roles y responsabilidades</h3><p class="text-xs mt-1">Define quién es responsable (ej. un Comité de Ética de IA generativa).</p></div>
+                    <div class="tarjeta"><h3 class="font-bold text-sm" style="color: var(--color-primario);">3. Evaluación de impacto</h3><p class="text-xs mt-1">Proceso para analizar los riesgos de nuevas herramientas.</p></div>
+                    <div class="tarjeta"><h3 class="font-bold text-sm" style="color: var(--color-primario);">4. Políticas de uso</h3><p class="text-xs mt-1">Reglas claras para empleados sobre el uso de la IA generativa.</p></div>
+                    <div class="tarjeta"><h3 class="font-bold text-sm" style="color: var(--color-primario);">5. Capacitación</h3><p class="text-xs mt-1">Programas para educar a toda la organización.</p></div>
+                    <div class="tarjeta"><h3 class="font-bold text-sm" style="color: var(--color-primario);">6. Supervisión y auditoría</h3><p class="text-xs mt-1">Mecanismos para verificar el cumplimiento y la eficacia.</p></div>
+                </div>
+            </div>
+
+            <!-- Paso 3: Ciclo de Vida -->
+            <div class="paso" id="paso-3">
+                <h2 class="titulo-paso">3. El marco en el ciclo de vida de la IA generativa</h2>
+                <p class="subtitulo-paso">Desde la concepción hasta el retiro del sistema.</p>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">Diseño y despliegue</h3>
+                         <p class="text-sm">El marco guía la construcción de sistemas justos desde el inicio ("ethics by design") y asegura una implementación transparente y comunicada a los usuarios.</p>
+                    </div>
+                    <div class="tarjeta bg-gray-50">
+                        <h3 class="font-bold mb-2">Operación y retiro</h3>
+                        <p class="text-sm">Establece la monitorización continua para detectar sesgos emergentes en producción y define protocolos para archivar o eliminar datos y modelos de forma segura.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 4: Marcos de Referencia -->
+            <div class="paso" id="paso-4">
+                <h2 class="titulo-paso">4. Marcos de referencia globales</h2>
+                <p class="subtitulo-paso">Aprovechando estándares y guías internacionales.</p>
+                <div class="grid md:grid-cols-3 gap-6">
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2">NIST (EE.UU.)</h3>
+                        <p class="text-sm">El <strong>AI Risk Management Framework</strong> del NIST se centra en la confiabilidad y en la gestión de riesgos a lo largo del ciclo de vida.</p>
+                    </div>
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2">AI Act (UE)</h3>
+                        <p class="text-sm">La Ley de IA de la Unión Europea establece un enfoque basado en el nivel de riesgo de la aplicación, con fuertes implicaciones legales.</p>
+                    </div>
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2">OCDE</h3>
+                         <p class="text-sm">Los <strong>Principios sobre IA</strong> de la OCDE ofrecen una guía de alto nivel sobre valores para el desarrollo de una IA robusta, segura y justa.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paso 5: Implementación -->
+            <div class="paso" id="paso-5">
+                <h2 class="titulo-paso">5. Un plan para la implementación</h2>
+                <p class="subtitulo-paso">Cinco pasos para llevar el marco del papel a la práctica.</p>
+                <div class="tarjeta bg-gray-50">
+                    <h3 class="font-bold mb-4 text-center">Hoja de ruta organizacional</h3>
+                    <ol class="list-decimal list-inside space-y-3 text-sm max-w-2xl mx-auto">
+                        <li><strong>Crear un comité de ética de IA generativa:</strong> Formar un equipo multidisciplinario (legal, técnico, negocio) que lidere la iniciativa y tome decisiones.</li>
+                        <li><strong>Adaptar los principios globales al contexto local:</strong> Conectar los valores universales de la IA generativa (equidad, transparencia) con la misión y los valores específicos de la organización.</li>
+                        <li><strong>Desarrollar una política de uso aceptable:</strong> Redactar un documento claro y conciso que todos los empleados puedan entender y aplicar en su día a día.</li>
+                        <li><strong>Implementar un programa piloto:</strong> Probar el marco en un proyecto de IA generativa de bajo riesgo para identificar brechas y refinar los procesos antes de un despliegue general.</li>
+                        <li><strong>Comunicar y capacitar continuamente:</strong> Lanzar una campaña de sensibilización y formación para asegurar que el marco sea una guía viva y no un documento olvidado.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Paso 6: Conclusión -->
+            <div class="paso" id="paso-6">
+                <div class="text-center">
+                    <h2 class="titulo-paso" style="color: var(--color-secundario);">Conclusión: Hacia una cultura de IA generativa responsable</h2>
+                    <p class="subtitulo-paso">Ha completado la presentación sobre marcos de gobernanza de IA generativa.</p>
+                    <div class="tarjeta max-w-lg mx-auto text-left bg-gray-50">
+                       <p>Un marco de uso responsable es, en esencia, un cambio cultural. Transforma la relación de una organización con la tecnología, pasando de una adopción reactiva y fragmentada a una gobernanza proactiva, estratégica y alineada con sus valores. No se trata de frenar la innovación, sino de encauzarla para que genere un valor sostenible y confiable para todos.</p>
+                    </div>
+                     <button class="boton mt-8" onclick="irAPaso(0)">Reiniciar la presentación</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Navegación -->
+        <footer class="flex justify-between items-center p-6 border-t border-gray-200">
+            <button id="boton-anterior" class="boton" onclick="pasoAnterior()">Anterior</button>
+            <button id="boton-siguiente" class="boton" onclick="pasoSiguiente()">Siguiente</button>
+        </footer>
+    </div>
+    
+    <script>
+        let pasoActual = 0;
+        const pasos = document.querySelectorAll('.paso');
+        const NUM_PASOS_CONTENIDO = 5;
+        
+        const botonAnterior = document.getElementById('boton-anterior');
+        const botonSiguiente = document.getElementById('boton-siguiente');
+        const barraProgreso = document.getElementById('barra-progreso');
+        const contadorPasos = document.getElementById('contador-pasos');
+
+        function actualizarUI() {
+            pasos.forEach((paso, index) => {
+                paso.classList.toggle('activo', index === pasoActual);
+            });
+
+            const esPrimerPaso = pasoActual === 0;
+            const esUltimoPaso = pasoActual === pasos.length - 1;
+
+            if (esPrimerPaso || esUltimoPaso) {
+                document.querySelector('footer').classList.add('hidden');
+                document.querySelector('header').classList.add('hidden');
+            } else {
+                document.querySelector('footer').classList.remove('hidden');
+                document.querySelector('header').classList.remove('hidden');
+            }
+            
+            botonAnterior.disabled = pasoActual === 1;
+            botonSiguiente.textContent = (pasoActual === pasos.length - 2) ? 'Finalizar presentación' : 'Siguiente';
+
+            let progreso = 0;
+            if (pasoActual > 0 && pasoActual <= NUM_PASOS_CONTENIDO) {
+                 progreso = ((pasoActual - 1) / (NUM_PASOS_CONTENIDO - 1)) * 100;
+            } else if (pasoActual > NUM_PASOS_CONTENIDO) {
+                progreso = 100;
+            }
+            
+            barraProgreso.style.width = `${progreso}%`;
+           
+            if (pasoActual > 0 && !esUltimoPaso) {
+                 contadorPasos.textContent = `Paso ${pasoActual} de ${NUM_PASOS_CONTENIDO}`;
+            } else {
+                contadorPasos.textContent = '';
+            }
+        }
+
+        function irAPaso(n) {
+            pasoActual = n;
+            actualizarUI();
+        }
+
+        function pasoSiguiente() {
+            if (pasoActual < pasos.length - 1) {
+                pasoActual++;
+                actualizarUI();
+            }
+        }
+
+        function pasoAnterior() {
+            if (pasoActual > 0) {
+                pasoActual--;
+                actualizarUI();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', actualizarUI);
+    </script>
+</body>
+</html>
+

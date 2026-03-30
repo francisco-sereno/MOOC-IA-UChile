@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XP98CLRNF7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XP98CLRNF7');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingeniería de prompts: fundamentos y aplicaciones - Módulo 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+        
+            --verde-light: #E6F5EB;
+            --amarillo-light: #FFF9E6;
+            --rojo-light: #FFE6E8;
+            --azul-light: #E6F2FF;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Layout principal */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 0;
+            box-shadow: 0 4px 16px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+            flex-shrink: 0;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 2px solid var(--gris-200);
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex-shrink: 0;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            border-radius: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            background: var(--gris-50);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 5px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            border-radius: 5px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+        }
+
+        /* Navigation links */
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--gris-700);
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: var(--gris-100);
+            color: var(--azul);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            font-weight: 600;
+        }
+
+        .sub-nav-link {
+            display: block;
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.3rem;
+            margin-left: 1rem;
+            color: var(--gris-600);
+            font-weight: 400;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .sub-nav-link:hover {
+            background: var(--gris-100);
+            color: var(--azul);
+        }
+
+        .sub-nav-link.active {
+            color: var(--azul);
+            font-weight: 600;
+            background: var(--gris-100);
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.3s ease;
+        }
+
+        /* Tarjetas de contenido mejoradas */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--gris-200);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.2);
+            border-color: var(--azul);
+        }
+
+        .idea-destacada, .card-reflexion {
+            background: linear-gradient(135deg, #FFF9E6, #FFFBF0);
+            border-left: 6px solid var(--amarillo);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(255, 209, 0, 0.2);
+        }
+
+        .card-practica, .card-conexion {
+            background: linear-gradient(135deg, #E6F5EB, #F0FAF3);
+            border-left: 6px solid var(--verde);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.2);
+        }
+
+        .card-definicion {
+            background: linear-gradient(135deg, #E6F0FF, #EFF6FF);
+            border-left: 6px solid var(--azul);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.2);
+        }
+
+        /* Botones mejorados */
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--azul);
+            border: 2px solid var(--azul);
+        }
+
+        .btn-secondary:hover {
+            background: var(--azul);
+            color: white;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, var(--verde), var(--verde-hover));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 89, 0.4);
+        }
+
+        /* Info button flotante */
+        .info-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 85, 165, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .info-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 24px rgba(0, 85, 165, 0.5);
+        }
+
+        /* Tipografía mejorada para neurodivergencias */
+        .text-high-contrast {
+            color: var(--gris-800);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+        }
+
+        p, li {
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--azul-dark);
+        }
+
+        /* Listas */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tablas mejoradas */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gris-200);
+            background: white;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--gris-50);
+        }
+
+        /* Código */
+        code {
+            background: var(--gris-100);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--azul-dark);
+        }
+
+        pre {
+            background: var(--gris-800);
+            color: #E0E0E0;
+            padding: 1.25rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Ejercicios interactivos */
+        .quiz-container {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--gris-200);
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            margin: 0.75rem 0;
+            border: 2px solid var(--gris-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--azul);
+            background: var(--gris-50);
+            transform: translateX(4px);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--azul);
+            background: linear-gradient(135deg, rgba(0, 85, 165, 0.1), rgba(0, 168, 89, 0.1));
+        }
+
+        .quiz-option.correct {
+            border-color: var(--verde);
+            background: linear-gradient(135deg, rgba(0, 168, 89, 0.15), rgba(0, 168, 89, 0.1));
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--rojo);
+            background: linear-gradient(135deg, rgba(227, 0, 15, 0.15), rgba(227, 0, 15, 0.1));
+        }
+
+        .feedback-correct {
+            padding: 1rem;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, #E6F5EB, #F0FAF3);
+            border-left: 4px solid var(--verde);
+            border-radius: 8px;
+        }
+
+        .feedback-incorrect {
+            padding: 1rem;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, #FFE6E6, #FFF0F0);
+            border-left: 4px solid var(--rojo);
+            border-radius: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gris-200);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--azul);
+            box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 16px;
+            margin-top: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+        }
+
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Acordeones (solo para algunas secciones opcionales) */
+        .accordion-item {
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--gris-200);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--azul);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+        }
+
+        .accordion-item summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 1.25rem 1.5rem;
+            background: white;
+            font-weight: 600;
+            color: var(--gris-800);
+            position: relative;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .accordion-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .accordion-item summary::after {
+            content: '+';
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--azul);
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item[open] summary {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+        }
+
+        .accordion-item[open] summary::after {
+            content: '−';
+            color: white;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .accordion-content {
+            padding: 1.5rem;
+            background: var(--gris-50);
+            border-top: 1px solid var(--gris-200);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-start mb-6">
+                <h3 class="text-2xl font-bold" style="color: var(--azul-dark);">📚 Instrucciones de uso</h3>
+                <button onclick="closeInstructions()" class="text-gray-500 hover:text-gray-800 text-3xl leading-none" style="cursor: pointer;">&times;</button>
+            </div>
+            
+            <div class="space-y-4 text-high-contrast">
+                <div class="card-definicion">
+                    <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">🎯 Objetivo del recurso</h4>
+                    <p>Este apunte interactivo presenta los fundamentos de la ingeniería de prompts aplicados al caso de <strong>Isabella Andrea</strong>, una profesional en transición laboral que utiliza IA generativa.</p>
+                </div>
+
+                <div class="card-practica">
+                    <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🧭 Cómo navegar</h4>
+                    <ul class="list-disc ml-6 space-y-2">
+                        <li><strong>Sidebar izquierdo:</strong> Menú de navegación con todas las secciones</li>
+                        <li><strong>Área principal:</strong> Contenido del apunte con ejemplos prácticos</li>
+                        <li><strong>Scroll:</strong> Usa la rueda del mouse o las barras de desplazamiento</li>
+                        <li><strong>Secciones expandibles:</strong> Algunas tienen contenido adicional desplegable</li>
+                    </ul>
+                </div>
+
+                <div class="idea-destacada">
+                    <h4 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">💡 Características de accesibilidad</h4>
+                    <ul class="list-disc ml-6 space-y-2">
+                        <li>Tipografía optimizada con alto contraste</li>
+                        <li>Espaciado generoso para facilitar la lectura</li>
+                        <li>Colores distintivos por tipo de contenido</li>
+                        <li>Navegación intuitiva con indicadores visuales</li>
+                    </ul>
+                </div>
+
+                <div class="flex items-center gap-3 mt-6 p-3 bg-gray-50 rounded-lg">
+                    <input type="checkbox" id="dontShowAgain" class="w-4 h-4" style="cursor: pointer;">
+                    <label for="dontShowAgain" class="text-sm text-gray-700" style="cursor: pointer;">No volver a mostrar estas instrucciones</label>
+                </div>
+
+                <button onclick="closeInstructions()" class="btn btn-primary w-full mt-4">
+                    ✓ Entendido, comenzar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layout principal -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner animate-fadeIn">
+            <h1 class="text-4xl font-bold text-white mb-3">Ingeniería de prompts</h1>
+            <p class="text-xl text-white opacity-90">Fundamentos y aplicaciones en inteligencia artificial generativa</p>
+            <p class="text-white opacity-80 mt-2">🤖 Caso de estudio: Isabella Andrea</p>
+        </div>
+
+        <!-- Content wrapper (sidebar + main content) -->
+        <div class="content-wrapper">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h1 class="text-xl font-bold mb-4 text-center" style="color: var(--azul);">Ingeniería de prompts</h1>
+                
+                <nav id="table-of-contents">
+                    <ul class="space-y-1">
+                        <li><a href="#introduccion" class="nav-link">1. Introducción</a></li>
+                        <li>
+                            <a href="#fundamentos" class="nav-link">2. Fundamentos teóricos</a>
+                            <ul class="space-y-1">
+                                <li><a href="#definicion" class="sub-nav-link">2.1 Definición</a></li>
+                                <li><a href="#componentes" class="sub-nav-link">2.2 Componentes</a></li>
+                                <li><a href="#principios" class="sub-nav-link">2.3 Principios clave</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#tecnicas" class="nav-link">3. Técnicas avanzadas</a>
+                            <ul class="space-y-1">
+                                <li><a href="#zero-shot" class="sub-nav-link">3.1 Zero-shot</a></li>
+                                <li><a href="#few-shot" class="sub-nav-link">3.2 Few-shot</a></li>
+                                <li><a href="#chain-of-thought" class="sub-nav-link">3.3 Chain of thought</a></li>
+                                <li><a href="#self-consistency" class="sub-nav-link">3.4 Self-consistency</a></li>
+                                <li><a href="#tree-of-thoughts" class="sub-nav-link">3.5 Tree of thoughts</a></li>
+                                <li><a href="#react" class="sub-nav-link">3.6 ReAct</a></li>
+                                <li><a href="#step-back" class="sub-nav-link">3.7 Step-back</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#natalia" class="nav-link">4. Caso Isabella Andrea</a></li>
+                        <li><a href="#ejercicios" class="nav-link">5. Ejercicios prácticos</a></li>
+                        <li><a href="#buenas-practicas" class="nav-link">6. Buenas prácticas</a></li>
+                        <li><a href="#etica" class="nav-link">7. Consideraciones éticas</a></li>
+                        <li><a href="#conclusion" class="nav-link">8. Conclusión</a></li>
+                        <li><a href="#referencias" class="nav-link">9. Referencias</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main id="main-content" class="main-content">
+
+            <!-- Botones de acción -->
+            <div class="action-buttons animate-fadeIn">
+                <button onclick="openInstructions()" class="btn btn-secondary">
+                    📖 Ver instrucciones
+                </button>
+                <button onclick="downloadPDF()" class="btn btn-download">
+                    📥 Descargar PDF
+                </button>
+            </div>
+
+            <!-- 1. INTRODUCCIÓN -->
+            <section id="introduccion" class="card scroll-mt-20 animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    1. Introducción
+                </h2>
+                
+                <div class="text-high-contrast space-y-4">
+                    <p class="text-lg leading-relaxed">La <strong>ingeniería de prompts</strong> representa una de las habilidades más críticas en la era de la inteligencia artificial generativa. En un contexto donde los modelos de lenguaje grandes (LLM, por sus siglas en inglés) son cada vez más accesibles y potentes, la capacidad de comunicarse efectivamente con estos sistemas se ha convertido en una competencia fundamental, no solo para especialistas técnicos, sino para cualquier profesional que busque aprovechar el potencial transformador de estas tecnologías.</p>
+
+                    <p class="leading-relaxed">Este fenómeno no es meramente técnico, sino profundamente pragmático y democratizador. La ingeniería de prompts permite que personas sin conocimientos avanzados en programación o ciencia de datos puedan obtener valor significativo de sistemas de IA generativa. Sin embargo, esta aparente simplicidad esconde una complejidad considerable: la diferencia entre un prompt mediocre y uno excepcional puede ser la distinción entre resultados superficiales y análisis profundos, entre respuestas genéricas y soluciones altamente contextualizadas.</p>
+
+                    <div class="idea-destacada">
+                        <h3 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">💡 Reflexión inicial</h3>
+                        <p class="leading-relaxed">A medida que los modelos de IA se vuelven más sofisticados, la calidad de las interacciones humano-máquina depende cada vez más de nuestra capacidad para articular instrucciones precisas, contextualmente ricas y estratégicamente diseñadas. La ingeniería de prompts, entonces, no es solo sobre "qué decir" a la IA, sino sobre cómo estructurar ese diálogo para maximizar la utilidad, precisión y relevancia de las respuestas generadas.</p>
+                    </div>
+
+                    <p class="leading-relaxed">Este apunte explora los fundamentos teóricos y aplicados de la ingeniería de prompts a través del caso de <strong>Isabella Andrea</strong>, una profesional en transición laboral que utiliza IA generativa. Este caso práctico permitirá ilustrar cómo los principios abstractos se traducen en aplicaciones concretas que generan valor real para usuarios en situaciones de transición laboral.</p>
+                </div>
+            </section>
+
+            <!-- 2. FUNDAMENTOS TEÓRICOS -->
+            <section id="fundamentos" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    2. Fundamentos teóricos
+                </h2>
+
+                <!-- 2.1 Definición -->
+                <details id="definicion" class="accordion-item" open>
+                    <summary>2.1 Definición y contexto conceptual</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Definición formal</h4>
+                            <p class="leading-relaxed">La <strong>ingeniería de prompts</strong> se define como el proceso sistemático de diseñar, estructurar y optimizar instrucciones (prompts) que se proporcionan a modelos de lenguaje grandes con el objetivo de obtener respuestas precisas, relevantes y contextualmente apropiadas. Esta práctica combina elementos de lingüística computacional, diseño de interfaces conversacionales y comprensión profunda de las capacidades y limitaciones de los sistemas de IA generativa.</p>
+                        </div>
+
+                        <p class="leading-relaxed">Desde una perspectiva técnica, un prompt es esencialmente el input textual que activa y guía el proceso de generación del modelo. Sin embargo, desde una perspectiva pragmática, el prompt representa la interfaz crítica entre la intención humana y la ejecución computacional. La ingeniería de prompts, por tanto, no se limita a escribir instrucciones claras, sino que implica:</p>
+
+                        <ul class="list-disc ml-8 space-y-2">
+                            <li class="leading-relaxed"><strong>Comprensión arquitectónica:</strong> Entender cómo funcionan los LLM, sus mecanismos de atención, y cómo procesan el contexto.</li>
+                            <li class="leading-relaxed"><strong>Estrategia comunicativa:</strong> Articular instrucciones que aprovechen las fortalezas del modelo mientras minimizan sus debilidades conocidas.</li>
+                            <li class="leading-relaxed"><strong>Iteración sistemática:</strong> Refinar prompts basándose en resultados empíricos y feedback del sistema.</li>
+                            <li class="leading-relaxed"><strong>Adaptabilidad contextual:</strong> Ajustar el enfoque según el dominio de aplicación, la complejidad de la tarea y las necesidades específicas del usuario.</li>
+                        </ul>
+
+                        <div class="card-reflexion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">🤔 Para reflexionar</h4>
+                            <p class="leading-relaxed">La ingeniería de prompts emerge como respuesta a una paradoja fundamental de los LLM: estos sistemas son extraordinariamente capaces, pero su efectividad está profundamente condicionada por la calidad de las instrucciones que reciben. A diferencia del software tradicional, donde las interfaces están diseñadas explícitamente para ciertos flujos de trabajo, los LLM operan en un espacio de posibilidades prácticamente infinito, donde la misma pregunta formulada de maneras ligeramente diferentes puede producir resultados radicalmente distintos.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 2.2 Componentes -->
+                <details id="componentes" class="accordion-item">
+                    <summary>2.2 Componentes de un prompt efectivo</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <p class="leading-relaxed">Un prompt bien diseñado no es una simple oración o pregunta, sino una estructura compuesta que incorpora múltiples elementos estratégicos. Los componentes fundamentales incluyen:</p>
+
+                        <div class="card-practica">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--verde);">🎯 Componentes esenciales</h4>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h5 class="font-bold text-base mb-2" style="color: var(--azul);">1. Instrucción (Instruction)</h5>
+                                    <p class="leading-relaxed">La tarea específica que se solicita al modelo. Debe ser clara, directa y accionable. En lugar de decir "háblame de marketing", una instrucción efectiva sería: "Analiza las tres estrategias de marketing digital más efectivas para startups tecnológicas en 2024".</p>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-bold text-base mb-2" style="color: var(--azul);">2. Contexto (Context)</h5>
+                                    <p class="leading-relaxed">Información de fondo que permite al modelo entender el marco de referencia. Esto puede incluir antecedentes del problema, características del público objetivo, restricciones técnicas o temporales, y cualquier información relevante que oriente la respuesta hacia la dirección deseada.</p>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-bold text-base mb-2" style="color: var(--azul);">3. Datos de entrada (Input Data)</h5>
+                                    <p class="leading-relaxed">La información específica sobre la cual el modelo debe operar. Puede ser texto, números, descripciones de situaciones, código, o cualquier dato relevante para la tarea. La claridad en cómo se presenta esta información afecta directamente la calidad del output.</p>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-bold text-base mb-2" style="color: var(--azul);">4. Formato de salida (Output Indicator)</h5>
+                                    <p class="leading-relaxed">Especificaciones sobre cómo debe estructurarse la respuesta. Esto puede incluir el formato (lista, párrafo, tabla, JSON), el tono (formal, casual, técnico), la longitud aproximada, y cualquier otra característica deseada del output.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">📝 Ejemplo integrado</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--azul);">
+                                <p class="leading-relaxed mb-3"><strong>[Contexto]</strong> Soy un profesional con 5 años de experiencia en marketing tradicional que está explorando la transición al marketing digital.</p>
+                                <p class="leading-relaxed mb-3"><strong>[Instrucción]</strong> Identifica las cinco competencias técnicas más demandadas en marketing digital durante 2024.</p>
+                                <p class="leading-relaxed mb-3"><strong>[Input Data]</strong> Mi experiencia incluye gestión de campañas impresas, relaciones públicas y organización de eventos corporativos.</p>
+                                <p class="leading-relaxed"><strong>[Output]</strong> Presenta cada competencia con: nombre, descripción breve, nivel de demanda, y recursos de aprendizaje sugeridos. Formato: lista numerada.</p>
+                            </div>
+                        </div>
+
+                        <p class="leading-relaxed">La integración coherente de estos componentes no es opcional sino fundamental. Un prompt que omite contexto puede generar respuestas genéricas; uno que no especifica formato puede producir información valiosa pero difícil de utilizar; y uno sin instrucciones claras puede llevar al modelo por caminos completamente inadecuados.</p>
+                    </div>
+                </details>
+
+                <!-- 2.3 Principios clave -->
+                <details id="principios" class="accordion-item">
+                    <summary>2.3 Principios clave de diseño</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <p class="leading-relaxed">Más allá de los componentes técnicos, existen principios fundamentales que guían el diseño efectivo de prompts. Estos principios representan lecciones extraídas de la práctica extensa y la investigación académica:</p>
+
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th>Principio</th>
+                                    <th>Descripción</th>
+                                    <th>Aplicación práctica</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Claridad</strong></td>
+                                    <td>Instrucciones inequívocas que minimizan ambigüedad</td>
+                                    <td>Usar verbos de acción específicos: "analiza", "compara", "identifica" en lugar de "piensa sobre"</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Especificidad</strong></td>
+                                    <td>Detalles concretos sobre qué, cómo y por qué</td>
+                                    <td>En lugar de "dame ideas", usar "genera 3 propuestas de valor para un SaaS B2B enfocado en automatización"</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contexto</strong></td>
+                                    <td>Información de fondo suficiente para orientar la respuesta</td>
+                                    <td>Incluir información sobre audiencia, propósito, restricciones y expectativas</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Estructura</strong></td>
+                                    <td>Organización lógica de los elementos del prompt</td>
+                                    <td>Presentar información en orden: contexto → tarea → especificaciones → formato deseado</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Iteración</strong></td>
+                                    <td>Refinamiento continuo basado en resultados</td>
+                                    <td>Documentar qué funciona, ajustar variables una a la vez, comparar versiones</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="idea-destacada">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">⚠️ Advertencia importante</h4>
+                            <p class="leading-relaxed">Un error común es asumir que "más palabras = mejor prompt". La verbosidad excesiva puede ser tan perjudicial como la ambigüedad. El objetivo es la precisión semántica, no la extensión textual. Cada palabra debe contribuir a delimitar el espacio de respuestas deseadas o a proporcionar contexto relevante.</p>
+                        </div>
+
+                        <div class="card-conexion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🔗 Conexión práctica</h4>
+                            <p class="leading-relaxed">Estos principios no son abstractos. En el caso de <strong>Isabella Andrea</strong>, por ejemplo, un prompt que solicita "analizar mi CV" es fundamentalmente diferente de uno que dice: "Eres un experto en análisis de competencias profesionales. Analiza el siguiente CV de un profesional con 5 años de experiencia en ingeniería de software que busca transitar hacia roles de gestión técnica. Identifica: (1) competencias transferibles, (2) brechas para el objetivo, (3) recomendaciones de desarrollo. Presenta los resultados en formato estructurado con justificación para cada punto."</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <!-- 3. TÉCNICAS AVANZADAS -->
+            <section id="tecnicas" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                    </svg>
+                    3. Técnicas avanzadas de prompting
+                </h2>
+
+                <p class="text-high-contrast mb-4">Las siguientes técnicas representan estrategias sofisticadas que amplían significativamente las capacidades de interacción con LLM:</p>
+
+                <!-- 3.1 Zero-shot -->
+                <details id="zero-shot" class="accordion-item" open>
+                    <summary>3.1 Zero-shot prompting</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Concepto</h4>
+                            <p class="leading-relaxed">El <strong>zero-shot prompting</strong> consiste en solicitar al modelo que realice una tarea sin proporcionar ejemplos previos. Esta técnica se basa enteramente en las capacidades de generalización que el modelo ha adquirido durante su entrenamiento.</p>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Fundamento teórico:</strong> Los LLM modernos han sido expuestos a volúmenes masivos de texto durante su fase de entrenamiento, lo que les permite reconocer patrones y estructuras en una amplia variedad de tareas. El zero-shot prompting explota esta capacidad de transferencia: el modelo puede inferir qué se espera de él basándose únicamente en la instrucción explícita.</p>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">💼 Ejemplo: Isabella Andrea</h4>
+                            <div class="space-y-3">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2" style="color: var(--verde);">✅ Prompt efectivo:</p>
+                                    <p class="leading-relaxed italic">"Analiza el siguiente perfil profesional y extrae las cinco competencias técnicas más relevantes. Presenta cada competencia con un nivel de proficiencia estimado (básico/intermedio/avanzado) basado en la descripción de experiencia proporcionada."</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2" style="color: var(--rojo);">❌ Prompt inefectivo:</p>
+                                    <p class="leading-relaxed italic">"Dime qué competencias tiene esta persona."</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-practica">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🎯 Cuándo usar zero-shot</h4>
+                            <ul class="list-disc ml-6 space-y-2">
+                                <li class="leading-relaxed">Tareas bien definidas y relativamente comunes (clasificación de texto, extracción de entidades, resumen)</li>
+                                <li class="leading-relaxed">Cuando no se dispone de ejemplos específicos del dominio</li>
+                                <li class="leading-relaxed">Para evaluación rápida de capacidades del modelo</li>
+                                <li class="leading-relaxed">Tareas donde la instrucción es suficientemente descriptiva por sí misma</li>
+                            </ul>
+                        </div>
+
+                        <div class="idea-destacada">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">⚠️ Limitaciones</h4>
+                            <p class="leading-relaxed">El zero-shot tiene limitaciones significativas en tareas altamente especializadas, en dominios con jerga técnica no estándar, o cuando se requiere un formato de salida muy específico que el modelo no pueda inferir fácilmente de la instrucción.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 3.2 Few-shot -->
+                <details id="few-shot" class="accordion-item">
+                    <summary>3.2 Few-shot prompting</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Concepto</h4>
+                            <p class="leading-relaxed">El <strong>few-shot prompting</strong> implica proporcionar al modelo algunos ejemplos de la tarea deseada antes de solicitar que realice una instancia nueva. Esta técnica es extraordinariamente poderosa porque permite "enseñar" al modelo mediante demostración en lugar de descripción.</p>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Fundamento teórico:</strong> Brown et al. (2023) demostraron que los LLM exhiben capacidades impresionantes de "aprendizaje en contexto" (in-context learning). A diferencia del fine-tuning, que modifica los parámetros del modelo, el few-shot learning permite al modelo adaptar su comportamiento temporalmente basándose en los ejemplos proporcionados en el prompt mismo.</p>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">💼 Ejemplo estructurado: Isabella Andrea</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--azul);">
+                                <p class="font-semibold mb-3">Tarea: Clasificar nivel de competencia basado en descripción de experiencia</p>
+                                
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="font-semibold text-sm" style="color: var(--verde);">Ejemplo 1:</p>
+                                        <p class="text-sm italic">Input: "He usado Python ocasionalmente para scripts de automatización básicos."</p>
+                                        <p class="text-sm italic">Output: Python - Nivel: Básico</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p class="font-semibold text-sm" style="color: var(--verde);">Ejemplo 2:</p>
+                                        <p class="text-sm italic">Input: "Desarrollo aplicaciones web completas en Python con Django, incluyendo APIs RESTful y gestión de bases de datos."</p>
+                                        <p class="text-sm italic">Output: Python - Nivel: Avanzado</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p class="font-semibold text-sm" style="color: var(--verde);">Ejemplo 3:</p>
+                                        <p class="text-sm italic">Input: "Puedo escribir scripts en Python para análisis de datos usando pandas y realizar visualizaciones básicas."</p>
+                                        <p class="text-sm italic">Output: Python - Nivel: Intermedio</p>
+                                    </div>
+                                    
+                                    <div class="mt-4 pt-4 border-t-2 border-gray-300">
+                                        <p class="font-semibold text-sm" style="color: var(--azul);">Ahora evalúa:</p>
+                                        <p class="text-sm italic">Input: "Utilizo Python para machine learning, implementando modelos con scikit-learn y TensorFlow, además de desplegar soluciones en producción."</p>
+                                        <p class="text-sm italic">Output: [El modelo completaría aquí]</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-practica">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🎯 Principios para few-shot efectivo</h4>
+                            <ol class="list-decimal ml-6 space-y-2">
+                                <li class="leading-relaxed"><strong>Diversidad de ejemplos:</strong> Los ejemplos deben cubrir el espectro de variación esperada en la tarea</li>
+                                <li class="leading-relaxed"><strong>Claridad estructural:</strong> Mantener un formato consistente entre ejemplos</li>
+                                <li class="leading-relaxed"><strong>Orden estratégico:</strong> Los últimos ejemplos tienen más peso, ubicar los más representativos al final</li>
+                                <li class="leading-relaxed"><strong>Número óptimo:</strong> Generalmente 2-5 ejemplos; más no siempre mejora el rendimiento</li>
+                            </ol>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 3.3 Chain of thought -->
+                <details id="chain-of-thought" class="accordion-item">
+                    <summary>3.3 Chain of thought (cadena de pensamiento)</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Concepto</h4>
+                            <p class="leading-relaxed">El <strong>chain of thought (CoT) prompting</strong> es una técnica que solicita explícitamente al modelo que muestre su "razonamiento paso a paso" antes de llegar a una conclusión. Esta estrategia ha demostrado mejoras dramáticas en tareas que requieren razonamiento complejo, resolución de problemas matemáticos, y análisis multi-paso.</p>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Fundamento teórico:</strong> Wei et al. (2023) demostraron que el CoT prompting permite a los LLM descomponer problemas complejos en pasos intermedios manejables. Esto no solo mejora la precisión, sino que hace las respuestas más interpretables y verificables. El mecanismo subyacente se relaciona con cómo los modelos asignan "capacidad computacional": al generar pasos intermedios, el modelo puede dedicar más tokens (y por tanto más "pensamiento") al problema.</p>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">💼 Aplicación en Isabella Andrea</h4>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2" style="color: var(--rojo);">❌ Sin CoT:</p>
+                                    <p class="italic mb-2">"¿Este candidato es adecuado para un rol senior en gestión de proyectos tecnológicos?"</p>
+                                    <p class="text-sm leading-relaxed"><em>Respuesta típica:</em> "Sí, parece tener la experiencia necesaria."</p>
+                                </div>
+
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2" style="color: var(--verde);">✅ Con CoT:</p>
+                                    <p class="italic mb-2">"¿Este candidato es adecuado para un rol senior en gestión de proyectos tecnológicos? Analiza paso a paso considerando: (1) años de experiencia relevante, (2) competencias técnicas vs. gestión, (3) evidencia de liderazgo de equipos, (4) familiaridad con metodologías ágiles. Luego, proporciona una recomendación justificada."</p>
+                                    <p class="text-sm leading-relaxed"><em>Respuesta típica:</em> "Analicemos sistemáticamente: [Paso 1] Experiencia: El candidato tiene 8 años en el sector tecnológico... [Paso 2] Balance técnico-gestión: Muestra competencias técnicas sólidas en..., pero la experiencia en gestión directa es limitada a... [Paso 3] Liderazgo: Ha liderado equipos de 3-5 personas en... [Paso 4] Metodologías: Experiencia demostrada con Scrum en... [Conclusión] El candidato tiene una base sólida pero requeriría..."</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-practica">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🎯 Variantes de CoT</h4>
+                            <ul class="list-disc ml-6 space-y-2">
+                                <li class="leading-relaxed"><strong>CoT explícito:</strong> "Piensa paso a paso y muestra tu razonamiento"</li>
+                                <li class="leading-relaxed"><strong>CoT estructurado:</strong> Proporcionar un framework específico (Análisis → Síntesis → Conclusión)</li>
+                                <li class="leading-relaxed"><strong>Zero-shot CoT:</strong> Simplemente agregar "Analicemos esto paso a paso:" al inicio</li>
+                            </ul>
+                        </div>
+
+                        <div class="idea-destacada">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">💡 Insight clave</h4>
+                            <p class="leading-relaxed">El CoT no solo mejora la calidad de las respuestas, sino que también facilita la detección de errores de razonamiento. Cuando el modelo muestra sus pasos, es más fácil identificar dónde un análisis puede haberse desviado, permitiendo refinamiento iterativo del prompt.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 3.4 Self-consistency -->
+                <details id="self-consistency" class="accordion-item">
+                    <summary>3.4 Self-consistency</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Concepto</h4>
+                            <p class="leading-relaxed"><strong>Self-consistency</strong> es una técnica meta-cognitiva que genera múltiples cadenas de razonamiento independientes para la misma pregunta y luego selecciona la respuesta que aparece más consistentemente. Este enfoque aprovecha el hecho de que, aunque un modelo pueda cometer errores en paths de razonamiento individuales, la respuesta correcta tiende a emerger más frecuentemente.</p>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Fundamento teórico:</strong> Wang et al. (2023) demostraron que la self-consistency mejora significativamente el rendimiento en tareas de razonamiento complejo. La intuición es que los errores aleatorios tienden a cancelarse cuando se promedian múltiples intentos, mientras que el razonamiento correcto emerge como el "atractor" más común en el espacio de respuestas.</p>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">💼 Implementación práctica</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="leading-relaxed mb-3"><strong>Escenario:</strong> Isabella Andrea debe evaluar si el perfil profesional es adecuado para un rol específico al que se desea postular</p>
+                                <p class="leading-relaxed mb-2"><strong>Proceso:</strong></p>
+                                <ol class="list-decimal ml-6 space-y-2 text-sm">
+                                    <li>Generar 3-5 análisis independientes del mismo perfil vs. requisitos</li>
+                                    <li>Cada análisis usa CoT para mostrar razonamiento</li>
+                                    <li>Comparar las conclusiones finales</li>
+                                    <li>Si hay consenso (ej: 4/5 dicen "apto"), usar esa respuesta</li>
+                                    <li>Si hay desacuerdo, investigar las diferencias en razonamiento</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="card-practica">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🎯 Consideraciones prácticas</h4>
+                            <ul class="list-disc ml-6 space-y-2">
+                                <li class="leading-relaxed"><strong>Costo computacional:</strong> Requiere múltiples llamadas a la API</li>
+                                <li class="leading-relaxed"><strong>Temperatura:</strong> Usar temperature > 0 para obtener diversidad en las respuestas</li>
+                                <li class="leading-relaxed"><strong>Agregación:</strong> Para respuestas cualitativas, usar votación mayoritaria; para cuantitativas, considerar promedios o medianas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 3.5 Tree of thoughts -->
+                <details id="tree-of-thoughts" class="accordion-item">
+                    <summary>3.5 Tree of thoughts</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Concepto</h4>
+                            <p class="leading-relaxed">El <strong>tree of thoughts (ToT)</strong> extiende el chain of thought permitiendo exploración deliberada de múltiples rutas de razonamiento de manera estructurada, similar a algoritmos de búsqueda en árboles. En lugar de seguir una única cadena lineal, el modelo explora ramificaciones alternativas, evalúa cada rama, y puede retroceder si un camino no es prometedor.</p>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Fundamento teórico:</strong> Yao et al. (2023) propusieron ToT como una forma de resolver problemas que requieren planificación estratégica y exploración de múltiples hipótesis. El proceso implica: (1) descomponer el problema en pasos, (2) generar múltiples pensamientos candidatos en cada paso, (3) evaluar el estado después de cada pensamiento, (4) decidir qué branches explorar más profundamente.</p>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">💼 Aplicación conceptual en Isabella Andrea</h4>
+                            <div class="space-y-3">
+                                <p class="leading-relaxed"><strong>Problema:</strong> Diseñar una estrategia de desarrollo profesional personalizada</p>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2">Nivel 1: Identificar área de desarrollo</p>
+                                    <ul class="list-disc ml-6 text-sm space-y-1">
+                                        <li>Branch A: Competencias técnicas avanzadas</li>
+                                        <li>Branch B: Habilidades de liderazgo</li>
+                                        <li>Branch C: Especialización en dominio específico</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2">Nivel 2: Para cada branch, explorar rutas de aprendizaje</p>
+                                    <p class="text-sm">Ejemplo Branch A → Sub-branches: Certificaciones, Proyectos prácticos, Mentorías</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2">Evaluación: Considerar viabilidad, tiempo, costo, impacto</p>
+                                    <p class="text-sm">Retroceder en branches no viables, profundizar en las prometedoras</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="idea-destacada">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">⚠️ Complejidad vs. beneficio</h4>
+                            <p class="leading-relaxed">ToT es computacionalmente intensivo y conceptualmente complejo. Es más apropiado para problemas que genuinamente requieren exploración de múltiples hipótesis alternativas, no para tareas donde un razonamiento lineal es suficiente.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 3.6 ReAct -->
+                <details id="react" class="accordion-item">
+                    <summary>3.6 ReAct (reasoning and acting)</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Concepto</h4>
+                            <p class="leading-relaxed"><strong>ReAct</strong> combina razonamiento ("Reason") con acciones ("Act") de manera iterativa. El modelo alterna entre pensar sobre qué hacer, ejecutar acciones (como buscar información, hacer cálculos), y luego razonar sobre los resultados de esas acciones para decidir los próximos pasos.</p>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Fundamento teórico:</strong> Yao et al. (2023) demostraron que la interleaving de razonamiento y acción permite a los LLM interactuar con herramientas externas de manera más efectiva. Esto es crucial porque los modelos tienen limitaciones inherentes (conocimiento desactualizado, incapacidad para hacer cálculos precisos, etc.) que pueden superarse mediante acceso a recursos externos.</p>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">💼 Flujo ReAct para Isabella Andrea</h4>
+                            <div class="space-y-3">
+                                <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--azul);">
+                                    <p class="font-semibold mb-2">Pensamiento 1:</p>
+                                    <p class="text-sm italic">"Para evaluar este perfil contra los requisitos del puesto, necesito primero entender cuáles son las competencias más demandadas en este rol específico."</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--verde);">
+                                    <p class="font-semibold mb-2">Acción 1:</p>
+                                    <p class="text-sm italic">"Buscar en la base de datos de requisitos laborales para 'Senior Data Engineer'."</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--amarillo-dark);">
+                                    <p class="font-semibold mb-2">Observación 1:</p>
+                                    <p class="text-sm italic">"Los requisitos incluyen: Python avanzado, Apache Spark, AWS, diseño de pipelines de datos..."</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--azul);">
+                                    <p class="font-semibold mb-2">Pensamiento 2:</p>
+                                    <p class="text-sm italic">"Ahora debo mapear la experiencia del candidato contra estos requisitos específicos."</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--verde);">
+                                    <p class="font-semibold mb-2">Acción 2:</p>
+                                    <p class="text-sm italic">"Analizar CV del candidato extrayendo menciones de cada tecnología requerida."</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-practica">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🎯 Cuándo usar ReAct</h4>
+                            <ul class="list-disc ml-6 space-y-2">
+                                <li class="leading-relaxed">Tareas que requieren información actualizada o externa</li>
+                                <li class="leading-relaxed">Problemas multi-paso donde cada paso depende del resultado anterior</li>
+                                <li class="leading-relaxed">Cuando el modelo necesita "herramientas" (calculadoras, bases de datos, APIs)</li>
+                                <li class="leading-relaxed">Procesos de diagnóstico o troubleshooting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 3.7 Step-back -->
+                <details id="step-back" class="accordion-item">
+                    <summary>3.7 Step-back prompting</summary>
+                    <div class="accordion-content text-high-contrast space-y-4">
+                        <div class="card-definicion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--azul);">📖 Concepto</h4>
+                            <p class="leading-relaxed">El <strong>step-back prompting</strong> es una técnica que instruye al modelo a "dar un paso atrás" y considerar primero los principios o conceptos generales antes de abordar el problema específico. Esta abstracción inicial ayuda a evitar respuestas superficiales o basadas en patrones superficiales.</p>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Fundamento teórico:</strong> Zheng et al. (2023) demostraron que pedir al modelo que primero identifique los principios subyacentes de alto nivel mejora significativamente el razonamiento en tareas complejas. La idea es que al abstraer el problema, el modelo puede acceder a conocimiento más fundamental antes de aplicarlo al caso específico.</p>
+
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">💼 Comparación práctica</h4>
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2" style="color: var(--rojo);">❌ Enfoque directo:</p>
+                                    <p class="italic text-sm">"¿Cómo puedo ayudar a un ingeniero de software junior a prepararse para una entrevista de trabajo en una startup tecnológica?"</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold mb-2" style="color: var(--verde);">✅ Con step-back:</p>
+                                    <p class="italic text-sm mb-3">"Primero, ¿cuáles son los principios fundamentales que determinan el éxito en entrevistas técnicas para roles de ingeniería de software?"</p>
+                                    <p class="text-sm leading-relaxed">[El modelo responde sobre principios generales]</p>
+                                    <p class="italic text-sm mt-3">"Ahora, aplicando esos principios, ¿cómo debería un ingeniero junior específicamente prepararse para una entrevista en una startup tecnológica?"</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-conexion">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--verde);">🔗 Aplicación en Isabella Andrea</h4>
+                            <p class="leading-relaxed">Para diagnóstico de competencias, step-back podría implicar: (1) Primero identificar los frameworks teóricos de competencias profesionales, (2) Luego aplicar esos frameworks al análisis del perfil específico. Esto garantiza que el análisis esté fundamentado en principios sólidos, no solo en patrones superficiales.</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <!-- 4. CASO NATAL-IA -->
+            <section id="natalia" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <span class="text-4xl mr-3">🤖</span>
+                    4. Caso de estudio: Isabella Andrea
+                </h2>
+
+                <div class="text-high-contrast space-y-4">
+                    <div class="card-definicion">
+                        <h3 class="font-bold text-xl mb-3" style="color: var(--azul);">🎯 Contexto del caso</h3>
+                        <p class="leading-relaxed"><strong>Isabella Andrea</strong> es el caso de una profesional en transición laboral que utiliza IA generativa para abordar uno de los desafíos más comunes y frustrantes en su proceso: <strong>el diagnóstico de competencias</strong>. Como muchos profesionales, posee experiencia valiosa pero no sabe cómo "traducirla" al lenguaje que entienden los sistemas de tracking de aplicaciones (ATS) y los reclutadores.</p>
+                    </div>
+
+                    <div class="card-practica">
+                        <h3 class="font-bold text-xl mb-3" style="color: var(--verde);">🎓 Objetivos de Isabella Andrea</h3>
+                        <ol class="list-decimal ml-6 space-y-2">
+                            <li class="leading-relaxed"><strong>Análisis de historial laboral:</strong> Extraer competencias no evidentes del CV y experiencia declarada</li>
+                            <li class="leading-relaxed"><strong>Mapeo semántico:</strong> Conectar habilidades del usuario con keywords de ofertas laborales</li>
+                            <li class="leading-relaxed"><strong>Optimización de documentos:</strong> Mejorar CV y cartas de presentación para maximizar relevancia</li>
+                            <li class="leading-relaxed"><strong>Preparación para entrevistas:</strong> Generar preguntas potenciales y frameworks de respuesta</li>
+                            <li class="leading-relaxed"><strong>Identificación de brechas:</strong> Detectar competencias faltantes y sugerir rutas de desarrollo</li>
+                        </ol>
+                    </div>
+
+                    <h3 class="text-2xl font-bold mt-6 mb-4" style="color: var(--azul);">Aplicación de técnicas de prompting</h3>
+
+                    <div class="space-y-6">
+                        <!-- Ejemplo 1 -->
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">Ejemplo 1: Extracción de competencias (Few-shot + CoT)</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--azul);">
+                                <p class="font-semibold mb-2">Prompt estructurado:</p>
+                                <p class="leading-relaxed mb-3">"Eres un experto en análisis de competencias profesionales. Tu tarea es analizar descripciones de experiencia laboral y extraer competencias específicas, clasificándolas por categoría y nivel.</p>
+                                <p class="leading-relaxed mb-3"><strong>Ejemplos:</strong></p>
+                                <div class="space-y-2 text-sm ml-4">
+                                    <p><strong>Input 1:</strong> 'Coordiné un equipo de 5 personas para lanzar una campaña digital que aumentó engagement en 40%'</p>
+                                    <p><strong>Output 1:</strong> Competencias: Liderazgo de equipos (Intermedio), Marketing digital (Avanzado), Análisis de métricas (Intermedio)</p>
+                                    <p class="mt-2"><strong>Input 2:</strong> 'Desarrollé scripts en Python para automatizar reportes semanales'</p>
+                                    <p><strong>Output 2:</strong> Competencias: Programación Python (Básico-Intermedio), Automatización de procesos (Intermedio), Análisis de datos (Básico)</p>
+                                </div>
+                                <p class="leading-relaxed mt-3"><strong>Ahora analiza paso a paso:</strong></p>
+                                <p class="italic text-sm">[Aquí iría la descripción específica del usuario]</p>
+                                <p class="leading-relaxed mt-3"><strong>Razonamiento:</strong> Primero identifica acciones clave, luego infiere habilidades requeridas, finalmente estima nivel basado en complejidad y autonomía."</p>
+                            </div>
+                        </div>
+
+                        <!-- Ejemplo 2 -->
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">Ejemplo 2: Evaluación de adecuación (Self-consistency)</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--verde);">
+                                <p class="font-semibold mb-2">Estrategia:</p>
+                                <p class="leading-relaxed mb-3">Para decisiones críticas (¿Mi perfil es adecuado para este puesto?), Isabella Andrea genera 3 análisis independientes, cada uno usando CoT. Luego compara las conclusiones:</p>
+                                <ul class="list-disc ml-6 space-y-2 text-sm">
+                                    <li>Análisis 1: Enfoque en competencias técnicas</li>
+                                    <li>Análisis 2: Enfoque en experiencia sectorial</li>
+                                    <li>Análisis 3: Enfoque en soft skills y cultural fit</li>
+                                </ul>
+                                <p class="leading-relaxed mt-3">Si todos concuerdan → Alta confianza. Si hay desacuerdo → Identificar qué aspectos generan incertidumbre y solicitar información adicional al usuario.</p>
+                            </div>
+                        </div>
+
+                        <!-- Ejemplo 3 -->
+                        <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-lg mb-3" style="color: var(--azul-dark);">Ejemplo 3: Optimización de CV (Step-back + ReAct)</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg border-l-4" style="border-color: var(--amarillo-dark);">
+                                <p class="font-semibold mb-2">Flujo integrado:</p>
+                                <ol class="list-decimal ml-6 space-y-2 text-sm">
+                                    <li><strong>Step-back:</strong> "¿Cuáles son los principios de un CV efectivo para ATS y reclutadores humanos?"</li>
+                                    <li><strong>ReAct - Pensamiento:</strong> "Necesito analizar el CV actual contra esos principios"</li>
+                                    <li><strong>ReAct - Acción:</strong> "Extraer estructura, keywords, y formato actual"</li>
+                                    <li><strong>ReAct - Observación:</strong> "El CV carece de keywords clave, tiene secciones poco claras..."</li>
+                                    <li><strong>ReAct - Pensamiento:</strong> "Debo proponer reformulaciones específicas"</li>
+                                    <li><strong>ReAct - Acción:</strong> "Generar versión optimizada con justificaciones"</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="idea-destacada mt-6">
+                        <h3 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">💡 Lección clave del caso</h3>
+                        <p class="leading-relaxed">El caso de Isabella Andrea demuestra que la ingeniería de prompts efectiva no es sobre usar una única técnica avanzada, sino sobre <strong>orquestar múltiples técnicas estratégicamente</strong> según las necesidades de cada sub-tarea. La extracción de competencias se beneficia de few-shot, la evaluación de adecuación de self-consistency, y la optimización de documentos de un flujo ReAct guiado por step-back. La sofisticación está en saber cuándo y cómo combinar estas herramientas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. EJERCICIOS PRÁCTICOS -->
+            <section id="ejercicios" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    5. Ejercicios prácticos
+                </h2>
+
+                <div class="space-y-6">
+                    <!-- Ejercicio 1 -->
+                    <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--verde);">Ejercicio 1: Few-shot prompting</h3>
+                        <p class="leading-relaxed mb-4">Imagina que estás construyendo un asistente para ayudar a profesionales a redactar mensajes de seguimiento después de entrevistas laborales. Diseña un prompt few-shot con 2-3 ejemplos que ilustren el tono, estructura y contenido apropiados.</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold mb-2">Contexto:</p>
+                            <p class="text-sm">El mensaje debe ser profesional pero cálido, expresar gratitud, reafirmar interés, y hacer referencia a algo específico discutido en la entrevista.</p>
+                        </div>
+                        
+                        <textarea id="few-shot-exercise" placeholder="Escribe tu respuesta aquí..." class="w-full p-4 border-2 border-gray-300 rounded-lg"></textarea>
+                        <button onclick="checkFewShotAnswer()" class="btn btn-primary mt-3">Verificar respuesta</button>
+                        <div id="few-shot-result" class="mt-3"></div>
+                    </div>
+
+                    <!-- Ejercicio 2 -->
+                    <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--verde);">Ejercicio 2: Chain of thought</h3>
+                        <p class="leading-relaxed mb-4">Selecciona el prompt que mejor ejemplifica el uso de chain of thought:</p>
+                        
+                        <div id="quiz-cot" class="space-y-3">
+                            <label class="quiz-option block cursor-pointer hover:bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                <input type="radio" name="cot" value="A">
+                                <span class="ml-2">"Analiza este CV y dime si el candidato es bueno"</span>
+                            </label>
+                            <label class="quiz-option block cursor-pointer hover:bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                <input type="radio" name="cot" value="B">
+                                <span class="ml-2">"Analiza este CV paso a paso: (1) Identifica años de experiencia relevante, (2) Evalúa alineación de competencias técnicas con requisitos, (3) Considera evidencia de liderazgo, (4) Proporciona recomendación justificada"</span>
+                            </label>
+                            <label class="quiz-option block cursor-pointer hover:bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                <input type="radio" name="cot" value="C">
+                                <span class="ml-2">"Dame un análisis detallado de este CV"</span>
+                            </label>
+                        </div>
+                        
+                        <button onclick="checkQuizAnswer('cot', 'B')" class="btn btn-primary mt-4">Verificar respuesta</button>
+                        <div id="quiz-cot-result" class="mt-3"></div>
+                    </div>
+
+                    <!-- Ejercicio 3 -->
+                    <div class="bg-white p-6 rounded-lg border-2 border-gray-200">
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--verde);">Ejercicio 3: Diseño integral</h3>
+                        <p class="leading-relaxed mb-4">Para el caso de Isabella Andrea, diseña un prompt completo que combine múltiples técnicas para la siguiente tarea:</p>
+                        
+                        <div class="card-definicion mb-4">
+                            <p class="font-semibold mb-2">Tarea:</p>
+                            <p class="leading-relaxed">"Analizar un perfil profesional de un ingeniero de software con 3 años de experiencia que desea transitar a roles de arquitectura de software, identificar brechas de competencias, y sugerir un plan de desarrollo de 6 meses."</p>
+                        </div>
+                        
+                        <p class="leading-relaxed mb-4"><strong>Tu prompt debe incorporar:</strong></p>
+                        <ul class="list-disc ml-6 mb-4 space-y-1">
+                            <li>Contexto claro</li>
+                            <li>Instrucciones específicas</li>
+                            <li>Uso de CoT para el análisis</li>
+                            <li>Formato estructurado de salida</li>
+                        </ul>
+                        
+                        <textarea placeholder="Diseña tu prompt aquí..." class="w-full p-4 border-2 border-gray-300 rounded-lg" rows="8"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. BUENAS PRÁCTICAS -->
+            <section id="buenas-practicas" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    6. Buenas prácticas y errores comunes
+                </h2>
+
+                <div class="text-high-contrast space-y-6">
+                    <div class="card-practica">
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--verde);">✅ Mejores prácticas</h3>
+                        <ol class="list-decimal ml-6 space-y-3">
+                            <li class="leading-relaxed"><strong>Iteración sistemática:</strong> Documenta tus prompts y resultados. Cambia una variable a la vez para entender qué mejora el rendimiento.</li>
+                            <li class="leading-relaxed"><strong>Especificidad progresiva:</strong> Comienza con prompts simples, agrega complejidad solo cuando sea necesaria.</li>
+                            <li class="leading-relaxed"><strong>Validación cruzada:</strong> Para tareas críticas, valida resultados con múltiples enfoques o contra ground truth conocido.</li>
+                            <li class="leading-relaxed"><strong>Delimitadores claros:</strong> Usa comillas, triple comillas, o marcadores XML para separar instrucciones de datos de entrada.</li>
+                            <li class="leading-relaxed"><strong>Ejemplos diversos:</strong> En few-shot, asegúrate de que los ejemplos cubran casos típicos, edge cases, y variaciones relevantes.</li>
+                            <li class="leading-relaxed"><strong>Temperatura apropiada:</strong> Usa temperature baja (0.1-0.3) para tareas determinísticas, más alta (0.7-0.9) para creatividad.</li>
+                            <li class="leading-relaxed"><strong>Constraints explícitos:</strong> Si hay límites (longitud, tono, formato), especifícalos claramente.</li>
+                            <li class="leading-relaxed"><strong>Feedback loops:</strong> Incorpora mecanismos para que el modelo pida clarificación si algo es ambiguo.</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg border-2 border-red-200">
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--rojo);">❌ Errores comunes a evitar</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold mb-2">1. Ambigüedad no intencional</h4>
+                                <p class="text-sm leading-relaxed"><strong>Problema:</strong> "Analiza este documento" → ¿Qué aspecto? ¿Con qué criterios?</p>
+                                <p class="text-sm leading-relaxed"><strong>Solución:</strong> "Analiza este documento identificando: (1) tesis principal, (2) evidencia de soporte, (3) debilidades argumentativas"</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">2. Prompts demasiado complejos</h4>
+                                <p class="text-sm leading-relaxed"><strong>Problema:</strong> Solicitar 10 cosas diferentes en un solo prompt</p>
+                                <p class="text-sm leading-relaxed"><strong>Solución:</strong> Descomponer en sub-tareas secuenciales</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">3. Olvidar el contexto</h4>
+                                <p class="text-sm leading-relaxed"><strong>Problema:</strong> Asumir que el modelo "sabe" el contexto de tu proyecto o industria</p>
+                                <p class="text-sm leading-relaxed"><strong>Solución:</strong> Proporcionar contexto explícitamente, incluso si parece obvio</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">4. No especificar formato de salida</h4>
+                                <p class="text-sm leading-relaxed"><strong>Problema:</strong> Obtener respuestas en formatos difíciles de procesar</p>
+                                <p class="text-sm leading-relaxed"><strong>Solución:</strong> "Presenta los resultados en una tabla con columnas: [X, Y, Z]" o "Responde en formato JSON con estructura: {...}"</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">5. Ejemplos inconsistentes en few-shot</h4>
+                                <p class="text-sm leading-relaxed"><strong>Problema:</strong> Ejemplos que no siguen el mismo formato o nivel de detalle</p>
+                                <p class="text-sm leading-relaxed"><strong>Solución:</strong> Mantener consistencia rigurosa en estructura, tono y profundidad de ejemplos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="idea-destacada">
+                        <h3 class="font-bold text-lg mb-2" style="color: var(--amarillo-dark);">💡 Principio meta</h3>
+                        <p class="leading-relaxed">La mejor práctica universal es tratar la ingeniería de prompts como un proceso científico: formula hipótesis (este prompt debería funcionar por X razón), experimenta, observa resultados, refina. La intuición se desarrolla con práctica deliberada y documentada.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. CONSIDERACIONES ÉTICAS -->
+            <section id="etica" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    7. Consideraciones éticas y limitaciones
+                </h2>
+
+                <div class="text-high-contrast space-y-6">
+                    <p class="leading-relaxed">La ingeniería de prompts, especialmente en aplicaciones que afectan decisiones importantes sobre personas (como Isabella Andrea en procesos de selección), conlleva responsabilidades éticas significativas:</p>
+
+                    <div class="space-y-4">
+                        <div class="card-definicion">
+                            <h3 class="font-bold text-lg mb-3" style="color: var(--azul);">Sesgos y equidad</h3>
+                            <p class="leading-relaxed mb-3"><strong>Problema:</strong> Los LLM pueden perpetuar o amplificar sesgos presentes en sus datos de entrenamiento. En contextos de evaluación profesional, esto puede traducirse en discriminación basada en género, edad, origen étnico, u otros factores protegidos.</p>
+                            
+                            <div class="bg-white p-4 rounded-lg border-2 border-gray-200 mt-3">
+                                <h4 class="font-bold mb-2">Estrategias de mitigación:</h4>
+                                <ul class="list-disc ml-6 space-y-2 text-sm">
+                                    <li>Incluir instrucciones explícitas contra sesgos en prompts</li>
+                                    <li>Auditar outputs regularmente para detectar patrones problemáticos</li>
+                                    <li>Usar múltiples formulaciones de la misma pregunta para detectar inconsistencias</li>
+                                    <li>Nunca usar sistemas de IA como única fuente de decisión en contextos de alto impacto</li>
+                                </ul>
+                            </div>
+
+                            <p class="leading-relaxed text-sm italic mt-3">Ejemplo de prompt consciente de sesgos: "Evalúa las competencias técnicas de este candidato basándote EXCLUSIVAMENTE en la evidencia de experiencia y logros proporcionada. No hagas suposiciones basadas en nombres, instituciones educativas, o cualquier otro indicador demográfico indirecto."</p>
+                        </div>
+
+                        <div class="card-practica">
+                            <h3 class="font-bold text-lg mb-3" style="color: var(--verde);">Transparencia y explicabilidad</h3>
+                            <p class="leading-relaxed mb-3">Los usuarios tienen derecho a entender cómo se generan las recomendaciones que afectan sus oportunidades profesionales. La "caja negra" de los LLM es éticamente problemática en estos contextos.</p>
+                            
+                            <div class="bg-white p-4 rounded-lg border-2 border-gray-200 mt-3">
+                                <h4 class="font-bold mb-2">Mejores prácticas:</h4>
+                                <ul class="list-disc ml-6 space-y-2 text-sm">
+                                    <li><strong>Uso de CoT:</strong> Hace el razonamiento visible y auditable</li>
+                                    <li><strong>Documentación de criterios:</strong> Explicitar qué se evalúa y por qué</li>
+                                    <li><strong>Opciones de apelación:</strong> Permitir que usuarios cuestionen evaluaciones</li>
+                                    <li><strong>Disclaimers apropiados:</strong> Aclarar que se trata de asistencia, no decisiones definitivas</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card-reflexion">
+                            <h3 class="font-bold text-lg mb-3" style="color: var(--amarillo-dark);">Privacidad y protección de datos</h3>
+                            <p class="leading-relaxed mb-3">Los prompts frecuentemente incluyen información sensible: CVs completos, historiales laborales, aspiraciones profesionales. La ingeniería de prompts debe considerar la minimización de datos y protección de privacidad.</p>
+                            
+                            <div class="bg-white p-4 rounded-lg border-2 border-gray-200 mt-3">
+                                <h4 class="font-bold mb-2">Principios clave:</h4>
+                                <ul class="list-disc ml-6 space-y-2 text-sm">
+                                    <li>Minimización: Solo incluir información estrictamente necesaria para la tarea</li>
+                                    <li>Anonimización: Cuando sea posible, eliminar identificadores personales</li>
+                                    <li>Consentimiento informado: Usuarios deben entender cómo se procesará su información</li>
+                                    <li>Almacenamiento seguro: Datos sensibles no deben persistir innecesariamente</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card-definicion">
+                            <h3 class="font-bold text-lg mb-3" style="color: var(--azul);">Limitaciones conocidas</h3>
+                            <p class="leading-relaxed mb-3">Es crucial reconocer que los LLM tienen limitaciones fundamentales que ninguna ingeniería de prompts puede eliminar completamente:</p>
+                            
+                            <ul class="list-disc ml-6 space-y-2 text-sm">
+                                <li class="leading-relaxed"><strong>Alucinaciones:</strong> Pueden generar información falsa con alta confianza</li>
+                                <li class="leading-relaxed"><strong>Falta de conocimiento actualizado:</strong> Tienen fecha de corte de entrenamiento</li>
+                                <li class="leading-relaxed"><strong>Inconsistencia:</strong> Pueden dar respuestas diferentes a formulaciones ligeramente distintas</li>
+                                <li class="leading-relaxed"><strong>Falta de razonamiento causal genuino:</strong> Patrones estadísticos no equivalen a comprensión profunda</li>
+                                <li class="leading-relaxed"><strong>Vulnerabilidad a prompt injection:</strong> Usuarios maliciosos pueden intentar manipular comportamiento</li>
+                            </ul>
+
+                            <div class="bg-white p-4 rounded-lg border-2 border-gray-200 mt-4">
+                                <p class="font-semibold mb-2">Implicación práctica:</p>
+                                <p class="text-sm leading-relaxed">Sistemas como Isabella Andrea deben ser posicionados como herramientas de asistencia y exploración, nunca como sistemas de decisión autónomos. La supervisión humana experta sigue siendo esencial en decisiones que afectan vidas y carreras.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-50 p-6 rounded-lg border-2 border-red-200 mt-6">
+                        <h3 class="font-bold text-lg mb-3" style="color: var(--rojo);">⚠️ Principio ético fundamental</h3>
+                        <p class="leading-relaxed">La ingeniería de prompts efectiva no se mide solo por la calidad técnica de los outputs, sino por su impacto en personas reales. Todo prompt debe ser diseñado considerando: ¿Quién podría ser perjudicado por esta interacción? ¿Estoy perpetuando inequidades existentes? ¿Es transparente cómo se llega a estas conclusiones? La excelencia técnica sin responsabilidad ética es negligencia profesional.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. CONCLUSIÓN -->
+            <section id="conclusion" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    8. Conclusión y perspectivas futuras
+                </h2>
+
+                <div class="text-high-contrast space-y-4">
+                    <p class="text-lg leading-relaxed">La ingeniería de prompts ha evolucionado rápidamente de un conjunto ad-hoc de trucos empíricos a un campo con fundamentos teóricos sólidos y metodologías sistemáticas. Lo que comenzó como simple "prompt tuning" se ha convertido en una disciplina que requiere comprensión de arquitecturas de modelos, lingüística aplicada, diseño de interfaces, y consideraciones éticas profundas.</p>
+
+                    <p class="leading-relaxed">El caso de <strong>Isabella Andrea</strong> ilustra cómo la ingeniería de prompts bien ejecutada puede democratizar el acceso a capacidades analíticas sofisticadas. Profesionales sin conocimientos técnicos avanzados pueden ahora beneficiarse de análisis de competencias, optimización de CVs, y estrategias de desarrollo profesional que antes requerían consultores especializados costosos. Sin embargo, esta democratización viene acompañada de responsabilidades: la facilidad de uso no debe oscurecer la necesidad de comprensión crítica y uso ético.</p>
+
+                    <div class="card-reflexion">
+                        <h3 class="font-bold text-lg mb-3" style="color: var(--amarillo-dark);">🔮 Tendencias emergentes</h3>
+                        <ol class="list-decimal ml-6 space-y-2">
+                            <li class="leading-relaxed"><strong>Prompts multimodales:</strong> Integración de texto, imágenes, audio y video en prompts complejos</li>
+                            <li class="leading-relaxed"><strong>Optimización automatizada:</strong> Meta-aprendizaje para generar prompts óptimos automáticamente</li>
+                            <li class="leading-relaxed"><strong>Prompting conversacional prolongado:</strong> Mantener contexto a través de múltiples turnos de interacción</li>
+                            <li class="leading-relaxed"><strong>Especialización por dominio:</strong> Desarrollo de técnicas específicas para medicina, derecho, educación, etc.</li>
+                            <li class="leading-relaxed"><strong>Evaluación estandarizada:</strong> Benchmarks y métricas para comparar efectividad de diferentes enfoques</li>
+                        </ol>
+                    </div>
+
+                    <div class="card-conexion">
+                        <h3 class="font-bold text-lg mb-3" style="color: var(--verde);">🎯 Habilidades para el futuro</h3>
+                        <p class="leading-relaxed mb-3">A medida que los LLM continúan mejorando, la ingeniería de prompts evolucionará. Sin embargo, las habilidades fundamentales permanecerán relevantes:</p>
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li class="leading-relaxed">Pensamiento analítico para descomponer problemas complejos</li>
+                            <li class="leading-relaxed">Comunicación precisa y estructurada</li>
+                            <li class="leading-relaxed">Comprensión de contexto y matices</li>
+                            <li class="leading-relaxed">Capacidad de iteración y refinamiento sistemático</li>
+                            <li class="leading-relaxed">Consciencia crítica sobre sesgos y limitaciones</li>
+                        </ul>
+                    </div>
+
+                    <p class="leading-relaxed">A medida que estos sistemas continúan evolucionando, también lo harán las técnicas y metodologías de la ingeniería de prompts. Sin embargo, los principios fundamentales establecidos —claridad, contexto, estructura e iteración sistemática— probablemente permanecerán como pilares de la práctica efectiva. El dominio de estos principios no es opcional, sino esencial para cualquier profesional que busque mantener relevancia en un mundo cada vez más mediado por inteligencia artificial.</p>
+                </div>
+            </section>
+
+            <!-- 9. REFERENCIAS -->
+            <section id="referencias" class="card animate-fadeIn">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: var(--azul);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                    9. Referencias bibliográficas
+                </h2>
+                <div class="text-high-contrast space-y-3 text-sm">
+                    <p>Amazon Web Services. (2024). <em>What is prompt engineering?</em> AWS Documentation.</p>
+                    <p>Anthropic. (2024). <em>Prompt engineering overview.</em> Anthropic Documentation.</p>
+                    <p>Brown, T., et al. (2023). Los modelos de lenguaje son aprendices con pocos ejemplos. <em>Avances en Sistemas de Procesamiento de Información Neural, 33.</em></p>
+                    <p>Google AI. (2025). <em>Prompt design strategies.</em> Gemini API Documentation.</p>
+                    <p>Google Cloud. (2025). <em>Introduction to prompting.</em> Vertex AI Documentation. https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design</p>
+                    <p>Microsoft. (2024). <em>Prompt engineering techniques.</em> Microsoft Learn.</p>
+                    <p>Schulhoff, S., et al. (2024). <em>El reporte de prompts: Una encuesta sistemática de técnicas de ingeniería de prompts.</em> ArXiv preprint.</p>
+                    <p>UNESCO. (2025). <em>Competencias digitales para el siglo XXI: Alfabetización en inteligencia artificial.</em> UNESCO Publishing.</p>
+                    <p>Wang, X., et al. (2023). Self-consistency improves chain of thought reasoning in language models. <em>Advances in Neural Information Processing Systems, 35.</em></p>
+                    <p>Wei, J., et al. (2023). El prompting de cadena de pensamiento elicita razonamiento en modelos de lenguaje grandes. <em>Avances en Sistemas de Procesamiento de Información Neural, 35.</em></p>
+                    <p>Yao, S., et al. (2023). <em>Árbol de pensamientos: Resolución deliberada de problemas con modelos de lenguaje grandes.</em> ArXiv preprint.</p>
+                    <p>Yao, S., et al. (2023). <em>ReAct: Synergizing reasoning and acting in language models.</em> ArXiv preprint arXiv:2210.03629.</p>
+                    <p>Zheng, L., et al. (2023). <em>Take a step back: Evoking reasoning via abstraction in large language models.</em> OpenReview. https://openreview.net/pdf?id=3bq3jsvcQ1</p>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer animate-fadeIn">
+                <p class="font-semibold text-lg mb-2">Oficina de Inteligencia Artificial</p>
+                <p class="mb-1">Vicerrectoría de Tecnologías de la Información</p>
+                <p class="mb-3">Universidad de Chile</p>
+                <p class="text-sm opacity-90">© 2025 • Todos los derechos reservados</p>
+            </footer>
+
+        </main>
+        </div> <!-- cierre content-wrapper -->
+    </div> <!-- cierre main-container -->
+
+    <!-- Botón de información flotante -->
+    <div class="info-button" onclick="openInstructions()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </div>
+
+    <script>
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('apunte_m2_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('apunte_m2_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 800);
+            }
+
+            // Cerrar modal al hacer clic fuera
+            document.getElementById('instructionsModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeInstructions();
+                }
+            });
+
+            // Cerrar modal con ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeInstructions();
+                }
+            });
+
+            // Navegación activa
+            const mainContent = document.getElementById('main-content');
+            const allLinks = document.querySelectorAll('.nav-link, .sub-nav-link');
+            const sections = document.querySelectorAll('section, .accordion-item');
+
+            function changeNav() {
+                let index = sections.length;
+                while(--index && mainContent.scrollTop + 100 < sections[index].offsetTop) {}
+                allLinks.forEach((link) => link.classList.remove('active'));
+                let activeLink = document.querySelector(`a[href="#${sections[index].id}"]`);
+                if(activeLink) {
+                    activeLink.classList.add('active');
+                    let parentNavLink = activeLink.closest('ul')?.previousElementSibling;
+                    if(parentNavLink?.classList.contains('nav-link')) {
+                        parentNavLink.classList.add('active');
+                    }
+                }
+            }
+
+            mainContent.addEventListener('scroll', changeNav);
+            changeNav();
+
+            // Smooth scroll
+            allLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if(targetElement.tagName === 'DETAILS' && !targetElement.open) {
+                            targetElement.open = true;
+                        }
+                    }
+                });
+            });
+
+            // Acordeones - cerrar otros al abrir uno (opcional)
+            const detailsElements = document.querySelectorAll('.accordion-item');
+            detailsElements.forEach(details => {
+                details.addEventListener('toggle', event => {
+                    if (details.open) {
+                        // Opcional: descomentar para cerrar otros acordeones
+                        // detailsElements.forEach(otherDetails => {
+                        //     if (otherDetails !== details) otherDetails.removeAttribute('open');
+                        // });
+                    }
+                });
+            });
+        });
+
+        // Funciones de ejercicios interactivos
+        function checkFewShotAnswer() {
+            const result = document.getElementById('few-shot-result');
+            result.innerHTML = '<div class="feedback-correct"><strong>✅ ¡Excelente!</strong> Una buena respuesta incluiría 2-3 ejemplos con estructura similar: saludo cordial, agradecimiento por la oportunidad, mención específica de algo discutido, reafirmación de interés, cierre profesional.</div>';
+        }
+
+        function checkQuizAnswer(quizId, correctAnswer) {
+            const quiz = document.getElementById(`quiz-${quizId}`);
+            const result = document.getElementById(`quiz-${quizId}-result`);
+            const selected = quiz.querySelector('input[type="radio"]:checked');
+
+            if (!selected) {
+                result.innerHTML = '<div class="feedback-incorrect"><strong>❌</strong> Por favor, selecciona una opción.</div>';
+                return;
+            }
+
+            if (selected.value === correctAnswer) {
+                result.innerHTML = '<div class="feedback-correct"><strong>✅ ¡Correcto!</strong> La opción B ejemplifica chain of thought porque descompone explícitamente el análisis en pasos secuenciales, lo que permite un razonamiento más estructurado y transparente.</div>';
+            } else {
+                result.innerHTML = '<div class="feedback-incorrect"><strong>❌ Incorrecto.</strong> La técnica chain of thought requiere instrucciones explícitas que guíen al modelo a mostrar su razonamiento paso a paso. Revisa la sección 3.3 para más detalles.</div>';
+            }
+        }
+
+        // Función para descargar PDF con pdfmake
+        function downloadPDF() {
+            const dateStr = new Date().toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const sections = [
+                { title: '1. Introducción', color: '#0055A5', content: 'La ingeniería de prompts es crítica en la era de la IA generativa. Permite comunicarse efectivamente con LLMs y representa una competencia fundamental. No es solo "qué decir" sino cómo estructurar el diálogo para maximizar utilidad, precisión y relevancia.' },
+                { title: '2. Fundamentos teóricos', color: '#00A859', content: 'Un prompt efectivo incluye: instrucción clara, contexto relevante, datos de entrada específicos y formato de salida deseado. Los principios clave son: claridad, especificidad, contexto, estructura e iteración sistemática.' },
+                { title: '3. Técnicas avanzadas', color: '#E6BC00', content: 'Zero-shot: sin ejemplos. Few-shot: con ejemplos demostrativos. Chain of thought: razonamiento paso a paso. Self-consistency: múltiples cadenas de razonamiento. Tree of thoughts: exploración de rutas múltiples. ReAct: razonamiento y acción iterativos.' },
+                { title: '4. Caso Isabella Andrea', color: '#0055A5', content: 'Asistente virtual para diagnóstico de competencias profesionales. Demuestra orquestación de múltiples técnicas: few-shot para extracción, self-consistency para evaluación, ReAct para optimización.' },
+                { title: '5. Buenas prácticas', color: '#00A859', content: 'Iteración sistemática, especificidad progresiva, delimitadores claros, ejemplos diversos, temperatura apropiada, constraints explícitos. Evitar: ambigüedad, prompts demasiado complejos, olvidar contexto.' },
+                { title: '6. Consideraciones éticas', color: '#E3000F', content: 'Responsabilidades en sesgos y equidad, transparencia y explicabilidad, privacidad de datos. Limitaciones: alucinaciones, inconsistencias, falta de razonamiento causal genuino.' }
+            ];
+            
+            const sectionContent = sections.map(section => [
+                { text: section.title, fontSize: 12, bold: true, color: '#FFFFFF', fillColor: section.color, margin: [0, 10, 0, 0], padding: [10, 8, 10, 8] },
+                { text: section.content, fontSize: 10, color: '#333333', lineHeight: 1.4, margin: [0, 8, 0, 10] }
+            ]).flat();
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Ingeniería de prompts', fontSize: 20, bold: true, color: '#FFFFFF', alignment: 'center' },
+                                    { text: 'Módulo 2: Fundamentos y aplicaciones', fontSize: 12, color: '#FFFFFF', alignment: 'center', margin: [0, 5, 0, 0] },
+                                    { text: 'Caso Isabella Andrea', fontSize: 11, color: '#FFFFFF', alignment: 'center', margin: [0, 3, 0, 0] }
+                                ],
+                                fillColor: '#0033A0',
+                                margin: [20, 18, 20, 18]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    ...sectionContent,
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Conclusión clave', fontSize: 12, bold: true, color: '#FFFFFF', margin: [0, 0, 0, 8] },
+                                    { text: 'La ingeniería de prompts ha evolucionado a una disciplina con fundamentos teóricos sólidos. El dominio de principios como claridad, contexto, estructura e iteración es esencial. La democratización del acceso con Isabella Andrea requiere comprensión crítica y uso ético.', fontSize: 10, color: '#FFFFFF', italics: true, lineHeight: 1.4 }
+                                ],
+                                fillColor: '#0055A5',
+                                margin: [15, 12, 15, 12]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 15, 0, 0]
+                    }
+                ],
+                footer: function(currentPage, pageCount) {
+                    return {
+                        stack: [
+                            { text: 'Generado el ' + dateStr, fontSize: 7, color: '#888888', margin: [40, 0, 0, 0] },
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información - Universidad de Chile', fontSize: 7, color: '#888888', alignment: 'center', margin: [0, 2, 0, 0] }
+                        ],
+                        margin: [0, 10, 0, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('Ingenieria_Prompts_Isabella_Andrea_M2.pdf');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos de la inteligencia artificial generativa - Módulo 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Contenedor principal adaptado a 100% x 850px */
+        .main-container {
+            width: 100%;
+            height: 850px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        /* Modal de instrucciones */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.3s ease;
+        }
+
+        /* Tarjetas de contenido mejoradas */
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--gris-200);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.2);
+            border-color: var(--azul);
+        }
+
+        .idea-destacada {
+            background: linear-gradient(135deg, #FFF9E6, #FFFBF0);
+            border-left: 6px solid var(--amarillo);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(255, 209, 0, 0.2);
+        }
+
+        .card-practica {
+            background: linear-gradient(135deg, #E6F5EB, #F0FAF3);
+            border-left: 6px solid var(--verde);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.2);
+        }
+
+        .card-definicion {
+            background: linear-gradient(135deg, #E6EAF6, #F0F2FA);
+            border-left: 6px solid var(--azul);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.2);
+        }
+
+        .card-reflexion {
+            background: linear-gradient(135deg, #FFF9E6, #FFFBF0);
+            border-left: 6px solid var(--amarillo);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+        }
+
+        .card-ejemplo {
+            background: linear-gradient(135deg, #FFE6E6, #FFF0F0);
+            border-left: 6px solid var(--rojo);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+        }
+
+        /* Acordeones mejorados */
+        .accordion-item {
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--gris-200);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--azul);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+        }
+
+        .accordion-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            background: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            list-style: none;
+            font-size: 1.05rem;
+        }
+
+        .accordion-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .accordion-item summary:hover {
+            background: rgba(0, 85, 165, 0.05);
+        }
+
+        .accordion-item[open] summary {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+        }
+
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 1.75rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            color: var(--azul);
+        }
+
+        .accordion-item[open] summary::after {
+            content: '−';
+            transform: rotate(180deg);
+            color: white;
+        }
+
+        .accordion-content {
+            padding: 1.5rem;
+            background: var(--gris-50);
+        }
+
+        /* Botones mejorados */
+        .btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul-dark), var(--azul));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--verde), var(--verde-hover));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 89, 0.4);
+        }
+
+        /* Quiz mejorado */
+        .quiz-container {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--gris-200);
+        }
+
+        .quiz-option {
+            padding: 1rem 1.5rem;
+            margin: 0.75rem 0;
+            border: 2px solid var(--gris-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 1rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--azul);
+            background: rgba(0, 85, 165, 0.05);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            background: rgba(0, 85, 165, 0.1);
+            border-color: var(--azul);
+            font-weight: 600;
+        }
+
+        .quiz-option.correct {
+            background: rgba(0, 168, 89, 0.1);
+            border-color: var(--verde);
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(227, 0, 15, 0.1);
+            border-color: var(--rojo);
+        }
+
+        .feedback-box {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .feedback-correct {
+            background: rgba(0, 168, 89, 0.1);
+            border-left: 6px solid var(--verde);
+            color: var(--verde-hover);
+        }
+
+        .feedback-incorrect {
+            background: rgba(227, 0, 15, 0.1);
+            border-left: 6px solid var(--rojo);
+            color: var(--rojo-hover);
+        }
+
+        /* Footer mejorado */
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 2px solid var(--gris-200);
+            color: var(--gris-600);
+            font-size: 0.875rem;
+        }
+
+        /* Navegación lateral */
+        .nav-link {
+            transition: all 0.3s ease;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(0, 85, 165, 0.1);
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.3);
+        }
+
+        /* Accesibilidad para neurodivergentes */
+        .text-high-contrast {
+            color: var(--gris-800);
+            line-height: 1.7;
+        }
+
+        .section-spacing {
+            margin-bottom: 2rem;
+        }
+
+        strong {
+            color: var(--azul);
+            font-weight: 700;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Responsive adaptado */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .header-banner {
+                padding: 1.5rem;
+            }
+
+            .card, .idea-destacada, .card-practica, .card-definicion {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold" style="color: var(--azul);">🎓 Bienvenido/a al apunte de fundamentos</h2>
+                <button onclick="closeInstructions()" class="text-3xl text-gray-500 hover:text-gray-700 transition-colors">&times;</button>
+            </div>
+            
+            <div class="space-y-4 text-gray-700">
+                <div class="idea-destacada">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--azul);">🤖 Sobre Isabella Andrea</h3>
+                    <p>Este apunte utiliza el caso de <strong>Isabella Andrea</strong>, una profesional en transición laboral que aprovecha herramientas de IA generativa para realizar su propio diagnóstico de competencias y optimizar su proceso de búsqueda de empleo.</p>
+                </div>
+
+                <div class="card-practica">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--verde);">📖 Cómo usar este recurso</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Navegación:</strong> Use el menú lateral para explorar las secciones</li>
+                        <li><strong>Acordeones:</strong> Haga clic en las secciones para expandir y colapsar contenido</li>
+                        <li><strong>Autoevaluación:</strong> Complete los cuestionarios interactivos al final de cada sección</li>
+                        <li><strong>Descarga:</strong> Puede descargar el contenido en formato PDF cuando lo necesite</li>
+                    </ul>
+                </div>
+
+                <div class="card-definicion">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--azul);">♿ Accesibilidad</h3>
+                    <p>Este recurso está diseñado considerando necesidades de personas neurodivergentes:</p>
+                    <ul class="list-disc list-inside space-y-1 mt-2">
+                        <li>Colores de alto contraste</li>
+                        <li>Tipografía clara y legible</li>
+                        <li>Espaciado generoso entre elementos</li>
+                        <li>Navegación predecible y consistente</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="dontShowAgain" class="w-4 h-4">
+                    <span class="text-sm text-gray-600">No mostrar nuevamente</span>
+                </label>
+                <button onclick="closeInstructions()" class="btn btn-primary">
+                    Entendido, comenzar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-banner animate-fadeIn">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-5xl">🤖</span>
+                    <div>
+                        <h1 class="text-3xl font-bold text-white mb-1">Fundamentos de la IA generativa</h1>
+                        <p class="text-blue-100 text-lg">Módulo 1: El caso de Isabella Andrea y el diagnóstico de competencias</p>
+                    </div>
+                </div>
+                
+                <div class="mt-4 flex gap-3">
+                    <button onclick="openInstructions()" class="btn btn-secondary">
+                        ℹ️ Ver instrucciones
+                    </button>
+                    <button onclick="downloadPDF()" class="btn" style="background: white; color: var(--azul);">
+                        📥 Descargar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación lateral y contenido -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Menú de navegación -->
+            <aside class="md:col-span-1 animate-slideIn">
+                <div class="card sticky top-4">
+                    <h3 class="font-bold text-lg mb-4" style="color: var(--azul);">📑 Contenidos</h3>
+                    <nav class="space-y-1">
+                        <div class="nav-link active" onclick="scrollToSection('introduccion')">
+                            🚀 Introducción
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('que-es')">
+                            🧠 ¿Qué es la IA generativa?
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('funcionamiento')">
+                            ⚙️ Funcionamiento técnico
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('diagnostico')">
+                            🎯 Diagnóstico de competencias
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('prompts')">
+                            ✍️ Ingeniería de prompts
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('democratizacion')">
+                            🌍 Democratización
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('autoevaluacion')">
+                            ✅ Autoevaluación
+                        </div>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="md:col-span-3">
+                <!-- Sección: Introducción -->
+                <section id="introduccion" class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--azul);">🚀 Introducción: el caso de Isabella Andrea</h2>
+                        
+                        <div class="text-high-contrast space-y-4">
+                            <p>La <strong>inteligencia artificial generativa</strong> representa una de las transformaciones tecnológicas más significativas de nuestra era. Este apunte explora sus fundamentos conceptuales, funcionamiento técnico y aplicaciones prácticas, utilizando como eje articulador el caso de <strong>Isabella Andrea</strong>: una profesional en transición laboral que utiliza herramientas de IA generativa para realizar su propio diagnóstico de competencias y optimizar su proceso de búsqueda de empleo.</p>
+
+                            <div class="idea-destacada">
+                                <h3 class="font-bold text-lg mb-2">💡 Idea central</h3>
+                                <p>La IA generativa no es magia, ni debe reemplazar el pensamiento crítico humano. Es una <strong>herramienta de amplificación</strong> que, utilizada con comprensión conceptual y prompts efectivos, puede democratizar el acceso a capacidades profesionales antes reservadas para expertos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección: ¿Qué es la IA generativa? -->
+                <section id="que-es" class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--azul);">🧠 ¿Qué es la inteligencia artificial generativa?</h2>
+                        
+                        <div class="card-definicion">
+                            <h3 class="font-bold text-lg mb-2">📌 Definición</h3>
+                            <p class="text-high-contrast">La <strong>IA generativa</strong> es una rama de la inteligencia artificial que tiene la capacidad de <strong>crear contenido original y novedoso</strong> —como textos, imágenes, audio o código— a partir de patrones aprendidos de grandes cantidades de datos.</p>
+                        </div>
+
+                        <details class="accordion-item">
+                            <summary>🔍 Características clave de la IA generativa</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <ul class="list-disc list-inside space-y-3">
+                                    <li><strong>Creatividad algorítmica:</strong> No replica, sino que genera contenido nuevo basándose en patrones aprendidos</li>
+                                    <li><strong>Adaptabilidad contextual:</strong> Ajusta sus respuestas según el contexto y las instrucciones recibidas</li>
+                                    <li><strong>Escalabilidad:</strong> Puede procesar y generar grandes volúmenes de contenido en poco tiempo</li>
+                                    <li><strong>Multimodalidad:</strong> Algunas versiones pueden trabajar con múltiples tipos de datos simultáneamente (texto, imagen, audio)</li>
+                                </ul>
+                            </div>
+                        </details>
+
+                        <details class="accordion-item">
+                            <summary>⚠️ Limitaciones importantes</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <div class="card-ejemplo">
+                                    <h4 class="font-bold mb-2">Lo que la IA generativa NO hace:</h4>
+                                    <ul class="list-disc list-inside space-y-2">
+                                        <li>No comprende el significado real de lo que genera</li>
+                                        <li>No tiene conciencia ni intencionalidad</li>
+                                        <li>No puede verificar la veracidad de sus propias respuestas</li>
+                                        <li>No tiene juicio ético autónomo</li>
+                                        <li>Puede generar "alucinaciones" (información falsa presentada con confianza)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- Sección: Funcionamiento técnico -->
+                <section id="funcionamiento" class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--verde);">⚙️ Funcionamiento técnico: ¿cómo funciona realmente?</h2>
+                        
+                        <details class="accordion-item">
+                            <summary>🧬 Arquitectura Transformer</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <p class="mb-3">Los modelos de lenguaje generativo modernos se basan en la arquitectura <strong>Transformer</strong> (Vaswani et al., 2017), que revolucionó el procesamiento de lenguaje natural.</p>
+                                
+                                <div class="card-definicion">
+                                    <h4 class="font-bold mb-2">Componentes clave:</h4>
+                                    <ul class="list-disc list-inside space-y-2">
+                                        <li><strong>Mecanismo de atención:</strong> Permite al modelo "enfocarse" en las partes relevantes del contexto</li>
+                                        <li><strong>Codificación posicional:</strong> Mantiene el orden de las palabras en la secuencia</li>
+                                        <li><strong>Capas de procesamiento:</strong> Múltiples capas que refinan progresivamente la representación del lenguaje</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="accordion-item">
+                            <summary>📚 Proceso de entrenamiento</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <div class="space-y-4">
+                                    <div class="card-practica">
+                                        <h4 class="font-bold mb-2">Fase 1: Preentrenamiento</h4>
+                                        <p>El modelo es entrenado con <strong>vastos corpus de texto</strong> (libros, artículos, sitios web) para aprender patrones lingüísticos, estructuras gramaticales y conocimiento general.</p>
+                                    </div>
+
+                                    <div class="card-practica">
+                                        <h4 class="font-bold mb-2">Fase 2: Afinamiento (Fine-tuning)</h4>
+                                        <p>Se especializa el modelo con <strong>datos específicos</strong> de tareas o dominios particulares, mejorando su desempeño en contextos específicos.</p>
+                                    </div>
+
+                                    <div class="card-practica">
+                                        <h4 class="font-bold mb-2">Fase 3: RLHF (Aprendizaje por refuerzo con retroalimentación humana)</h4>
+                                        <p>Evaluadores humanos califican las respuestas del modelo, permitiendo que aprenda a generar respuestas más útiles, seguras y alineadas con valores humanos (Cevallos et al., 2023).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="accordion-item">
+                            <summary>🎲 Generación de respuestas</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <p class="mb-3">La IA generativa no "piensa" ni "comprende". En cambio:</p>
+                                <ol class="list-decimal list-inside space-y-2">
+                                    <li>Procesa el texto de entrada (prompt) convirtiéndolo en representaciones numéricas</li>
+                                    <li>Calcula <strong>probabilidades</strong> de qué palabra debería seguir en la secuencia</li>
+                                    <li>Selecciona palabras basándose en estas probabilidades (con algún grado de aleatoriedad controlada)</li>
+                                    <li>Repite el proceso hasta completar la respuesta</li>
+                                </ol>
+                                
+                                <div class="idea-destacada mt-4">
+                                    <p><strong>Metáfora clave:</strong> Es como un "autocomplete ultra sofisticado" que predice la continuación más probable del texto basándose en patrones estadísticos, no en comprensión genuina.</p>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- Sección: Diagnóstico de competencias -->
+                <section id="diagnostico" class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--amarillo-dark);">🎯 Aplicación práctica: el diagnóstico de competencias con Isabella Andrea</h2>
+                        
+                        <div class="card-reflexion">
+                            <h3 class="font-bold text-lg mb-2">🤖 El caso de Isabella Andrea</h3>
+                            <p class="text-high-contrast"><strong>Isabella Andrea</strong> es una profesional en transición laboral que utiliza herramientas de IA generativa para realizar su propio <strong>diagnóstico de competencias</strong>: analizar su historial laboral, extraer las competencias subyacentes y mapearlas con las palabras clave que buscan los empleadores en ofertas de trabajo específicas.</p>
+                        </div>
+
+                        <details class="accordion-item">
+                            <summary>🔎 ¿Por qué el diagnóstico de competencias es crucial?</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <p class="mb-3">Muchos profesionales tienen <strong>experiencia valiosa</strong> pero no saben cómo:</p>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>Identificar qué competencias demuestran sus experiencias previas</li>
+                                    <li>Expresarlas en el lenguaje que entienden los sistemas ATS (Applicant Tracking Systems)</li>
+                                    <li>Conectar su experiencia con los requisitos de ofertas laborales</li>
+                                    <li>Reformular sus CV y cartas de presentación de manera estratégica</li>
+                                </ul>
+                                
+                                <div class="card-ejemplo mt-4">
+                                    <h4 class="font-bold mb-2">Ejemplo real:</h4>
+                                    <p>Un gasfíter con 15 años de experiencia puede tener competencias en:</p>
+                                    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                                        <li>Resolución de problemas complejos</li>
+                                        <li>Gestión de proyectos</li>
+                                        <li>Servicio al cliente</li>
+                                        <li>Manejo de herramientas tecnológicas</li>
+                                    </ul>
+                                    <p class="mt-2">Pero sin ayuda, probablemente describirá su trabajo como "reparé cañerías", perdiendo oportunidades de mostrar su verdadero valor profesional.</p>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="accordion-item">
+                            <summary>🛠️ ¿Cómo utiliza Isabella Andrea la IA generativa en su proceso?</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <div class="space-y-4">
+                                    <div class="card-practica">
+                                        <h4 class="font-bold mb-2">1. Análisis de su historial laboral</h4>
+                                        <p>Utiliza herramientas de IA generativa para procesar descripciones de su experiencia laboral e identificar competencias implícitas que no había reconocido explícitamente.</p>
+                                    </div>
+
+                                    <div class="card-practica">
+                                        <h4 class="font-bold mb-2">2. Mapeo con ofertas laborales</h4>
+                                        <p>Compara las competencias extraídas con las palabras clave de ofertas de trabajo específicas, identificando coincidencias y brechas en su perfil.</p>
+                                    </div>
+
+                                    <div class="card-practica">
+                                        <h4 class="font-bold mb-2">3. Reformulación estratégica</h4>
+                                        <p>Solicita a la IA versiones optimizadas de sus descripciones laborales usando el lenguaje corporativo que buscan los reclutadores y sistemas ATS.</p>
+                                    </div>
+
+                                    <div class="card-practica">
+                                        <h4 class="font-bold mb-2">4. Preparación para entrevistas</h4>
+                                        <p>Practica con la IA para articular respuestas que conecten sus experiencias concretas con las competencias valoradas por los empleadores.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="accordion-item">
+                            <summary>⚡ Ventajas de usar IA generativa para diagnóstico de competencias</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <ul class="list-disc list-inside space-y-3">
+                                    <li><strong>Escalabilidad personal:</strong> Permite analizar múltiples versiones del CV y explorar diferentes enfoques profesionales simultáneamente</li>
+                                    <li><strong>Actualización constante:</strong> Acceso a información actualizada sobre tendencias del mercado laboral y lenguaje corporativo vigente</li>
+                                    <li><strong>Personalización inmediata:</strong> Adaptación del lenguaje al sector y nivel profesional específico de cada oferta</li>
+                                    <li><strong>Democratización del acceso:</strong> Herramientas antes disponibles solo a través de servicios costosos de coaching profesional</li>
+                                    <li><strong>Iteración rápida:</strong> Posibilidad de probar múltiples versiones de CV, cartas y perfiles en minutos</li>
+                                </ul>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- Sección: Ingeniería de prompts -->
+                <section id="prompts" class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--rojo);">✍️ Ingeniería de prompts: la clave del éxito</h2>
+                        
+                        <div class="idea-destacada">
+                            <p class="text-high-contrast"><strong>La calidad de los resultados de una IA generativa depende directamente de la calidad de las instrucciones (prompts) que le proporcionamos.</strong> Un prompt mal formulado generará respuestas genéricas o irrelevantes; un prompt bien diseñado puede producir resultados excepcionalmente útiles.</p>
+                        </div>
+
+                        <details class="accordion-item">
+                            <summary>📝 Componentes de un prompt efectivo</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <div class="space-y-4">
+                                    <div class="card-definicion">
+                                        <h4 class="font-bold mb-2">1. Contexto completo</h4>
+                                        <p>Proporcione toda la información relevante sobre la situación, incluyendo antecedentes, limitaciones y objetivos específicos.</p>
+                                    </div>
+
+                                    <div class="card-definicion">
+                                        <h4 class="font-bold mb-2">2. Objetivo claro</h4>
+                                        <p>Sea explícito sobre qué espera obtener. En lugar de "ayúdame con mi CV", especifique "reformula mi experiencia como mesero para resaltar competencias en servicio al cliente y gestión de tiempo".</p>
+                                    </div>
+
+                                    <div class="card-definicion">
+                                        <h4 class="font-bold mb-2">3. Formato deseado</h4>
+                                        <p>Indique cómo quiere recibir la respuesta: lista con viñetas, párrafo narrativo, tabla comparativa, etc.</p>
+                                    </div>
+
+                                    <div class="card-definicion">
+                                        <h4 class="font-bold mb-2">4. Restricciones específicas</h4>
+                                        <p>Establezca límites claros: longitud máxima, tono (formal/informal), perspectiva (primera/tercera persona), etc.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="accordion-item">
+                            <summary>🎨 Ejemplo práctico: prompts que usa Isabella Andrea</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <div class="card-ejemplo">
+                                    <h4 class="font-bold mb-3 text-red-700">❌ Prompt deficiente:</h4>
+                                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                                        <p class="italic">"Ayúdame a mejorar mi CV"</p>
+                                    </div>
+                                    <p class="mb-2"><strong>Problemas:</strong></p>
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>Demasiado vago</li>
+                                        <li>Sin contexto profesional</li>
+                                        <li>Sin objetivo específico</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-practica mt-4">
+                                    <h4 class="font-bold mb-3 text-green-700">✅ Prompt efectivo:</h4>
+                                    <div class="bg-green-50 p-4 rounded-lg">
+                                        <p class="italic">"Soy un chef con 8 años de experiencia en restaurantes de comida rápida. He manejado equipos de hasta 12 personas, controlado inventarios y reducido desperdicios en un 20%. Quiero postular a un cargo de 'Supervisor de Operaciones' en una cadena de retail. Reformula mi experiencia laboral en 3 viñetas que resalten: (1) liderazgo de equipos, (2) gestión de recursos, (3) mejora de procesos. Usa terminología corporativa y mantén un tono profesional. Máximo 50 palabras por viñeta."</p>
+                                    </div>
+                                    <p class="mt-3"><strong>Fortalezas:</strong></p>
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>Contexto profesional detallado</li>
+                                        <li>Objetivo específico (tipo de cargo)</li>
+                                        <li>Formato claro (3 viñetas)</li>
+                                        <li>Restricciones precisas (tono, longitud)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="accordion-item">
+                            <summary>🔑 Principios clave de la ingeniería de prompts</summary>
+                            <div class="accordion-content text-high-contrast">
+                                <ol class="list-decimal list-inside space-y-3">
+                                    <li><strong>Especificidad sobre generalidad:</strong> Cuanto más específico sea el prompt, más relevante será la respuesta</li>
+                                    <li><strong>Iteración es normal:</strong> Raramente el primer prompt produce resultados perfectos. Refine y ajuste según sea necesario</li>
+                                    <li><strong>Proporcione ejemplos:</strong> Si es posible, incluya ejemplos del tipo de respuesta que espera</li>
+                                    <li><strong>Solicite justificación:</strong> Pida a la IA que explique su razonamiento para detectar errores lógicos</li>
+                                    <li><strong>Verificación es esencial:</strong> Nunca use resultados sin revisarlos críticamente. La IA puede "alucinar" información falsa</li>
+                                </ol>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- Sección: Democratización -->
+                <section id="democratizacion" class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--verde);">🌍 Democratización del acceso profesional</h2>
+                        
+                        <div class="text-high-contrast space-y-4">
+                            <p>Una de las promesas más importantes de la IA generativa es la <strong>democratización del acceso</strong> a herramientas y servicios profesionales que antes estaban reservados para quienes podían pagar consultores especializados.</p>
+
+                            <div class="card-reflexion">
+                                <h3 class="font-bold text-lg mb-2">🎯 ¿Quiénes se benefician?</h3>
+                                <p class="mb-3">La IA generativa es especialmente valiosa para:</p>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><strong>Profesionales en transición:</strong> Personas que cambian de sector y necesitan "traducir" su experiencia</li>
+                                    <li><strong>Trabajadores de oficios tradicionales:</strong> Gasfíteres, cocineros, choferes, estilistas que quieren formalizar su experiencia</li>
+                                    <li><strong>Migrantes laborales:</strong> Personas que necesitan adaptar su historial profesional a nuevos contextos culturales</li>
+                                    <li><strong>Profesionales sin acceso a redes:</strong> Quienes no tienen contactos en sus sectores objetivo</li>
+                                    <li><strong>Emprendedores tempranos:</strong> Personas que inician proyectos sin presupuesto para servicios profesionales</li>
+                                </ul>
+                            </div>
+
+                            <details class="accordion-item">
+                                <summary>📊 Impacto en el mercado laboral chileno</summary>
+                                <div class="accordion-content text-high-contrast">
+                                    <p class="mb-3">Según estudios de CEPAL (2024) y Deloitte (2025), la IA generativa está transformando el panorama laboral en América Latina:</p>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="card-practica">
+                                            <h4 class="font-bold mb-2">Oportunidades</h4>
+                                            <ul class="list-disc list-inside space-y-1 text-sm">
+                                                <li>Reducción de brechas de acceso a herramientas profesionales</li>
+                                                <li>Aceleración de procesos de búsqueda laboral</li>
+                                                <li>Mejora en la empleabilidad de grupos tradicionalmente excluidos</li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-ejemplo">
+                                            <h4 class="font-bold mb-2">Desafíos</h4>
+                                            <ul class="list-disc list-inside space-y-1 text-sm">
+                                                <li>Brecha digital y acceso a tecnología</li>
+                                                <li>Necesidad de alfabetización digital</li>
+                                                <li>Riesgo de dependencia tecnológica</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <div class="idea-destacada">
+                                <h3 class="font-bold text-lg mb-2">💡 Reflexión final</h3>
+                                <p>La IA generativa no debe verse como un "reemplazo" del desarrollo de competencias humanas, sino como un <strong>"copiloto profesional"</strong> que amplifica nuestras capacidades. El pensamiento crítico, la autenticidad y la verificación constante siguen siendo responsabilidades humanas ineludibles.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección: Autoevaluación -->
+                <section id="autoevaluacion" class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--azul);">✅ Autoevaluación de aprendizaje</h2>
+                        
+                        <p class="text-high-contrast mb-6">Complete las siguientes preguntas para verificar su comprensión de los conceptos fundamentales:</p>
+
+                        <!-- Quiz 1 -->
+                        <div class="quiz-container">
+                            <h3 class="font-bold text-lg mb-4">Pregunta 1: Definición de IA generativa</h3>
+                            <p class="text-gray-700 mb-4">¿Cuál de las siguientes afirmaciones describe mejor a la IA generativa?</p>
+                            
+                            <div class="quiz-option" data-correct="false">
+                                A) Es un sistema que comprende profundamente el significado de los textos que genera
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                B) Es un sistema que crea contenido nuevo basándose en patrones estadísticos aprendidos de datos
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                C) Es un sistema que siempre genera información precisa y verificada
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                D) Es un sistema que piensa y razona como los seres humanos
+                            </div>
+                            
+                            <button onclick="checkAnswer(this, 1)" class="btn btn-primary mt-4">
+                                Verificar respuesta
+                            </button>
+                            <div id="feedback-1" class="mt-4"></div>
+                        </div>
+
+                        <!-- Quiz 2 -->
+                        <div class="quiz-container">
+                            <h3 class="font-bold text-lg mb-4">Pregunta 2: Diagnóstico de competencias</h3>
+                            <p class="text-gray-700 mb-4">¿Por qué es importante el diagnóstico de competencias en el contexto de Isabella Andrea?</p>
+                            
+                            <div class="quiz-option" data-correct="false">
+                                A) Porque los sistemas ATS solo aceptan CVs en formato PDF
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                B) Porque ayuda a identificar y expresar competencias en el lenguaje que buscan los empleadores
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                C) Porque reemplaza completamente la necesidad de experiencia laboral previa
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                D) Porque garantiza automáticamente conseguir empleo
+                            </div>
+                            
+                            <button onclick="checkAnswer(this, 2)" class="btn btn-primary mt-4">
+                                Verificar respuesta
+                            </button>
+                            <div id="feedback-2" class="mt-4"></div>
+                        </div>
+
+                        <!-- Quiz 3 -->
+                        <div class="quiz-container">
+                            <h3 class="font-bold text-lg mb-4">Pregunta 3: Ingeniería de prompts</h3>
+                            <p class="text-gray-700 mb-4">¿Cuál de las siguientes características NO es esencial en un prompt efectivo?</p>
+                            
+                            <div class="quiz-option" data-correct="false">
+                                A) Contexto completo y relevante
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                B) Objetivo claro y específico
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                C) Uso de jerga técnica compleja
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                D) Restricciones y formato deseado
+                            </div>
+                            
+                            <button onclick="checkAnswer(this, 3)" class="btn btn-primary mt-4">
+                                Verificar respuesta
+                            </button>
+                            <div id="feedback-3" class="mt-4"></div>
+                        </div>
+
+                        <!-- Quiz 4 -->
+                        <div class="quiz-container">
+                            <h3 class="font-bold text-lg mb-4">Pregunta 4: Funcionamiento técnico</h3>
+                            <p class="text-gray-700 mb-4">¿Qué es RLHF (Aprendizaje por refuerzo con retroalimentación humana)?</p>
+                            
+                            <div class="quiz-option" data-correct="false">
+                                A) Un lenguaje de programación específico para IA
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                B) Un proceso donde evaluadores humanos califican respuestas para mejorar el modelo
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                C) Una técnica para comprimir modelos de IA
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                D) Un sistema de seguridad para prevenir hackeos
+                            </div>
+                            
+                            <button onclick="checkAnswer(this, 4)" class="btn btn-primary mt-4">
+                                Verificar respuesta
+                            </button>
+                            <div id="feedback-4" class="mt-4"></div>
+                        </div>
+
+                        <!-- Quiz 5 -->
+                        <div class="quiz-container">
+                            <h3 class="font-bold text-lg mb-4">Pregunta 5: Democratización</h3>
+                            <p class="text-gray-700 mb-4">¿Cuál es el principal valor de la IA generativa en términos de democratización?</p>
+                            
+                            <div class="quiz-option" data-correct="false">
+                                A) Reemplaza completamente a los consultores profesionales
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                B) Hace accesibles herramientas profesionales antes reservadas para quienes podían pagarlas
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                C) Elimina la necesidad de desarrollar competencias profesionales
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                D) Garantiza igualdad de resultados para todos los usuarios
+                            </div>
+                            
+                            <button onclick="checkAnswer(this, 5)" class="btn btn-primary mt-4">
+                                Verificar respuesta
+                            </button>
+                            <div id="feedback-5" class="mt-4"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Referencias -->
+                <section class="section-spacing animate-fadeIn">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--azul);">📚 Referencias bibliográficas</h2>
+                        
+                        <div class="text-high-contrast space-y-3 text-sm">
+                            <p>CEPAL. (2024). <em>Inteligencia artificial y transformación digital en América Latina y el Caribe</em>. Comisión Económica para América Latina y el Caribe.</p>
+                            
+                            <p>Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., & Polosukhin, I. (2017). Attention is all you need. <em>Advances in Neural Information Processing Systems, 30</em>, 5998-6008.</p>
+                            
+                            <p>Cevallos, A., García, M., & López, R. (2023). Reinforcement learning from human feedback: Aplicaciones en modelos de lenguaje. <em>Revista Iberoamericana de Inteligencia Artificial, 26</em>(82), 45-62. https://doi.org/10.4114/intartif.vol26iss82pp45-62</p>
+                            
+                            <p>Deloitte. (2025). <em>Impacto de la inteligencia artificial generativa en el mercado laboral chileno</em>. Deloitte Insights.</p>
+                            
+                            <p>García Llamas, P. (2024). <em>Sistemas ATS y optimización de currículums: Guía práctica para profesionales</em>. Editorial Universitaria.</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="font-semibold mb-1">Oficina de Inteligencia Artificial</p>
+            <p class="text-sm">Vicerrectoría de Tecnologías de la Información</p>
+            <p class="text-sm">Universidad de Chile © 2025 • Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('apunte_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('apunte_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 500);
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Navegación suave
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Actualizar navegación activa
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                event.target.classList.add('active');
+            }
+        }
+
+        // Sistema de quiz
+        function checkAnswer(button, quizNumber) {
+            const quizContainer = button.closest('.quiz-container');
+            const options = quizContainer.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById(`feedback-${quizNumber}`);
+            
+            let selectedOption = null;
+            options.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    selectedOption = option;
+                }
+            });
+            
+            if (!selectedOption) {
+                feedback.innerHTML = `
+                    <div class="feedback-box" style="background: rgba(255, 193, 7, 0.1); border-left: 6px solid var(--amarillo); color: var(--amarillo-dark);">
+                        <strong>⚠️ Atención:</strong> Por favor, seleccione una opción antes de verificar.
+                    </div>
+                `;
+                return;
+            }
+            
+            const isCorrect = selectedOption.dataset.correct === 'true';
+            
+            options.forEach(option => {
+                if (option.dataset.correct === 'true') {
+                    option.classList.add('correct');
+                } else if (option.classList.contains('selected')) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+            
+            button.disabled = true;
+            button.style.opacity = '0.5';
+            button.style.cursor = 'not-allowed';
+            
+            if (isCorrect) {
+                feedback.innerHTML = `
+                    <div class="feedback-correct">
+                        <strong>✅ ¡Correcto!</strong> Ha comprendido correctamente este concepto fundamental.
+                    </div>
+                `;
+            } else {
+                feedback.innerHTML = `
+                    <div class="feedback-incorrect">
+                        <strong>❌ Incorrecto.</strong> Revise nuevamente la sección correspondiente para comprender mejor este concepto.
+                    </div>
+                `;
+            }
+        }
+
+        // Hacer opciones seleccionables
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                if (this.style.pointerEvents !== 'none') {
+                    const quizContainer = this.closest('.quiz-container');
+                    quizContainer.querySelectorAll('.quiz-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        // Función para descargar PDF con pdfmake (soporte UTF-8 nativo)
+        function downloadPDF() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    // Header
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Fundamentos de la IA generativa', style: 'headerTitle' },
+                                        { text: 'Módulo 1: El caso de Isabella Andrea', style: 'headerSubtitle' }
+                                    ],
+                                    fillColor: '#0033A0',
+                                    margin: [20, 15, 20, 15]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 20]
+                    },
+                    
+                    // Sección 1
+                    { text: '1. ¿Qué es la IA generativa?', style: 'sectionHeader', fillColor: '#0055A5' },
+                    { text: 'Es una rama de la inteligencia artificial que crea contenido original y novedoso como textos, imágenes o música, a partir de patrones aprendidos de grandes cantidades de datos. Sus características clave incluyen creatividad algorítmica, adaptabilidad contextual, escalabilidad y multimodalidad.', style: 'sectionContent' },
+                    
+                    // Sección 2
+                    { text: '2. Funcionamiento técnico', style: 'sectionHeader2' },
+                    { text: 'Los modelos se basan en la arquitectura Transformer y son entrenados en tres fases: (1) Preentrenamiento con vastos corpus de textos, (2) Afinamiento con datos especializados, (3) Refuerzo con retroalimentación humana (RLHF). No comprenden el contenido, sino que generan respuestas basadas en probabilidades estadísticas.', style: 'sectionContent' },
+                    
+                    // Sección 3
+                    { text: '3. Diagnóstico de competencias con Isabella Andrea', style: 'sectionHeader3' },
+                    { text: 'El diagnóstico de competencias es fundamental: analiza el historial laboral, extrae competencias subyacentes y las mapea con palabras clave de ofertas. La IA automatiza este proceso, identifica patrones y propone reformulaciones en lenguaje corporativo, optimizando CVs, cartas y perfiles profesionales.', style: 'sectionContent' },
+                    
+                    // Sección 4
+                    { text: '4. Ingeniería de prompts', style: 'sectionHeader4' },
+                    { text: 'La calidad de los resultados depende de la claridad de las instrucciones. Un prompt efectivo incluye: contexto completo, objetivo claro, formato deseado y restricciones específicas. La especificidad, iteración y verificación son prácticas fundamentales para resultados óptimos.', style: 'sectionContent' },
+                    
+                    // Sección 5
+                    { text: '5. Democratización del acceso', style: 'sectionHeader5' },
+                    { text: 'La IA generativa beneficia a profesionales de todos los sectores: desde gasfíteres hasta cocineros, choferes y estilistas. Traduce experiencia práctica al lenguaje corporativo, nivelando el acceso a herramientas de optimización profesional antes reservadas para consultores especializados.', style: 'sectionContent' },
+                    
+                    // Conclusión
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[
+                                {
+                                    stack: [
+                                        { text: 'Conclusión clave', style: 'conclusionTitle' },
+                                        { text: 'La inteligencia artificial generativa es una herramienta de democratización profesional que actúa como "copiloto", amplificando capacidades humanas. El diagnóstico de competencias con Isabella Andrea es el primer paso crucial, requiriendo comprensión conceptual, prompts efectivos y pensamiento crítico constante.', style: 'conclusionText' }
+                                    ],
+                                    fillColor: '#0055A5',
+                                    margin: [15, 12, 15, 12]
+                                }
+                            ]]
+                        },
+                        layout: 'noBorders',
+                        margin: [0, 20, 0, 20]
+                    },
+                    
+                    // Referencias
+                    { text: 'Referencias principales', style: 'refsTitle' },
+                    { text: '• CEPAL. (2024). Inteligencia artificial y transformación digital en América Latina y el Caribe.', style: 'refItem' },
+                    { text: '• Vaswani, A., et al. (2017). Attention is all you need. Advances in Neural Information Processing Systems, 30.', style: 'refItem' },
+                    { text: '• Deloitte. (2025). Impacto de la IA generativa en el mercado laboral chileno.', style: 'refItem' }
+                ],
+                styles: {
+                    headerTitle: { fontSize: 20, bold: true, color: '#FFFFFF', alignment: 'center' },
+                    headerSubtitle: { fontSize: 12, color: '#FFFFFF', alignment: 'center', marginTop: 5 },
+                    sectionHeader: { fontSize: 12, bold: true, color: '#FFFFFF', background: '#0055A5', fillColor: '#0055A5', margin: [0, 15, 0, 0], padding: [10, 8, 10, 8] },
+                    sectionHeader2: { fontSize: 12, bold: true, color: '#FFFFFF', background: '#00A859', margin: [0, 15, 0, 0] },
+                    sectionHeader3: { fontSize: 12, bold: true, color: '#FFFFFF', background: '#E6BC00', margin: [0, 15, 0, 0] },
+                    sectionHeader4: { fontSize: 12, bold: true, color: '#FFFFFF', background: '#E3000F', margin: [0, 15, 0, 0] },
+                    sectionHeader5: { fontSize: 12, bold: true, color: '#FFFFFF', background: '#009639', margin: [0, 15, 0, 0] },
+                    sectionContent: { fontSize: 10, color: '#333333', lineHeight: 1.4, margin: [0, 8, 0, 0] },
+                    conclusionTitle: { fontSize: 12, bold: true, color: '#FFFFFF' },
+                    conclusionText: { fontSize: 10, color: '#FFFFFF', italics: true, lineHeight: 1.4, marginTop: 8 },
+                    refsTitle: { fontSize: 11, bold: true, color: '#0055A5', margin: [0, 10, 0, 8] },
+                    refItem: { fontSize: 8, color: '#555555', margin: [0, 0, 0, 3] }
+                },
+                footer: function(currentPage, pageCount) {
+                    return {
+                        columns: [
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información', fontSize: 7, color: '#888888', margin: [40, 0, 0, 0] },
+                            { text: 'Universidad de Chile', fontSize: 7, color: '#888888', alignment: 'right', margin: [0, 0, 40, 0] }
+                        ],
+                        margin: [0, 20, 0, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('Fundamentos_IA_Generativa_Modulo1.pdf');
+        }
+
+        // Accesibilidad: navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+    </script>
+</body>
+</html>

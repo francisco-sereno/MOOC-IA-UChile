@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZZWQZR8VQ');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Módulo 1 - El diagnóstico de competencias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f5f7;
+            color: #172b4d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        :root {
+            --color-principal: #003087;
+            --color-acento: #008751;
+            --color-texto: #172b4d;
+            --color-fondo-claro: #f4f5f7;
+            --color-borde: #dfe1e6;
+            --font-main: 'Montserrat', sans-serif;
+        }
+        .presentation-container {
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 16 / 13;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--color-borde);
+            position: relative;
+        }
+        .slides-container {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+        }
+        .slide {
+            display: none;
+            flex-grow: 1;
+            padding: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+            overflow-y: auto;
+            animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.2px;
+            width: 100%;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-title {
+            font-family: var(--font-main);
+            font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 1.25rem;
+            color: var(--color-texto);
+            line-height: 1.25;
+        }
+        .slide-subtitle {
+            font-family: var(--font-main);
+            font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+            color: #42526e;
+            max-width: 85%;
+            line-height: 1.6;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, var(--color-principal), var(--color-acento));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: white;
+            color: var(--color-principal);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--color-borde);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #prevBtn { left: 1.5rem; }
+        #nextBtn { right: 1.5rem; }
+        .nav-button:hover {
+            background-color: var(--color-principal);
+            color: white;
+            border-color: var(--color-principal);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .nav-button:disabled {
+            background-color: #fafbfc;
+            color: #a5adba;
+            cursor: not-allowed;
+            transform: translateY(-50%) scale(1);
+            opacity: 0.8;
+        }
+        .slide-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #42526e;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--color-borde);
+        }
+        .info-card {
+            background-color: #ffffff;
+            border: 1px solid var(--color-borde);
+            border-radius: 0.75rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -10px rgba(0, 82, 204, 0.2);
+            border-color: var(--color-principal);
+        }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(23, 43, 77, 0.6);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: white; padding: 2rem; border-radius: 0.75rem;
+            max-width: 500px; width: 90%;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.3);
+            transform: scale(0.95); transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-title { font-family: var(--font-main); font-weight: 900; font-size: 1.5rem; color: var(--color-principal); margin-bottom: 1rem; }
+        .modal-body { color: #42526e; line-height: 1.6; margin-bottom: 1.5rem; }
+        .modal-close-btn {
+            display: block; width: 100%; padding: 0.75rem; background-color: var(--color-principal);
+            color: white; border: none; border-radius: 0.5rem; font-weight: 700;
+            cursor: pointer; transition: background-color 0.2s;
+        }
+        .modal-close-btn:hover { background-color: #003f99; }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .presentation-container { 
+                border-radius: 0; height: 100vh; width: 100vw;
+                max-width: 100%; aspect-ratio: auto;
+            }
+            .slide-subtitle { max-width: 100%; }
+            .nav-button {
+                top: auto; bottom: 1rem; transform: none;
+                width: 50px; height: 40px; border-radius: 0.5rem;
+            }
+            #prevBtn { left: 1rem; }
+            #nextBtn { right: 1rem; }
+            .slide-counter { bottom: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <div class="slides-container">
+
+            <!-- Diapositiva 1: Título -->
+            <div class="slide active" style="background: radial-gradient(circle, rgba(255,255,255,1) 0%, #f4f5f7 100%);">
+                <div class="flex flex-col h-full text-center p-8 justify-center">
+                    <h1 class="font-black gradient-text mb-4" style="font-size: clamp(2.5rem, 8vw, 4.5rem);">Módulo 1</h1>
+                    <p class="max-w-4xl mx-auto" style="font-size: clamp(1.25rem, 4vw, 1.75rem); color: #42526e;">El diagnóstico de competencias: el caso de Isabella Andrea</p>
+                </div>
+            </div>
+
+            <!-- Diapositiva 2: ¿Qué es? -->
+            <div class="slide items-center">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto w-32 h-32 md:w-40 md:h-40" style="color: var(--color-principal);">
+                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2" fill="var(--color-principal)" fill-opacity="0.1" stroke-width="1"></rect>
+                            <path d="M12 8v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="var(--color-acento)" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="slide-title">1. ¿Qué es la IA generativa?</h2>
+                        <p class="slide-subtitle" style="font-size: clamp(1.1rem, 2.5vw, 1.3rem);">Es una rama de la inteligencia artificial generativa que crea contenido original (textos, ideas, resúmenes) a partir de una instrucción. Para Isabella, funcionará como un <strong style="color: var(--color-texto)">asesor de carrera personalizado</strong> para analizar y potenciar su perfil.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 3: Las 4 claves -->
+            <div class="slide text-center">
+                 <h2 class="slide-title">2. Las 3 claves del diagnóstico</h2>
+                 <p class="slide-subtitle mx-auto mb-10">Estas características le otorgan un poder transformador para su transición profesional.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Análisis de texto</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="analisis">Ver ejemplo</button>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Creatividad</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="creatividad">Ver ejemplo</button>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Adaptabilidad</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="adaptabilidad">Ver ejemplo</button>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Diapositiva 4: Barreras de Adopción -->
+            <div class="slide">
+                <h2 class="slide-title text-center">3. Barreras reales para Isabella</h2>
+                <p class="slide-subtitle mx-auto text-center mb-8">Sus temores se centran en la efectividad y autenticidad del proceso:</p>
+                <div class="w-full max-w-3xl space-y-4">
+                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div class="text-3xl font-bold text-red-600 w-16 text-center"><i class="fas fa-brain"></i></div>
+                        <div class="text-lg">Teme que la IA generativa <b>"invente" competencias</b> que no posee, dañando su credibilidad profesional.</div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div class="text-3xl font-bold text-red-600 w-16 text-center"><i class="fas fa-bullseye"></i></div>
+                        <div class="text-lg">Se preocupa por <b>no saber dar las instrucciones correctas</b> y obtener análisis genéricos y poco útiles.</div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div class="text-3xl font-bold text-red-600 w-16 text-center"><i class="fas fa-user-check"></i></div>
+                        <div class="text-lg">Anticipa una <b>pérdida de autenticidad</b> si su CV o perfil de LinkedIn suena "robótico" y no refleja su voz.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Diapositiva 5: Caso Práctico -->
+            <div class="slide">
+                <h2 class="slide-title text-center">4. Caso práctico: el diagnóstico de Isabella</h2>
+                <p class="slide-subtitle mx-auto text-center mb-8">Isabella necesita construir un puente entre su rol actual y el rol al que aspira.</p>
+                <div class="w-full max-w-3xl bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                    <h4 class="font-bold text-green-800 mb-2">Análisis del potencial con IA generativa:</h4>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                         <li><b>Tarea:</b> Analizar su CV de "asistente administrativa" y compararlo con una oferta de "coordinadora de proyectos".</li>
+                         <li><b>Naturaleza:</b> Tarea de análisis, comparación y síntesis de texto.</li>
+                         <li><b>Dolor:</b> Incertidumbre y falta de un lenguaje corporativo para describir sus logros y competencias.</li>
+                         <li><b>Potencial con IA generativa:</b> Alto. La IA generativa puede identificar las competencias en ambos textos, señalar las brechas y proponer formas de reformular su experiencia.</li>
+                    </ul>
+                    <p class="mt-4 font-bold text-green-800">Resultado esperado: pasar de la incertidumbre a un plan de acción claro sobre qué competencias destacar en su postulación.</p>
+                </div>
+            </div>
+
+            <!-- Diapositiva 6: Ética -->
+            <div class="slide text-center">
+                <h2 class="slide-title">5. Buenas prácticas para Isabella</h2>
+                <p class="slide-subtitle mx-auto mb-10">Un uso responsable en su búsqueda laboral es fundamental.</p>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Privacidad</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="privacidad">Ver recomendación</button>
+                    </div>
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Verificación</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="verificacion">Ver recomendación</button>
+                    </div>
+                    <div class="info-card text-center p-6 border-2" style="border-color: #de350b; background-color: #fff4f2;">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: #bf2600; font-size: clamp(1rem, 2.5vw, 1.1rem);">Autenticidad</h4>
+                        <button class="mt-4 text-sm font-bold text-red-700 hover:text-red-900 open-modal-btn" data-modal="revision">Ver recomendación</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 7: Evaluación Formativa -->
+            <div class="slide">
+                <h2 class="slide-title text-center">Evaluación formativa</h2>
+                <p class="slide-subtitle mx-auto text-center mb-8">Comprobemos lo aprendido en el contexto del caso. Seleccione la respuesta correcta.</p>
+                <div id="quiz-container" class="w-full max-w-3xl mx-auto">
+                    <!-- Las preguntas se cargarán aquí dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Diapositiva 8: Conclusión -->
+            <div class="slide text-white text-center" style="background: linear-gradient(45deg, var(--color-principal), #003f99);">
+                <h3 class="font-black mb-4" style="font-family: var(--font-main); font-weight: 900; font-size: clamp(2.5rem, 6vw, 3.5rem);">La IA generativa como espejo estratégico</h3>
+                <p class="max-w-4xl mx-auto leading-relaxed" style="font-size: clamp(1.25rem, 3.5vw, 1.75rem);">La IA generativa no le dio a Isabella experiencia que no tenía, sino que le permitió <b>reconocer, articular y alinear</b> el valor de su trayectoria con sus aspiraciones profesionales.</p>
+            </div>
+
+        </div>
+
+        <!-- Navegación Fija -->
+        <button id="prevBtn" class="nav-button" aria-label="Diapositiva anterior"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button id="nextBtn" class="nav-button" aria-label="Siguiente diapositiva"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+        <div id="slideCounter" class="slide-counter"></div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title"></h3>
+            <p id="modalBody" class="modal-body"></p>
+            <button id="modalClose" class="modal-close-btn">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slideCounter');
+            let currentSlide = 0;
+
+            const quizContainer = document.getElementById('quiz-container');
+
+            function showSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                updateControls();
+                
+                if (slides[currentSlide].contains(quizContainer)) {
+                    loadQuiz();
+                }
+            }
+
+            function updateControls() {
+                slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+
+            nextBtn.addEventListener('click', () => { if (currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+            prevBtn.addEventListener('click', () => { if (currentSlide > 0) showSlide(currentSlide - 1); });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextBtn.click();
+                else if (e.key === 'ArrowLeft') prevBtn.click();
+            });
+
+            updateControls();
+
+            // Modal Logic
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const modalCloseBtn = document.getElementById('modalClose');
+
+            const modalData = {
+                analisis: { title: 'Análisis de texto para Isabella', body: 'Extraer las palabras clave de su CV y de la descripción de un cargo para identificar las brechas y coincidencias entre su perfil y la oferta.' },
+                creatividad: { title: 'Creatividad para Isabella', body: 'Proponer 3 formas de reformular la función "organización de eventos" como la competencia "gestión de proyectos de alto impacto".' },
+                adaptabilidad: { title: 'Adaptabilidad para Isabella', body: 'Generar un resumen de 100 palabras de sus competencias para su CV y un párrafo de 30 palabras para su perfil de LinkedIn.' },
+                privacidad: { title: 'Recomendación: Privacidad', body: 'Isabella nunca debe introducir en una IA pública datos personales sensibles como su RUT, dirección, teléfono o referencias personales al analizar su CV.' },
+                verificacion: { title: 'Recomendación: Verificación', body: 'Si la IA generativa sugiere que Isabella tiene "experiencia en gestión de presupuestos", ella debe verificar si sus tareas pasadas realmente respaldan esa afirmación antes de incluirla.' },
+                revision: { title: 'Recomendación: Autenticidad', body: 'El análisis de la IA generativa es un punto de partida. Isabella debe ser el filtro final para asegurar que el resultado es auténtico, se alinea con sus logros reales y refleja su voz profesional.' }
+            };
+
+            const openModal = (type) => {
+                const data = modalData[type];
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalBody.textContent = data.body;
+                    modal.classList.add('active');
+                }
+            };
+
+            const closeModal = () => modal.classList.remove('active');
+
+            openModalBtns.forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.modal)));
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+            // --- Quiz Logic ---
+            const quizData = [
+                {
+                    question: "¿Cuál es la principal capacidad de la IA que Isabella quiere aprovechar en este módulo?",
+                    options: ["Analizar datos numéricos de postulaciones", "Analizar textos (su CV y ofertas) para extraer y comparar competencias", "Crear un sitio web para su portafolio"],
+                    answer: 1
+                },
+                {
+                    question: "En el caso de Isabella, ¿cuál es un ejemplo de 'creatividad' de la IA generativa?",
+                    options: ["Extraer las palabras clave de su CV", "Proponer 3 formas de reformular la 'organización de eventos' como 'gestión de proyectos'", "Revisar la ortografía de su carta de presentación"],
+                    answer: 1
+                },
+                {
+                    question: "Al usar IA para su diagnóstico, ¿cuál es la recomendación de 'privacidad' más importante para Isabella?",
+                    options: ["Verificar siempre los datos que genera la IA generativa", "Usarla solo para analizar ofertas de trabajo, no su CV", "Nunca introducir datos personales sensibles como su RUT o dirección"],
+                    answer: 2
+                }
+            ];
+            let currentQuestionIndex = 0;
+
+            function loadQuiz() {
+                if (!quizContainer) return;
+                currentQuestionIndex = 0;
+                quizContainer.innerHTML = '';
+                showQuizQuestion();
+            }
+
+            function showQuizQuestion() {
+                quizContainer.innerHTML = '';
+                const q = quizData[currentQuestionIndex];
+                
+                const questionEl = document.createElement('div');
+                questionEl.className = 'mb-6 text-left';
+                questionEl.innerHTML = `<h3 class="text-xl font-bold text-gray-800">${currentQuestionIndex + 1}. ${q.question}</h3>`;
+                
+                const optionsEl = document.createElement('div');
+                optionsEl.className = 'space-y-3';
+                
+                q.options.forEach((option, index) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = 'quiz-option-btn text-left w-full p-4 rounded-lg border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 transition';
+                    optionBtn.textContent = option;
+                    optionBtn.onclick = () => selectAnswer(index, optionBtn, optionsEl);
+                    optionsEl.appendChild(optionBtn);
+                });
+                
+                quizContainer.appendChild(questionEl);
+                quizContainer.appendChild(optionsEl);
+            }
+
+            function selectAnswer(selectedIndex, btn, optionsContainer) {
+                const correctAnswerIndex = quizData[currentQuestionIndex].answer;
+                const allOptions = optionsContainer.querySelectorAll('.quiz-option-btn');
+
+                allOptions.forEach((opt, idx) => {
+                    opt.disabled = true;
+                    if (idx === correctAnswerIndex) {
+                        opt.classList.add('border-green-500', 'bg-green-100', 'text-green-800', 'font-bold');
+                    }
+                });
+
+                if (selectedIndex !== correctAnswerIndex) {
+                    btn.classList.add('border-red-500', 'bg-red-100', 'text-red-800');
+                }
+
+                const nextQuestionBtn = document.createElement('button');
+                nextQuestionBtn.className = 'mt-6 w-full p-3 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors';
+                
+                if (currentQuestionIndex < quizData.length - 1) {
+                    nextQuestionBtn.textContent = 'Siguiente pregunta';
+                    nextQuestionBtn.onclick = () => {
+                        currentQuestionIndex++;
+                        showQuizQuestion();
+                    };
+                } else {
+                    nextQuestionBtn.textContent = 'Finalizar evaluación';
+                    nextQuestionBtn.onclick = () => {
+                         quizContainer.innerHTML = `<div class="text-center p-8 bg-green-100 rounded-lg border border-green-200">
+                            <h3 class="text-2xl font-bold text-green-800">¡Evaluación completada!</h3>
+                            <p class="mt-2 text-gray-700">Ha repasado los conceptos clave del módulo.</p>
+                         </div>`;
+                    };
+                }
+                quizContainer.appendChild(nextQuestionBtn);
+            }
+        });
+    </script>
+
+</body>
+</html>

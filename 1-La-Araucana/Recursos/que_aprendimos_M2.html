@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Qué aprendimos? Práctica de Prompts</title>
+    <!-- 1. Dependencias de fuentes y estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos para el widget de creación de prompts */
+        body {
+            background-color: #f0f2f5;
+        }
+        .prompt-creation-widget {
+            --primary-color: #0d47a1;
+            --secondary-color: #1976d2;
+            --background-color: #f4f7fc;
+            --card-background: #ffffff;
+            --text-color: #333;
+            --light-text-color: #6c757d;
+            --border-color: #e0e0e0;
+            --success-color: #1e8449;
+            --success-background: #e8f8f5;
+            --warning-color: #d68910;
+            --warning-background: #fef9e7;
+            font-family: 'Montserrat', sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+        }
+
+        .prompt-creation-widget .pcw-icon {
+            width: 1.2em;
+            height: 1.2em;
+            margin-right: 10px;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        .prompt-creation-widget .pcw-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .prompt-creation-widget .pcw-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .prompt-creation-widget .pcw-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+            color: white;
+            text-align: center;
+        }
+
+        .prompt-creation-widget .pcw-main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: var(--border-color);
+        }
+
+        .prompt-creation-widget .pcw-panel {
+            padding: 30px;
+            background-color: var(--card-background);
+        }
+
+        .prompt-creation-widget .pcw-panel-creation {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .prompt-creation-widget .pcw-section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .prompt-creation-widget .pcw-form-group {
+            margin-bottom: 25px;
+        }
+
+        .prompt-creation-widget .pcw-form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .prompt-creation-widget .pcw-select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        .prompt-creation-widget .pcw-scenario-description {
+            background-color: var(--background-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .prompt-creation-widget .pcw-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .prompt-creation-widget .pcw-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+        }
+
+        .prompt-creation-widget .pcw-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .prompt-creation-widget .pcw-button-secondary {
+            background: var(--light-text-color);
+            margin-top: 10px;
+        }
+
+        .prompt-creation-widget .pcw-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .prompt-creation-widget .pcw-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .prompt-creation-widget .pcw-feedback-panel .pcw-feedback-placeholder {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--light-text-color);
+            font-style: italic;
+        }
+        
+        .prompt-creation-widget .pcw-feedback-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .prompt-creation-widget .pcw-feedback-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .prompt-creation-widget .pcw-feedback-item.acierto {
+            background-color: var(--success-background);
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .prompt-creation-widget .pcw-feedback-item.mejora {
+            background-color: var(--warning-background);
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .prompt-creation-widget .pcw-feedback-item .pcw-icon {
+            margin-top: 2px;
+        }
+        
+        .prompt-creation-widget .pcw-feedback-item .pcw-feedback-text strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        
+        .prompt-creation-widget .pcw-feedback-item.acierto .pcw-icon { color: var(--success-color); }
+        .prompt-creation-widget .pcw-feedback-item.mejora .pcw-icon { color: var(--warning-color); }
+
+        .prompt-creation-widget .pcw-score-display {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .prompt-creation-widget .pcw-score-display .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .prompt-creation-widget .pcw-structure-display {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .prompt-creation-widget .pcw-structure-display h4 {
+            margin: 0;
+            padding: 15px;
+            background: var(--background-color);
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 8px 8px 0 0;
+            font-size: 1.1rem;
+        }
+        
+        .prompt-creation-widget .pcw-structure-display .pcw-structure-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .prompt-creation-widget .pcw-structure-display .pcw-structure-item:last-child {
+            border-bottom: none;
+        }
+        
+        .prompt-creation-widget .pcw-structure-display .pcw-structure-item strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .prompt-creation-widget .pcw-footer {
+            background-color: #f4f7fc;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--light-text-color);
+            border-top: 1px solid var(--border-color);
+            line-height: 1.6;
+        }
+
+        .prompt-creation-widget .loader {
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .prompt-creation-widget .loader .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: pcw-spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        /* Estilos del modal */
+        .pcw-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .pcw-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .pcw-modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .pcw-modal-close:hover,
+        .pcw-modal-close:focus {
+            color: black;
+        }
+        
+        .pcw-rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .pcw-rubric-table th, 
+        .pcw-rubric-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .pcw-rubric-table th {
+            background-color: var(--background-color);
+        }
+
+
+        @keyframes pcw-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+            .prompt-creation-widget .pcw-main-content {
+                grid-template-columns: 1fr;
+            }
+            .prompt-creation-widget .pcw-panel-creation {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 2. Estructura HTML del widget -->
+    <div class="prompt-creation-widget">
+        <header class="pcw-header">
+            <h1>
+                <svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
+                ¿Qué aprendimos? Práctica de Prompts
+            </h1>
+            <p>Redacte un prompt para cumplir el objetivo y reciba una evaluación automática.</p>
+        </header>
+        <main class="pcw-main-content">
+            <div class="pcw-panel pcw-panel-creation">
+                <h2 class="pcw-section-title">
+                    <svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    Panel de creación
+                </h2>
+                <div class="pcw-form-group">
+                    <label for="scenarioSelector">1. Seleccione un escenario:</label>
+                    <select id="scenarioSelector" class="pcw-select"></select>
+                    <div class="pcw-scenario-description" id="scenarioDescription"></div>
+                </div>
+                <div class="pcw-form-group">
+                    <label for="studentPrompt">2. Escriba su prompt aquí:</label>
+                    <textarea id="studentPrompt" class="pcw-textarea" placeholder="Redacte su instrucción para lograr el objetivo descrito..."></textarea>
+                </div>
+                <button id="showRubricButton" class="pcw-button pcw-button-secondary">
+                     <svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path></svg>
+                    Ver pauta de evaluación
+                </button>
+                <button id="analyzeButton" class="pcw-button">
+                    <svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    Analizar mi prompt
+                </button>
+            </div>
+            <div class="pcw-panel pcw-feedback-panel">
+                 <h2 class="pcw-section-title">
+                    <svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg>
+                    Análisis del revisor
+                </h2>
+                <div id="feedbackContainer">
+                    <div class="pcw-feedback-placeholder">
+                        <p>Aquí aparecerá la retroalimentación detallada sobre su prompt.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="pcw-footer">
+            Desarrollo digital: IA de OpenAI (Modelo GPT-4o-mini). La IA generó el código base (HTML, CSS, JavaScript), sintetizó el contenido y actúa como el motor de evaluación en tiempo real, bajo la dirección y refinamiento del autor.<br>
+            Contenido académico: Francisco Sereño | Damaris Reinoso<br>
+            Versión: 1.0 - Julio 2025<br>
+            Tecnologías: HTML5, CSS3, JavaScript, OpenAI API
+        </footer>
+        
+        <!-- Modal para la pauta -->
+        <div id="rubricModal" class="pcw-modal">
+            <div class="pcw-modal-content">
+                <span class="pcw-modal-close">&times;</span>
+                <h3 id="rubricModalTitle">Pauta de evaluación</h3>
+                <div id="rubricModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Script del widget -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const widget = document.querySelector('.prompt-creation-widget');
+
+        if (!widget) {
+            console.error("Error crítico: No se pudo encontrar el contenedor del widget .prompt-creation-widget.");
+            return; 
+        }
+
+        if (widget.hasAttribute('data-initialized')) {
+            return; 
+        }
+        widget.setAttribute('data-initialized', 'true');
+        
+        // IMPORTANTE: Inserte su clave de API de OpenAI aquí
+        const OPENAI_API_KEY = "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";
+
+        const scenarioSelector = widget.querySelector('#scenarioSelector');
+        const scenarioDescription = widget.querySelector('#scenarioDescription');
+        const studentPromptEl = widget.querySelector('#studentPrompt');
+        const analyzeButton = widget.querySelector('#analyzeButton');
+        const feedbackContainer = widget.querySelector('#feedbackContainer');
+        const showRubricButton = widget.querySelector('#showRubricButton');
+        const rubricModal = widget.querySelector('#rubricModal');
+        const rubricModalTitle = widget.querySelector('#rubricModalTitle');
+        const rubricModalBody = widget.querySelector('#rubricModalBody');
+        const closeModalButton = widget.querySelector('.pcw-modal-close');
+
+        const scenarios = {
+            'recipe': {
+                name: 'Crear una receta con ingredientes disponibles',
+                goal: 'Su objetivo es que la IA genere una receta para la cena usando solo los ingredientes que tiene en su refrigerador: pollo, arroz, tomates y cebolla. La receta debe ser rápida (menos de 45 minutos) y saludable.',
+                technique: 'Dar contexto (Contextual Prompting)',
+                rubric: [
+                    { criterion: 'Lista explícita de ingredientes', score: 10 },
+                    { criterion: 'Definición de restricciones de tiempo', score: 10 },
+                    { criterion: 'Definición de restricciones de dieta', score: 10 },
+                    { criterion: 'Solicitud de un formato de salida claro', score: 10 }
+                ]
+            },
+            'email': {
+                name: 'Redactar un correo difícil',
+                goal: 'Su objetivo es que la IA le ayude a redactar un correo formal pero firme a su arrendador para solicitar una reparación urgente de una filtración en el baño que no ha sido atendida.',
+                technique: 'Asignar un rol (Role Prompting)',
+                rubric: [
+                    { criterion: 'Asignación de un tono o rol', score: 10 },
+                    { criterion: 'Inclusión del contexto del problema', score: 10 },
+                    { criterion: 'Establecimiento de un objetivo claro', score: 10 },
+                    { criterion: 'Petición de una acción o plazo', score: 10 }
+                ]
+            },
+            'planning': {
+                name: 'Creación de un plan de estudio',
+                goal: 'Su objetivo es que la IA elabore un plan de estudio personalizado para aprender a tocar guitarra desde cero. Debe considerar que usted dispone de 4 horas a la semana y su meta es poder tocar una canción simple en 3 meses.',
+                technique: 'Dar contexto (Contextual Prompting)',
+                rubric: [
+                    { criterion: 'Contexto temporal y de dedicación', score: 10 },
+                    { criterion: 'Meta de aprendizaje clara y medible', score: 10 },
+                    { criterion: 'Nivel de habilidad inicial', score: 10 },
+                    { criterion: 'Solicitud de una estructura de plan', score: 10 }
+                ]
+            },
+            'weekend': {
+                name: 'Planificar una actividad de fin de semana',
+                goal: 'Su objetivo es que la IA le ayude a decidir qué hacer el fin de semana. Una persona quiere ir a la playa y la otra prefiere la montaña. Pida a la IA que proponga 3 soluciones que satisfagan a ambos, evaluando para cada una el costo, el tiempo de viaje y el nivel de actividad física.',
+                technique: 'Explorar varias opciones (Tree of Thoughts)',
+                rubric: [
+                    { criterion: 'Planteamiento claro del conflicto o dilema', score: 10 },
+                    { criterion: 'Solicitud de un número específico de alternativas', score: 10 },
+                    { criterion: 'Definición de criterios de evaluación claros', score: 10 },
+                    { criterion: 'Consideración de preferencias de ambos', score: 10 }
+                ]
+            },
+            'gift-ideas': {
+                name: 'Brainstorming de regalos',
+                goal: 'Necesita ideas de regalo para el cumpleaños de su padre. Le gusta la jardinería, la historia y la cocina. Su presupuesto es de 50 USD.',
+                technique: 'Dar contexto (Contextual Prompting)',
+                rubric: [
+                    { criterion: 'Contexto de intereses de la persona', score: 10 },
+                    { criterion: 'Definición de presupuesto', score: 10 },
+                    { criterion: 'Solicitud de un número de ideas', score: 10 },
+                    { criterion: 'Especificación del tipo de regalo', score: 10 }
+                ]
+            },
+            'explain-topic': {
+                name: 'Explicar un tema a un amigo',
+                goal: 'Quiere que la IA le ayude a explicarle a un amigo, que no sabe nada de finanzas, qué es la inflación y cómo afecta su poder de compra, usando un ejemplo simple.',
+                technique: 'Ser más específico (Zero-shot)',
+                rubric: [
+                    { criterion: 'Definición del público objetivo', score: 10 },
+                    { criterion: 'Tema específico a explicar', score: 10 },
+                    { criterion: 'Solicitud de analogía o ejemplo', score: 10 },
+                    { criterion: 'Definición del formato de la explicación', score: 10 }
+                ]
+            },
+            'promotion-request': {
+                name: 'Solicitar un ascenso',
+                goal: 'Necesita ayuda para estructurar los puntos clave de una conversación con su jefe para solicitar un ascenso. Lleva 3 años en la empresa y ha liderado 2 proyectos exitosos.',
+                technique: 'Pensar paso a paso (Chain of Thought)',
+                rubric: [
+                    { criterion: 'Contexto de logros y antigüedad', score: 10 },
+                    { criterion: 'Objetivo claro de la conversación', score: 10 },
+                    { criterion: 'Solicitud de estructura o pasos', score: 10 },
+                    { criterion: 'Definición de un tono profesional', score: 10 }
+                ]
+            },
+            'complaint-letter': {
+                name: 'Redactar una queja formal',
+                goal: 'Debe redactar un correo de queja a una aerolínea porque su maleta llegó dañada. Necesita solicitar una compensación y quiere que el tono sea formal y basado en los derechos del pasajero.',
+                technique: 'Asignar un rol (Role Prompting)',
+                rubric: [
+                    { criterion: 'Asignación de un rol o tono', score: 10 },
+                    { criterion: 'Contexto completo del incidente', score: 10 },
+                    { criterion: 'Petición clara de compensación', score: 10 },
+                    { criterion: 'Inclusión de información de respaldo', score: 10 }
+                ]
+            },
+            'social-media-post': {
+                name: 'Crear un post para redes sociales',
+                goal: 'Su objetivo es que la IA cree un post para LinkedIn para anunciar que usted está buscando nuevas oportunidades laborales como diseñador gráfico. Quiere que el post sea profesional, destaque 2-3 de sus habilidades principales y tenga un llamado a la acción claro.',
+                technique: 'Ser más específico (Zero-shot)',
+                rubric: [
+                    { criterion: 'Definición de plataforma y objetivo', score: 10 },
+                    { criterion: 'Especificación de habilidades a destacar', score: 10 },
+                    { criterion: 'Solicitud de un llamado a la acción (CTA)', score: 10 },
+                    { criterion: 'Tono profesional', score: 10 }
+                ]
+            },
+            'travel-itinerary': {
+                name: 'Crear un itinerario de viaje',
+                goal: 'Su objetivo es que la IA diseñe un itinerario detallado para un viaje de 5 días a Cusco, Perú. El plan debe incluir actividades para cada día, sugerencias de restaurantes y un presupuesto estimado, asumiendo un interés en historia y cultura.',
+                technique: 'Pensar paso a paso (Chain of Thought)',
+                rubric: [
+                    { criterion: 'Definición clara del destino y duración', score: 10 },
+                    { criterion: 'Inclusión de intereses específicos', score: 10 },
+                    { criterion: 'Petición de un desglose detallado', score: 10 },
+                    { criterion: 'Solicitud de estructura por día', score: 10 }
+                ]
+            },
+            'difficult-conversation': {
+                name: 'Simular una conversación difícil',
+                goal: 'Necesita que la IA actúe como su jefe para poder practicar cómo pedirle retroalimentación constructiva sobre su desempeño, de una manera profesional y abierta a la crítica.',
+                technique: 'Asignar un rol (Role Prompting)',
+                rubric: [
+                    { criterion: 'Asignación de un rol y estado de ánimo', score: 10 },
+                    { criterion: 'Contexto de la solicitud', score: 10 },
+                    { criterion: 'Objetivo claro de la conversación', score: 10 },
+                    { criterion: 'Tono profesional y abierto', score: 10 }
+                ]
+            },
+            'choose-pet': {
+                name: 'Elegir una mascota',
+                goal: 'Quiere que la IA le ayude a decidir qué tipo de mascota adoptar. Vive en un departamento pequeño, trabaja 8 horas al día y tiene un presupuesto mensual limitado para su cuidado.',
+                technique: 'Dar contexto (Contextual Prompting)',
+                rubric: [
+                    { criterion: 'Contexto del espacio vital', score: 10 },
+                    { criterion: 'Contexto del estilo de vida y tiempo', score: 10 },
+                    { criterion: 'Restricciones de presupuesto', score: 10 },
+                    { criterion: 'Solicitud de recomendaciones específicas', score: 10 }
+                ]
+            },
+            'define-term': {
+                name: 'Definir un término financiero',
+                goal: 'Su objetivo es que la IA le explique el concepto de "interés compuesto" de forma muy simple, como si se lo explicara a alguien que nunca ha invertido dinero, usando una analogía con una bola de nieve.',
+                technique: 'Ser más específico (Zero-shot)',
+                rubric: [
+                    { criterion: 'Público objetivo claro', score: 10 },
+                    { criterion: 'Solicitud de una analogía específica', score: 10 },
+                    { criterion: 'Definición del concepto a explicar', score: 10 },
+                    { criterion: 'Petición de simplicidad en el lenguaje', score: 10 }
+                ]
+            },
+            'career-choice': {
+                name: 'Decidir entre dos carreras',
+                goal: 'Está indeciso entre estudiar "Enfermería" o "Ingeniería Civil". Pida a la IA que compare ambas carreras, considerando la empleabilidad a 5 años, el salario promedio de inicio, el nivel de estrés y el impacto social.',
+                technique: 'Explorar varias opciones (Tree of Thoughts)',
+                rubric: [
+                    { criterion: 'Planteamiento claro de las dos opciones', score: 10 },
+                    { criterion: 'Definición de criterios de comparación', score: 10 },
+                    { criterion: 'Solicitud de una comparación estructurada', score: 10 },
+                    { criterion: 'Petición de una conclusión o resumen', score: 10 }
+                ]
+            },
+            'tech-troubleshooting': {
+                name: 'Solucionar un problema técnico',
+                goal: 'Su computador portátil se ha puesto muy lento últimamente. Pida a la IA que le guíe, paso a paso, a través de un proceso de diagnóstico para identificar y solucionar las causas más comunes del problema.',
+                technique: 'Pensar paso a paso (Chain of Thought)',
+                rubric: [
+                    { criterion: 'Descripción clara del problema', score: 10 },
+                    { criterion: 'Solicitud de un proceso paso a paso', score: 10 },
+                    { criterion: 'Especificación del tipo de dispositivo', score: 10 },
+                    { criterion: 'Petición de soluciones para cada paso', score: 10 }
+                ]
+            }
+        };
+        
+        function populateScenarios() {
+            for (const key in scenarios) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = scenarios[key].name;
+                scenarioSelector.appendChild(option);
+            }
+            updateDescription();
+        }
+
+        function updateDescription() {
+            const selectedKey = scenarioSelector.value;
+            scenarioDescription.textContent = scenarios[selectedKey].goal;
+        }
+
+        async function handleAnalysis() {
+            const studentPromptText = studentPromptEl.value.trim();
+            if (!studentPromptText) {
+                alert('Por favor, escriba un prompt antes de solicitar el análisis.');
+                return;
+            }
+            if (OPENAI_API_KEY === "INSERTE_AQUI_SU_CLAVE_DE_OPENAI") {
+                alert("Por favor, inserte su clave de API de OpenAI en el código para continuar.");
+                return;
+            }
+
+            setLoading(true);
+            const scenario = scenarios[scenarioSelector.value];
+            
+            const metaPrompt = `Actúa como un asistente amigable y experto en comunicación clara. Tu rol es evaluar la propuesta de un estudiante y darle consejos prácticos y fáciles de entender.
+
+**Contexto del ejercicio:**
+* **Técnica a evaluar:** ${scenario.technique}
+* **Pauta de evaluación (Criterios y puntajes):**
+${JSON.stringify(scenario.rubric, null, 2)}
+* **Prompt propuesto por el estudiante:** "${studentPromptText}"
+
+**Tu misión:**
+Evalúa el "Prompt propuesto por el estudiante" contra cada uno de los criterios de la "Pauta de evaluación". Además, descompón un prompt ideal para este escenario en sus componentes fundamentales.
+
+**Pasos a seguir:**
+1.  **Analiza cada criterio:** Para cada criterio de la pauta, determina si el prompt del estudiante cumple con el criterio.
+2.  **Justifica tu decisión con un lenguaje simple:** Para cada criterio, escribe una justificación simple y directa. Si el criterio se cumple, felicita al estudiante y explica brevemente por qué funciona. Si no se cumple, dale una sugerencia clara sobre cómo mejorarlo.
+3.  **Calcula el puntaje:** Suma los puntajes de los criterios que sí se cumplieron.
+4.  **Genera la estructura ideal:** Descompón un prompt perfecto para este escenario en sus componentes conceptuales (ej: Rol, Contexto, Tarea, Formato), explicando brevemente la función de cada componente.
+
+**Formato de respuesta (Obligatorio):**
+Responde con un único objeto JSON que contenga tres claves: "score", "feedback", y "ideal_structure".
+- "score" debe ser un número.
+- "feedback" debe ser un array de objetos, cada uno con "criterion", "fulfilled" (un booleano), y "justification".
+- "ideal_structure" debe ser un objeto con los componentes del prompt ideal.`;
+
+            try {
+                const aiFeedback = await getAIFeedback(metaPrompt);
+                renderFeedback(aiFeedback);
+            } catch (error) {
+                console.error("Error al obtener feedback de la IA:", error);
+                const errorFeedback = {
+                    score: 0,
+                    feedback: [{ criterion: "Error de conexión", fulfilled: false, justification: "No se pudo contactar al evaluador de IA. Verifique su clave de API o intente más tarde." }],
+                    ideal_structure: { "Error": "No se pudo generar la estructura." }
+                };
+                renderFeedback(errorFeedback);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function getAIFeedback(prompt) {
+            const apiUrl = 'https://api.openai.com/v1/chat/completions';
+            const payload = {
+                model: "gpt-4o-mini",
+                messages: [{ role: "user", content: prompt }],
+                response_format: { type: "json_object" }
+            };
+            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${OPENAI_API_KEY}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Error de la API de OpenAI: ${errorData.error.message}`);
+            }
+            
+            const result = await response.json();
+            if (result.choices && result.choices[0] && result.choices[0].message && result.choices[0].message.content) {
+                return JSON.parse(result.choices[0].message.content);
+            }
+            throw new Error("Respuesta de API inválida.");
+        }
+        
+        function calculateGrade(score, maxScore) {
+            if (maxScore === 0) return 1.0;
+            const grade = 1 + 6 * (score / maxScore);
+            return Math.max(1.0, Math.min(7.0, grade)).toFixed(1);
+        }
+
+        function renderFeedback(evaluation) {
+            const scenario = scenarios[scenarioSelector.value];
+            const totalPossibleScore = scenario.rubric.reduce((acc, item) => acc + item.score, 0);
+            const grade = calculateGrade(evaluation.score, totalPossibleScore);
+
+            const feedbackHtml = evaluation.feedback.map(item => {
+                const type = item.fulfilled ? 'acierto' : 'mejora';
+                const icon = type === 'acierto' 
+                    ? `<svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`
+                    : `<svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
+                return `<li class="pcw-feedback-item ${type}">${icon}<div class="pcw-feedback-text"><strong>${item.criterion}</strong><span>${item.justification}</span></div></li>`;
+            }).join('');
+            
+            const structureButton = document.createElement('button');
+            structureButton.id = 'showStructureButton';
+            structureButton.className = 'pcw-button pcw-button-secondary';
+            structureButton.innerHTML = `<svg class="pcw-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"></path></svg>Ver anatomía del prompt ideal`;
+            
+            structureButton.addEventListener('click', () => {
+                displayIdealStructure(evaluation.ideal_structure);
+            });
+
+            feedbackContainer.innerHTML = `
+                <div class="pcw-score-display">
+                    Puntaje: <span class="score">${evaluation.score}/${totalPossibleScore}</span> (Nota: <span class="score">${grade}</span>)
+                </div>
+                <ul class="pcw-feedback-list">${feedbackHtml}</ul>
+            `;
+            feedbackContainer.appendChild(structureButton);
+        }
+        
+        function displayIdealStructure(structure) {
+            rubricModalTitle.textContent = `Anatomía de un prompt ideal`;
+            const structureHtml = Object.entries(structure).map(([key, value]) => `
+                <div class="pcw-structure-item">
+                    <strong>${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:</strong> ${value}
+                </div>
+            `).join('');
+            
+            rubricModalBody.innerHTML = `<div class="pcw-structure-display">${structureHtml}</div>`;
+            rubricModal.style.display = 'block';
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                feedbackContainer.innerHTML = `<div class="loader"><div class="spinner"></div><p>Analizando su propuesta...</p></div>`;
+            }
+            analyzeButton.disabled = isLoading;
+        }
+        
+        function displayRubric() {
+            const scenario = scenarios[scenarioSelector.value];
+            rubricModalTitle.textContent = `Pauta de evaluación`;
+            
+            const tableHtml = `
+                <table class="pcw-rubric-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio para: ${scenario.name}</th>
+                            <th>Puntaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${scenario.rubric.map(item => `
+                            <tr>
+                                <td>${item.criterion}</td>
+                                <td>${item.score}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            rubricModalBody.innerHTML = tableHtml;
+            rubricModal.style.display = 'block';
+        }
+
+        scenarioSelector.addEventListener('change', updateDescription);
+        analyzeButton.addEventListener('click', handleAnalysis);
+        showRubricButton.addEventListener('click', displayRubric);
+        closeModalButton.addEventListener('click', () => {
+            rubricModal.style.display = 'none';
+        });
+        window.addEventListener('click', (event) => {
+            if (event.target == rubricModal) {
+                rubricModal.style.display = 'none';
+            }
+        });
+
+        populateScenarios();
+    });
+    </script>
+</body>
+</html>

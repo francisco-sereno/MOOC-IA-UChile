@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8ZZWQZR8VQ');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación interactiva: Ingeniería de prompts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-principal: #0033A0;
+            --color-acento: #009639;
+            --color-texto: #172b4d;
+            --color-fondo-claro: #f4f5f7;
+            --color-borde: #dfe1e6;
+            --color-rojo-enfasis: #EF3340;
+            --text-secondary: #42526e;
+            --text-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-fondo-claro);
+            color: var(--color-texto);
+        }
+
+        #presentation-shell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        #presentation-container {
+            width: 100%;
+            max-width: 1100px; 
+            aspect-ratio: 16 / 12;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.2);
+            display: flex;
+            overflow: hidden;
+            border: 1px solid var(--color-borde);
+        }
+
+        #slide-content {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2rem 4rem 6rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+            transform: translateY(20px);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.2;
+            color: var(--color-texto);
+        }
+
+        #slide-navigation {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #slide-navigation button {
+            background-color: var(--color-principal);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        #slide-navigation button:hover {
+            background-color: #003f99;
+            transform: translateY(-2px);
+        }
+        #slide-navigation button:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .highlight-green { color: var(--color-acento); }
+        .highlight-blue { color: var(--color-principal); }
+        .highlight-red { color: var(--color-rojo-enfasis); }
+
+        .technique-btn, .model-btn {
+            background-color: white;
+            border: 1px solid var(--color-borde);
+            border-radius: 0.75rem;
+            font-weight: 700;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .technique-btn:hover, .model-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -10px rgba(0, 82, 204, 0.2);
+            border-color: var(--color-principal);
+        }
+
+        .technique-btn { color: var(--color-acento); }
+        .model-btn { color: var(--color-principal); }
+
+        #slide-counter {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #42526e;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--color-borde);
+        }
+
+        @media (max-width: 768px) {
+            #presentation-shell { padding: 0; }
+            #presentation-container { 
+                border-radius: 0; height: 100vh; width: 100vw;
+                max-width: 100%; aspect-ratio: auto;
+            }
+             #slide-navigation {
+                width: calc(100% - 2rem);
+             }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="presentation-shell">
+        <div id="presentation-container">
+            <div id="slide-content">
+                
+                <div class="slide active" data-title="Portada">
+                    <h1 class="slide-title text-4xl">Ingeniería de prompts</h1>
+                    <p class="text-xl mt-4" style="color: var(--text-secondary);">El arte de comunicarse con la IA para la transición profesional</p>
+                </div>
+
+                <div class="slide" data-title="Fundamentos">
+                    <h2 class="slide-title text-4xl mb-6">Fundamentos de la <span class="highlight-blue">ingeniería de prompts</span></h2>
+                    <p class="text-center mb-6 max-w-4xl text-base" style="color: var(--text-secondary);">Es el proceso de diseñar instrucciones para que la IA actúe como un asesor de carrera. Para Isabella, es la clave para transformar su CV y carta de presentación.</p>
+                    <div class="w-full max-w-4xl text-left p-4 bg-gray-50 border rounded-lg">
+                        <h3 class="font-bold text-lg mb-2">Componentes de un prompt efectivo para Isabella:</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm" style="color: var(--text-secondary);">
+                            <li><strong>Rol:</strong> "Actúa como un experto en redacción de CVs para roles de gestión de proyectos".</li>
+                            <li><strong>Tarea:</strong> "Transforma mi experiencia en una viñeta de logro cuantificable".</li>
+                            <li><strong>Contexto:</strong> "Postulo a 'Coordinadora de Proyectos'. Mi experiencia es 'Responsable de eventos'. Organicé 15 eventos/año, con presupuestos de 5M y equipos de 5 personas. La asistencia aumentó un 20%".</li>
+                            <li><strong>Formato:</strong> "Usa el método STAR y empieza con un verbo de acción fuerte".</li>
+                            <li><strong>Tono:</strong> "Utiliza un tono profesional y orientado a resultados".</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Principios">
+                    <h2 class="slide-title text-4xl mb-8">Principios de prompting para Isabella</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl">
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Claridad</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">En lugar de "mejora mi CV", pedir "reescribe la sección de experiencia usando el método STAR".</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Contexto</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Proporcionar la descripción del cargo al que postula para que la IA alinee el CV.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">División</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Pedir primero que identifique competencias, y luego que redacte los logros.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Razonamiento</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">"Analiza la oferta, extrae 3 competencias clave y luego reescribe mi experiencia para destacarlas".</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Iteración</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">"El borrador está bien, pero ahora hazlo más conciso y usa verbos más potentes".</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Técnicas Avanzadas">
+                    <h2 class="slide-title text-4xl mb-8">Técnicas avanzadas para la postulación de Isabella</h2>
+                    <p class="text-center mb-6" style="color: var(--text-secondary);">Haga clic en cada técnica para ver su aplicación práctica.</p>
+                    <div class="w-full max-w-4xl p-4 my-4 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
+                        <p class="text-center" style="color: var(--text-secondary);">Para explorar más ejemplos y guías prácticas, visite nuestro <a href="https://sites.google.com/uchile.cl/prompting/inicio" target="_blank" class="font-bold underline" style="color: var(--color-principal);">sitio de referencia</a>.</p>
+                    </div>
+                    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <button data-technique="cot" class="technique-btn">Chain-of-Thought</button>
+                        <button data-technique="fewshot" class="technique-btn">Few-Shot Learning</button>
+                        <button data-technique="role" class="technique-btn">Role Prompting</button>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Comparativa de Modelos">
+                    <h2 class="slide-title text-4xl mb-6">Comparativa de modelos para Isabella</h2>
+                    <p class="text-center mb-6" style="color: var(--text-secondary);">Haga clic en cada modelo para ver sus fortalezas para la transición profesional.</p>
+                    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <button data-model="gpt4" class="model-btn">GPT-4.x (OpenAI)</button>
+                        <button data-model="gemini" class="model-btn">Gemini (Google)</button>
+                        <button data-model="claude" class="model-btn">Claude (Anthropic)</button>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Optimización">
+                    <h2 class="slide-title text-4xl mb-8">Metodología de optimización de prompts</h2>
+                    <p class="text-center mb-6" style="color: var(--text-secondary);">El proceso para que Isabella perfeccione sus instrucciones para el CV es iterativo.</p>
+                    <div class="w-full max-w-4xl space-y-3">
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>1. Establecer una línea base:</strong> Usar el prompt "reescribe mi experiencia" y evaluar el resultado genérico.</div>
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>2. Identificar debilidades:</strong> Notar que la IA no tiene datos cuantificables ni conoce el cargo objetivo.</div>
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>3. Aplicar mejoras:</strong> Añadir los "ingredientes" como rol, contexto (con datos numéricos), formato STAR y la descripción del cargo.</div>
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>4. Realizar pruebas comparativas:</strong> Validar que el nuevo prompt genera una viñeta de logro de alto impacto.</div>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Habilidades">
+                    <h2 class="slide-title text-4xl mb-8">De un prompt <span class="highlight-red">vago</span> a uno <span class="highlight-green">efectivo</span></h2>
+                     <p class="text-center mb-6" style="color: var(--text-secondary);">La calidad de la instrucción de Isabella determina la calidad de su CV.</p>
+                    <div class="w-full max-w-5xl space-y-4">
+                        <div class="p-4 border rounded-lg">
+                            <p><strong>Básico (vago):</strong> "Reescribe 'Responsable de la organización de eventos'."</p>
+                            <p class="text-sm" style="color: var(--color-rojo-enfasis);">→ Resultado: una descripción de tareas, no un logro.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <p><strong>Mejorado (específico):</strong> "Reescribe 'Responsable de la organización de eventos' para un cargo de coordinadora de proyectos."</p>
+                            <p class="text-sm text-yellow-600">→ Resultado: mejor, pero aún carece de impacto y datos cuantificables.</p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-green-50 border-green-300 text-center">
+                             <button id="show-advanced-prompt-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-green-700">Ver ejemplo de prompt avanzado</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide" data-title="Aplicaciones">
+                    <h2 class="slide-title text-4xl mb-8">Aplicaciones prácticas para Isabella</h2>
+                    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="font-bold text-lg text-center mb-2 highlight-green">Optimización de CV</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Transformar listas de tareas en logros cuantificables y alinear el lenguaje del CV con las palabras clave de una oferta laboral.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="font-bold text-lg text-center mb-2 highlight-blue">Cartas de presentación</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Generar borradores de cartas de presentación personalizadas que conecten su experiencia con las necesidades específicas del empleador.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="font-bold text-lg text-center mb-2 highlight-red">Preparación de entrevistas</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Simular entrevistas generando preguntas probables basadas en la oferta y su CV, y practicar respuestas estructuradas con el método STAR.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Conclusión">
+                    <h2 class="slide-title text-4xl mb-8">Conclusión: la nueva alfabetización</h2>
+                    <div class="w-full max-w-4xl p-6 bg-blue-50 border-l-4 rounded-r-lg" style="border-color: var(--color-principal);">
+                        <p class="text-xl leading-relaxed text-center" style="color: var(--text-secondary);">
+                            <strong style="color: var(--color-texto);">La ingeniería de prompts es una disciplina fundamental.</strong> Su dominio es esencial para que profesionales como Isabella aprovechen el poder de la IA para potenciar su desarrollo profesional y navegar con éxito el mercado laboral actual.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="slide-counter"></div>
+
+                <div id="slide-navigation">
+                    <button id="prev-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        Anterior
+                    </button>
+                    <button id="next-btn">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Genérico -->
+    <div id="generic-modal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg max-w-3xl w-11/12 relative">
+            <span id="close-generic-modal" class="absolute top-4 right-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-800">&times;</span>
+            <h3 id="generic-modal-title" class="font-bold text-2xl mb-4"></h3>
+            <div id="generic-modal-content" class="text-left text-sm bg-gray-50 p-4 rounded border max-h-[60vh] overflow-y-auto">
+                <!-- Content will be injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideCounter = document.getElementById('slide-counter');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                slides.forEach((s, i) => s.classList.toggle('active', i === slideIndex));
+                
+                prevBtn.disabled = slideIndex === 0;
+                nextBtn.disabled = slideIndex === totalSlides - 1;
+
+                if(slideCounter) {
+                    slideCounter.textContent = `${slideIndex + 1} / ${totalSlides}`;
+                }
+            }
+            
+            prevBtn.addEventListener('click', () => { if (currentSlide > 0) goToSlide(currentSlide - 1); });
+            nextBtn.addEventListener('click', () => { if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1); });
+            
+            const genericModal = document.getElementById('generic-modal');
+            const genericModalTitle = document.getElementById('generic-modal-title');
+            const genericModalContent = document.getElementById('generic-modal-content');
+            const closeGenericModalBtn = document.getElementById('close-generic-modal');
+
+            function openModal(title, content) {
+                genericModalTitle.innerHTML = title;
+                genericModalTitle.style.color = 'var(--color-principal)';
+                genericModalContent.innerHTML = content;
+                genericModal.classList.remove('hidden');
+            }
+
+            function closeModal() {
+                genericModal.classList.add('hidden');
+            }
+            
+            closeGenericModalBtn.addEventListener('click', closeModal);
+            genericModal.addEventListener('click', (e) => {
+                if (e.target === genericModal) {
+                    closeModal();
+                }
+            });
+
+            const showAdvancedPromptBtn = document.getElementById('show-advanced-prompt-btn');
+            const advancedPromptText = `
+            <p><strong>Actúa como un experto en redacción de CVs para roles de gestión de proyectos.</strong></p>
+            <p class="mt-2">Transforma mi experiencia 'Responsable de la organización de eventos' en una viñeta de logro cuantificable. Usa el método STAR.</p>
+            <ul class="list-disc list-inside mt-2 space-y-1">
+                <li><strong>Contexto:</strong> Postulo a 'Coordinadora de Proyectos'. Organicé 15 eventos/año, con presupuestos de hasta 5M y equipos de 5 personas. La asistencia aumentó un 20%.</li>
+                <li><strong>Formato:</strong> Una única viñeta que comience con un verbo de acción fuerte.</li>
+            </ul>
+            `;
+            if (showAdvancedPromptBtn) {
+                showAdvancedPromptBtn.addEventListener('click', () => {
+                    openModal('Ejemplo de prompt avanzado', advancedPromptText);
+                });
+            }
+            
+            const modelData = {
+                gpt4: {
+                    title: 'GPT-4.x (OpenAI)',
+                    content: `
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Fortaleza para Isabella:</strong> Excelente para seguir instrucciones complejas y aplicar metodologías como STAR para reescribir su CV con precisión.</li>
+                        </ul>
+                    `
+                },
+                gemini: {
+                    title: 'Gemini (Google)',
+                    content: `
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Fortaleza para Isabella:</strong> Muy bueno para la creatividad y proponer diferentes formas de presentar una misma idea, ideal para generar varias opciones de cartas de presentación.</li>
+                        </ul>
+                    `
+                },
+                claude: {
+                    title: 'Claude (Anthropic)',
+                    content: `
+                         <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Fortaleza para Isabella:</strong> Ideal para analizar su CV completo junto a varias ofertas de trabajo y encontrar patrones y competencias comunes.</li>
+                        </ul>
+                    `
+                }
+            };
+            document.querySelectorAll('.model-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modelKey = btn.dataset.model;
+                    const data = modelData[modelKey];
+                    openModal(data.title, data.content);
+                });
+            });
+
+            const techniqueData = {
+                cot: {
+                    title: 'Técnica: Chain-of-Thought (CoT)',
+                    content: `
+                        <p>Isabella le pide a la IA que "piense paso a paso" para estructurar una carta de presentación.</p>
+                        <h4 class="font-bold mt-4 mb-2">Ejemplo:</h4>
+                        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap"><strong>Prompt:</strong> "Para mi carta de presentación, primero identifica las 3 competencias clave de la oferta. Luego, busca en mi CV ejemplos que demuestren esas competencias. Finalmente, redacta un párrafo para cada competencia usando esos ejemplos."</pre>
+                    `
+                },
+                fewshot: {
+                    title: 'Técnica: Few-Shot Learning',
+                    content: `
+                        <p>Isabella le muestra a la IA 2 ejemplos de viñetas de logros que le gustan, para que la IA aprenda el estilo y lo aplique a toda su sección de experiencia.</p>
+                        <h4 class="font-bold mt-4 mb-2">Ejemplo:</h4>
+                        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap"><strong>Prompt:</strong> "Este es el estilo de viñeta que quiero: [Ejemplo 1], [Ejemplo 2]. Ahora, reescribe toda mi experiencia laboral usando este mismo estilo."</pre>
+                    `
+                },
+                role: {
+                    title: 'Técnica: Role Prompting',
+                    content: `
+                        <p>Isabella le pide a la IA que asuma un rol específico para obtener un resultado más ajustado a sus necesidades.</p>
+                        <h4 class="font-bold mt-4 mb-2">Ejemplo:</h4>
+                        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap"><strong>Prompt:</strong> "Actúa como un reclutador de una empresa de tecnología. Revisa mi CV y dime qué 3 puntos mejorarías para que sea más atractivo."</pre>
+                    `
+                }
+            };
+
+            document.querySelectorAll('.technique-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const techniqueKey = btn.dataset.technique;
+                    const data = techniqueData[techniqueKey];
+                    openModal(data.title, data.content);
+                });
+            });
+
+            goToSlide(0);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía interactiva para dominar la IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8fafc;
+        }
+        :root {
+            --color-primario: #1e3a8a; /* Azul oscuro para mayor contraste */
+            --color-secundario: #312e81; /* Indigo oscuro */
+            --color-exito: #166534;    /* Verde oscuro, ajustado para mejor hover */
+            --color-alerta: #f97316;
+            --gris-fondo: #f1f5f9;
+            --gris-borde: #e2e8f0;
+            --texto-principal: #0f172a;
+            --texto-secundario: #475569;
+        }
+        .chat-bubble {
+            max-width: 85%;
+            padding: 0.8rem 1.3rem;
+            border-radius: 1.5rem;
+            line-height: 1.6;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+        }
+        .user-bubble {
+            background-color: var(--color-primario);
+            color: white;
+            border-bottom-right-radius: 0.5rem;
+            align-self: flex-end;
+        }
+        .ai-bubble {
+            background-color: white;
+            border: 1px solid var(--gris-borde);
+            border-bottom-left-radius: 0.5rem;
+            align-self: flex-start;
+        }
+        .mentor-bubble {
+            background-color: #fffbeb;
+            border-left: 4px solid var(--color-alerta);
+            color: #b45309;
+            align-self: center;
+            width: 100%;
+            max-width: 100%;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .challenge-completed {
+             background-color: #f0fdf4;
+            border-left: 4px solid var(--color-exito);
+            color: #166534;
+        }
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: rgba(15, 23, 42, 0.7); 
+            backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center; 
+            z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { 
+            background-color: white; padding: 2.5rem; border-radius: 1rem; 
+            max-width: 600px; width: 90%; transform: scale(0.95); 
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .intro-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            height: 100%;
+        }
+        /* Definiciones para colores personalizados de Tailwind */
+        .from-color-primario {
+            --tw-gradient-from: var(--color-primario);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30, 58, 138, 0));
+        }
+        .to-color-secundario {
+            --tw-gradient-to: var(--color-secundario);
+        }
+        .bg-color-primario { background-color: var(--color-primario); }
+        .bg-color-exito { background-color: var(--color-exito); }
+        .text-color-primario { color: var(--color-primario); }
+        .text-color-secundario { color: var(--color-secundario); }
+        .text-texto-principal { color: var(--texto-principal); }
+        .text-texto-secundario { color: var(--texto-secundario); }
+    </style>
+</head>
+<body class="bg-gris-fondo p-4 md:p-6 flex items-center justify-center min-h-screen">
+    <div id="container" class="w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col h-screen md:h-auto md:max-h-[95vh]">
+        
+        <!-- Pantalla de Introducción -->
+        <div id="intro-screen" class="intro-screen">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-texto-principal tracking-tight">Bienvenido/a al laboratorio de IA</h1>
+                <p class="mt-4 text-lg text-texto-secundario">Aprenderá a dar instrucciones a una inteligencia artificial (IA) para que trabaje para usted de forma eficiente. Es como aprender a pedir exactamente lo que quiere para obtener el mejor resultado.</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h3 class="font-bold text-lg text-texto-principal">Su rol</h3>
+                        <p class="mt-1 text-texto-secundario">Usted es Isabella, una profesional que busca mejorar su perfil para una nueva oportunidad laboral.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h3 class="font-bold text-lg text-texto-principal">Su misión</h3>
+                        <p class="mt-1 text-texto-secundario">Completará dos desafíos prácticos usando la IA para potenciar su currículum y su carta de presentación.</p>
+                    </div>
+                </div>
+                <button id="start-btn" class="mt-10 w-full md:w-auto bg-gradient-to-r from-color-primario to-color-secundario text-white font-bold py-4 px-8 rounded-lg hover:opacity-90 transition-transform hover:scale-105 text-lg shadow-lg">Comenzar el desafío</button>
+            </div>
+        </div>
+
+        <!-- Pantalla Principal de la Simulación (Oculta al inicio) -->
+        <div id="simulation-screen" class="hidden h-full flex flex-col">
+            <header class="text-center p-5 bg-gradient-to-r from-color-primario to-color-secundario text-white flex-shrink-0">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Laboratorio de IA: el arte de dar instrucciones</h1>
+                <p class="text-lg text-slate-200 mt-1">Su misión: guiar a la IA para potenciar su perfil profesional.</p>
+            </header>
+
+            <div class="flex-grow grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+                <!-- Columna de Contexto y Guía -->
+                <div class="lg:col-span-5 bg-slate-50 p-6 border-r border-gray-200 overflow-y-auto custom-scrollbar">
+                    
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm sticky top-0 z-10 mb-6">
+                        <h2 class="text-xl font-bold text-texto-principal mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-color-primario" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 8v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                            ¿Cómo funciona la actividad?
+                        </h2>
+                        <ul class="text-sm text-texto-secundario space-y-2 pl-1">
+                            <li><strong class="text-color-primario">Paso 1:</strong> Lea el "Desafío actual" y la "Información clave" para entender su tarea.</li>
+                            <li><strong class="text-color-primario">Paso 2:</strong> Revise los "5 ingredientes" para aprender a formular una buena instrucción.</li>
+                            <li><strong class="text-color-primario">Paso 3:</strong> Escriba su instrucción en el chat y envíela para ver la respuesta de la IA y del mentor.</li>
+                        </ul>
+                    </div>
+
+                    <div id="mission-box" class="mb-6">
+                        <h2 class="text-xl font-bold text-texto-principal mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-color-primario" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                            Desafío actual
+                        </h2>
+                        <!-- El contenido de la misión se cargará aquí -->
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 id="context-title" class="text-xl font-bold text-texto-principal flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-color-primario" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            Información clave
+                        </h3>
+                        <div id="context-body" class="text-sm text-texto-secundario p-4 bg-white rounded-md border max-h-48 overflow-y-auto custom-scrollbar">
+                        </div>
+                    </div>
+
+                    <div class="p-5 bg-indigo-50 border-2 border-dashed border-indigo-200 rounded-lg">
+                       <h3 class="font-bold text-lg text-color-secundario flex items-center">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                           Los 5 ingredientes de una buena instrucción
+                        </h3>
+                       <p class="text-sm text-indigo-800 mt-2 mb-3">Piense en estos 5 puntos antes de escribir su instrucción (o <i>prompt</i>) para obtener el mejor resultado.</p>
+                       <ul class="text-sm text-texto-secundario space-y-2">
+                            <li title="Ej: 'Actúa como un experto en redacción de currículums.'"><strong>1. Rol:</strong> ¿quién quiere que sea la IA? (un experto, un redactor).</li>
+                            <li title="Ej: 'Usa la información de mi currículum y de esta oferta de trabajo.'"><strong>2. Contexto:</strong> ¿qué información necesita saber la IA para ayudarle?</li>
+                            <li title="Ej: 'Transforma la descripción de mis tareas en un logro con cifras.'"><strong>3. Tarea:</strong> ¿qué acción concreta debe realizar?</li>
+                            <li title="Ej: 'Quiero el resultado como una viñeta para mi currículum.'"><strong>4. Formato:</strong> ¿cómo quiere que le entregue la respuesta? (una lista, un párrafo).</li>
+                            <li title="Ej: 'Usa un tono profesional y convincente.'"><strong>5. Tono:</strong> ¿qué estilo de comunicación debe usar? (formal, amigable).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Columna de Simulación -->
+                <div class="lg:col-span-7 p-6 flex flex-col h-full bg-slate-100">
+                    <div class="mb-4 flex-shrink-0">
+                        <h3 class="font-bold text-lg text-texto-principal">Calidad de su instrucción</h3>
+                        <div class="w-full bg-gray-300 rounded-full h-4 mt-1 overflow-hidden">
+                            <div id="progress-bar" class="bg-gradient-to-r from-amber-400 to-emerald-500 h-4 rounded-full progress-bar-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div id="chat-window" class="chat-container flex-grow rounded-lg p-4 overflow-y-auto flex flex-col space-y-4 custom-scrollbar bg-white border">
+                        <!-- Mensajes del chat -->
+                    </div>
+                    <div class="mt-4 flex items-center bg-white p-2 rounded-lg border shadow-sm flex-shrink-0">
+                        <textarea id="prompt-input" class="w-full p-3 border-none focus:ring-0 resize-none custom-scrollbar text-base" placeholder="Escriba su instrucción para la IA aquí y presione Enviar..." rows="1"></textarea>
+                        <button id="send-btn" class="bg-color-primario text-white rounded-lg h-12 w-12 flex-shrink-0 flex items-center justify-center hover:bg-indigo-700 transition-all hover:scale-110 ml-2 shadow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Reflexión -->
+    <div id="reflection-modal" class="modal-overlay">
+        <div class="modal-content text-center">
+            <h3 class="font-bold text-3xl text-texto-principal mb-4">¡Excelente instrucción!</h3>
+            <p class="text-texto-secundario mb-6 text-lg">Ha logrado un resultado de alta calidad porque fue claro y específico. Tómese un momento para reflexionar sobre lo que aprendió.</p>
+            <div id="reflection-questions" class="space-y-4 text-texto-principal text-left"></div>
+            <button id="next-challenge-btn" class="w-full mt-8 bg-color-exito text-white font-bold py-3 px-4 rounded-lg hover:bg-green-500 transition-colors text-lg shadow-md">Continuar</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const challenges = [
+                {
+                    mission: {
+                        task: "Transformar una descripción de tareas de su currículum en un logro que llame la atención.",
+                        objective: "El objetivo es crear una frase (viñeta) para su CV que destaque sus resultados, usando números para demostrar su impacto."
+                    },
+                    context: {
+                        title: "Su información profesional",
+                        body: `<strong>Frase original en su CV:</strong> "Responsable de la organización de eventos".<br><br><strong>Datos adicionales que tiene:</strong> organicé 15 eventos al año, manejé presupuestos de hasta 5 millones y lideré equipos de 5 personas. Gracias a mi gestión, la asistencia a los eventos aumentó un 20%.<br><br><strong>Cargo al que postula:</strong> coordinadora de proyectos.`
+                    },
+                    analysisKeywords: {
+                        rol: { keys: ['rol', 'actúa como', 'experto en cv', 'reclutador'], feedback: "¡Bien! Definir un <strong>rol</strong> ayuda a la IA a adoptar la perspectiva correcta." },
+                        contexto: { keys: ['contexto', 'cv', 'oferta', 'coordinadora', 'datos'], feedback: "¡Perfecto! Darle <strong>contexto</strong> es clave para que la respuesta sea relevante." },
+                        tarea: { keys: ['tarea', 'transforma', 'reescribe', 'logro', 'cuantifica'], feedback: "¡Clarísimo! Una <strong>tarea</strong> específica evita respuestas genéricas." },
+                        formato: { keys: ['formato', 'viñeta', 'bullet point', 'verbo de acción'], feedback: "¡Excelente! Pedir un <strong>formato</strong> asegura que el resultado sea fácil de usar." },
+                        tono: { keys: ['tono', 'profesional', 'impacto', 'persuasivo'], feedback: "¡Muy bien! El <strong>tono</strong> correcto hace que el texto sea más efectivo." }
+                    },
+                    reflectionQuestions: [
+                        "¿Por qué una frase como 'Lideré la organización de 15 eventos anuales...' es más poderosa que 'Responsable de la organización de eventos'?",
+                        "¿De qué otra forma podría usar la IA para mejorar su CV basándose en lo que aprendió?"
+                    ]
+                },
+                {
+                    mission: {
+                        task: "Redactar el borrador de una carta de presentación personalizada.",
+                        objective: "El objetivo es generar un texto que conecte su experiencia directamente con lo que la empresa está buscando."
+                    },
+                    context: {
+                        title: "Requisitos del cargo",
+                        body: "Se busca profesional con experiencia demostrable en: 1) Liderazgo de proyectos complejos, 2) Comunicación estratégica con clientes importantes (<i>stakeholders</i>), y 3) Capacidad para resolver problemas de forma creativa. Se valora mucho la proactividad."
+                    },
+                     analysisKeywords: {
+                        rol: { keys: ['rol', 'actúa como', 'coach de carrera', 'experto en postulaciones'], feedback: "Definir un <strong>rol</strong> de 'coach' le da a la IA una perspectiva experta." },
+                        contexto: { keys: ['contexto', 'carta de presentación', 'mi cv', 'requisitos', 'postulación'], feedback: "Al darle el <strong>contexto</strong> de la postulación, la IA puede personalizar el mensaje." },
+                        tarea: { keys: ['tarea', 'redacta', 'escribe', 'borrador', 'conecta'], feedback: "Una <strong>tarea</strong> clara como 'redacta' y 'conecta' guía a la IA hacia el objetivo." },
+                        formato: { keys: ['formato', 'tres párrafos', 'introducción', 'desarrollo', 'cierre'], feedback: "Especificar el <strong>formato</strong> de párrafos estructura la carta de forma profesional." },
+                        tono: { keys: ['tono', 'persuasivo', 'profesional', 'auténtico', 'proactivo'], feedback: "Pedir un <strong>tono</strong> 'persuasivo' y 'proactivo' alinea el texto con lo que busca la empresa." }
+                    },
+                    reflectionQuestions: [
+                        "¿Cuál de los 5 'ingredientes' fue más crucial para que la IA conectara su experiencia con los requisitos de la oferta?",
+                        "¿Cómo esta herramienta puede ayudarle a superar el 'miedo a la página en blanco' al escribir cartas de presentación?"
+                    ]
+                }
+            ];
+
+            let currentChallengeIndex = 0;
+
+            const introScreen = document.getElementById('intro-screen');
+            const simulationScreen = document.getElementById('simulation-screen');
+            const startBtn = document.getElementById('start-btn');
+            const chatWindow = document.getElementById('chat-window');
+            const promptInput = document.getElementById('prompt-input');
+            const sendBtn = document.getElementById('send-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const missionBox = document.getElementById('mission-box');
+            const contextTitle = document.getElementById('context-title');
+            const contextBody = document.getElementById('context-body');
+            const reflectionModal = document.getElementById('reflection-modal');
+            const reflectionQuestionsContainer = document.getElementById('reflection-questions');
+            const nextChallengeBtn = document.getElementById('next-challenge-btn');
+
+            startBtn.addEventListener('click', () => {
+                introScreen.style.display = 'none';
+                simulationScreen.classList.remove('hidden');
+                simulationScreen.classList.add('flex');
+                loadChallenge(currentChallengeIndex);
+            });
+
+            function loadChallenge(index) {
+                const challenge = challenges[index];
+                missionBox.innerHTML = `<div class="bg-white p-4 rounded-lg border"><p class="font-semibold text-texto-principal">Su tarea:</p><p class="text-texto-secundario text-sm mt-1">${challenge.mission.task}</p><p class="font-semibold mt-3 text-texto-principal">Su objetivo:</p><p class="text-texto-secundario text-sm mt-1">${challenge.mission.objective}</p></div>`;
+                contextTitle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-color-primario" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> ${challenge.context.title}`;
+                contextBody.innerHTML = challenge.context.body;
+                
+                chatWindow.innerHTML = '';
+                addMessage('<p>Hola, soy su asistente de IA. Estoy listo para ayudarle a potenciar su perfil. ¿Cuál es su instrucción?</p>', 'ai');
+                progressBar.style.width = '0%';
+                promptInput.value = '';
+            }
+
+            function addMessage(content, sender, isHTML = true) {
+                const bubble = document.createElement('div');
+                bubble.className = `chat-bubble ${sender}-bubble`;
+                if(isHTML) {
+                    bubble.innerHTML = content;
+                } else {
+                    bubble.textContent = content;
+                }
+                chatWindow.appendChild(bubble);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            function analyzePrompt(prompt) {
+                const challenge = challenges[currentChallengeIndex];
+                let score = 0;
+                let feedbackPoints = [];
+                const lowerCasePrompt = prompt.toLowerCase();
+
+                Object.values(challenge.analysisKeywords).forEach(keywordInfo => {
+                    if (keywordInfo.keys.some(kw => lowerCasePrompt.includes(kw))) {
+                        score++;
+                        feedbackPoints.push(keywordInfo.feedback);
+                    }
+                });
+                
+                const progress = Math.max(10, (score / Object.keys(challenge.analysisKeywords).length) * 100);
+                progressBar.style.width = `${progress}%`;
+
+                let aiResponse, mentorFeedback;
+
+                if (progress < 40) {
+                    aiResponse = `<div class="ai-bubble"><p>Entendido. Aquí tiene una idea basada en su solicitud. Sin embargo, como la instrucción fue muy general, el resultado puede no ser muy específico o impactante.</p></div>`;
+                    mentorFeedback = `<div class="mentor-bubble"><p><strong>Consejo del mentor:</strong> ¡Es un buen comienzo! Su instrucción es un poco vaga. Intente ser más específico. <strong>Pruebe a añadir un rol y más contexto.</strong> Por ejemplo, dígale a la IA que actúe como un 'experto en CVs' y dele los datos numéricos que tiene.</p></div>`;
+                } else if (progress < 99) {
+                    aiResponse = `<div class="ai-bubble"><p>He generado un borrador bastante bueno con la información que me dio. Cumple con la mayoría de lo que pidió.</p></div>`;
+                    mentorFeedback = `<div class="mentor-bubble"><p><strong>Consejo del mentor:</strong> ¡Casi lo logra! La respuesta es buena, pero puede ser excelente. Para mejorarla, <strong>especifique el formato y el tono.</strong> Por ejemplo, pida el resultado como una 'viñeta para CV' y con un 'tono profesional y de alto impacto'.</p></div>`;
+                } else {
+                    aiResponse = `<div class="ai-bubble challenge-completed"><p><strong>¡Instrucción perfecta!</strong> He generado un resultado de alta calidad que cumple con todos sus requerimientos: rol, contexto, tarea, formato y tono. Está listo para que lo use.</p></div>`;
+                    mentorFeedback = `<div class="mentor-bubble"><p><strong>Análisis del mentor:</strong> ¡Excelente trabajo! Incluyó los 5 ingredientes clave:</p><ul class="list-disc list-inside mt-2">${feedbackPoints.map(fp => `<li>${fp}</li>`).join('')}</ul></div>`;
+                    setTimeout(() => showReflectionModal(), 1500);
+                }
+                
+                setTimeout(() => {
+                    chatWindow.innerHTML += aiResponse;
+                    chatWindow.innerHTML += mentorFeedback;
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                }, 500);
+            }
+            
+            function showReflectionModal() {
+                const challenge = challenges[currentChallengeIndex];
+                reflectionQuestionsContainer.innerHTML = challenge.reflectionQuestions.map(q => `<div class="p-4 bg-slate-100 rounded-lg border text-base"><p class="font-semibold">Para reflexionar:</p><p>"${q}"</p></div>`).join('');
+                
+                if (currentChallengeIndex === challenges.length - 1) {
+                    nextChallengeBtn.innerText = 'Finalizar laboratorio';
+                } else {
+                    nextChallengeBtn.innerText = 'Ir al siguiente desafío';
+                }
+                
+                reflectionModal.classList.add('active');
+            }
+            
+            function showFinalConclusion() {
+                 reflectionModal.classList.remove('active');
+                 const simulationContainer = document.querySelector('.lg\\:col-span-7').parentElement;
+                 simulationContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center p-6 lg:col-span-12">
+                                                    <div class="text-center p-8 bg-white rounded-xl shadow-xl max-w-2xl mx-auto">
+                                                        <h3 class="font-bold text-3xl mb-3 text-color-secundario">¡Felicitaciones, Isabella!</h3>
+                                                        <p class="text-texto-principal text-lg">Ha completado el laboratorio y ahora tiene una habilidad clave: comunicarse eficazmente con una IA.</p>
+                                                        <p class="mt-6 font-semibold text-texto-principal text-lg">Conclusión principal:</p>
+                                                        <p class="text-texto-secundario mt-2">Una IA no es solo una herramienta que responde preguntas. Es su copiloto. Al darle instrucciones claras y detalladas (con rol, contexto, tarea, formato y tono), la convierte en un poderoso aliado para su desarrollo profesional.</p>
+                                                    </div>
+                                                  </div>`;
+                document.querySelector('#mission-box').innerHTML = `<div class="bg-white p-4 rounded-lg border text-center"><h2 class="text-xl font-bold text-texto-principal mb-2">Laboratorio finalizado</h2><p class="text-texto-secundario">¡Ha dominado el arte de dar instrucciones a la IA!</p></div>`;
+            }
+
+            function handleSend() {
+                const promptText = promptInput.value.trim();
+                if (!promptText) return;
+
+                addMessage(promptText, 'user', false);
+                promptInput.value = '';
+                promptInput.style.height = 'auto';
+                analyzePrompt(promptText);
+            }
+            
+            nextChallengeBtn.addEventListener('click', () => {
+                reflectionModal.classList.remove('active');
+                if (currentChallengeIndex === challenges.length - 1) {
+                    showFinalConclusion();
+                } else {
+                    currentChallengeIndex++;
+                    loadChallenge(currentChallengeIndex);
+                }
+            });
+
+            sendBtn.addEventListener('click', handleSend);
+            promptInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                }
+            });
+            
+            promptInput.addEventListener('input', () => {
+                promptInput.style.height = 'auto';
+                promptInput.style.height = (promptInput.scrollHeight) + 'px';
+            });
+
+        });
+    </script>
+</body>
+</html>
+
+

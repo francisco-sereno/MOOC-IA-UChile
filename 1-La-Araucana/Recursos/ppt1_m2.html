@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZZWQZR8VQ');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Interactiva: Ingeniería de Prompts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8ZZWQZR8VQ');
+    </script>
+    <style>
+        :root {
+            --color-principal: #0033A0;
+            --color-acento: #009639;
+            --color-texto: #172b4d;
+            --color-fondo-claro: #f4f5f7;
+            --color-borde: #dfe1e6;
+            --color-rojo-enfasis: #EF3340;
+            --text-secondary: #42526e;
+            --text-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-fondo-claro);
+            color: var(--color-texto);
+        }
+
+        #presentation-shell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        #presentation-container {
+            width: 100%;
+            max-width: 1100px; 
+            aspect-ratio: 16 / 12; /* Relación de aspecto ajustada */
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.2);
+            display: flex;
+            overflow: hidden;
+            border: 1px solid var(--color-borde);
+        }
+
+        #slide-content {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2rem 4rem 6rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+            transform: translateY(20px);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.2;
+            color: var(--color-texto);
+        }
+
+        #slide-navigation {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #slide-navigation button {
+            background-color: var(--color-principal);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        #slide-navigation button:hover {
+            background-color: #003f99;
+            transform: translateY(-2px);
+        }
+        #slide-navigation button:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .highlight-green { color: var(--color-acento); }
+        .highlight-blue { color: var(--color-principal); }
+        .highlight-red { color: var(--color-rojo-enfasis); }
+
+        .technique-btn, .model-btn {
+            background-color: white;
+            border: 1px solid var(--color-borde);
+            border-radius: 0.75rem;
+            font-weight: 700;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .technique-btn:hover, .model-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -10px rgba(0, 82, 204, 0.2);
+            border-color: var(--color-principal);
+        }
+
+        .technique-btn { color: var(--color-acento); }
+        .model-btn { color: var(--color-principal); }
+
+        #slide-counter {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #42526e;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--color-borde);
+        }
+
+        @media (max-width: 768px) {
+            #presentation-shell { padding: 0; }
+            #presentation-container { 
+                border-radius: 0; height: 100vh; width: 100vw;
+                max-width: 100%; aspect-ratio: auto;
+            }
+             #slide-navigation {
+                width: calc(100% - 2rem);
+             }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="presentation-shell">
+        <div id="presentation-container">
+            <div id="slide-content">
+                
+                <div class="slide active" data-title="Portada">
+                    <h1 class="slide-title text-4xl">Ingeniería de Prompts</h1>
+                    <p class="text-xl mt-4" style="color: var(--text-secondary);">Fundamentos, Técnicas y Aplicaciones</p>
+                </div>
+
+                <div class="slide" data-title="Fundamentos">
+                    <h2 class="slide-title text-4xl mb-6">Fundamentos de la <span class="highlight-blue">ingeniería de prompts</span></h2>
+                    <p class="text-center mb-6 max-w-4xl text-base" style="color: var(--text-secondary);">Es el proceso sistemático de diseñar y optimizar las instrucciones para obtener respuestas precisas, relevantes y útiles de un modelo de lenguaje.</p>
+                    <div class="w-full max-w-4xl text-left p-4 bg-gray-50 border rounded-lg">
+                        <h3 class="font-bold text-lg mb-2">Componentes de un prompt efectivo:</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm" style="color: var(--text-secondary);">
+                            <li><strong>Rol:</strong> Define la perspectiva del modelo (ej. "Actúa como un experto en finanzas").</li>
+                            <li><strong>Tarea:</strong> Describe claramente qué se debe hacer.</li>
+                            <li><strong>Ejemplos:</strong> Muestra 1-2 ejemplos del resultado esperado.</li>
+                            <li><strong>Instrucciones:</strong> Detalla parámetros como formato, tono y longitud.</li>
+                            <li><strong>Contexto:</strong> Proporciona información relevante que el modelo debe usar.</li>
+                            <li><strong>Directiva final:</strong> Activa la generación de la respuesta.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Principios">
+                    <h2 class="slide-title text-4xl mb-8">Principios universales del prompting</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl">
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Claridad</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Instrucciones explícitas y sin ambigüedades.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Contexto</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Proporcionar información relevante para guiar la respuesta.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">División</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Descomponer tareas complejas en pasos más simples.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Razonamiento</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Darle "tiempo" al modelo para que piense paso a paso.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Herramientas</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Integrar capacidades externas cuando sea necesario.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <h3 class="font-bold text-blue-800">Iteración</h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Optimizar y refinar los prompts de forma sistemática.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Técnicas Avanzadas">
+                    <h2 class="slide-title text-4xl mb-8">Técnicas avanzadas de prompting</h2>
+                    <p class="text-center mb-6" style="color: var(--text-secondary);">Haga clic en cada técnica para ver su descripción y ejemplos.</p>
+                    <div class="w-full max-w-4xl p-4 my-4 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
+                        <p class="text-center" style="color: var(--text-secondary);">Para explorar más ejemplos y guías prácticas, visite nuestro <a href="https://sites.google.com/uchile.cl/prompting/inicio" target="_blank" class="font-bold underline" style="color: var(--color-principal);">sitio de referencia</a>.</p>
+                    </div>
+                    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <button data-technique="cot" class="technique-btn">Chain-of-Thought</button>
+                        <button data-technique="fewshot" class="technique-btn">Few-Shot Learning</button>
+                        <button data-technique="role" class="technique-btn">Role Prompting</button>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Comparativa de Modelos">
+                    <h2 class="slide-title text-4xl mb-6">Comparativa de modelos principales</h2>
+                    <p class="text-center mb-6" style="color: var(--text-secondary);">Haga clic en cada modelo para ver sus detalles.</p>
+                    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <button data-model="gpt4" class="model-btn">GPT-4.x (OpenAI)</button>
+                        <button data-model="gemini" class="model-btn">Gemini (Google)</button>
+                        <button data-model="claude" class="model-btn">Claude (Anthropic)</button>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Optimización">
+                    <h2 class="slide-title text-4xl mb-8">Metodología de optimización</h2>
+                    <p class="text-center mb-6" style="color: var(--text-secondary);">La optimización de prompts es un proceso iterativo y sistemático.</p>
+                    <div class="w-full max-w-4xl space-y-3">
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>1. Establecer una Línea Base:</strong> Definir el prompt inicial y métricas para medir el éxito.</div>
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>2. Identificar Debilidades:</strong> Analizar dónde falla la respuesta (falta de especificidad, contexto, etc.).</div>
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>3. Aplicar Mejoras:</strong> Usar técnicas de prompting para corregir las debilidades identificadas.</div>
+                        <div class="p-3 border-l-4 border-blue-500 bg-blue-50 text-sm"><strong>4. Realizar Pruebas Comparativas:</strong> Validar empíricamente que la nueva versión es mejor que la anterior.</div>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Habilidades">
+                    <h2 class="slide-title text-4xl mb-8">Desarrollo de habilidades: el arte del <span class="highlight-green">prompt</span></h2>
+                     <p class="text-center mb-6" style="color: var(--text-secondary);">La calidad de la instrucción (prompt) determina la calidad del resultado.</p>
+                    <div class="w-full max-w-5xl space-y-4">
+                        <div class="p-4 border rounded-lg">
+                            <p><strong>Básico (Vago):</strong> "Ayúdame con una presentación."</p>
+                            <p class="text-sm" style="color: var(--color-rojo-enfasis);">→ Resultado: Genérico e inútil.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <p><strong>Mejorado (Específico):</strong> "Crea el esquema de una presentación sobre los logros del primer trimestre."</p>
+                            <p class="text-sm text-yellow-600">→ Resultado: Estructurado pero sin detalles.</p>
+                        </div>
+                         <div class="p-4 border rounded-lg bg-green-50 border-green-300 text-center">
+                             <button id="show-advanced-prompt-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-green-700">Ver Ejemplo de Prompt Avanzado</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide" data-title="Aplicaciones">
+                    <h2 class="slide-title text-4xl mb-8">Aplicaciones prácticas y casos de estudio</h2>
+                    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="font-bold text-lg text-center mb-2 highlight-green">Marketing Digital</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Generación de contenido personalizado para redes sociales y campañas, logrando aumentos de hasta un 40% en interacción.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="font-bold text-lg text-center mb-2 highlight-blue">Salud</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Traducción de jerga médica a un lenguaje comprensible para pacientes y generación de protocolos de atención personalizados.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="font-bold text-lg text-center mb-2 highlight-red">Educación</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Creación de material educativo adaptado a diferentes estilos de aprendizaje y contextos vocacionales específicos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide" data-title="Conclusión">
+                    <h2 class="slide-title text-4xl mb-8">Conclusión: la nueva alfabetización</h2>
+                    <div class="w-full max-w-4xl p-6 bg-blue-50 border-l-4 rounded-r-lg" style="border-color: var(--color-principal);">
+                        <p class="text-xl leading-relaxed text-center" style="color: var(--text-secondary);">
+                            <strong style="color: var(--color-texto);">La ingeniería de prompts ha emergido como una disciplina fundamental.</strong> Su dominio es esencial para cualquier profesional que busque aprovechar el poder transformador de la IA y mantener su relevancia en un mundo cada vez más mediado por esta tecnología.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="slide-counter"></div>
+
+                <div id="slide-navigation">
+                    <button id="prev-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        Anterior
+                    </button>
+                    <button id="next-btn">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Genérico -->
+    <div id="generic-modal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg max-w-3xl w-11/12 relative">
+            <span id="close-generic-modal" class="absolute top-4 right-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-800">&times;</span>
+            <h3 id="generic-modal-title" class="font-bold text-2xl mb-4"></h3>
+            <div id="generic-modal-content" class="text-left text-sm bg-gray-50 p-4 rounded border max-h-[60vh] overflow-y-auto">
+                <!-- Content will be injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideCounter = document.getElementById('slide-counter');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                slides.forEach((s, i) => s.classList.toggle('active', i === slideIndex));
+                
+                prevBtn.disabled = slideIndex === 0;
+                nextBtn.disabled = slideIndex === totalSlides - 1;
+
+                if(slideCounter) {
+                    slideCounter.textContent = `${slideIndex + 1} / ${totalSlides}`;
+                }
+            }
+            
+            prevBtn.addEventListener('click', () => { if (currentSlide > 0) goToSlide(currentSlide - 1); });
+            nextBtn.addEventListener('click', () => { if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1); });
+            
+            // --- MODAL LOGIC ---
+            const genericModal = document.getElementById('generic-modal');
+            const genericModalTitle = document.getElementById('generic-modal-title');
+            const genericModalContent = document.getElementById('generic-modal-content');
+            const closeGenericModalBtn = document.getElementById('close-generic-modal');
+
+            function openModal(title, content) {
+                genericModalTitle.innerHTML = title;
+                genericModalTitle.style.color = 'var(--color-principal)';
+                genericModalContent.innerHTML = content;
+                genericModal.classList.remove('hidden');
+            }
+
+            function closeModal() {
+                genericModal.classList.add('hidden');
+            }
+            
+            closeGenericModalBtn.addEventListener('click', closeModal);
+            genericModal.addEventListener('click', (e) => {
+                if (e.target === genericModal) {
+                    closeModal();
+                }
+            });
+
+            // Advanced Prompt Modal
+            const showAdvancedPromptBtn = document.getElementById('show-advanced-prompt-btn');
+            const advancedPromptText = `
+            <p><strong>Actúa como un asesor de comunicaciones experto.</strong></p>
+            <p class="mt-2">Necesito crear una presentación de 15 minutos para el comité directivo sobre los logros del primer trimestre.</p>
+            <ul class="list-disc list-inside mt-2 space-y-1">
+                <li><strong>Audiencia:</strong> directores de diferentes áreas.</li>
+                <li><strong>Objetivo:</strong> ser persuasivo pero basado en datos.</li>
+                <li><strong>Temas clave:</strong> 1) mejoras en infraestructura (200 nuevas instalaciones), 2) programa de capacitación (150 beneficiarios), y 3) modernización de la atención al cliente (reducción del 40% en tiempos de espera).</li>
+            </ul>
+            <p class="mt-2"><strong>Entregable:</strong> un esquema detallado con puntos principales, datos clave para cada sección y sugerencias de elementos visuales.</p>
+            `;
+            if (showAdvancedPromptBtn) {
+                showAdvancedPromptBtn.addEventListener('click', () => {
+                    openModal('Ejemplo de Prompt Avanzado', advancedPromptText);
+                });
+            }
+            
+            // Models Comparison Modal
+            const modelData = {
+                gpt4: {
+                    title: 'GPT-4.x (OpenAI)',
+                    content: `
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Enfoque de Prompting:</strong> Requiere instrucciones literales y explícitas.</li>
+                            <li><strong>Fortalezas:</strong> Generación de código, seguimiento de instrucciones complejas.</li>
+                            <li><strong>Casos de Uso Ideales:</strong> Desarrollo de software, análisis técnico.</li>
+                        </ul>
+                    `
+                },
+                gemini: {
+                    title: 'Gemini (Google)',
+                    content: `
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Enfoque de Prompting:</strong> Flexible, buena inferencia de contexto.</li>
+                            <li><strong>Fortalezas:</strong> Capacidades multimodales, integración con ecosistema Google.</li>
+                            <li><strong>Casos de Uso Ideales:</strong> Proyectos multimedia, tareas creativas.</li>
+                        </ul>
+                    `
+                },
+                claude: {
+                    title: 'Claude (Anthropic)',
+                    content: `
+                         <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Enfoque de Prompting:</strong> Optimizado para prompts estructurados (XML).</li>
+                            <li><strong>Fortalezas:</strong> Análisis de documentos extensos, mantenimiento de contexto.</li>
+                            <li><strong>Casos de Uso Ideales:</strong> Análisis legal/académico, investigación.</li>
+                        </ul>
+                    `
+                }
+            };
+            document.querySelectorAll('.model-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modelKey = btn.dataset.model;
+                    const data = modelData[modelKey];
+                    openModal(data.title, data.content);
+                });
+            });
+
+            // Advanced Techniques Modal
+            const techniqueData = {
+                cot: {
+                    title: 'Técnica: Chain-of-Thought (CoT)',
+                    content: `
+                        <p>Pide al modelo que "piense paso a paso" para resolver problemas complejos, mejorando la lógica y la transparencia del razonamiento. Es ideal para tareas que requieren múltiples pasos lógicos.</p>
+                        <h4 class="font-bold mt-4 mb-2">Ejemplo:</h4>
+                        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap"><strong>Problema:</strong> Una familia tiene un ingreso de $800.000. Sus gastos son: arriendo $350.000, supermercado $150.000, servicios $60.000, transporte $40.000. ¿Cuánto pueden ahorrar?
+
+<strong>Resolvamos esto paso a paso:</strong>
+1. Ingreso total: $800.000
+2. Sumemos los gastos: $350.000 + $150.000 + $60.000 + $40.000 = $600.000
+3. Calculemos el ahorro: $800.000 - $600.000 = $200.000
+
+<strong>Por lo tanto, la familia puede ahorrar $200.000.</strong></pre>
+                    `
+                },
+                fewshot: {
+                    title: 'Técnica: Few-Shot Learning',
+                    content: `
+                        <p>Proporciona 2 o 3 ejemplos completos (entrada y salida deseada). El modelo aprende el patrón y lo aplica a nuevos casos sin necesidad de instrucciones explícitas detalladas.</p>
+                        <h4 class="font-bold mt-4 mb-2">Ejemplo:</h4>
+                        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap"><strong>Tarea:</strong> Clasifica los comentarios como POSITIVO, NEGATIVO o NEUTRAL.
+
+<strong>Ejemplo 1:</strong>
+Comentario: "La comida estaba deliciosa y el servicio fue excelente."
+Clasificación: POSITIVO
+
+<strong>Ejemplo 2:</strong>
+Comentario: "La comida estaba bien, nada especial."
+Clasificación: NEUTRAL
+
+<strong>Ahora clasifica:</strong>
+Comentario: "El ambiente es acogedor, pero el tiempo de espera fue largo."
+Clasificación: [El modelo generaría: POSITIVO]</pre>
+                    `
+                },
+                role: {
+                    title: 'Técnica: Role Prompting',
+                    content: `
+                        <p>Asigna un rol de experto al modelo para activar patrones de conocimiento y comunicación específicos, obteniendo respuestas más especializadas y de mayor calidad.</p>
+                        <h4 class="font-bold mt-4 mb-2">Ejemplo:</h4>
+                        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap"><strong>Rol:</strong> Actúa como un profesor particular de matemáticas con 10 años de experiencia enseñando a estudiantes con dificultades de aprendizaje.
+<strong>Estilo:</strong> Usa lenguaje simple, muchos ejemplos con pizza o tortas, refuerzo positivo constante.
+<strong>Tarea:</strong> Explica cómo sumar fracciones con diferente denominador de la manera más simple posible.</pre>
+                    `
+                }
+            };
+
+            document.querySelectorAll('.technique-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const techniqueKey = btn.dataset.technique;
+                    const data = techniqueData[techniqueKey];
+                    openModal(data.title, data.content);
+                });
+            });
+
+            goToSlide(0);
+        });
+    </script>
+</body>
+</html>

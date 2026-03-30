@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Prompts a Agentes Autónomos: Una Guía Evolutiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primario: #003087; /* Azul Pantone 287c */
+            --color-secundario: #008751; /* Verde Pantone 348c */
+            --color-riesgo: #EF3340;   /* Rojo Pantone 032c */
+            --color-alerta: #FCD116;   /* Amarillo Pantone 122c */
+            --fuente-principal: 'Montserrat', sans-serif;
+            --color-fondo: #f3f4f6; /* Gray 100 */
+            --color-texto: #111827; /* Gray 900 */
+            --color-texto-secundario: #4b5563; /* Gray 600 */
+        }
+        body {
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+        }
+        .contenedor-guia {
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        .paso {
+            display: none;
+            padding: 2.5rem;
+        }
+        .paso.activo {
+            display: block;
+        }
+        .titulo-paso {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--color-primario);
+            margin-bottom: 0.5rem;
+        }
+        .subtitulo-paso {
+            font-size: 1.125rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .tarjeta {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb; /* Gray 200 */
+        }
+        .boton {
+            background-color: var(--color-primario);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .boton:hover {
+            background-color: #002466; /* Azul Pantone 287c más oscuro */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px 0 rgba(0, 48, 135, 0.3);
+        }
+        .boton:disabled {
+            background-color: #99a9d1; /* Azul Pantone 287c más claro */
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .barra-progreso-fondo {
+            background-color: #e5e7eb; /* Gray 200 */
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+        .barra-progreso-relleno {
+            background-color: var(--color-secundario);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-guia">
+        <!-- Encabezado con Progreso -->
+        <header class="p-6 border-b border-gray-200">
+            <div class="barra-progreso-fondo">
+                <div id="barra-progreso" class="barra-progreso-relleno" style="width: 0%;"></div>
+            </div>
+            <p id="contador-pasos" class="text-center text-sm text-gray-500 mt-2"></p>
+        </header>
+
+        <main>
+            <!-- Paso 0: Bienvenida -->
+            <div class="paso activo" id="paso-0">
+                <div class="text-center">
+                    <h2 class="titulo-paso">El salto paradigmático de la reactividad a la autonomía</h2>
+                    <p class="subtitulo-paso">La transición desde la creación de prompts hacia la implementación de agentes inteligentes.</p>
+                    <p class="mb-8 max-w-3xl mx-auto text-left">En el ecosistema digital contemporáneo, figuras como Isabella transforman su labor mediante el dominio de la IA generativa. Su trayectoria, desde la elaboración de prompts efectivos hasta la automatización de respuestas, representa un salto cualitativo: pasar de un modelo reactivo a un sistema agencial autónomo. Esta guía explora la arquitectura y progresión de estos sistemas, claves en la modernización organizacional.</p>
+                    <button class="boton" onclick="irAPaso(1)">Comenzar la guía</button>
+                </div>
+            </div>
+
+            <!-- Paso 1: Anatomía de un Agente -->
+            <div class="paso" id="paso-1">
+                <h2 class="titulo-paso">Anatomía de un agente inteligente</h2>
+                <p class="subtitulo-paso">Entendiendo el paradigma fundamental: percepción, razonamiento y acción.</p>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-primario);">1. Percepción</h3>
+                        <p class="text-sm">Constituye la interfaz sensorial del agente con su entorno digital. Detecta nuevos correos, extrae contenido, identifica metadatos (remitente, fecha) y reconoce patrones lingüísticos para inferir la intención del usuario.</p>
+                    </div>
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-primario);">2. Razonamiento</h3>
+                        <p class="text-sm">Es el núcleo cognitivo. Interpreta el contenido semántico, lo clasifica, evalúa la confianza de la clasificación y determina el curso de acción más apropiado, integrando LLMs con reglas de negocio específicas.</p>
+                    </div>
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-primario);">3. Acción</h3>
+                        <p class="text-sm">Transforma las decisiones en intervenciones concretas: genera respuestas, envía correos, crea tickets de seguimiento o actualiza bases de datos. Incluye mecanismos de retroalimentación para el aprendizaje continuo.</p>
+                    </div>
+                </div>
+                 <div class="tarjeta mt-6 bg-gray-50 p-4">
+                    <h3 class="text-center font-bold mb-4 text-gray-700">Diagrama de Agente Básico de IA</h3>
+                    <!-- Flujo Principal -->
+                    <div class="flex flex-col md:flex-row items-center justify-around text-center gap-4">
+                        <!-- Percepción -->
+                        <div class="w-full md:w-1/3 p-3 border-2 border-dashed rounded-lg" style="border-color: var(--color-primario);">
+                            <h4 class="font-bold text-sm" style="color: var(--color-primario);">PERCEPCIÓN</h4>
+                            <p class="text-xs text-gray-600 mt-1">Detectar y estructurar datos del entorno (ej. emails, metadatos).</p>
+                        </div>
+
+                        <!-- Arrow -->
+                        <svg class="w-8 h-8 text-gray-400 transform md:rotate-0 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+
+                        <!-- Razonamiento -->
+                        <div class="w-full md:w-1/3 p-3 border-2 border-dashed rounded-lg" style="border-color: var(--color-secundario);">
+                            <h4 class="font-bold text-sm" style="color: var(--color-secundario);">RAZONAMIENTO</h4>
+                            <p class="text-xs text-gray-600 mt-1">Clasificar, interpretar y decidir el curso de acción (LLM + Reglas).</p>
+                        </div>
+
+                        <!-- Arrow -->
+                        <svg class="w-8 h-8 text-gray-400 transform md:rotate-0 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+
+                        <!-- Acción -->
+                        <div class="w-full md:w-1/3 p-3 border-2 border-dashed rounded-lg" style="border-color: var(--color-riesgo);">
+                            <h4 class="font-bold text-sm" style="color: var(--color-riesgo);">ACCIÓN</h4>
+                            <p class="text-xs text-gray-600 mt-1">Ejecutar la decisión: responder, escalar, registrar y aprender.</p>
+                        </div>
+                    </div>
+                    <!-- Capa Transversal -->
+                    <div class="mt-4 border-t-2 pt-4 flex flex-col md:flex-row justify-between text-xs text-gray-700 gap-4">
+                        <div class="text-center md:text-left">
+                            <h5 class="font-bold">Principio de Diseño Resiliente:</h5>
+                            <p>Monitoreo continuo y escalamiento inteligente.</p>
+                        </div>
+                        <div class="text-center md:text-right">
+                            <h5 class="font-bold">Métricas Operativas:</h5>
+                            <p>Tiempo de respuesta y tasa de resolución.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paso 2: Nivel 1 -->
+            <div class="paso" id="paso-2">
+                <h2 class="titulo-paso">Nivel 1: Agente Básico de IA</h2>
+                <p class="subtitulo-paso">La arquitectura fundamental para iniciar el proceso de automatización.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">Características operativas</h3>
+                         <ul class="space-y-2 list-disc list-inside text-sm">
+                            <li><strong>Tiempo de respuesta:</strong> 3 minutos promedio</li>
+                            <li><strong>Tasa de resolución automática:</strong> 78%</li>
+                            <li><strong>Satisfacción del cliente:</strong> 92%</li>
+                            <li><strong>Costo operativo:</strong> $34 USD mensuales</li>
+                            <li><strong>ROI anual:</strong> 4,300%</li>
+                            <li><strong>Timeline implementación:</strong> 5 semanas</li>
+                        </ul>
+                    </div>
+                    <div class="tarjeta bg-gray-50">
+                        <h3 class="font-bold mb-2">Principios de diseño resiliente</h3>
+                        <ul class="space-y-2 list-disc list-inside text-sm">
+                            <li><strong>Redundancia Cognitiva:</strong> Múltiples métodos de validación (palabras clave + análisis semántico).</li>
+                            <li><strong>Escalamiento Inteligente:</strong> Transferencia fluida con preservación completa del contexto.</li>
+                            <li><strong>Monitoreo Continuo:</strong> Registro completo de decisiones para auditorías.</li>
+                            <li><strong>Transparencia Algorítmica:</strong> Comunicación clara de criterios.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 3: Nivel 2 -->
+            <div class="paso" id="paso-3">
+                <h2 class="titulo-paso">Nivel 2: Arquitectura Multicanal Integrada</h2>
+                <p class="subtitulo-paso">Un sistema empresarial avanzado para manejar múltiples canales de comunicación de forma unificada.</p>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">Características operativas</h3>
+                         <ul class="space-y-2 list-disc list-inside text-sm">
+                            <li><strong>Canales atendidos:</strong> 3 simultáneamente (Email 45%, Chat 35%, WhatsApp 20%)</li>
+                            <li><strong>Procesamiento:</strong> 1,200 consultas diarias</li>
+                            <li><strong>Reducción carga humana:</strong> 85%</li>
+                            <li><strong>Disponibilidad:</strong> 99.8% uptime</li>
+                            <li><strong>Costo operativo:</strong> $189/mes</li>
+                        </ul>
+                    </div>
+                    <div class="tarjeta bg-gray-50">
+                        <h3 class="font-bold mb-2">Diferenciadores arquitectónicos</h3>
+                        <ul class="space-y-2 list-disc list-inside text-sm">
+                            <li><strong>Procesamiento Paralelo:</strong> Reduce latencia en un 73%.</li>
+                            <li><strong>Canales Unificados:</strong> Una sola plataforma para múltiples fuentes.</li>
+                            <li><strong>Enrutamiento Inteligente Graduado:</strong> Sistema de puntuación para optimizar la distribución.</li>
+                            <li><strong>Dashboard Empresarial:</strong> Monitoreo en tiempo real con 15 métricas clave.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tarjeta mt-6 bg-gray-50 p-4">
+                    <h3 class="text-center font-bold mb-4 text-gray-700">Diagrama de Arquitectura Multicanal Integrada</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 text-xs text-center">
+                        <!-- Canales de Entrada -->
+                        <div class="w-full md:w-1/4 space-y-2">
+                            <h4 class="font-bold mb-2">CANALES DE ENTRADA</h4>
+                            <div class="p-2 border rounded-lg flex items-center justify-center gap-2" style="border-color: var(--color-primario);">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" style="color: var(--color-primario);" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                                <span>Email (45%)</span>
+                            </div>
+                            <div class="p-2 border rounded-lg flex items-center justify-center gap-2" style="border-color: var(--color-primario);">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" style="color: var(--color-primario);" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.08-3.242A8.995 8.995 0 012 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM4.416 14.536l.228.131.002.002.002.002a6.975 6.975 0 004.352 1.332 7.003 7.003 0 007-7c0-2.28-1.48-4.25-3.555-5.443A6.998 6.998 0 004 10c0 .98.214 1.912.6 2.742l.18.423-.42 1.25.356.12z" clip-rule="evenodd" /></svg>
+                                <span>Chat Web (35%)</span>
+                            </div>
+                            <div class="p-2 border rounded-lg flex items-center justify-center gap-2" style="border-color: var(--color-primario);">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" style="color: var(--color-primario);" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.1-.836-.414-1.077-.466-.241-.052-.399-.071-.628.243s-.836.949-1.023 1.141c-.187.193-.324.219-.601.071-.277-.147-1.142-.42-2.17-1.336-.793-.72-1.36-1.621-1.517-1.896-.157-.275-.018-.428.088-.561.11-.135.243-.344.364-.518.12-.174.157-.29.232-.484.076-.193.038-.351-.018-.484-.058-.135-.628-1.512-.837-2.079-.201-.55-.401-.484-.557-.491-.144-.007-.324-.007-.484-.007-.16 0-.42.052-.64.243-.22.193-.836.79-1.023 1.931-.187 1.141.243 2.77 1.22 3.738 1.054 1.07 2.136 1.941 3.52 2.628.187.093.356.147.561.193.287.062.533.052.721.038.22-.018.836-.344.992-.663.157-.319.157-.592.11-.663-.038-.071-.174-.119-.371-.219"/></svg>
+                                <span>WhatsApp (20%)</span>
+                            </div>
+                        </div>
+                        <!-- Arrow -->
+                        <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400 transform md:rotate-0 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+
+                        <!-- Procesamiento -->
+                        <div class="w-full md:w-1/3 p-3 border-2 rounded-lg bg-gray-100" style="border-color: var(--color-secundario);">
+                            <h4 class="font-bold mb-2">PROCESAMIENTO PARALELO</h4>
+                            <div class="p-2 border bg-white rounded-lg mt-2">
+                                <strong>Clasificación:</strong> Identificar tipo de consulta.
+                            </div>
+                            <div class="p-2 border bg-white rounded-lg mt-2">
+                                <strong>Sentimiento:</strong> Analizar tono.
+                            </div>
+                            <div class="p-2 border bg-white rounded-lg mt-2">
+                                <strong>Urgencia:</strong> Evaluar criticidad.
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow -->
+                        <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400 transform md:rotate-0 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        
+                        <!-- Salidas -->
+                        <div class="w-full md:w-1/4 space-y-2">
+                            <h4 class="font-bold mb-2">SALIDAS Y MONITOREO</h4>
+                            <div class="p-2 border rounded-lg" style="border-color: var(--color-riesgo);">
+                                <h5 class="font-semibold">Enrutamiento Inteligente</h5>
+                                <p>Automático / Híbrido / Humano</p>
+                            </div>
+                            <div class="p-2 border rounded-lg" style="border-color: var(--color-alerta);">
+                                <h5 class="font-semibold">Dashboard Operativo</h5>
+                                <p>Métricas en tiempo real (KPIs)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 4: Nivel 3 -->
+            <div class="paso" id="paso-4">
+                <h2 class="titulo-paso">Nivel 3: Arquitectura Híbrida Multi-Modelo</h2>
+                <p class="subtitulo-paso">Especialización avanzada de IA utilizando múltiples modelos para tareas específicas.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2">Criterios de enrutamiento especializado</h3>
+                        <ul class="space-y-2 list-disc list-inside text-sm">
+                            <li><strong>ChatGPT-4:</strong> Interacciones conversacionales, explicaciones paso a paso, casos que requieren empatía.</li>
+                            <li><strong>Gemini Pro:</strong> Análisis técnico, procesamiento de documentos, cálculos complejos.</li>
+                            <li><strong>Procesamiento Híbrido:</strong> Casos críticos o ambiguos que requieren múltiples perspectivas.</li>
+                        </ul>
+                    </div>
+                     <div class="tarjeta bg-gray-50">
+                        <h3 class="font-bold mb-2">Ventajas vs. Consideraciones</h3>
+                        <ul class="space-y-2 list-disc list-inside text-sm">
+                            <li><strong style="color: var(--color-secundario);">✅ Ventajas:</strong> Especialización, validación cruzada, ROI superior, redundancia inteligente.</li>
+                            <li><strong style="color: var(--color-alerta);">⚠️ Consideraciones:</strong> Mayor complejidad técnica, costos operativos 2.3x superiores, monitoreo de múltiples APIs.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tarjeta mt-6 bg-gray-50 p-4">
+                    <h3 class="text-center font-bold mb-4 text-gray-700">Diagrama de Arquitectura Híbrida Multi-Modelo</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-center">
+                        <!-- Entrada -->
+                        <div class="w-full md:w-1/5">
+                            <div class="p-3 border-2 border-dashed rounded-lg">
+                                <h4 class="font-bold">CONSULTAS ENTRANTES</h4>
+                            </div>
+                        </div>
+                        <!-- Arrow -->
+                        <svg class="w-8 h-8 text-gray-400 transform md:rotate-0 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        <!-- Router -->
+                        <div class="w-full md:w-1/4 p-3 border-2 rounded-lg bg-gray-100">
+                             <h4 class="font-bold">ROUTER INTELIGENTE</h4>
+                             <p class="mt-1">Analiza la consulta y selecciona el modelo más adecuado.</p>
+                        </div>
+                        <!-- Arrow -->
+                        <svg class="w-8 h-8 text-gray-400 transform md:rotate-0 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        <!-- Modelos -->
+                        <div class="w-full md:w-1/2 space-y-2">
+                            <div class="p-2 border rounded-lg" style="border-color: var(--color-primario);">
+                                <h5 class="font-semibold" style="color: var(--color-primario);">ChatGPT-4 (40%)</h5>
+                                <p>Ideal para interacciones conversacionales y empáticas.</p>
+                            </div>
+                            <div class="p-2 border rounded-lg" style="border-color: var(--color-secundario);">
+                                <h5 class="font-semibold" style="color: var(--color-secundario);">Gemini Pro (35%)</h5>
+                                <p>Perfecto para análisis complejo y tareas técnicas.</p>
+                            </div>
+                            <div class="p-2 border rounded-lg" style="border-color: var(--color-alerta);">
+                                <h5 class="font-semibold" style="color: #c09d0a;">Procesamiento Híbrido (25%)</h5>
+                                <p>Para casos críticos que requieren validación cruzada.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paso 5: Nivel 4 -->
+            <div class="paso" id="paso-5">
+                <h2 class="titulo-paso">Nivel 4: Implementación Real con Make.com</h2>
+                <p class="subtitulo-paso">Configuración operativa específica y métricas verificadas de un caso de uso real.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold mb-2">Especificaciones técnicas</h3>
+                            <ul class="space-y-2 list-disc list-inside text-sm">
+                                <li><strong>Plataforma:</strong> Make.com Pro Plan ($21/mes)</li>
+                                <li><strong>API:</strong> OpenAI gpt-4o-mini ($9.50/mes)</li>
+                                <li><strong>Infraestructura:</strong> Google Workspace OAuth ($3.50/mes)</li>
+                                <li><strong>Total operativo:</strong> $34/mes</li>
+                            </ul>
+                            <h3 class="font-bold mb-2 mt-4">Configuraciones</h3>
+                            <ul class="space-y-2 list-disc list-inside text-sm">
+                                <li><strong>Gmail Trigger:</strong> Polling cada 2 min, Label "support"</li>
+                                <li><strong>Router Logic:</strong> Spam (5%), FAQ Auto (78%), Escalación (17%)</li>
+                                <li><strong>ChatGPT API:</strong> Model gpt-4o-mini, Temp 0.3</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200 text-center">
+                            <a href="https://www.make.com/en/help" target="_blank" rel="noopener noreferrer" class="boton inline-block text-sm py-2 px-4">
+                                Consultar Documentación de Make.com
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tarjeta bg-gray-50">
+                        <h3 class="font-bold mb-2">Métricas operativas verificadas</h3>
+                        <ul class="space-y-2 list-disc list-inside text-sm">
+                            <li><strong>Consultas procesadas/mes:</strong> ~2,400</li>
+                            <li><strong>Tiempo ahorrado:</strong> 120 horas/mes</li>
+                            <li><strong>Ahorro mensual:</strong> $1,500</li>
+                            <li><strong>Payback period:</strong> 17 días</li>
+                            <li><strong>Timeline realista:</strong> 5 semanas (Setup → Parser → IA → Testing → Deploy)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 6: Conclusión -->
+            <div class="paso" id="paso-6">
+                <div class="text-center">
+                    <h2 class="titulo-paso" style="color: var(--color-secundario);">Progresión arquitectónica completada</h2>
+                    <p class="subtitulo-paso">Ha explorado la ruta desde un agente básico hasta una implementación empresarial real.</p>
+                    <div class="tarjeta max-w-lg mx-auto text-left">
+                        <h3 class="font-bold mb-4 text-center">Niveles de complejidad creciente:</h3>
+                        <ul class="space-y-2 list-disc list-inside">
+                            <li><strong style="color: var(--color-primario);">Nivel 1:</strong> Agente Básico, la arquitectura fundamental.</li>
+                            <li><strong style="color: var(--color-primario);">Nivel 2:</strong> Sistema Multicanal, unificando la comunicación.</li>
+                            <li><strong style="color: var(--color-primario);">Nivel 3:</strong> Arquitectura Híbrida, especializando la IA.</li>
+                            <li><strong style="color: var(--color-primario);">Nivel 4:</strong> Implementación Real, llevando la teoría a la práctica.</li>
+                        </ul>
+                    </div>
+                    <p class="mt-8 font-semibold">El futuro organizacional reside en la implementación gradual y estratégica de agentes inteligentes autónomos.</p>
+                     <button class="boton mt-6" onclick="irAPaso(0)">Reiniciar la guía</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Navegación -->
+        <footer class="flex justify-between items-center p-6 border-t border-gray-200">
+            <button id="boton-anterior" class="boton" style="background-color: #6b7280;" onclick="pasoAnterior()">Anterior</button>
+            <button id="boton-siguiente" class="boton" onclick="pasoSiguiente()">Siguiente</button>
+        </footer>
+    </div>
+    
+    <script>
+        let pasoActual = 0;
+        const pasos = document.querySelectorAll('.paso');
+        // Total de pasos de contenido real (sin contar bienvenida y conclusión)
+        const totalPasosReales = pasos.length - 2; 
+        const botonAnterior = document.getElementById('boton-anterior');
+        const botonSiguiente = document.getElementById('boton-siguiente');
+        const barraProgreso = document.getElementById('barra-progreso');
+        const contadorPasos = document.getElementById('contador-pasos');
+
+        function actualizarUI() {
+            pasos.forEach((paso, index) => {
+                paso.classList.toggle('activo', index === pasoActual);
+            });
+
+            const esPrimerPaso = pasoActual === 0;
+            const esUltimoPaso = pasoActual === pasos.length - 1;
+
+            // Ocultar header y footer en la bienvenida y en la conclusión
+            if (esPrimerPaso || esUltimoPaso) {
+                document.querySelector('footer').classList.add('hidden');
+                document.querySelector('header').classList.add('hidden');
+            } else {
+                document.querySelector('footer').classList.remove('hidden');
+                document.querySelector('header').classList.remove('hidden');
+            }
+            
+            botonAnterior.disabled = pasoActual === 1;
+            botonSiguiente.textContent = (pasoActual === pasos.length - 2) ? 'Finalizar guía' : 'Siguiente';
+
+            // Calcular el progreso basado en los pasos de contenido
+            let progreso = 0;
+            if (pasoActual > 0 && pasoActual <= totalPasosReales) {
+                 progreso = ((pasoActual -1) / (totalPasosReales -1)) * 100;
+            } else if (pasoActual > totalPasosReales) {
+                progreso = 100;
+            }
+            
+            barraProgreso.style.width = `${progreso}%`;
+           
+            if (pasoActual > 0 && pasoActual <= totalPasosReales +1 && !esUltimoPaso) {
+                 contadorPasos.textContent = `Paso ${pasoActual} de ${totalPasosReales + 1}`;
+            } else {
+                contadorPasos.textContent = '';
+            }
+        }
+
+        function irAPaso(n) {
+            pasoActual = n;
+            actualizarUI();
+        }
+
+        function pasoSiguiente() {
+            if (pasoActual < pasos.length - 1) {
+                pasoActual++;
+                actualizarUI();
+            }
+        }
+
+        function pasoAnterior() {
+            if (pasoActual > 0) {
+                pasoActual--;
+                actualizarUI();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', actualizarUI);
+    </script>
+</body>
+</html>
+
+
+

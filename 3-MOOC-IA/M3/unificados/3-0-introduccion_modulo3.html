@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción al Módulo 3: Ética y uso responsable de IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones optimizadas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header mejorado */
+        .header-banner {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 50%, var(--verde) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.25);
+            position: relative;
+            overflow: hidden;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        /* Cards mejoradas */
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gris-200);
+            margin-bottom: 2rem;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.2);
+            border-color: var(--azul);
+        }
+
+        .content-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gris-200);
+        }
+
+        .content-card-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .content-card-title {
+            font-size: 1.75rem;
+            color: var(--azul-dark);
+            font-weight: 700;
+        }
+
+        /* Stat boxes */
+        .stat-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid var(--gris-200);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.2);
+            border-color: var(--azul);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--azul), var(--verde));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--verde-light) 0%, #F0F9F4 100%);
+            border-left: 5px solid var(--verde);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, var(--amarillo-light) 0%, #FFFBF0 100%);
+            border-left: 5px solid var(--amarillo);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, var(--azul-light) 0%, #F0F5FF 100%);
+            border-left: 5px solid var(--azul);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .quote-box {
+            background: white;
+            border-left: 5px solid var(--azul);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-style: italic;
+        }
+
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            padding-bottom: 2.5rem;
+            border-left: 3px solid var(--azul);
+        }
+
+        .timeline-item:last-child {
+            border-left-color: transparent;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.75rem;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--azul);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px white, 0 0 0 6px var(--azul);
+        }
+
+        /* Objective cards */
+        .objective-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid var(--gris-200);
+            cursor: pointer;
+        }
+
+        .objective-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 85, 165, 0.2);
+            border-color: var(--verde);
+        }
+
+        /* Accordion FAQ */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 2px solid var(--gris-200);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--azul);
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.15);
+        }
+
+        .faq-item summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 1.25rem 3rem 1.25rem 1.5rem;
+            background: linear-gradient(to right, var(--azul), var(--verde));
+            color: white;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: '+';
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.75rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item[open] summary::after {
+            content: '−';
+        }
+
+        .faq-item[open] summary {
+            background: var(--azul-dark);
+        }
+
+        .faq-answer {
+            padding: 1.5rem;
+            color: var(--gris-700);
+            line-height: 1.7;
+        }
+
+        /* Section divider */
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul), var(--verde), var(--amarillo));
+            margin: 3rem 0;
+            border-radius: 2px;
+        }
+
+        /* Text utilities */
+        .text-justify {
+            text-align: justify;
+        }
+
+        .text-high-contrast {
+            color: var(--gris-800);
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul), var(--verde));
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+
+        /* Referencias */
+        .reference-item {
+            padding-left: 2rem;
+            text-indent: -2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .header-banner {
+                padding: 2rem 1.5rem;
+            }
+            
+            .content-card {
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="main-container">
+        
+        <!-- Header -->
+        <header class="header-banner animate-fadeIn">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-5xl">⚖️</div>
+                    <div>
+                        <p class="text-white/90 text-sm font-medium mb-1">IA generativa para el desarrollo profesional</p>
+                        <h1 class="text-4xl md:text-5xl font-bold text-white">Módulo 3</h1>
+                    </div>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-semibold text-white/95 mt-4">
+                    Ética y uso responsable de IA generativa
+                </h2>
+                <p class="text-white/80 mt-3 text-lg">
+                    Navegando los dilemas éticos en contextos profesionales
+                </p>
+            </div>
+        </header>
+        
+        <!-- Sección 1: Introducción -->
+        <section class="animate-fadeIn" style="animation-delay: 0.1s;">
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="content-card-icon">🎯</div>
+                    <h2 class="content-card-title">Bienvenido al Módulo 3</h2>
+                </div>
+                <p class="text-gray-700 text-justify text-lg leading-relaxed mb-4">
+                    La IA generativa ha transformado radicalmente la manera en que trabajamos, creamos y nos presentamos profesionalmente. Sin embargo, con este poder viene una responsabilidad crucial: <strong>usar estas herramientas de manera ética, transparente y auténtica</strong>.
+                </p>
+                <p class="text-gray-700 text-justify text-lg leading-relaxed">
+                    En este módulo, exploraremos los dilemas éticos reales que enfrentan los profesionales al usar IA generativa y aprenderemos a tomar decisiones informadas que respeten tanto la eficacia como la integridad.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Sección 2: ¿Por qué importa? -->
+        <section class="animate-fadeIn" style="animation-delay: 0.2s;">
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="content-card-icon">💡</div>
+                    <h2 class="content-card-title">¿Por qué importa la ética en IA?</h2>
+                </div>
+                
+                <p class="text-gray-700 text-justify mb-6 leading-relaxed">
+                    El uso de IA generativa en contextos profesionales plantea desafíos éticos sin precedentes. A diferencia de herramientas tradicionales, la IA puede generar contenido altamente convincente que podría exagerar competencias, ocultar información relevante o presentar una versión distorsionada de nuestra experiencia profesional.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="stat-box animate-scaleIn" style="animation-delay: 0.3s;">
+                        <div class="stat-number">73%</div>
+                        <p class="text-gray-600 mt-3 font-medium">De profesionales ha usado IA para crear o mejorar CVs</p>
+                        <p class="text-xs text-gray-500 mt-2">(LinkedIn, 2024)</p>
+                    </div>
+                    <div class="stat-box animate-scaleIn" style="animation-delay: 0.4s;">
+                        <div class="stat-number">62%</div>
+                        <p class="text-gray-600 mt-3 font-medium">De reclutadores expresa preocupación por la autenticidad</p>
+                        <p class="text-xs text-gray-500 mt-2">(SHRM, 2024)</p>
+                    </div>
+                    <div class="stat-box animate-scaleIn" style="animation-delay: 0.5s;">
+                        <div class="stat-number">45%</div>
+                        <p class="text-gray-600 mt-3 font-medium">De candidatos no revisa completamente el contenido de IA</p>
+                        <p class="text-xs text-gray-500 mt-2">(Harvard Business Review, 2024)</p>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <div class="flex items-start gap-3">
+                        <div class="text-3xl">⚠️</div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2 text-gray-800">Advertencia importante</h3>
+                            <p class="text-gray-700">
+                                El uso irresponsable de IA generativa puede tener consecuencias serias: desde pérdida de credibilidad profesional hasta sanciones legales en casos de falsificación de información. Este módulo le ayudará a distinguir entre uso estratégico y uso problemático de estas tecnologías.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 3: Objetivos -->
+        <section class="animate-fadeIn" style="animation-delay: 0.3s;">
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="content-card-icon">🎓</div>
+                    <h2 class="content-card-title">Objetivos de aprendizaje</h2>
+                </div>
+                
+                <p class="text-gray-700 mb-6 text-justify leading-relaxed">
+                    Al finalizar este módulo, usted será capaz de:
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="objective-card animate-slideIn" style="animation-delay: 0.4s;">
+                        <div class="flex items-start gap-3">
+                            <div class="text-4xl flex-shrink-0">1️⃣</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-2">Comprender principios éticos fundamentales</h3>
+                                <p class="text-gray-600">
+                                    Identificar y aplicar los principios éticos establecidos por UNESCO y otras organizaciones internacionales para el uso responsable de IA en contextos profesionales.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="objective-card animate-slideIn" style="animation-delay: 0.5s;">
+                        <div class="flex items-start gap-3">
+                            <div class="text-4xl flex-shrink-0">2️⃣</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-2">Reconocer dilemas éticos comunes</h3>
+                                <p class="text-gray-600">
+                                    Analizar situaciones reales donde el uso de IA generativa presenta conflictos entre eficacia, optimización y autenticidad profesional.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="objective-card animate-slideIn" style="animation-delay: 0.6s;">
+                        <div class="flex items-start gap-3">
+                            <div class="text-4xl flex-shrink-0">3️⃣</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-2">Desarrollar criterios de decisión ética</h3>
+                                <p class="text-gray-600">
+                                    Establecer marcos personales para evaluar cuándo y cómo usar IA generativa de manera que preserve la integridad profesional.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="objective-card animate-slideIn" style="animation-delay: 0.7s;">
+                        <div class="flex items-start gap-3">
+                            <div class="text-4xl flex-shrink-0">4️⃣</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-2">Aplicar buenas prácticas responsables</h3>
+                                <p class="text-gray-600">
+                                    Implementar estrategias concretas para usar IA como herramienta de apoyo sin comprometer la autenticidad y transparencia.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="section-divider"></div>
+        
+        <!-- Sección 4: Marco conceptual -->
+        <section class="animate-fadeIn" style="animation-delay: 0.4s;">
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="content-card-icon">📚</div>
+                    <h2 class="content-card-title">Marco conceptual: Principios éticos de UNESCO</h2>
+                </div>
+                
+                <p class="text-gray-700 text-justify mb-6 leading-relaxed">
+                    La UNESCO ha establecido una serie de principios éticos fundamentales para el desarrollo y uso de inteligencia artificial. En este módulo, nos enfocaremos en aquellos directamente aplicables al uso profesional de IA generativa:
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="timeline-item">
+                        <div class="flex items-start gap-3">
+                            <div class="text-3xl">🔍</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800 mb-2">Transparencia y explicabilidad</h3>
+                                <p class="text-gray-700 text-justify">
+                                    Los sistemas de IA y su uso deben ser transparentes y comprensibles. En contextos profesionales, esto significa <strong>ser claro sobre cuándo y cómo se ha usado IA</strong> en la creación de materiales profesionales, y estar preparado para explicar el proceso.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="flex items-start gap-3">
+                            <div class="text-3xl">🛡️</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800 mb-2">Responsabilidad y rendición de cuentas</h3>
+                                <p class="text-gray-700 text-justify">
+                                    Los usuarios de IA son responsables del contenido generado, independientemente de cuánto haya contribuido la herramienta. No podemos culpar a la IA por información inexacta o engañosa: <strong>la responsabilidad última recae en quien la usa</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="flex items-start gap-3">
+                            <div class="text-3xl">⚖️</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800 mb-2">Equidad y no discriminación</h3>
+                                <p class="text-gray-700 text-justify">
+                                    El uso de IA no debe perpetuar sesgos o discriminación. Debemos ser conscientes de que las sugerencias de IA pueden reflejar prejuicios sociales, y <strong>es nuestra responsabilidad identificarlos y corregirlos</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="flex items-start gap-3">
+                            <div class="text-3xl">❤️</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800 mb-2">Bienestar humano y respeto a la dignidad</h3>
+                                <p class="text-gray-700 text-justify">
+                                    El uso de IA debe promover el bienestar humano y respetar la dignidad de todas las personas involucradas. Esto incluye no usar IA para crear contenido que <strong>distorsione significativamente nuestra experiencia real</strong> o que pueda perjudicar a otros.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box mt-6">
+                    <div class="flex items-start gap-3">
+                        <div class="text-3xl">⭐</div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2 text-gray-800">Concepto clave: Honestidad radical</h3>
+                            <p class="text-gray-700 text-justify">
+                                En este módulo trabajaremos con el principio de <strong>"honestidad radical"</strong>: usar IA generativa para presentar nuestra experiencia de la manera más efectiva posible, pero siempre dentro de los límites de la verdad factual. La IA puede ayudarnos a articular mejor lo que hemos logrado, pero nunca debe llevarnos a afirmar algo que no sea cierto.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 5: Tensiones éticas -->
+        <section class="animate-fadeIn" style="animation-delay: 0.5s;">
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="content-card-icon">🔄</div>
+                    <h2 class="content-card-title">Tensiones éticas comunes</h2>
+                </div>
+                
+                <p class="text-gray-700 text-justify mb-6 leading-relaxed">
+                    El uso de IA generativa en contextos profesionales a menudo genera tensiones entre objetivos legítimos pero potencialmente conflictivos. Reconocer estas tensiones es el primer paso para navegarlas éticamente:
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="info-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">⚔️</div>
+                            <h3 class="font-bold text-lg text-gray-800">Optimización vs. autenticidad</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify mb-3">
+                            <strong>La tensión:</strong> Queremos presentar nuestra experiencia de la manera más atractiva posible, pero sin distorsionar la realidad de nuestras competencias.
+                        </p>
+                        <p class="text-sm text-gray-600 italic">
+                            "¿Está bien usar términos técnicos sugeridos por IA si entiendo el concepto pero nunca he usado exactamente esas palabras?"
+                        </p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">🎭</div>
+                            <h3 class="font-bold text-lg text-gray-800">Privacidad vs. transparencia</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify mb-3">
+                            <strong>La tensión:</strong> Debemos ser transparentes sobre nuestra experiencia, pero también tenemos derecho a no revelar aspectos personales sensibles.
+                        </p>
+                        <p class="text-sm text-gray-600 italic">
+                            "¿Cómo explico una brecha laboral causada por problemas de salud sin comprometer mi privacidad médica?"
+                        </p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">⏱️</div>
+                            <h3 class="font-bold text-lg text-gray-800">Eficiencia vs. supervisión crítica</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify mb-3">
+                            <strong>La tensión:</strong> La IA nos ahorra tiempo valioso, pero revisar críticamente su contenido también requiere tiempo y esfuerzo.
+                        </p>
+                        <p class="text-sm text-gray-600 italic">
+                            "¿Cuánto debo revisar el contenido generado por IA antes de considerarlo 'mío'?"
+                        </p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">🎯</div>
+                            <h3 class="font-bold text-lg text-gray-800">Competitividad vs. integridad</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify mb-3">
+                            <strong>La tensión:</strong> El mercado laboral es competitivo y queremos destacar, pero no a costa de nuestra integridad profesional.
+                        </p>
+                        <p class="text-sm text-gray-600 italic">
+                            "Si otros candidatos están exagerando sus competencias con IA, ¿debo hacer lo mismo para competir?"
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="quote-box mt-6">
+                    <p class="text-gray-800 text-lg mb-3">
+                        "La tecnología no crea dilemas éticos nuevos; amplifica los existentes y los hace más visibles. El uso responsable de IA no se trata de evitar la tecnología, sino de usarla de manera que refuerce, no comprometa, nuestros valores profesionales."
+                    </p>
+                    <p class="text-right text-gray-600 font-semibold not-italic">— Investigación en ética de IA aplicada</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 6: Metodología -->
+        <section class="animate-fadeIn" style="animation-delay: 0.6s;">
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="content-card-icon">🗺️</div>
+                    <h2 class="content-card-title">¿Cómo aprenderá en este módulo?</h2>
+                </div>
+                
+                <p class="text-gray-700 text-justify mb-6 leading-relaxed">
+                    Este módulo utiliza una <strong>metodología basada en casos</strong> para explorar dilemas éticos reales. A través de la historia de Natal-IA, un profesional enfrentando decisiones complejas sobre el uso de IA, usted tendrá la oportunidad de:
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="highlight-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">📖</div>
+                            <h3 class="font-bold text-lg">Análisis de casos</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify">
+                            Explorará situaciones realistas donde profesionales deben tomar decisiones éticas sobre el uso de IA generativa en la creación de materiales profesionales.
+                        </p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">🤔</div>
+                            <h3 class="font-bold text-lg">Toma de decisiones</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify">
+                            Enfrentará elecciones éticas y verá las consecuencias de diferentes cursos de acción, desarrollando su capacidad de juicio en contextos complejos.
+                        </p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">💡</div>
+                            <h3 class="font-bold text-lg">Reflexión guiada</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify">
+                            Participará en ejercicios de reflexión que le ayudarán a conectar los principios éticos con su propia práctica profesional y contexto específico.
+                        </p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="text-3xl">✅</div>
+                            <h3 class="font-bold text-lg">Aplicación práctica</h3>
+                        </div>
+                        <p class="text-gray-700 text-justify">
+                            Desarrollará criterios personales y estrategias concretas para usar IA generativa de manera ética en su propio desarrollo profesional.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 7: Preguntas frecuentes -->
+        <section class="animate-fadeIn" style="animation-delay: 0.7s;">
+            <div class="content-card">
+                <div class="content-card-header">
+                    <div class="content-card-icon">❓</div>
+                    <h2 class="content-card-title">Preguntas frecuentes</h2>
+                </div>
+                
+                <div class="space-y-3">
+                    <details class="faq-item">
+                        <summary>¿Usar IA para crear un CV es siempre poco ético?</summary>
+                        <div class="faq-answer">
+                            <strong>No.</strong> Usar IA como herramienta de apoyo para articular mejor su experiencia real es completamente legítimo. Lo problemático es usar IA para <strong>exagerar competencias, inventar experiencias o presentar información engañosa</strong>. La clave está en mantener el control editorial y la responsabilidad sobre el contenido final.
+                        </div>
+                    </details>
+                    
+                    <details class="faq-item">
+                        <summary>¿Debo revelar que usé IA para crear mis materiales profesionales?</summary>
+                        <div class="faq-answer">
+                            <p class="mb-3"><strong>Depende del contexto.</strong> En general, no es necesario declarar el uso de herramientas de apoyo (así como no declararía el uso de un procesador de textos). Sin embargo:</p>
+                            <ul class="list-disc pl-6 space-y-2">
+                                <li>Si la organización específicamente pregunta o tiene políticas sobre uso de IA, debe ser transparente</li>
+                                <li>Si el contenido es sustancialmente generado por IA (más del 50%), considere mencionarlo</li>
+                                <li>Siempre debe poder defender y explicar cualquier contenido en su CV, independientemente de cómo fue creado</li>
+                            </ul>
+                        </div>
+                    </details>
+                    
+                    <details class="faq-item">
+                        <summary>¿Qué pasa si otros candidatos están usando IA de manera poco ética?</summary>
+                        <div class="faq-answer">
+                            Esta es una preocupación común pero importante de abordar. <strong>El uso ético no es una desventaja competitiva</strong>; de hecho, las organizaciones serias están desarrollando mejores métodos para detectar exageraciones y valorar la autenticidad. Además, construir una carrera sobre falsedades eventualmente tiene consecuencias negativas. La integridad es una inversión a largo plazo en su reputación profesional.
+                        </div>
+                    </details>
+                    
+                    <details class="faq-item">
+                        <summary>¿Cómo sé si estoy usando IA de manera responsable?</summary>
+                        <div class="faq-answer">
+                            <p class="mb-3">Hágase estas preguntas clave:</p>
+                            <ul class="list-disc pl-6 space-y-2 mb-3">
+                                <li>¿Puedo defender y explicar todo el contenido generado?</li>
+                                <li>¿El contenido refleja fielmente mi experiencia real?</li>
+                                <li>¿He revisado críticamente las sugerencias de la IA?</li>
+                                <li>¿Me sentiría cómodo si un empleador supiera exactamente cómo creé este material?</li>
+                                <li>¿Estaría dispuesto a mostrar este proceso a un colega respetado?</li>
+                            </ul>
+                            <p>Si respondió "sí" a todas estas preguntas, probablemente está usando IA de manera responsable.</p>
+                        </div>
+                    </details>
+                    
+                    <details class="faq-item">
+                        <summary>¿Cuánto tiempo me tomará completar el módulo?</summary>
+                        <div class="faq-answer">
+                            El Módulo 3 está diseñado para completarse en <strong>aproximadamente 2-3 horas</strong>, incluyendo el caso interactivo, las reflexiones guiadas y la evaluación final. El caso interactivo tomará entre 30-45 minutos, dependiendo de cuánto tiempo dedique a reflexionar sobre cada decisión.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 8: Cierre -->
+        <section class="animate-fadeIn" style="animation-delay: 0.8s;">
+            <div class="content-card text-center">
+                <div class="text-6xl mb-4">✅</div>
+                <h2 class="text-3xl font-bold mb-4" style="color: var(--azul-dark);">Ha completado la introducción</h2>
+                <p class="text-gray-700 mb-6 text-lg">
+                    Ahora que comprende los fundamentos éticos del uso de IA generativa, está listo para explorar el caso interactivo donde enfrentará dilemas reales y tomará decisiones sobre el uso responsable de estas herramientas.
+                </p>
+                <div class="info-box">
+                    <p class="text-gray-700 font-medium flex items-center justify-center gap-2">
+                        <span class="text-2xl">💭</span>
+                        <span>Recuerde: No hay respuestas "correctas" únicas en ética. Lo importante es desarrollar su capacidad de análisis y reflexión para tomar decisiones informadas y coherentes con sus valores profesionales.</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Referencias -->
+        <section class="animate-fadeIn" style="animation-delay: 0.9s;">
+            <div class="content-card bg-gray-50">
+                <div class="content-card-header">
+                    <div class="content-card-icon">📖</div>
+                    <h2 class="content-card-title">Referencias bibliográficas</h2>
+                </div>
+                <div class="text-sm text-gray-700 space-y-3">
+                    <p class="reference-item">
+                        Floridi, L., & Cowls, J. (2022). <em>A unified framework of five principles for AI in society</em>. En S. Muller (Ed.), <em>Constitutional challenges in the algorithmic society</em> (pp. 5-17). Cambridge University Press.
+                    </p>
+                    <p class="reference-item">
+                        Harvard Business Review. (2024). <em>The ethics of using AI in job applications</em>. https://hbr.org/2024/03/the-ethics-of-using-ai-in-job-applications
+                    </p>
+                    <p class="reference-item">
+                        LinkedIn. (2024). <em>Global talent trends 2024: The impact of generative AI on recruitment</em>. https://business.linkedin.com/talent-solutions/resources/talent-trends
+                    </p>
+                    <p class="reference-item">
+                        Society for Human Resource Management. (2024). <em>AI in hiring: Recruiter perspectives on authenticity and ethics</em>. https://www.shrm.org/topics-tools/news/technology/ai-hiring-recruiter-perspectives
+                    </p>
+                    <p class="reference-item">
+                        UNESCO. (2021). <em>Recomendación sobre la ética de la inteligencia artificial</em>. https://unesdoc.unesco.org/ark:/48223/pf0000380455_spa
+                    </p>
+                    <p class="reference-item">
+                        Whittlestone, J., Nyrup, R., Alexandrova, A., Dihal, K., & Cave, S. (2019). <em>Ethical and societal implications of algorithms, data, and artificial intelligence: A roadmap for research</em>. Nuffield Foundation.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-900 to-green-800 text-white py-8 mt-12">
+        <div class="max-w-1200px mx-auto px-4 text-center">
+            <p class="text-base font-semibold mb-1">Oficina de Inteligencia Artificial</p>
+            <p class="text-sm opacity-90 mb-1">Vicerrectoría de Tecnologías de la Información</p>
+            <p class="text-sm opacity-75">Universidad de Chile © 2025 • Todos los derechos reservados</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all animated elements
+        document.querySelectorAll('.animate-fadeIn, .animate-slideIn, .animate-scaleIn').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+        
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

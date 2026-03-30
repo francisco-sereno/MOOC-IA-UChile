@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZZWQZR8VQ');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: IA Generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f5f7;
+            color: #172b4d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        :root {
+            --color-principal: #0033A0;
+            --color-acento: #009639;
+            --color-texto: #172b4d;
+            --color-fondo-claro: #f4f5f7;
+            --color-borde: #dfe1e6;
+            --font-main: 'Montserrat', sans-serif;
+        }
+        .presentation-container {
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 16 / 13;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--color-borde);
+            position: relative;
+        }
+        .slides-container {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+        }
+        .slide {
+            display: none;
+            flex-grow: 1;
+            padding: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+            overflow-y: auto;
+            animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.2px;
+            width: 100%;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-title {
+            font-family: var(--font-main);
+            font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 1.25rem;
+            color: var(--color-texto);
+            line-height: 1.25;
+        }
+        .slide-subtitle {
+            font-family: var(--font-main);
+            font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+            color: #42526e;
+            max-width: 85%;
+            line-height: 1.6;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, var(--color-principal), var(--color-acento));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: white;
+            color: var(--color-principal);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--color-borde);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #prevBtn { left: 1.5rem; }
+        #nextBtn { right: 1.5rem; }
+        .nav-button:hover {
+            background-color: var(--color-principal);
+            color: white;
+            border-color: var(--color-principal);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .nav-button:disabled {
+            background-color: #fafbfc;
+            color: #a5adba;
+            cursor: not-allowed;
+            transform: translateY(-50%) scale(1);
+            opacity: 0.8;
+        }
+        .slide-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #42526e;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--color-borde);
+        }
+        .info-card {
+            background-color: #ffffff;
+            border: 1px solid var(--color-borde);
+            border-radius: 0.75rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -10px rgba(0, 82, 204, 0.2);
+            border-color: var(--color-principal);
+        }
+        
+        .grid-timeline {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 0.5rem 2rem;
+            width: 100%;
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+        .timeline-center {
+            grid-column: 2;
+            position: relative;
+        }
+        .timeline-center::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--color-borde);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--color-acento);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--color-principal);
+            z-index: 1;
+            position: relative;
+        }
+        .timeline-content-left { grid-column: 1; text-align: right; padding: 0.25rem 0; }
+        .timeline-content-right { grid-column: 3; text-align: left; padding: 0.25rem 0; }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(23, 43, 77, 0.6);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: white; padding: 2rem; border-radius: 0.75rem;
+            max-width: 500px; width: 90%;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.3);
+            transform: scale(0.95); transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-title { font-family: var(--font-main); font-weight: 900; font-size: 1.5rem; color: var(--color-principal); margin-bottom: 1rem; }
+        .modal-body { color: #42526e; line-height: 1.6; margin-bottom: 1.5rem; }
+        .modal-close-btn {
+            display: block; width: 100%; padding: 0.75rem; background-color: var(--color-principal);
+            color: white; border: none; border-radius: 0.5rem; font-weight: 700;
+            cursor: pointer; transition: background-color 0.2s;
+        }
+        .modal-close-btn:hover { background-color: #003f99; }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .presentation-container { 
+                border-radius: 0; height: 100vh; width: 100vw;
+                max-width: 100%; aspect-ratio: auto;
+            }
+            .slide-subtitle { max-width: 100%; }
+            .nav-button {
+                top: auto; bottom: 1rem; transform: none;
+                width: 50px; height: 40px; border-radius: 0.5rem;
+            }
+            #prevBtn { left: 1rem; }
+            #nextBtn { right: 1rem; }
+            .slide-counter { bottom: 1.5rem; }
+            .grid-timeline { grid-template-columns: auto 1fr; gap: 1rem; }
+            .timeline-center { grid-column: 1; }
+            .timeline-content-left, .timeline-content-right { grid-column: 2; text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <div class="slides-container">
+
+            <!-- Diapositiva 1: Título -->
+            <div class="slide active" style="background: radial-gradient(circle, rgba(255,255,255,1) 0%, #f4f5f7 100%);">
+                <div class="flex flex-col h-full text-center p-8 justify-center">
+                    <h1 class="font-black gradient-text mb-4" style="font-size: clamp(2.5rem, 8vw, 4.5rem);">IA Generativa</h1>
+                    <p class="max-w-4xl mx-auto" style="font-size: clamp(1.25rem, 4vw, 1.75rem); color: #42526e;">Fundamentos</p>
+                </div>
+            </div>
+
+            <!-- Diapositiva 2: Oportunidad y Desafío -->
+            <div class="slide">
+                <h2 class="slide-title text-center">Oportunidad y desafío en Chile</h2>
+                 <div class="grid md:grid-cols-2 gap-8 w-full max-w-5xl mt-8">
+                    <div class="text-center p-6 bg-green-50 rounded-lg border-l-4 border-green-500">
+                        <h3 class="text-2xl font-bold text-green-700 mb-3">Oportunidad: Liderazgo regional</h3>
+                        <p class="text-6xl font-bold text-blue-600">N°1</p>
+                        <p class="mt-2 text-lg font-semibold">País Pionero en IA</p>
+                        <p class="text-gray-600 mt-2 text-sm">Chile lidera el desarrollo de la IA en Latinoamérica gracias a sus fortalezas en infraestructura, talento y gobernanza. <br><b>(Fuente: ILIA, 2024)</b></p>
+                    </div>
+                    <div class="text-center p-6 bg-red-50 rounded-lg border-l-4 border-red-500">
+                        <h3 class="text-2xl font-bold text-red-700 mb-3">Desafío: Retención de talento</h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                        <p class="mt-2 text-lg font-semibold">Fuga de talentos</p>
+                        <p class="text-gray-600 mt-2 text-sm">Desde 2019, la región muestra una tendencia permanente a la pérdida neta de especialistas en IA, un reto clave para el desarrollo sostenible. <br><b>(Fuente: ILIA, 2024)</b></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 3: ¿Qué es? -->
+            <div class="slide items-center">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto w-32 h-32 md:w-40 md:h-40" style="color: var(--color-principal);">
+                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2" fill="var(--color-principal)" fill-opacity="0.1" stroke-width="1"></rect>
+                            <line x1="9" y1="2" x2="9" y2="6"></line><line x1="15" y1="2" x2="15" y2="6"></line>
+                            <line x1="2" y1="9" x2="6" y2="9"></line><line x1="2" y1="15" x2="6" y2="15"></line>
+                            <line x1="18" y1="9" x2="22" y2="9"></line><line x1="18" y1="15" x2="22" y2="15"></line>
+                            <line x1="9" y1="18" x2="9" y2="22"></line><line x1="15" y1="18" x2="15" y2="22"></line>
+                            <rect x="7" y="7" width="10" height="10" rx="1" ry="1" fill="var(--color-acento)" fill-opacity="0.2" stroke="var(--color-acento)"></rect>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="slide-title">1. ¿Qué es la IA generativa?</h2>
+                        <p class="slide-subtitle" style="font-size: clamp(1.1rem, 2.5vw, 1.3rem);">Es una rama de la inteligencia artificial que no se limita a analizar datos, sino que <strong style="color: var(--color-texto)">crea contenido original y novedoso</strong>, como textos, imágenes o música, a partir de los patrones aprendidos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 4: Las 4 claves -->
+            <div class="slide text-center">
+                 <h2 class="slide-title">2. Las 4 claves de la generatividad</h2>
+                 <p class="slide-subtitle mx-auto mb-10">Estas características le otorgan un poder transformador. A continuación, exploraremos cada una.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Creatividad</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="creatividad">Saber más</button>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Adaptabilidad</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="adaptabilidad">Saber más</button>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Escalabilidad</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="escalabilidad">Saber más</button>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Multimodalidad</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="multimodalidad">Saber más</button>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Diapositiva 5: Barreras de Adopción -->
+            <div class="slide">
+                <h2 class="slide-title text-center">3. Barreras reales para la adopción</h2>
+                <p class="slide-subtitle mx-auto text-center mb-8">Según el informe global "State of Generative AI in the Enterprise" (Deloitte, 2025), las principales barreras que frenan la adopción de IA en las empresas son:</p>
+                <div class="w-full max-w-3xl space-y-4">
+                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div class="text-3xl font-bold text-red-600 w-16 text-center">35%</div>
+                        <div class="text-lg">Teme el impacto de <b>errores con consecuencias en el mundo real</b>.</div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div class="text-3xl font-bold text-red-600 w-16 text-center">34%</div>
+                        <div class="text-lg">Se preocupa por <b>no alcanzar el valor o retorno de la inversión</b> esperado.</div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div class="text-3xl font-bold text-red-600 w-16 text-center">29%</div>
+                        <div class="text-lg">Anticipa una <b>pérdida de confianza</b> generalizada por sesgos y alucinaciones.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Diapositiva 6: Caso Práctico -->
+            <div class="slide">
+                <h2 class="slide-title text-center">4. Caso práctico: La kermesse de Isabella</h2>
+                <p class="slide-subtitle mx-auto text-center mb-8">Isabella identifica que una de sus tareas más tediosas es <b>redactar el correo para solicitar voluntarios</b>. Actualmente le toma 2 horas.</p>
+                <div class="w-full max-w-3xl bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                    <h4 class="font-bold text-green-800 mb-2">Análisis del potencial con IA:</h4>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                         <li><b>Tarea:</b> Redactar correo para solicitar voluntarios.</li>
+                         <li><b>Naturaleza:</b> Repetitiva, pero requiere un tono motivador y claro.</li>
+                         <li><b>Dolor:</b> Consume mucho tiempo que podría usar para contactar proveedores.</li>
+                         <li><b>Potencial con IA:</b> Alto. Isabella puede pedir a la IA que genere un borrador del correo con un tono cercano y convincente, especificando los roles necesarios y los horarios.</li>
+                    </ul>
+                    <p class="mt-4 font-bold text-green-800">Resultado esperado: Reducir el tiempo de 2 horas a 20 minutos.</p>
+                </div>
+            </div>
+
+            <!-- Diapositiva 7: Ética -->
+            <div class="slide text-center">
+                <h2 class="slide-title">5. Buenas prácticas y ética</h2>
+                <p class="slide-subtitle mx-auto mb-10">Un uso responsable es fundamental para mitigar riesgos.</p>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Privacidad</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="privacidad">Ver recomendación</button>
+                    </div>
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal); font-size: clamp(1rem, 2.5vw, 1.1rem);">Verificación</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="verificacion">Ver recomendación</button>
+                    </div>
+                    <div class="info-card text-center p-6 border-2" style="border-color: #de350b; background-color: #fff4f2;">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: #bf2600; font-size: clamp(1rem, 2.5vw, 1.1rem);">Revisión</h4>
+                        <button class="mt-4 text-sm font-bold text-red-700 hover:text-red-900 open-modal-btn" data-modal="revision">Ver recomendación</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 8: Conclusión -->
+            <div class="slide text-white text-center" style="background: linear-gradient(45deg, var(--color-principal), #003f99);">
+                <h3 class="font-black mb-4" style="font-family: var(--font-main); font-weight: 900; font-size: clamp(2.5rem, 6vw, 3.5rem);">La IA como copiloto profesional</h3>
+                <p class="max-w-4xl mx-auto leading-relaxed" style="font-size: clamp(1.25rem, 3.5vw, 1.75rem);">La IA generativa no busca reemplazar la inteligencia humana, sino <b>aumentarla</b>. Su adopción tiene el potencial de elevar el PIB de Chile en <strong class="font-bold" style="background-color: var(--color-acento); color: white; padding: 0.1rem 0.6rem;">1.2 puntos</strong> solo por mejoras en eficiencia.</p>
+            </div>
+
+        </div>
+
+        <!-- Navegación Fija -->
+        <button id="prevBtn" class="nav-button" aria-label="Diapositiva anterior"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button id="nextBtn" class="nav-button" aria-label="Siguiente diapositiva"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+        <div id="slideCounter" class="slide-counter"></div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title"></h3>
+            <p id="modalBody" class="modal-body"></p>
+            <button id="modalClose" class="modal-close-btn">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slideCounter');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                updateControls();
+            }
+
+            function updateControls() {
+                slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+
+            nextBtn.addEventListener('click', () => { if (currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+            prevBtn.addEventListener('click', () => { if (currentSlide > 0) showSlide(currentSlide - 1); });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextBtn.click();
+                else if (e.key === 'ArrowLeft') prevBtn.click();
+            });
+
+            updateControls();
+
+            // Modal Logic
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const modalCloseBtn = document.getElementById('modalClose');
+
+            const modalData = {
+                creatividad: { title: 'Creatividad sintética', body: 'Combina elementos conocidos de formas nuevas e inesperadas para producir resultados originales, como proponer ideas para los juegos de la kermesse.' },
+                adaptabilidad: { title: 'Adaptabilidad contextual', body: 'Ajusta el tono, estilo y formato del contenido según la situación. Por ejemplo, puede crear un post para Instagram y un correo formal sobre el mismo tema.' },
+                escalabilidad: { title: 'Escalabilidad', body: 'Genera grandes volúmenes de contenido de alta calidad de forma rápida y consistente, como crear 5 versiones distintas de un correo para diferentes grupos de apoderados.' },
+                multimodalidad: { title: 'Multimodalidad', body: 'Trabaja con diferentes tipos de datos: a partir de un texto, puede generar una imagen para un afiche, o resumir el audio de una reunión.' },
+                privacidad: { title: 'Recomendación: Privacidad', body: 'Nunca introduzca información sensible, personal o confidencial (RUT, direcciones, datos de contacto) en las versiones públicas de estas herramientas. Los datos pueden ser usados para entrenar el modelo.' },
+                verificacion: { title: 'Recomendación: Verificación', body: 'La IA puede "alucinar" e inventar datos, fechas o fuentes con total seguridad. Suena creíble, pero puede ser falso. Siempre verifique la información crítica antes de usarla.' },
+                revision: { title: 'Recomendación: Revisión', body: 'La IA es un copiloto, no un piloto automático. El juicio final siempre es suyo. Revise y edite siempre el contenido generado para asegurar que se alinee con el tono y los objetivos deseados.' }
+            };
+
+            const openModal = (type) => {
+                const data = modalData[type];
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalBody.textContent = data.body;
+                    modal.classList.add('active');
+                }
+            };
+
+            const closeModal = () => modal.classList.remove('active');
+
+            openModalBtns.forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.modal)));
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        });
+    </script>
+
+</body>
+</html>

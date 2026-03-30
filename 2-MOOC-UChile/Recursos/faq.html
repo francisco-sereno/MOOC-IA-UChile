@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RJSF7BSNXP');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preguntas frecuentes – Módulo 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--blue:#0033A0;--green:#009639;--yellow:#FFD100;--n-900:#0F172A;--n-700:#1E293B;--n-50:#F8FAFC;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Montserrat',sans-serif;background:linear-gradient(135deg,var(--n-900)0%,var(--n-700)45%,var(--n-900)100%);color:var(--n-700);min-height:100vh;display:flex;justify-content:center;padding:2rem;}
+    .app{width:min(92vw,1320px);background:var(--n-50);border-radius:18px;box-shadow:0 24px 64px rgba(0,0,0,.35);overflow:hidden;}
+    /* Header */
+    .header{display:flex;align-items:center;gap:1.6rem;padding:2rem;background:linear-gradient(115deg,var(--blue),var(--green));color:#fff;flex-wrap:wrap;justify-content:center;}
+    .logo{width:250px;height:auto;filter:drop-shadow(0 4px 5px rgba(0,0,0,.4));}
+    .brand{display:flex;flex-direction:column;gap:.25rem;max-width:650px;text-align:left;}
+    .brand-icon{font-size:3rem;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35));}
+    .brand-title{font-size:clamp(1.6rem,3vw,2.6rem);font-weight:700;letter-spacing:-.4px;}
+    .brand-sub{font-size:clamp(.9rem,2vw,1.05rem);opacity:.9;}
+    @media(max-width:700px){.header{flex-direction:column}.brand{text-align:center;align-items:center}}
+    /* Categories */
+    .categories{padding:2.2rem 2rem;}
+    .categories-title{text-align:center;font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.4rem;}
+    .categories-desc{text-align:center;font-size:.95rem;margin-bottom:2rem;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.3rem;}
+    .card{background:linear-gradient(160deg,rgba(0,51,160,.96),rgba(0,150,57,.96));border-radius:14px;padding:1.4rem;color:#fff;cursor:pointer;transition:transform .3s,box-shadow .3s;}
+    .card:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 20px 48px rgba(0,0,0,.3);}  
+    .card .emoji{font-size:2rem;margin-bottom:.5rem;}
+    .card h3{font-size:1.15rem;margin-bottom:.25rem;font-weight:700;}
+    .card p{font-size:.85rem;opacity:.9;line-height:1.35;}
+    /* Questions */
+    .questions{display:none;padding:2.2rem 2rem;}
+    .questions-title{text-align:center;font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1.2rem;}
+    .back-btn{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:.6rem 1rem;font-size:.88rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.2rem;transition:background .25s;}
+    .back-btn:hover{background:var(--green);}   
+    .search{max-width:520px;width:100%;display:flex;gap:.6rem;margin:0 auto 1.8rem;}
+    .search input{flex:1;border:1px solid var(--n-700);border-radius:10px;padding:.7rem 1rem;font-size:.9rem;}
+    .search button{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:.7rem 1rem;font-weight:600;cursor:pointer;transition:background .25s;}
+    .search button:hover{background:var(--green);}   
+    details.faq{border:1px solid #e2e8f0;border-left:6px solid var(--blue);border-radius:12px;margin-bottom:1.2rem;overflow:hidden;}
+    summary{list-style:none;padding:1.3rem 1.6rem;background:linear-gradient(135deg,var(--blue),var(--green));color:#fff;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.8rem;}
+    summary::-webkit-details-marker{display:none;}
+    summary span{flex:1;}
+    summary::after{content:"+";font-weight:700;font-size:1.25rem;transition:transform .3s;}
+    details[open] summary::after{content:"−";transform:rotate(180deg);}  
+    .answer{padding:1.3rem 1.6rem;background:#fff;color:var(--n-700);font-size:.95rem;line-height:1.6;}
+    .answer .strong{font-weight:700;color:var(--blue);}
+    /* Footer */
+    .footer{background:var(--n-900);color:#cbd5e1;text-align:center;padding:1.3rem;font-size:.82rem;}
+    .footer strong{color:#fff;font-size:.9rem;}
+    .footer .label{color:var(--yellow);font-weight:600;}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <img class="logo" src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo" onerror="this.style.display='none'"/>
+      <div class="brand">
+        <div class="brand-icon">🧠</div>
+        <h1 class="brand-title">Preguntas frecuentes – Módulo 1</h1>
+        <p class="brand-sub">Fundamentos de inteligencia artificial generativa</p>
+      </div>
+    </header>
+
+    <!-- Categories -->
+    <section class="categories" id="catView">
+      <h2 class="categories-title">Explore el conocimiento</h2>
+      <p class="categories-desc">Seleccione una categoría para profundizar en los conceptos del módulo 1.</p>
+      <div class="grid" id="catGrid"></div>
+    </section>
+
+    <!-- Questions -->
+    <section class="questions" id="qView">
+      <button class="back-btn" id="btnBack">← Volver a categorías</button>
+      <h2 class="questions-title" id="catTitle"></h2>
+      <div class="search"><input id="searchInput" placeholder="Filtrar preguntas…"/><button id="btnClear">Limpiar</button></div>
+      <div id="qContainer"></div>
+    </section>
+
+    <footer class="footer">
+      <strong>Sistema FAQ interactivo · Módulo 1 · Agosto 2025</strong><br/>
+      <div><span class="label">Desarrollo digital:</span> Modelo de IA de Google (Gemini)</div>
+      <div><span class="label">Contenido académico:</span> Francisco Sereño</div>
+      <div><span class="label">Funcionalidades:</span> FAQ interactivo, 6 categorías, búsqueda en vivo, diseño responsive</div>
+      <div><span class="label">Tecnologías:</span> HTML5 · CSS3 (Flex / Grid) · JS DOM nativo · Fuente Montserrat</div>
+    </footer>
+  </div>
+
+  <script>
+    // --- Datos completos ---
+    const faqData = {
+      conceptos:{emoji:'🤖',title:'Conceptos fundamentales',description:'Definiciones esenciales y diferencias clave',questions:[
+        {question:'¿Qué es la inteligencia artificial?',answer:'Es una rama de la informática que permite a las máquinas realizar tareas que normalmente requieren inteligencia humana, como aprender, razonar y crear.'},
+        {question:'¿Qué es la IA generativa?',answer:'La <span class="strong">IA generativa</span> es una subdisciplina de la IA que se especializa en crear contenido completamente nuevo y original (texto, imágenes, código) a partir de los patrones que ha aprendido de grandes conjuntos de datos.'},
+        {question:'Diferencia entre IA tradicional y generativa',answer:'La <span class="strong">IA tradicional</span> (o discriminativa) se enfoca en clasificar y predecir sobre datos existentes. La <span class="strong">IA generativa</span>, en cambio, sintetiza y crea contenido nuevo que no existía previamente.'},
+        {question:'¿Cómo "piensa" la IA generativa?',answer:'No "piensa" ni "razona" como un humano. Su funcionamiento se basa en la predicción estadística: calcula la secuencia de palabras (o píxeles) más probable para construir una respuesta coherente.'}]},
+      herramientas:{emoji:'🛠️',title:'Herramientas y plataformas',description:'Sistemas de IA generativa relevantes',questions:[
+        {question:'¿Qué herramientas ofrece OpenAI?',answer:'<span class="strong">OpenAI</span> es la empresa detrás de la familia de modelos <span class="strong">GPT</span> (Generative Pre-trained Transformer). Su producto más conocido es <span class="strong">ChatGPT</span>, basado en modelos como GPT-4, ideal para tareas conversacionales y de redacción. También desarrollaron <span class="strong">DALL-E 3</span> para la generación de imágenes.'},
+        {question:'¿Qué modelos tiene Google?',answer:'<span class="strong">Google</span> ha desarrollado la familia de modelos multimodales <span class="strong">Gemini</span> (como Gemini 1.5 Pro). Estos modelos están profundamente integrados en su ecosistema de productos, como <span class="strong">Google Workspace</span> (Docs, Sheets) y su plataforma en la nube Vertex AI, siendo excelentes para tareas de productividad y análisis de datos.'},
+        {question:'¿Cuáles son las características de Claude?',answer:'Desarrollado por <span class="strong">Anthropic</span>, la familia de modelos <span class="strong">Claude 3</span> (Haiku, Sonnet y Opus) es reconocida por su enfoque en seguridad ("IA Constitucional") y por su gran "ventana de contexto", que le permite procesar y analizar documentos muy extensos con alta precisión.'},
+        {question:'¿Y para generar imágenes?',answer:'Además de DALL-E 3 de OpenAI, otras herramientas líderes son <span class="strong">Midjourney</span>, famosa por sus resultados artísticos y de alta calidad, y <span class="strong">Stable Diffusion</span>, un potente modelo de código abierto que permite una mayor personalización por parte de los usuarios.'},
+        {question:'¿Qué es Perplexity AI?',answer:'<span class="strong">Perplexity AI</span> es un motor de búsqueda conversacional que entrega respuestas directas con fuentes citadas. Es parte de la nueva tendencia de motores de búsqueda potenciados por IA generativa, siendo ideal para tareas de investigación.'}]},
+      casos:{emoji:'📊',title:'Casos de uso y ejemplos',description:'Aplicaciones prácticas en Chile',questions:[
+        {question:'¿Cuál es el caso de estudio del módulo?',answer:'<b>Isabella Andrea</b> es una profesional competente que se siente profesionalmente estancada. Aspira a un rol con mayor responsabilidad, como "coordinadora de proyectos", pero enfrenta un obstáculo clave: no sabe cómo traducir su valiosa experiencia administrativa al lenguaje corporativo que exigen las descripciones de cargo y los sistemas de selección automatizados (ATS). Su objetivo es usar la IA generativa para realizar un diagnóstico de sus competencias y crear un puente entre su perfil actual y sus aspiraciones futuras.'},
+        {question:'Mencione casos de uso en el sector público de Latinoamérica', answer:'Existen varios casos notables. <span class="strong">Prometea</span>, desarrollado en Argentina, es un sistema que optimiza la redacción de dictámenes jurídicos. En Colombia, <span class="strong">HeredIA</span> es una herramienta que asiste a la Corte Constitucional en la selección y análisis de tutelas.'},
+        {question:'¿Qué rol juega la IA en el desarrollo de competencias?', answer:'La IA no solo optimiza tareas, sino que también impulsa la necesidad de nuevas habilidades. El informe ILIA (2024) destaca que, si bien la brecha en competencias de ingeniería es grande, la región tiene una oportunidad en la <span class="strong">alfabetización en IA</span>, es decir, en enseñar a la fuerza laboral a usar estas herramientas de manera efectiva.'},
+        {question:'¿Cuál es la situación de Chile en la región?',answer:'Según el <b>Índice Latinoamericano de Inteligencia Artificial (ILIA, 2024)</b>, Chile es considerado un país <b>"Pionero"</b> y lidera la región en adopción y desarrollo de IA.'}]},
+      metodologia:{emoji:'⚙️',title:'Metodología e implementación',description:'Estrategias de adopción efectivas',questions:[
+        {question:'¿Cuáles son las fases de una implementación exitosa?',answer:'Son cinco fases iterativas: 1. <b>Diagnóstico</b> (mapear tareas), 2. <b>Diseño</b> (seleccionar herramientas), 3. <b>Pilotaje</b> (proyectos pequeños), 4. <b>Escalamiento</b> (expansión gradual) y 5. <b>Optimización continua</b>.'},
+        {question:'¿Cuál es el principio fundamental antes de adoptar IA?', answer:'No se debe adoptar la IA simplemente porque es popular o novedosa. El paso crucial es el <span class="strong">diagnóstico</span>: identificar un problema real y concreto que la IA pueda resolver de manera más eficiente que las herramientas existentes. La tecnología es un medio, no un fin en sí mismo.'},
+        {question:'¿Cuáles son las principales barreras para la adopción?',answer:'Las barreras más importantes son la <span class="strong">inversión inicial</span> requerida, la <span class="strong">falta de competencias</span> y habilidades en los trabajadores para usar las herramientas, la <span class="strong">resistencia cultural al cambio</span> y tener <span class="strong">sistemas tecnológicos no preparados</span> para integrar soluciones de IA.'}]},
+      limitaciones:{emoji:'⚠️',title:'Limitaciones y ética',description:'Riesgos y buenas prácticas indispensables',questions:[
+        {question:'¿Por qué ocurren las "alucinaciones" de la IA?',answer:'Ocurren porque la IA no "sabe" ni "entiende"; solo predice la siguiente palabra más probable en una secuencia. Si los patrones en sus datos de entrenamiento son débiles o ambiguos sobre un tema, el modelo puede "rellenar los vacíos" generando información que es estadísticamente coherente pero factualmente incorrecta.'},
+        {question:'¿Por qué la IA puede tener sesgos?',answer:'Porque los modelos aprenden de los datos con los que son entrenados. Si esos datos contienen sesgos sociales o culturales, la IA los reproducirá y podría incluso amplificarlos.'},
+        {question:'¿Cómo se pueden aplicar los principios éticos en la práctica?',answer:'<span class="strong">Transparencia:</span> Indicar cuándo un contenido fue generado o asistido por IA. <span class="strong">Verificación:</span> Contrastar siempre datos, fechas y cifras con fuentes confiables. <span class="strong">Privacidad:</span> Anonimizar datos sensibles antes de introducirlos en una herramienta (ej. reemplazar nombres con "[Funcionario A]").'}]}
+    };
+
+    // --- Referencias DOM ---
+    const catGrid=document.getElementById('catGrid');
+    const qContainer=document.getElementById('qContainer');
+    const catView=document.getElementById('catView');
+    const qView=document.getElementById('qView');
+    const catTitle=document.getElementById('catTitle');
+    const btnBack=document.getElementById('btnBack');
+    const searchInput=document.getElementById('searchInput');
+    const btnClear=document.getElementById('btnClear');
+
+    // --- Construir categorías ---
+    function buildCategories(){
+      Object.entries(faqData).forEach(([key,cat])=>{
+        const card=document.createElement('div');
+        card.className='card';
+        card.innerHTML=`<span class="emoji">${cat.emoji}</span><h3>${cat.title}</h3><p>${cat.description}</p>`;
+        card.onclick=()=>openCategory(key);
+        catGrid.appendChild(card);
+      });
+    }
+
+    // --- Abrir categoría ---
+    function openCategory(key){
+      const cat=faqData[key];
+      if(!cat) return;
+      catTitle.innerHTML=`${cat.emoji} ${cat.title}`;
+      buildQuestions(cat.questions);
+      catView.style.display='none';
+      qView.style.display='block';
+      searchInput.value='';
+    }
+
+    // --- Construir preguntas ---
+    function buildQuestions(list){
+      qContainer.innerHTML='';
+      list.forEach(q=>{
+        const details=document.createElement('details');
+        details.className='faq';
+        const summary=document.createElement('summary');
+        summary.innerHTML=`<span>❓ ${q.question}</span>`;
+        const answerDiv=document.createElement('div');
+        answerDiv.className='answer';
+        answerDiv.innerHTML=q.answer;
+        details.appendChild(summary);
+        details.appendChild(answerDiv);
+        qContainer.appendChild(details);
+      });
+    }
+
+    // --- Buscador ---
+    searchInput.oninput=()=>{
+      const term=searchInput.value.toLowerCase();
+      qContainer.querySelectorAll('details').forEach(d=>{
+        const txt=d.querySelector('summary').innerText.toLowerCase();
+        d.style.display=txt.includes(term)?'':'none';
+      });
+    };
+    btnClear.onclick=()=>{searchInput.value='';searchInput.dispatchEvent(new Event('input'))};
+
+    // --- Botón volver ---
+    btnBack.onclick=()=>{
+      qView.style.display='none';
+      catView.style.display='block';
+    };
+
+    document.addEventListener('DOMContentLoaded',buildCategories);
+  </script>
+</body>
+</html>
+
+

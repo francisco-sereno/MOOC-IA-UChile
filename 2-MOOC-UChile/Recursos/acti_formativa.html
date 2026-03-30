@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad: Identificando Riesgos Éticos en la IA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #005A9C;
+            --secondary-color: #007bff;
+            --light-grey: #f0f2f5;
+            --dark-grey: #4a4a4a;
+            --text-color: #333;
+            --success-green: #28a745;
+            --error-red: #dc3545;
+            --white: #ffffff;
+            --border-radius: 10px;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--light-grey);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #quiz-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 35px 40px;
+            margin-bottom: 20px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .card.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background-color: var(--white);
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 18px;
+            text-align: left;
+            font-size: 1.1em;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .option:hover:not(:disabled) {
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .option:disabled {
+            cursor: not-allowed;
+        }
+
+        .option.correct {
+            background-color: #e9f5ec;
+            border-color: var(--success-green);
+            color: var(--success-green);
+            font-weight: bold;
+        }
+
+        .option.incorrect {
+            background-color: #fbebed;
+            border-color: var(--error-red);
+            color: var(--error-red);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 1.05em;
+            line-height: 1.6;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #e9f5ec;
+            color: #1d6432;
+            border-left: 5px solid var(--success-green);
+        }
+        
+        .feedback.incorrect {
+            background-color: #fbebed;
+            color: #7b2c34;
+            border-left: 5px solid var(--error-red);
+        }
+        
+        .feedback strong {
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .hint-btn, .next-btn {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .hint-btn {
+            background-color: #e0e0e0;
+            color: var(--dark-grey);
+        }
+
+        .hint-btn:hover {
+            background-color: #d4d4d4;
+        }
+
+        .hint-box {
+            background-color: #fffbe6;
+            color: #8a6d3b;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #ffecb3;
+            display: none;
+        }
+
+        .next-btn {
+            background-color: var(--primary-color);
+            color: white;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background-color: #00487a;
+        }
+
+        #final-card h2 {
+            text-align: center;
+        }
+        #final-card p {
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <div class="card active" data-question="1">
+            <h2>Caso 1: Un sistema de IA para selección de personal, entrenado con datos históricos, descarta sistemáticamente a candidatas mujeres para roles técnicos. ¿Cuál es el principal riesgo ético?</h2>
+            <div class="options">
+                <button class="option" data-correct="true">Sesgo</button>
+                <button class="option">Privacidad</button>
+                <button class="option">Transparencia</button>
+                <button class="option">Seguridad</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="hint-box">Considera si el sistema está tratando a todos los grupos de personas de manera justa o si está replicando prejuicios existentes.</div>
+            <div class="controls">
+                <button class="hint-btn">💡 Pista</button>
+                <button class="next-btn">Siguiente →</button>
+            </div>
+        </div>
+
+        <div class="card" data-question="2">
+            <h2>Caso 2: Una ciudad implementa una red de cámaras con IA que analiza patrones de movimiento y crea perfiles detallados de los ciudadanos sin su conocimiento explícito. ¿Cuál es el principal riesgo ético?</h2>
+            <div class="options">
+                <button class="option">Sesgo</button>
+                <button class="option" data-correct="true">Privacidad</button>
+                <button class="option">Responsabilidad</button>
+                <button class="option">Seguridad</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="hint-box">Piensa en el derecho de las personas a controlar su información personal y a no ser observadas constantemente.</div>
+            <div class="controls">
+                <button class="hint-btn">💡 Pista</button>
+                <button class="next-btn">Siguiente →</button>
+            </div>
+        </div>
+
+        <div class="card" data-question="3">
+            <h2>Caso 3: Un gerente es engañado para transferir fondos de la empresa mediante una llamada de voz generada por IA ('deepfake') que imita perfectamente a la directora ejecutiva. ¿Qué riesgo se materializó?</h2>
+            <div class="options">
+                <button class="option">Transparencia</button>
+                <button class="option">Privacidad</button>
+                <button class="option">Sesgo</button>
+                <button class="option" data-correct="true">Seguridad</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="hint-box">Enfócate en cómo la tecnología fue utilizada para engañar y comprometer los sistemas de la empresa con fines maliciosos.</div>
+            <div class="controls">
+                <button class="hint-btn">💡 Pista</button>
+                <button class="next-btn">Finalizar</button>
+            </div>
+        </div>
+        
+        <div class="card" id="final-card">
+            <h2>¡Actividad completada!</h2>
+            <p>Has analizado con éxito los tres casos sobre riesgos éticos en la inteligencia artificial. ¡Excelente trabajo!</p>
+        </div>
+    </div>
+
+    <script>
+        const rationales = {
+            1: {
+                correct: "<strong>¡Correcto!</strong> El sistema está replicando y amplificando un patrón de discriminación histórico presente en los datos de entrenamiento, resultando en un trato desigual.",
+                incorrect: "<strong>Incorrecto.</strong> Aunque otros elementos pueden estar presentes, el problema central es el resultado discriminatorio y sistemáticamente injusto, lo cual es la definición de sesgo algorítmico."
+            },
+            2: {
+                correct: "<strong>¡Correcto!</strong> Este escenario describe una recolección invasiva de datos que afecta el derecho fundamental de las personas a la vida privada y a no ser monitoreadas constantemente.",
+                incorrect: "<strong>Incorrecto.</strong> El problema más fundamental aquí es la propia recolección de datos y la vigilancia, independientemente de si el sistema es seguro o justo. Es una vulneración de la privacidad."
+            },
+            3: {
+                correct: "<strong>¡Correcto!</strong> Este es un claro ejemplo de un ataque adversario, donde la IA fue usada como una herramienta para engañar, manipular y comprometer la seguridad financiera de la organización.",
+                incorrect: "<strong>Incorrecto.</strong> El incidente es un ataque deliberado que explota la tecnología para vulnerar las defensas de la empresa. Esto cae directamente bajo el dominio de la seguridad."
+            }
+        };
+
+        let currentQuestionIndex = 0;
+        const cards = document.querySelectorAll('.card[data-question]');
+        const finalCard = document.getElementById('final-card');
+
+        function showQuestion(index) {
+            cards.forEach((card, i) => {
+                if (i === index) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        cards.forEach((card, index) => {
+            const options = card.querySelectorAll('.option');
+            const feedbackEl = card.querySelector('.feedback');
+            const nextBtn = card.querySelector('.next-btn');
+            const hintBtn = card.querySelector('.hint-btn');
+            const hintBox = card.querySelector('.hint-box');
+
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    const isCorrect = option.hasAttribute('data-correct');
+                    const questionNumber = card.dataset.question;
+                    
+                    options.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.hasAttribute('data-correct')) {
+                            btn.classList.add('correct');
+                        } else {
+                            btn.classList.add('incorrect');
+                        }
+                    });
+                    
+                    if (isCorrect) {
+                        feedbackEl.innerHTML = rationales[questionNumber].correct;
+                        feedbackEl.className = 'feedback correct';
+                    } else {
+                        feedbackEl.innerHTML = rationales[questionNumber].incorrect;
+                        feedbackEl.className = 'feedback incorrect';
+                    }
+                    
+                    feedbackEl.style.display = 'block';
+                    nextBtn.style.display = 'inline-block';
+                });
+            });
+
+            hintBtn.addEventListener('click', () => {
+                hintBox.style.display = hintBox.style.display === 'block' ? 'none' : 'block';
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < cards.length) {
+                    showQuestion(currentQuestionIndex);
+                } else {
+                    card.classList.remove('active');
+                    finalCard.classList.add('active');
+                }
+            });
+        });
+
+        showQuestion(currentQuestionIndex);
+    </script>
+
+</body>
+</html>

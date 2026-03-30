@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Síntesis: Uso ético de la IA generativa en el desarrollo profesional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primario: #0033A0; /* Azul UChile */
+            --color-secundario: #009639; /* Verde */
+            --color-riesgo: #E3000F;   /* Rojo */
+            --color-alerta: #FFD100;   /* Amarillo */
+            --fuente-principal: 'Montserrat', sans-serif;
+            --color-fondo: #f3f4f6;
+            --color-texto: #111827;
+            --color-texto-secundario: #4b5563;
+        }
+        body {
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+        }
+        .contenedor-guia {
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        .paso {
+            display: none;
+            padding: 2.5rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .paso.activo {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .titulo-paso {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--color-primario);
+            margin-bottom: 0.5rem;
+        }
+        .subtitulo-paso {
+            font-size: 1.125rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .tarjeta {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb;
+            height: 100%;
+        }
+        .boton {
+            background-color: var(--color-primario);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .boton:hover {
+            background-color: #002466;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px 0 rgba(0, 48, 135, 0.3);
+        }
+        .boton:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .barra-progreso-fondo {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+        .barra-progreso-relleno {
+            background-color: var(--color-secundario);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-guia">
+        <!-- Encabezado con Progreso -->
+        <header class="p-6 border-b border-gray-200">
+            <div class="barra-progreso-fondo">
+                <div id="barra-progreso" class="barra-progreso-relleno" style="width: 0%;"></div>
+            </div>
+            <p id="contador-pasos" class="text-center text-sm text-gray-500 mt-2"></p>
+        </header>
+
+        <main>
+            <!-- Paso 0: Bienvenida -->
+            <div class="paso activo" id="paso-0">
+                <div class="text-center">
+                    <h2 class="titulo-paso">Navegando la IA generativa con integridad</h2>
+                    <p class="subtitulo-paso">Una síntesis sobre el uso ético de la IA generativa en el desarrollo profesional.</p>
+                    <p class="mb-8 max-w-3xl mx-auto text-justify">Para profesionales como Isabella Andrea, la IA generativa presenta una dualidad: es una herramienta poderosa para superar las barreras de los sistemas de selección automatizados (ATS), pero también un campo minado de dilemas éticos. El desafío no es tecnológico, sino humano: ¿cómo aprovechar la IA generativa sin sacrificar la autenticidad y la integridad profesional? Esta síntesis desglosa los conceptos y estrategias para una práctica reflexiva y responsable.</p>
+                    <button class="boton" onclick="irAPaso(1)">Comenzar la síntesis</button>
+                </div>
+            </div>
+
+            <!-- Paso 1: El Dilema Central -->
+            <div class="paso" id="paso-1">
+                <h2 class="titulo-paso">1. El dilema: Autenticidad vs. optimización</h2>
+                <p class="subtitulo-paso">El conflicto fundamental que enfrenta todo profesional al usar IA generativa.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-primario);">Presión por optimizar</h3>
+                        <p class="text-sm">La necesidad de "traducir" la experiencia al lenguaje de los ATS para ser visible en un mercado laboral digitalizado y competitivo.</p>
+                    </div>
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-alerta);">Riesgo de inautenticidad</h3>
+                        <p class="text-sm">El temor a que la IA generativa genere un perfil genérico, exagere habilidades o presente una versión deshonesta de uno mismo, perdiendo la voz personal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paso 2: Conceptos Éticos Clave -->
+            <div class="paso" id="paso-2">
+                <h2 class="titulo-paso">2. Conceptos éticos fundamentales</h2>
+                <p class="subtitulo-paso">Los cinco pilares que todo usuario de IA generativa debe comprender.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="tarjeta col-span-1 md:col-span-2">
+                        <h3 class="font-bold mb-2 text-sm" style="color: var(--color-primario);">1. Sesgo algorítmico</h3>
+                        <p class="text-xs">La IA generativa puede discriminar injustamente si fue entrenada con datos sesgados (ej. el caso de Amazon penalizando CVs de mujeres).</p>
+                    </div>
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2 text-sm" style="color: var(--color-primario);">2. Privacidad</h3>
+                        <p class="text-xs">Los datos personales introducidos en una IA generativa pueden ser usados para reentrenar modelos sin consentimiento.</p>
+                    </div>
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2 text-sm" style="color: var(--color-primario);">3. Transparencia (XAI)</h3>
+                        <p class="text-xs">El derecho a entender por qué un sistema de IA generativa (como un ATS) tomó una decisión específica sobre un candidato.</p>
+                    </div>
+                     <div class="tarjeta col-span-1 md:col-span-2">
+                        <h3 class="font-bold mb-2 text-sm" style="color: var(--color-primario);">4. Responsabilidad</h3>
+                        <p class="text-xs">La obligación de asumir las consecuencias de las decisiones de la IA generativa . Si un sistema discrimina, ¿quién es el responsable final?</p>
+                    </div>
+                     <div class="tarjeta col-span-1 md:col-span-3">
+                        <h3 class="font-bold mb-2 text-sm" style="color: var(--color-primario);">5. Seguridad</h3>
+                        <p class="text-xs">Proteger los sistemas y datos de ataques como el "envenenamiento de datos", que busca corromper las respuestas de la IA generativa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 3: Principios Rectores -->
+            <div class="paso" id="paso-3">
+                <h2 class="titulo-paso">3. Principios para una IA generativa responsable</h2>
+                <p class="subtitulo-paso">Un marco de acción basado en las recomendaciones de la UNESCO.</p>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="tarjeta">
+                        <h3 class="font-bold mb-2">Supervisión y decisión humanas</h3>
+                         <p class="text-sm">Un sistema de IA generativa puede preseleccionar, pero la decisión final siempre debe recaer en un ser humano. El usuario es el editor y validador final de cualquier contenido generado.</p>
+                    </div>
+                    <div class="tarjeta bg-gray-50">
+                        <h3 class="font-bold mb-2">Responsabilidad y rendición de cuentas</h3>
+                        <p class="text-sm">El profesional es el único responsable del contenido final de su postulación. Asumir la propiedad del documento significa verificar cada palabra y nunca incluir información falsa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 4: Riesgos Prácticos -->
+            <div class="paso" id="paso-4">
+                <h2 class="titulo-paso">4. Identificando los riesgos en la práctica</h2>
+                <p class="subtitulo-paso">De la teoría a los casos concretos.</p>
+                <div class="grid md:grid-cols-3 gap-6">
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-riesgo);">Tergiversación</h3>
+                        <p class="text-sm">Cuando la IA generativa "traduce" la experiencia con una terminología tan grandilocuente que genera desconfianza en la entrevista.</p>
+                    </div>
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-riesgo);">Discriminación</h3>
+                        <p class="text-sm">Cuando una IA como "EmotiScan" penaliza a un candidato neurodivergente por no ajustarse a sus patrones de normalidad.</p>
+                    </div>
+                     <div class="tarjeta">
+                        <h3 class="font-bold mb-2" style="color: var(--color-riesgo);">Desinformación</h3>
+                         <p class="text-sm">Cuando una plataforma como "CareerAI" incentiva activamente al usuario a mentir o exagerar habilidades para pasar los filtros.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paso 5: Estrategia de Uso -->
+            <div class="paso" id="paso-5">
+                <h2 class="titulo-paso">5. Estrategia de uso responsable</h2>
+                <p class="subtitulo-paso">Un plan de acción práctico y ético.</p>
+                <div class="tarjeta bg-gray-50">
+                    <h3 class="font-bold mb-4 text-center">Plan de acción de Isabella</h3>
+                    <ol class="list-decimal list-inside space-y-3 text-sm max-w-2xl mx-auto">
+                        <li><strong>Definir el rol de la IA generativa:</strong> Usarla estrictamente como un <strong>asistente de redacción o "traductor"</strong>, no como el autor principal. Proporcionarle el contenido base y pedirle sugerencias.</li>
+                        <li><strong>Mantener el control editorial total:</strong> Revisar, editar y personalizar cada palabra generada para asegurar que refleje fielmente la experiencia y la voz personal. El documento final es <strong>propiedad y autoría del usuario</strong>.</li>
+                        <li><strong>Aplicar un principio de honestidad radical:</strong> Nunca incluir una habilidad, experiencia o logro sugerido por la IA generativa que no se posea. La herramienta es una ayuda para la <strong>forma</strong>, no para el <strong>fondo</strong>.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Paso 6: Conclusión -->
+            <div class="paso" id="paso-6">
+                <div class="text-center">
+                    <h2 class="titulo-paso" style="color: var(--color-secundario);">Conclusión: Hacia una práctica reflexiva</h2>
+                    <p class="subtitulo-paso">Ha completado la síntesis sobre el uso ético de la IA generativa.</p>
+                    <div class="tarjeta max-w-lg mx-auto text-left bg-gray-50">
+                       <p>La implementación ética de la IA generativa no busca "vencer al algoritmo", sino navegar el sistema con una integridad que ningún sistema puede cuantificar. La automatización gestiona lo repetitivo, pero el juicio crítico, la responsabilidad y la autenticidad siguen siendo dominios exclusivamente humanos. El objetivo es que la tecnología sirva a la ambición humana sin disminuir su humanidad.</p>
+                    </div>
+                     <button class="boton mt-8" onclick="irAPaso(0)">Reiniciar la síntesis</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Navegación -->
+        <footer class="flex justify-between items-center p-6 border-t border-gray-200">
+            <button id="boton-anterior" class="boton" onclick="pasoAnterior()">Anterior</button>
+            <button id="boton-siguiente" class="boton" onclick="pasoSiguiente()">Siguiente</button>
+        </footer>
+    </div>
+    
+    <script>
+        let pasoActual = 0;
+        const pasos = document.querySelectorAll('.paso');
+        const NUM_PASOS_CONTENIDO = 5;
+        
+        const botonAnterior = document.getElementById('boton-anterior');
+        const botonSiguiente = document.getElementById('boton-siguiente');
+        const barraProgreso = document.getElementById('barra-progreso');
+        const contadorPasos = document.getElementById('contador-pasos');
+
+        function actualizarUI() {
+            pasos.forEach((paso, index) => {
+                paso.classList.toggle('activo', index === pasoActual);
+            });
+
+            const esPrimerPaso = pasoActual === 0;
+            const esUltimoPaso = pasoActual === pasos.length - 1;
+
+            if (esPrimerPaso || esUltimoPaso) {
+                document.querySelector('footer').classList.add('hidden');
+                document.querySelector('header').classList.add('hidden');
+            } else {
+                document.querySelector('footer').classList.remove('hidden');
+                document.querySelector('header').classList.remove('hidden');
+            }
+            
+            botonAnterior.disabled = pasoActual === 1;
+            botonSiguiente.textContent = (pasoActual === pasos.length - 2) ? 'Finalizar síntesis' : 'Siguiente';
+
+            let progreso = 0;
+            if (pasoActual > 0 && pasoActual <= NUM_PASOS_CONTENIDO) {
+                 progreso = ((pasoActual - 1) / (NUM_PASOS_CONTENIDO - 1)) * 100;
+            } else if (pasoActual > NUM_PASOS_CONTENIDO) {
+                progreso = 100;
+            }
+            
+            barraProgreso.style.width = `${progreso}%`;
+           
+            if (pasoActual > 0 && !esUltimoPaso) {
+                 contadorPasos.textContent = `Paso ${pasoActual} de ${NUM_PASOS_CONTENIDO}`;
+            } else {
+                contadorPasos.textContent = '';
+            }
+        }
+
+        function irAPaso(n) {
+            pasoActual = n;
+            actualizarUI();
+        }
+
+        function pasoSiguiente() {
+            if (pasoActual < pasos.length - 1) {
+                pasoActual++;
+                actualizarUI();
+            }
+        }
+
+        function pasoAnterior() {
+            if (pasoActual > 0) {
+                pasoActual--;
+                actualizarUI();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', actualizarUI);
+    </script>
+</body>
+</html>

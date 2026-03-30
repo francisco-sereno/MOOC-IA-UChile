@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticidad y ética en la IA generativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: #0f172a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        :root {
+            --verde: #00A859;
+            --verde-hover: #008F4B;
+            --verde-light: #E6F5EB;
+            --amarillo: #FFD100;
+            --amarillo-dark: #E6BC00;
+            --amarillo-light: #FFF9E6;
+            --rojo: #E3000F;
+            --rojo-hover: #C8000D;
+            --rojo-light: #FFE6E8;
+            --azul: #0055A5;
+            --azul-dark: #00274D;
+            --azul-hover: #004A94;
+            --azul-light: #E6F2FF;
+            --gris-50: #F8FAFC;
+            --gris-100: #F1F5F9;
+            --gris-200: #E2E8F0;
+            --gris-300: #CBD5E1;
+            --gris-400: #94A3B8;
+            --gris-500: #64748B;
+            --gris-600: #475569;
+            --gris-700: #334155;
+            --gris-800: #1E293B;
+            --gris-900: #0F172A;
+        }
+
+        /* Animaciones mejoradas con curvas naturales */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) scale(1); 
+            }
+            50% { 
+                transform: translateY(-12px) scale(1.02); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-fadeInLeft {
+            animation: fadeInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Header moderno refinado con mejor gradiente */
+        .header-modern {
+            background: linear-gradient(135deg, 
+                #00274D 0%, 
+                #0055A5 30%, 
+                #0077C8 60%, 
+                #00A859 100%);
+            border-radius: 28px;
+            box-shadow: 
+                0 4px 20px rgba(0, 39, 77, 0.15),
+                0 20px 60px rgba(0, 85, 165, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            padding: 3.5rem 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .header-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 255, 255, 0.12) 50%, 
+                transparent 70%);
+            background-size: 200% 200%;
+            animation: shimmer 4s infinite linear;
+        }
+
+        .header-modern::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                transparent 70%);
+            top: -250px;
+            right: -250px;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Modal mejorado con mejor backdrop */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            padding: 3rem;
+            max-width: 750px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.35),
+                0 10px 30px rgba(0, 85, 165, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+            animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* Scrollbar personalizada */
+        .modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--azul);
+            border-radius: 10px;
+            border: 2px solid var(--gris-100);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--azul-hover);
+        }
+
+        /* Tarjetas refinadas con mejor profundidad */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.05),
+                0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                var(--azul) 0%, 
+                var(--verde) 50%, 
+                var(--amarillo) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 
+                0 8px 30px rgba(0, 85, 165, 0.15),
+                0 20px 60px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            border-color: rgba(0, 85, 165, 0.3);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Tarjetas especiales con nuevo diseño */
+        .idea-destacada {
+            background: linear-gradient(135deg, var(--amarillo-light) 0%, #FFFBF0 100%);
+            border-left: 6px solid var(--amarillo);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin: 2rem 0;
+            box-shadow: 0 6px 20px rgba(255, 209, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .idea-destacada::after {
+            content: '💡';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 4rem;
+            opacity: 0.1;
+        }
+
+        .card-practica {
+            background: linear-gradient(135deg, var(--verde-light) 0%, #F0FAF3 100%);
+            border-left: 6px solid var(--verde);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin: 2rem 0;
+            box-shadow: 0 6px 20px rgba(0, 168, 89, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-practica::after {
+            content: '✓';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            opacity: 0.08;
+            color: var(--verde);
+            font-weight: bold;
+        }
+
+        .card-definicion {
+            background: linear-gradient(135deg, var(--azul-light) 0%, #F0F7FF 100%);
+            border-left: 6px solid var(--azul);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin: 2rem 0;
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-definicion::after {
+            content: 'ℹ';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 4rem;
+            opacity: 0.1;
+        }
+
+        .card-ejemplo {
+            background: linear-gradient(135deg, var(--rojo-light) 0%, #FFF0F0 100%);
+            border-left: 6px solid var(--rojo);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin: 2rem 0;
+            box-shadow: 0 6px 20px rgba(227, 0, 15, 0.15);
+        }
+
+        .card-highlight {
+            border-left: 6px solid var(--azul);
+            background: linear-gradient(135deg, var(--azul-light) 0%, white 100%);
+        }
+        
+        .card-warning {
+            border-left: 6px solid var(--amarillo);
+            background: linear-gradient(135deg, var(--amarillo-light) 0%, white 100%);
+        }
+        
+        .card-success {
+            border-left: 6px solid var(--verde);
+            background: linear-gradient(135deg, var(--verde-light) 0%, white 100%);
+        }
+        
+        .card-danger {
+            border-left: 6px solid var(--rojo);
+            background: linear-gradient(135deg, var(--rojo-light) 0%, white 100%);
+        }
+
+        /* Acordeones modernos */
+        .accordion-item {
+            margin-bottom: 1.25rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 2px solid var(--gris-200);
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--azul);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.12);
+            transform: translateX(4px);
+        }
+
+        .accordion-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1.75rem;
+            cursor: pointer;
+            background: linear-gradient(90deg, #fafafa 0%, white 100%);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--gris-800);
+            transition: all 0.3s ease;
+            list-style: none;
+            user-select: none;
+        }
+
+        .accordion-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .accordion-item summary:hover {
+            background: linear-gradient(90deg, var(--azul-light) 0%, #F0F7FF 100%);
+            color: var(--azul);
+            padding-left: 2rem;
+        }
+
+        .accordion-item[open] summary {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 85, 165, 0.3);
+        }
+
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 2rem;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            color: var(--azul);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--azul-light);
+        }
+
+        .accordion-item[open] summary::after {
+            content: '−';
+            transform: rotate(180deg);
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .accordion-item summary:hover::after {
+            transform: scale(1.1);
+        }
+
+        .accordion-content {
+            padding: 2rem 1.75rem;
+            background: var(--gris-50);
+            animation: fadeInUp 0.3s ease;
+            border-top: 1px solid var(--gris-200);
+        }
+
+        /* Botones modernos con efectos */
+        .btn {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-weight: 700;
+            border-radius: 14px;
+            padding: 0.875rem 1.75rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.01em;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 85, 165, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--verde) 0%, var(--verde-hover) 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 168, 89, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 168, 89, 0.4);
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--azul);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.7);
+            border-color: white;
+        }
+
+        /* Navegación lateral moderna */
+        .sidebar-nav {
+            position: sticky;
+            top: 2rem;
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--gris-200);
+        }
+
+        .nav-link {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0.875rem 1.25rem;
+            border-radius: 12px;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            font-size: 0.925rem;
+            color: var(--gris-700);
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, var(--azul), var(--verde));
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--azul-light);
+            color: var(--azul);
+            transform: translateX(4px);
+            font-weight: 600;
+        }
+
+        .nav-link:hover::before {
+            transform: scaleY(1);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--azul-light) 0%, var(--azul-light) 100%);
+            color: var(--azul);
+            font-weight: 700;
+            border-left-color: var(--azul);
+            box-shadow: 0 2px 8px rgba(0, 85, 165, 0.15);
+        }
+
+        .nav-link.active::before {
+            transform: scaleY(1);
+        }
+
+        /* Footer moderno */
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 0 2rem;
+            text-align: center;
+            border-top: 2px solid var(--gris-200);
+            background: linear-gradient(180deg, transparent 0%, var(--gris-50) 100%);
+        }
+
+        /* Estilos de texto mejorados */
+        .text-high-contrast {
+            color: var(--gris-900);
+            line-height: 1.8;
+        }
+
+        .text-justify {
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        strong {
+            color: var(--azul);
+            font-weight: 700;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gris-100);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--azul), var(--verde));
+            border-radius: 10px;
+            border: 2px solid var(--gris-100);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--azul-hover), var(--verde-hover));
+        }
+
+
+        /* Tablas modernas mejoradas */
+        /* Tablas modernas con diseño mejorado */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 2rem 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--gris-200);
+        }
+        
+        table thead {
+            background: linear-gradient(135deg, var(--azul-dark) 0%, var(--azul) 100%);
+            color: white;
+        }
+        
+        table th {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: white;
+            border-bottom: 3px solid var(--azul-dark);
+        }
+        
+        table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gris-200);
+            color: var(--gris-800);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        table tbody tr {
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        table tbody tr:nth-child(even) {
+            background: var(--gris-50);
+        }
+        
+        table tbody tr:hover {
+            background: var(--azul-light);
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0, 85, 165, 0.1);
+        }
+        
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Primera columna destacada */
+        table td:first-child,
+        table th:first-child {
+            font-weight: 600;
+            color: var(--azul);
+        }
+        
+        table thead th:first-child {
+            color: white;
+        }
+        
+        table tbody tr:hover td:first-child {
+            color: var(--azul-dark);
+        }
+
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: var(--gris-50);
+        }
+
+        table tbody tr:nth-child(even):hover {
+            background: linear-gradient(90deg, var(--azul-light) 0%, var(--gris-50) 100%);
+        }
+
+        /* Wrapper para tablas responsivas */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Quote boxes mejorados */
+        .quote-box {
+            background: linear-gradient(135deg, var(--amarillo-light) 0%, #FFFBF0 100%);
+            padding: 2rem 2.5rem;
+            border-left: 6px solid var(--amarillo);
+            border-radius: 16px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 16px rgba(255, 209, 0, 0.15);
+            position: relative;
+            font-style: italic;
+        }
+
+        .quote-box::before {
+            content: '"';
+            position: absolute;
+            left: 1rem;
+            top: 0.5rem;
+            font-size: 5rem;
+            color: var(--amarillo);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        /* Responsive mejorado */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .header-modern {
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+
+            .card {
+                padding: 1.25rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Efectos de carga */
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .fade-in-delay-1 { animation-delay: 0.1s; }
+        .fade-in-delay-2 { animation-delay: 0.2s; }
+        .fade-in-delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold" style="color: var(--azul);">🎓 Guía de uso del apunte</h2>
+                <button onclick="closeInstructions()" class="text-4xl text-gray-400 hover:text-gray-700 transition-all hover:rotate-90" style="transition: all 0.3s ease;">&times;</button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="idea-destacada">
+                    <h3 class="font-bold text-xl mb-3" style="color: var(--amarillo-dark);">📚 Contenido del apunte</h3>
+                    <p class="text-gray-800">Este apunte académico explora las dimensiones éticas del uso de inteligencia artificial generativa en procesos de contratación, examinando la tensión entre <strong>optimización algorítmica</strong> y <strong>autenticidad profesional</strong>.</p>
+                </div>
+
+                <div class="card-practica">
+                    <h3 class="font-bold text-xl mb-3" style="color: var(--verde);">📖 Cómo navegar</h3>
+                    <ul class="space-y-2.5 text-gray-800">
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">→</span>
+                            <span><strong>Navegación lateral:</strong> Utilice el menú para acceder directamente a cada sección</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">→</span>
+                            <span><strong>Acordeones:</strong> Haga clic en las secciones expandibles para explorar contenido detallado</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">→</span>
+                            <span><strong>Casos de estudio:</strong> Revise ejemplos reales y análisis críticos</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">→</span>
+                            <span><strong>Descarga:</strong> Puede descargar el contenido en formato PDF</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-definicion">
+                    <h3 class="font-bold text-xl mb-3" style="color: var(--azul);">♿ Accesibilidad</h3>
+                    <p class="text-gray-800 mb-3">Este recurso está diseñado con consideraciones de accesibilidad:</p>
+                    <ul class="space-y-1.5 text-gray-800">
+                        <li class="flex items-center gap-2">
+                            <span class="text-blue-600">✓</span>
+                            <span>Colores institucionales de alto contraste</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-blue-600">✓</span>
+                            <span>Tipografía clara (Inter y Montserrat)</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-blue-600">✓</span>
+                            <span>Espaciado generoso para facilitar la lectura</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-blue-600">✓</span>
+                            <span>Navegación consistente y predecible</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 flex items-center justify-between flex-wrap gap-4">
+                <label class="flex items-center gap-2.5 cursor-pointer group">
+                    <input type="checkbox" id="dontShowAgain" class="w-5 h-5 cursor-pointer">
+                    <span class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">No mostrar nuevamente</span>
+                </label>
+                <button onclick="closeInstructions()" class="btn btn-primary">
+                    ✓ Entendido, comenzar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header moderno -->
+        <div class="header-modern animate-fadeInUp">
+            <div class="relative z-10">
+                <div class="flex items-start gap-4 mb-4">
+                    <span class="text-6xl" style="animation: float 3s ease-in-out infinite;">⚖️</span>
+                    <div class="flex-1">
+                        <h1 class="text-4xl md:text-5xl font-black text-white mb-2 leading-tight">
+                            Autenticidad y ética en la IA generativa
+                        </h1>
+                        <p class="text-blue-50 text-lg md:text-xl font-medium">
+                            Apunte académico completo: navegando dilemas éticos en contratación algorítmica
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <button onclick="openInstructions()" class="btn btn-secondary">
+                        <span class="text-lg">ℹ️</span>
+                        Ver guía de uso
+                    </button>
+                    <button onclick="downloadPDF()" class="btn btn-white">
+                        <span class="text-lg">📥</span>
+                        Descargar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de navegación y contenido -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Navegación lateral moderna -->
+            <aside class="lg:col-span-1 animate-fadeInLeft">
+                <div class="sidebar-nav">
+                    <div class="flex items-center gap-2 mb-6 pb-4 border-b-2 border-gray-200">
+                        <span class="text-2xl">📑</span>
+                        <h3 class="font-bold text-xl" style="color: var(--azul);">Contenidos</h3>
+                    </div>
+                    <nav class="space-y-1">
+                        <div class="nav-link active" onclick="scrollToSection('introduccion')">
+                            <span>🎯</span>
+                            <span>Introducción</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('caso-natalia')">
+                            <span>📖</span>
+                            <span>Caso Isabella Andrea</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('parte1')">
+                            <span>1️⃣</span>
+                            <span>Marco conceptual</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('parte2')">
+                            <span>2️⃣</span>
+                            <span>Caso Mobley</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('autoevaluacion')">
+                            <span>📝</span>
+                            <span>Autoevaluación I</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('parte3')">
+                            <span>3️⃣</span>
+                            <span>Autenticidad</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('parte4')">
+                            <span>4️⃣</span>
+                            <span>Sesgos y ética</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('parte5')">
+                            <span>5️⃣</span>
+                            <span>Prácticas responsables</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('reflexion')">
+                            <span>💭</span>
+                            <span>Reflexión crítica</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('conclusion')">
+                            <span>🎓</span>
+                            <span>Conclusión</span>
+                        </div>
+                        <div class="nav-link" onclick="scrollToSection('referencias')">
+                            <span>📚</span>
+                            <span>Referencias</span>
+                        </div>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="lg:col-span-3 animate-fadeInUp">
+
+
+                
+                <!-- Introducción -->
+                <section id="introduccion" class="mb-16">
+
+                    
+                    <div class="card">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Introducción</h2>
+                        
+                        <p class="text-lg text-gray-700 leading-relaxed mb-6 text-justify">
+                            En la era de la inteligencia artificial generativa, millones de profesionales enfrentan un dilema existencial y ético: ¿cómo utilizar estas poderosas herramientas tecnológicas sin comprometer la autenticidad personal y los principios éticos fundamentales? Este apunte académico examina críticamente las tensiones entre eficiencia tecnológica e integridad profesional, proponiendo un marco reflexivo para navegar estos desafíos contemporáneos.
+                        </p>
+                        
+                        <div class="grid md:grid-cols-3 gap-6 mt-8">
+                            <div class="card-highlight card p-6">
+                                <div class="text-4xl mb-3">🎯</div>
+                                <h3 class="font-bold text-lg mb-2">Objetivo</h3>
+                                <p class="text-sm text-gray-600">Desarrollar competencias críticas para el uso ético de IA generativa en contextos profesionales.</p>
+                            </div>
+                            
+                            <div class="card-warning card p-6">
+                                <div class="text-4xl mb-3">⚠️</div>
+                                <h3 class="font-bold text-lg mb-2">Desafío</h3>
+                                <p class="text-sm text-gray-600">Equilibrar la eficiencia tecnológica con la autenticidad y responsabilidad profesional.</p>
+                            </div>
+                            
+                            <div class="card-success card p-6">
+                                <div class="text-4xl mb-3">💡</div>
+                                <h3 class="font-bold text-lg mb-2">Propuesta</h3>
+                                <p class="text-sm text-gray-600">Un marco ético fundamentado en estándares internacionales y reflexión crítica.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="quote-box mt-8" style="background: linear-gradient(135deg, #FFF9E6, #FFFBF0); padding: 2rem; border-left: 6px solid var(--amarillo); border-radius: 12px; margin: 1.5rem 0;">
+                            <p class="text-lg">
+                                "La verdadera pregunta no es si debemos usar IA, sino <strong>cómo</strong> usarla de manera que amplifique nuestra humanidad en lugar de disminuirla."
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Caso de estudio: Isabella Andrea -->
+                <section id="caso-natalia" class="mb-16">
+                    <div class="card">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-8">📖 Caso de estudio: El dilema de Isabella Andrea</h2>
+                        
+                        <div class="bg-gradient-to-br from-purple-100 to-blue-100 p-8 rounded-xl border-2 border-purple-300 mb-8">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">📋 Contexto del caso</h3>
+                            <p class="text-gray-900 leading-relaxed text-justify mb-4">
+                                Isabella Andrea es una profesional en transición laboral, con amplia experiencia en gestión de proyectos, habiendo liderado exitosamente la implementación de sistemas de software en empresas medianas. A pesar de su trayectoria comprobada, enfrenta un obstáculo recurrente en su proceso de reinserción: sus postulaciones son sistemáticamente rechazadas por sistemas ATS (Applicant Tracking Systems) debido a que su currículum no utiliza las palabras clave específicas que estos algoritmos priorizan.
+                            </p>
+                            <p class="text-gray-900 leading-relaxed text-justify">
+                                Durante los últimos seis meses, Isabella Andrea ha enviado más de 40 postulaciones a posiciones para las cuales se considera plenamente calificada. Sin embargo, ha recibido respuestas de menos del 10% de estas empresas. La frustración la lleva a investigar sobre los ATS y descubre que su CV, aunque bien redactado y veraz, carece del lenguaje algorítmico que estas herramientas buscan.
+                            </p>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div class="card-warning p-6">
+                                <h4 class="font-bold text-amber-900 mb-3">❓ Preguntas centrales del dilema</h4>
+                                <ul class="space-y-2 text-gray-700 text-sm">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-amber-600">•</span>
+                                        <span>¿Usar IAGen para modificar su CV es ético o equivale a "engañar al sistema"?</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-amber-600">•</span>
+                                        <span>¿Dónde está el límite entre optimización legítima y fabricación de información?</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card-success p-6">
+                                <h4 class="font-bold text-green-900 mb-3">✅ Objetivos de aprendizaje</h4>
+                                <ul class="space-y-2 text-gray-700 text-sm">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-green-600">•</span>
+                                        <span>Comprender cómo funcionan los ATS y sus sesgos algorítmicos</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-green-600">•</span>
+                                        <span>Analizar herramientas de IAGen desde una perspectiva ética</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-green-600">•</span>
+                                        <span>Aplicar el marco ético de la UNESCO a casos prácticos</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="quote-box" style="background: linear-gradient(135deg, #FFF9E6, #FFFBF0); padding: 2rem; border-left: 6px solid var(--amarillo); border-radius: 12px; margin: 1.5rem 0;">
+                            <p class="text-gray-800 font-medium">
+                                Este caso de estudio sirve como vehículo pedagógico para examinar principios éticos fundamentales en la era de la IA: autenticidad, equidad, transparencia, responsabilidad y la tensión entre optimización personal e integridad profesional.
+                            </p>
+                        </div>
+                        
+                        <div class="space-y-6 mt-8">
+                            <details class="accordion-item">
+                                <summary>🎭 El conflicto interior</summary>
+                                <div class="content">
+                                    <p class="text-gray-700 mb-4 text-justify">
+                                        Isabella Andrea descubre herramientas de IA generativa capaces de "optimizar" su currículum para sistemas ATS. Sin embargo, experimenta un profundo conflicto interno:
+                                    </p>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <span class="badge badge-warning">Presión</span>
+                                            <span class="text-gray-700">Necesita empleo para sostener a su familia y está cansada de ser rechazada por sistemas automatizados.</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="badge badge-danger">Duda ética</span>
+                                            <span class="text-gray-700">Teme que usar IA para "embellecer" su experiencia constituya una forma de engaño profesional.</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="badge badge-primary">Identidad</span>
+                                            <span class="text-gray-700">Se pregunta si el documento resultante realmente la representa o si se convertirá en una versión artificialmente fabricada de sí misma.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </details>
+                            
+                            <details class="accordion-item">
+                                <summary>🔍 Dilemas éticos específicos</summary>
+                                <div class="content">
+                                    <div class="space-y-6">
+                                        <div class="timeline-item">
+                                            <h4 class="font-bold text-lg text-gray-800 mb-2">Autenticidad vs. optimización</h4>
+                                            <p class="text-gray-700 text-justify">
+                                                ¿Dónde termina la legítima adaptación del lenguaje profesional y comienza la tergiversación? Si la IA sugiere reemplazar "coordiné un equipo de 5 personas" por "lideré equipos multifuncionales de alto rendimiento", ¿es esto una mejora lingüística o una exageración?
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="timeline-item">
+                                            <h4 class="font-bold text-lg text-gray-800 mb-2">Privacidad de datos</h4>
+                                            <p class="text-gray-700 text-justify">
+                                                Al cargar su información profesional en plataformas de IA, Isabella Andrea se pregunta: ¿Quién tiene acceso a estos datos? ¿Podrían ser utilizados para entrenar modelos que beneficien a sus competidores?
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="timeline-item">
+                                            <h4 class="font-bold text-lg text-gray-800 mb-2">Equidad sistémica</h4>
+                                            <p class="text-gray-700 text-justify">
+                                                Si solo quienes pueden pagar herramientas premium de IA obtienen mejores resultados, ¿no se está perpetuando una nueva forma de desigualdad digital? ¿Es ético usar herramientas que otros candidatos tal vez no puedan costear?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+                            
+                            <details class="accordion-item">
+                                <summary>💭 Preguntas reflexivas clave</summary>
+                                <div class="content">
+                                    <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                                        <p class="font-semibold text-blue-900 mb-4">Para reflexión personal:</p>
+                                        <ol class="space-y-3 text-gray-700 list-decimal list-inside">
+                                            <li>¿En qué momento la asistencia de IA cruza la línea hacia la deshonestidad profesional?</li>
+                                            <li>¿Tiene Isabella Andrea la responsabilidad moral de revelar que usó IA en su proceso de postulación?</li>
+                                            <li>Si los sistemas ATS son inherentemente sesgados, ¿es éticamente justificable usar IA para "hackear" el sistema?</li>
+                                            <li>¿Cómo puede Isabella Andrea mantener su voz auténtica mientras adapta su mensaje a algoritmos corporativos?</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Parte I: Los sistemas ATS -->
+                <section id="parte1" class="mb-16">
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="checkpoint-icon">I</div>
+                            <h2 class="text-3xl font-bold text-gray-900">Los sistemas ATS: ¿Eficiencia o sesgo algorítmico?</h2>
+                        </div>
+                        
+                        <p class="text-gray-700 leading-relaxed mb-8 text-justify">
+                            Los Applicant Tracking Systems (ATS) son software que automatizan la gestión de procesos de contratación. Utilizan algoritmos de procesamiento de lenguaje natural (PLN) e inteligencia artificial para analizar currículos, identificar palabras clave relevantes y clasificar candidatos según su supuesta idoneidad para una posición.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">¿Cómo funcionan los ATS?</h3>
+                        
+                        <div class="timeline-item">
+                            <div class="card-highlight">
+                                <h4 class="font-bold text-purple-700 mb-2">1. Análisis inicial</h4>
+                                <p class="text-gray-700 text-sm">
+                                    El sistema analiza el currículum mediante análisis léxico, identificando palabras clave, títulos de trabajo, nombres de empresas, duración de empleos y habilidades técnicas.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="card-highlight">
+                                <h4 class="font-bold text-purple-700 mb-2">2. Puntuación algorítmica</h4>
+                                <p class="text-gray-700 text-sm">
+                                    Asigna una puntuación de compatibilidad basada en: coincidencia con palabras clave de la descripción del puesto, presencia de calificaciones requeridas, estructura cronológica del historial laboral y ausencia de "banderas rojas" (lagunas laborales, cambios frecuentes de trabajo).
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="card-highlight">
+                                <h4 class="font-bold text-purple-700 mb-2">3. Clasificación y filtrado</h4>
+                                <p class="text-gray-700 text-sm">
+                                    Los candidatos son clasificados en categorías: "altamente calificados", "calificados", "posiblemente calificados" o "rechazados". Solo los perfiles con puntuaciones superiores a un umbral predeterminado llegan a revisión humana.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 mt-8">El problema de los sesgos algorítmicos</h3>
+                        
+                        <div class="card-warning mb-6">
+                            <h4 class="font-bold text-amber-900 mb-3">⚠️ Caso emblemático: Amazon (2018)</h4>
+                            <p class="text-gray-700 mb-3 text-justify">
+                                El caso de Amazon ilustra dramáticamente los riesgos del sesgo algorítmico en contratación. La empresa desarrolló un sistema de IA para automatizar la revisión de currículos de ingenieros de software. Sin embargo, descubrieron que el sistema penalizaba sistemáticamente a candidatas mujeres.
+                            </p>
+                            <p class="text-gray-700 mb-3 text-justify">
+                                <strong>¿Por qué sucedió esto?</strong> El modelo fue entrenado con datos históricos de contratación de Amazon de los últimos 10 años. Dado que la mayoría de los ingenieros contratados históricamente eran hombres, el algoritmo aprendió a asociar "éxito" con características presentes en CVs masculinos. El sistema penalizaba CVs que incluían la palabra "mujer" (como en "club de ajedrez femenino") o que provenían de universidades exclusivamente femeninas (Dastin, 2022).
+                            </p>
+                            <p class="text-gray-700">
+                                <strong>Resultado:</strong> Amazon desmanteló el sistema, reconociendo que no había manera de garantizar que el modelo no continuaría discriminando de formas más sutiles.
+                            </p>
+                        </div>
+                        
+                        <h4 class="font-bold text-gray-900 mb-4">Tipos de sesgos documentados en ATS</h4>
+                        
+                        <details class="accordion-item">
+                            <summary>
+                                Sesgo de género
+                                <span class="badge badge-danger ml-2">Alto impacto</span>
+                            </summary>
+                            <div class="content">
+                                <p class="text-gray-700 mb-3 text-justify">
+                                    Los algoritmos pueden aprender asociaciones de género a partir de datos históricos. Por ejemplo, si históricamente más hombres ocuparon roles de liderazgo, el sistema puede favorecer características asociadas con CVs masculinos.
+                                </p>
+                                <p class="text-gray-700">
+                                    <strong>Manifestaciones:</strong> Penalización de lagunas laborales (que afectan desproporcionadamente a mujeres por maternidad y cuidados), favorecimiento de lenguaje "asertivo" sobre "colaborativo", valoración preferencial de trayectorias lineales sin interrupciones.
+                                </p>
+                            </div>
+                        </details>
+                        
+                        <details class="accordion-item">
+                            <summary>
+                                Sesgo racial y étnico
+                                <span class="badge badge-danger ml-2">Alto impacto</span>
+                            </summary>
+                            <div class="content">
+                                <p class="text-gray-700 mb-3 text-justify">
+                                    Algunos ATS han mostrado discriminación basada en nombres que suenan "étnicos", códigos postales asociados con comunidades minoritarias o universidades históricamente afroamericanas.
+                                </p>
+                                <p class="text-gray-700">
+                                    <strong>Evidencia empírica:</strong> Estudios muestran que CVs idénticos reciben puntuaciones diferentes cuando se cambia únicamente el nombre del candidato por uno que sugiere origen étnico diferente (Raso et al., 2018).
+                                </p>
+                            </div>
+                        </details>
+                        
+                        <details class="accordion-item">
+                            <summary>
+                                Sesgo por edad
+                                <span class="badge badge-warning ml-2">Impacto medio</span>
+                            </summary>
+                            <div class="content">
+                                <p class="text-gray-700 text-justify">
+                                    Los sistemas pueden discriminar contra candidatos mayores si los datos de entrenamiento favorecen contrataciones recientes de profesionales jóvenes. Indicadores como año de graduación universitaria pueden servir como proxy de edad, llevando a filtrado discriminatorio.
+                                </p>
+                            </div>
+                        </details>
+                        
+                        <details class="accordion-item">
+                            <summary>
+                                Sesgo por discapacidad
+                                <span class="badge badge-danger ml-2">Alto impacto</span>
+                            </summary>
+                            <div class="content">
+                                <p class="text-gray-700 mb-3 text-justify">
+                                    Los ATS pueden discriminar contra personas con discapacidades mediante: penalización de historiales laborales no tradicionales, rechazo de formatos de CV adaptados para tecnologías de asistencia, valoración negativa de lagunas laborales relacionadas con condiciones de salud.
+                                </p>
+                                <p class="text-gray-700">
+                                    <strong>Caso legal:</strong> El caso <em>Mobley v. Workday, Inc.</em> (2024) es el primer litigio importante por discriminación algorítmica contra personas con discapacidad. El demandante argumenta que el sistema de IA de Workday discriminó sistemáticamente contra candidatos con discapacidades, violando la Americans with Disabilities Act (ADA) (Gigante & Young, 2024).
+                                </p>
+                            </div>
+                        </details>
+                        
+                        <div class="mt-8 p-6 bg-gray-50 rounded-lg border-2 border-gray-200">
+                            <h4 class="font-bold text-gray-900 mb-3">🔍 Pregunta crítica para Isabella Andrea</h4>
+                            <p class="text-gray-700 text-justify">
+                                Si los ATS contienen sesgos sistemáticos documentados, ¿es éticamente justificable que Isabella Andrea use herramientas de IA para "optimizar" su CV y compensar estos sesgos? ¿O estaría simplemente perpetuando un ciclo de engaño mutuo entre candidatos y algoritmos?
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Parte II: El ecosistema de la IAGen -->
+                <section id="parte2" class="mb-16">
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="checkpoint-icon">II</div>
+                            <h2 class="text-3xl font-bold text-gray-900">El ecosistema de la IA generativa para optimización de CVs</h2>
+                        </div>
+                        
+                        <p class="text-gray-700 leading-relaxed mb-8 text-justify">
+                            Como respuesta a la proliferación de ATS, ha surgido una industria completa de herramientas de IA generativa diseñadas para "hackear" estos sistemas. Estas herramientas prometen ayudar a candidatos como Isabella Andrea a superar filtros algorítmicos mediante la optimización estratégica de sus currículos.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Tipos de herramientas de IAGen disponibles</h3>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div class="example-box">
+                                <h4 class="font-bold text-amber-900 mb-3">🤖 Reescritores de CV</h4>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    <strong>Funcionalidad:</strong> Reformulan descripciones de experiencia laboral usando lenguaje más "profesional" o "corporativo".
+                                </p>
+                                <p class="text-gray-700 text-sm">
+                                    <strong>Ejemplo:</strong> "Ayudé a clientes con sus compras" → "Proporcioné consultoría especializada en experiencia del cliente, optimizando procesos de decisión de compra y maximizando satisfacción del consumidor".
+                                </p>
+                            </div>
+                            
+                            <div class="example-box">
+                                <h4 class="font-bold text-amber-900 mb-3">🎯 Optimizadores de palabras clave</h4>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    <strong>Funcionalidad:</strong> Analizan descripciones de trabajo y sugieren palabras clave específicas que el ATS probablemente busque.
+                                </p>
+                                <p class="text-gray-700 text-sm">
+                                    <strong>Ejemplo:</strong> Para un puesto en "gestión de proyectos", sugieren insertar términos como "metodologías ágiles", "Scrum", "sprint planning", incluso si la experiencia real fue menos formalizada.
+                                </p>
+                            </div>
+                            
+                            <div class="example-box">
+                                <h4 class="font-bold text-amber-900 mb-3">✍️ Generadores de cartas de presentación</h4>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    <strong>Funcionalidad:</strong> Crean cartas de presentación completas basadas en el CV del candidato y la descripción del puesto.
+                                </p>
+                                <p class="text-gray-700 text-sm">
+                                    <strong>Riesgo ético:</strong> El resultado puede ser genérico, carecer de voz auténtica y no reflejar la personalidad real del candidato.
+                                </p>
+                            </div>
+                            
+                            <div class="example-box">
+                                <h4 class="font-bold text-amber-900 mb-3">📊 Analizadores de compatibilidad ATS</h4>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    <strong>Funcionalidad:</strong> Puntúan el CV del candidato simulando el análisis que haría un ATS real.
+                                </p>
+                                <p class="text-gray-700 text-sm">
+                                    <strong>Valor:</strong> Proporcionan retroalimentación sobre formato, palabras clave faltantes y elementos que podrían causar rechazo automático.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">El continuo ético: De la optimización legítima a la fabricación</h3>
+                        
+                        <div class="card-highlight mb-6">
+                            <p class="text-gray-700 mb-4 text-justify">
+                                No todas las intervenciones de IAGen son equivalentes desde una perspectiva ética. Existe un continuo que va desde usos claramente legítimos hasta prácticas cuestionables:
+                            </p>
+                        </div>
+                        
+                        <div class="table-wrapper">
+<table>
+                            <thead>
+                                <tr>
+                                    <th>Zona ética</th>
+                                    <th>Descripción</th>
+                                    <th>Ejemplos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-bold text-green-700">✅ Claramente aceptable</td>
+                                    <td>Uso de IA para mejorar la presentación sin alterar hechos.</td>
+                                    <td>Corrección gramatical, mejora de formato, traducción precisa de terminología técnica a lenguaje común.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-blue-700">⚖️ Zona gris</td>
+                                    <td>Reformulación de experiencias que exagera sutilmente el nivel de responsabilidad.</td>
+                                    <td>"Coordiné envíos" → "Orquesté operaciones logísticas complejas"; verdadero en esencia pero amplificado en escala percibida.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-amber-700">⚠️ Problemático</td>
+                                    <td>Agregar habilidades o experiencias no completamente veraces.</td>
+                                    <td>Listar "dominio avanzado de Python" cuando solo se completó un curso introductorio; agregar "gestión de equipos" cuando se supervisó informalmente a dos colegas.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-red-700">❌ Claramente inaceptable</td>
+                                    <td>Fabricación de información falsa.</td>
+                                    <td>Inventar títulos académicos, falsificar empleadores, crear proyectos inexistentes, mentir sobre duración de empleos.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+</div>
+                        
+                        <div class="card-warning mt-6">
+                            <h4 class="font-bold text-amber-900 mb-3">⚠️ El dilema del equilibrio asimétrico</h4>
+                            <p class="text-gray-700 mb-3 text-justify">
+                                Isabella Andrea enfrenta un dilema de poder asimétrico: las empresas utilizan IA sofisticada para filtrar candidatos, creando barreras algorítmicas que pueden discriminar injustamente. ¿Es ético que Isabella Andrea use IA para compensar esta desventaja estructural?
+                            </p>
+                            <p class="text-gray-700 text-justify">
+                                <strong>Argumentos a favor:</strong> La autodefensa algorítmica nivela un campo de juego inherentemente desigual. Si los ATS contienen sesgos documentados, usar herramientas de optimización es una respuesta racional a un sistema injusto.
+                            </p>
+                            <p class="text-gray-700 mt-2 text-justify">
+                                <strong>Argumentos en contra:</strong> Dos errores no hacen un acierto. Usar IAGen para exagerar experiencias perpetúa una carrera armamentista de engaño mutuo que erosiona la confianza en los procesos de contratación y perjudica a candidatos honestos.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Autoevaluación -->
+                <section id="autoevaluacion" class="mb-16">
+                    <div class="card">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🔍 Preguntas de autoevaluación</h2>
+                        <p class="text-gray-700 mb-6">
+                            Antes de continuar con el marco ético de la UNESCO, reflexiona sobre tu comprensión actual:
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" id="check1" class="mt-1 w-5 h-5 text-purple-600">
+                                <label for="check1" class="text-gray-700">¿Puedo explicar con mis propias palabras cómo funciona un ATS y por qué puede contener sesgos?</label>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" id="check2" class="mt-1 w-5 h-5 text-purple-600">
+                                <label for="check2" class="text-gray-700">¿Entiendo la diferencia entre optimización legítima de un CV y fabricación de información?</label>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" id="check3" class="mt-1 w-5 h-5 text-purple-600">
+                                <label for="check3" class="text-gray-700">¿Puedo identificar al menos tres tipos de sesgos algorítmicos documentados en sistemas de contratación?</label>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" id="check4" class="mt-1 w-5 h-5 text-purple-600">
+                                <label for="check4" class="text-gray-700">¿He reflexionado sobre dónde trazaría mi propia línea ética en el uso de herramientas de IAGen?</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Parte III: Marco ético UNESCO -->
+                <section id="parte3" class="mb-16">
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="checkpoint-icon">III</div>
+                            <h2 class="text-3xl font-bold text-gray-900">Marco ético de la UNESCO para la inteligencia artificial</h2>
+                        </div>
+                        
+                        <p class="text-gray-700 leading-relaxed mb-8 text-justify">
+                            La Recomendación sobre la ética de la inteligencia artificial, adoptada por la UNESCO en noviembre de 2021, constituye el primer instrumento normativo mundial sobre ética de la IA. Este marco proporciona diez principios rectores que son directamente aplicables al dilema de Isabella Andrea.
+                        </p>
+                        
+                        <div class="card-highlight mb-8">
+                            <h3 class="font-bold text-xl text-purple-700 mb-4">📜 Contexto del marco UNESCO</h3>
+                            <p class="text-gray-700 leading-relaxed mb-4 text-justify">
+                                La Recomendación fue adoptada por 193 Estados Miembros y representa un consenso global sobre valores, principios y normas éticas que deben guiar el desarrollo y uso de sistemas de IA. Su enfoque holístico abarca todo el ciclo de vida de los sistemas de IA, desde la investigación y el diseño hasta el despliegue, uso y eventual desmantelamiento (UNESCO, 2021).
+                            </p>
+                            <p class="text-gray-700 leading-relaxed text-justify">
+                                Para Isabella Andrea y profesionales en situaciones similares, este marco ofrece criterios objetivos para evaluar éticamente tanto los sistemas de IA que enfrentan (como los ATS) como las herramientas que podrían utilizar (como generadores de texto para CVs).
+                            </p>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Los 10 principios éticos fundamentales</h3>
+                        
+                        <div class="table-wrapper">
+<table>
+                            <thead>
+                                <tr>
+                                    <th class="w-1/4">Principio</th>
+                                    <th>Descripción</th>
+                                    <th class="w-1/3">Aplicación al caso de Isabella Andrea</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-bold">1. Proporcionalidad e inocuidad</td>
+                                    <td>Los sistemas de IA no deben causar daño y su uso debe ser proporcional al objetivo perseguido. Se debe justificar la necesidad de usar IA para una tarea específica.</td>
+                                    <td>Una empresa debe justificar por qué necesita un análisis de IA de expresiones faciales en una entrevista, cuando podría lograr el mismo objetivo con métodos menos invasivos.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">2. Seguridad y protección</td>
+                                    <td>Los sistemas de IA deben ser técnicamente robustos, seguros y protegidos contra vulnerabilidades a lo largo de su ciclo de vida.</td>
+                                    <td>La plataforma de IAGen que Isabella Andrea utiliza debe garantizar que sus datos personales y su CV están cifrados, protegidos contra accesos no autorizados y respaldados regularmente.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">3. Equidad y no discriminación</td>
+                                    <td>Los sistemas de IA deben ser inclusivos y accesibles para todos, sin crear o reforzar sesgos injustos, discriminación, estigmatización o prejuicios.</td>
+                                    <td>El desarrollador del ATS que Isabella Andrea enfrenta debe probar su sistema con datos diversos para asegurar que no discrimina por género, edad, origen étnico o lagunas en el historial laboral.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">4. Sostenibilidad</td>
+                                    <td>Las tecnologías de IA deben promover el desarrollo sostenible, considerando su impacto ambiental, social y económico.</td>
+                                    <td>Evaluar si el uso masivo de IA en la contratación crea mayores brechas de desigualdad digital, favoreciendo solo a quienes tienen acceso a estas tecnologías y conocimiento para usarlas.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">5. Derecho a la intimidad</td>
+                                    <td>La privacidad debe protegerse y promoverse a lo largo del ciclo de vida de los sistemas de IA. Los datos personales deben gestionarse de conformidad con marcos de protección de datos.</td>
+                                    <td>Isabella Andrea debe tener derecho a saber qué datos personales recopila la herramienta de IAGen, cómo se utilizan, con quién se comparten y debe poder solicitar su eliminación (derecho al olvido).</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">6. Supervisión y decisión humanas</td>
+                                    <td>Los sistemas de IA no deben reemplazar la responsabilidad y la rendición de cuentas humanas. Las decisiones finales en asuntos que afectan vidas deben ser tomadas por humanos.</td>
+                                    <td>Un ATS puede preseleccionar candidatos, pero la decisión final de contratar debe ser tomada por un reclutador humano que pueda evaluar contextos que la máquina no comprende.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">7. Transparencia y explicabilidad</td>
+                                    <td>Debe haber transparencia y explicabilidad de los sistemas de IA, apropiadas al contexto y según la gravedad de las consecuencias.</td>
+                                    <td>Si un ATS rechaza a Isabella Andrea, ella debería tener derecho a una explicación comprensible sobre los criterios utilizados y los factores que influyeron en la decisión.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">8. Responsabilidad y rendición de cuentas</td>
+                                    <td>Los actores de la IA deben ser responsables y rendir cuentas por el funcionamiento adecuado de los sistemas de IA y por el respeto de los principios éticos.</td>
+                                    <td>Si un ATS discrimina sistemáticamente contra candidatos de ciertos grupos, la empresa que lo utiliza debe ser considerada responsable y estar sujeta a consecuencias legales y reputacionales.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">9. Sensibilización y educación</td>
+                                    <td>La educación sobre la IA y la promoción de la alfabetización digital son esenciales para el empoderamiento de los ciudadanos.</td>
+                                    <td>Crear recursos educativos (como este apunte) para que profesionales como Isabella Andrea aprendan a usar la IA de forma ética y a navegar sistemas algorítmicos de manera informada.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold">10. Gobernanza y colaboración</td>
+                                    <td>Se necesitan mecanismos de gobernanza adaptativa y colaboración multisectorial para supervisar y guiar el desarrollo responsable de la IA.</td>
+                                    <td>La regulación de los ATS en procesos de contratación debe desarrollarse con la participación de empleadores, trabajadores, desarrolladores de IA, legisladores y sociedad civil.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+</div>
+                        
+                        <div class="quote-box mt-8" style="background: linear-gradient(135deg, #FFF9E6, #FFFBF0); padding: 2rem; border-left: 6px solid var(--amarillo); border-radius: 12px; margin: 1.5rem 0;">
+                            <p class="font-semibold text-gray-800">
+                                "Los valores y principios enunciados en la presente Recomendación están interrelacionados y son interdependientes. En la consideración de su aplicación, deberían tenerse en cuenta conjuntamente y de forma sistémica" (UNESCO, 2021, p. 18).
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Parte IV: Casos prácticos -->
+                <section id="parte4" class="mb-16">
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="checkpoint-icon">IV</div>
+                            <h2 class="text-3xl font-bold text-gray-900">Análisis de casos prácticos</h2>
+                        </div>
+                        
+                        <p class="text-gray-700 leading-relaxed mb-8 text-justify">
+                            Los siguientes mini-casos ilustran dilemas éticos concretos que Isabella Andrea podría enfrentar. Cada caso presenta una situación, el dilema ético implicado y preguntas para la reflexión crítica.
+                        </p>
+                        
+                        <!-- Mini-caso 1 -->
+                        <div class="example-box mb-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-600 text-gray-900 font-bold text-xl">1</span>
+                                <h3 class="text-2xl font-bold text-amber-900">El "traductor" de currículos</h3>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <h4 class="font-bold text-gray-900 mb-3">📋 Situación</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    Isabella Andrea utiliza IAGen para transformar sus descripciones de experiencia laboral. El sistema sugiere reemplazar "organicé envíos diarios de productos" por "orquesté operaciones logísticas multifuncionales".
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">⚠️ Dilema ético</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    ¿Esta reformulación constituye una optimización legítima del lenguaje profesional o una exageración que distorsiona la realidad de sus responsabilidades? ¿Dónde está el límite entre traducir experiencia a jerga corporativa y fabricar una narrativa inflada?
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">🤔 Preguntas para reflexión</h4>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span>¿La nueva descripción representa fielmente el nivel de responsabilidad y complejidad de sus tareas reales?</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span>¿Un colega que trabajó con Isabella Andrea reconocería estas responsabilidades en la descripción generada por IA?</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span>¿Isabella Andrea podría defender esta descripción en una entrevista presencial sin sentir que está exagerando?</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card-success p-4">
+                                <h4 class="font-bold text-green-800 mb-3">✅ Enfoque ético recomendado</h4>
+                                <p class="text-gray-700 text-justify">
+                                    Isabella Andrea puede usar la sugerencia de la IA como inspiración, pero debe editarla para reflejar con precisión sus responsabilidades. Por ejemplo: "Coordiné operaciones logísticas diarias, gestionando envíos de productos y optimizando procesos de distribución". Esta versión mantiene profesionalismo sin exagerar.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Mini-caso 2 -->
+                        <div class="example-box mb-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-600 text-gray-800 font-bold text-xl">2</span>
+                                <h3 class="text-2xl font-bold text-amber-900">La laguna en el historial laboral</h3>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <h4 class="font-bold text-gray-900 mb-3">📋 Situación</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    Isabella Andrea tomó dos años de licencia para cuidar a un familiar enfermo. La herramienta de IAGen sugiere: "Período de desarrollo profesional independiente y actualización de competencias".
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">⚠️ Dilema ético</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    ¿Es ético usar esta descripción cuando no refleja la realidad? Los ATS penalizan lagunas laborales, lo cual es un sesgo sistémico que discrimina especialmente a mujeres cuidadoras. ¿Isabella Andrea debería perpetuar el ocultamiento de realidades de cuidado o enfrentar honestamente el sesgo del sistema?
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">🤔 Análisis crítico</h4>
+                                <p class="text-gray-700 mb-3 text-justify">
+                                    Este caso revela cómo los sesgos algorítmicos crean presiones para que los candidatos oculten aspectos legítimos de sus vidas. Investigaciones demuestran que las lagunas laborales son penalizadas desproporcionadamente en candidatas femeninas, reflejando sesgos de género en los datos de entrenamiento (Roth & Delbos, 2024).
+                                </p>
+                            </div>
+                            
+                            <div class="card-success p-4">
+                                <h4 class="font-bold text-green-800 mb-3">✅ Enfoque ético recomendado</h4>
+                                <p class="text-gray-700 mb-3 text-justify">
+                                    Isabella Andrea puede optar por una formulación honesta pero profesional: "Período de responsabilidades familiares, durante el cual mantuve actualización profesional mediante cursos en línea en [área específica]". Esto:
+                                </p>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-green-600 font-bold">✓</span>
+                                        <span>Es completamente veraz</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-green-600 font-bold">✓</span>
+                                        <span>Normaliza las responsabilidades de cuidado</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-green-600 font-bold">✓</span>
+                                        <span>Demuestra compromiso con el desarrollo profesional continuo</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-green-600 font-bold">✓</span>
+                                        <span>Le permite sentirse íntegra en una entrevista</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Mini-caso 3 -->
+                        <div class="example-box mb-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-600 text-gray-800 font-bold text-xl">3</span>
+                                <h3 class="text-2xl font-bold text-amber-900">La carta de presentación generada por IA</h3>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <h4 class="font-bold text-gray-900 mb-3">📋 Situación</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    Isabella Andrea pide a la IAGen que escriba una carta de presentación. El resultado es impecable: gramática perfecta, estructura profesional, lenguaje persuasivo. Sin embargo, al leerla, Isabella Andrea siente que "no suena como ella".
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">⚠️ Dilema ético</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    ¿Debe Isabella Andrea enviar esta carta que técnicamente la representa pero que no refleja su voz auténtica? ¿Qué sucede si llega a la entrevista y el empleador espera encontrar a la persona elocuente de la carta, pero Isabella Andrea se expresa de manera diferente?
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">🤔 Dimensiones del problema</h4>
+                                <ul class="space-y-2 text-gray-700 mb-4">
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span><strong>Autenticidad vs. competitividad:</strong> En un mercado donde otros candidatos usan IA, ¿negarse a hacerlo es una desventaja injusta?</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span><strong>Expectativas desalineadas:</strong> Si la carta proyecta una imagen que no puede mantener en persona, ¿está preparando el terreno para decepción mutua?</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span><strong>Valor de la voz propia:</strong> Las empresas valoran la capacidad de comunicación. Una carta genérica podría ser un indicador engañoso de esta habilidad.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card-success p-4">
+                                <h4 class="font-bold text-green-800 mb-3">✅ Enfoque ético recomendado</h4>
+                                <p class="text-gray-700 text-justify">
+                                    Isabella Andrea puede usar la IA como punto de partida, pero debe personalizar significativamente el contenido: incorporar ejemplos específicos de su experiencia, ajustar el tono para que refleje su manera natural de comunicarse, incluir detalles que solo ella conocería. La carta final debe ser colaborativa: estructura de IA + voz auténtica de Isabella Andrea.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Mini-caso 4 -->
+                        <div class="example-box mb-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-600 text-gray-800 font-bold text-xl">4</span>
+                                <h3 class="text-2xl font-bold text-amber-900">El dilema de las habilidades técnicas</h3>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <h4 class="font-bold text-gray-900 mb-3">📋 Situación</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    La descripción del puesto lista "Excel avanzado" como requisito. Isabella Andrea sabe usar Excel para tareas básicas (fórmulas simples, gráficos), pero no tablas dinámicas complejas ni macros. La IAGen sugiere incluir "Dominio avanzado de Microsoft Excel" en su CV.
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">⚠️ Dilema ético</h4>
+                                <p class="text-gray-700 mb-4 text-justify">
+                                    ¿Qué nivel de habilidad justifica declarar "dominio avanzado"? ¿Es aceptable exagerar ligeramente las habilidades con la justificación de que "podría aprenderlo rápidamente si fuera necesario"?
+                                </p>
+                                
+                                <h4 class="font-bold text-gray-900 mb-3">🤔 Consideraciones</h4>
+                                <p class="text-gray-700 mb-3">
+                                    Este es un caso clásico de la "zona gris" ética. Algunas consideraciones relevantes incluyen:
+                                </p>
+                                <ul class="space-y-2 text-gray-700 mb-4">
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span>Los términos como "avanzado" son subjetivos y varían según el contexto</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span>Si el puesto realmente requiere Excel avanzado, Isabella Andrea podría ser contratada y luego descubierta como no calificada</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-amber-600 font-bold">•</span>
+                                        <span>Muchas habilidades son aprendibles rápidamente con motivación y recursos adecuados</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card-success p-4">
+                                <h4 class="font-bold text-green-800 mb-3">✅ Enfoque ético recomendado</h4>
+                                <p class="text-gray-700 text-justify">
+                                    Isabella Andrea debe ser honesta pero estratégica: "Competencia en Microsoft Excel (fórmulas, gráficos, análisis de datos), con disposición para capacitación continua en funcionalidades avanzadas". Esta formulación es veraz, demuestra autoconciencia sobre sus áreas de desarrollo y muestra voluntad de aprender, cualidades que muchos empleadores valoran más que falsas declaraciones de maestría.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Parte V: Aplicación práctica -->
+                <section id="parte5" class="mb-16">
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="checkpoint-icon">V</div>
+                            <h2 class="text-3xl font-bold text-gray-900">Aplicación práctica: Comunicación ética</h2>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-8 rounded-xl border-2 border-blue-200 mb-8">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">📧 Actividad: Redactar un correo a un mentor</h3>
+                            <p class="text-gray-700 text-justify">
+                                Una estrategia profesional valiosa es buscar consejo de mentores experimentados. En esta sección, se proporciona un modelo de correo que Isabella Andrea podría enviar a un mentor para discutir su dilema ético y proponer una estrategia de uso responsable de IA.
+                            </p>
+                        </div>
+                        
+                        <div class="card-success card">
+                            <h4 class="font-bold text-xl text-green-900 mb-6">📝 Modelo de correo profesional</h4>
+                            
+                            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                                <div class="bg-gray-100 px-6 py-3 border-b border-gray-200">
+                                    <p class="text-sm"><strong>Asunto:</strong> Consulta sobre el uso ético de IA en mi búsqueda de empleo</p>
+                                </div>
+                                
+                                <div class="p-6 space-y-4 text-gray-700 text-justify">
+                                    <p>Estimado/a [Nombre del Mentor/a],</p>
+                                    
+                                    <p>
+                                        Espero que te encuentres muy bien. Te escribo para pedir tu consejo sobre un desafío que estoy enfrentando en mi búsqueda de empleo y que presenta implicaciones éticas que me gustaría abordar de manera reflexiva.
+                                    </p>
+                                    
+                                    <p>
+                                        Durante los últimos meses, he postulado a más de 40 posiciones para las cuales considero estar calificada, pero he recibido muy pocas respuestas. Tras investigar, descubrí que muchas empresas utilizan sistemas ATS (Applicant Tracking Systems) que filtran automáticamente currículums basándose en palabras clave específicas. Mi experiencia es sólida, pero mi forma de describirla no coincide con la jerga corporativa que estos algoritmos priorizan.
+                                    </p>
+                                    
+                                    <p>
+                                        He explorado el uso de herramientas de inteligencia artificial generativa para optimizar mi currículum, pero esto me ha generado varios dilemas éticos:
+                                    </p>
+                                    
+                                    <ul class="list-disc list-inside pl-4 space-y-2">
+                                        <li><strong>Autenticidad:</strong> Me preocupa perder mi voz genuina y presentar una versión artificialmente fabricada de mí misma.</li>
+                                        <li><strong>Veracidad:</strong> Temo que las sugerencias de la IA puedan llevarme a exagerar o tergiversar mi experiencia.</li>
+                                        <li><strong>Privacidad:</strong> No tengo claridad sobre cómo se utilizan mis datos personales al cargarlos en estas plataformas.</li>
+                                        <li><strong>Equidad:</strong> Me pregunto si usar estas herramientas crea una ventaja injusta sobre candidatos que no tienen acceso a ellas.</li>
+                                    </ul>
+                                    
+                                    <p>
+                                        Para abordar estos dilemas, he desarrollado una estrategia de uso responsable que me gustaría compartir contigo para recibir tu retroalimentación:
+                                    </p>
+                                    
+                                    <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 my-4">
+                                        <h5 class="font-bold text-blue-900 mb-3">Mi propuesta de estrategia ética:</h5>
+                                        <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                                            <li>
+                                                <strong>Usar la IA estrictamente como un asistente lingüístico:</strong> Le proporcionaré mis logros reales y le pediré sugerencias de reformulación profesional, pero nunca le pediré que escriba contenido desde cero sobre experiencias que no tengo.
+                                            </li>
+                                            <li>
+                                                <strong>Mantener el control editorial total:</strong> Revisaré y reescribiré cada sugerencia de la IA para asegurar que: (a) sea 100% veraz, (b) suene como yo, y (c) pueda explicarla con confianza en una entrevista.
+                                            </li>
+                                            <li>
+                                                <strong>Principio de honestidad absoluta:</strong> Nunca incluiré una habilidad, logro o experiencia sugerida por la IA que no posea realmente. Si la IA sugiere añadir "experiencia en Python" y solo conozco Excel, rechazaré esa sugerencia.
+                                            </li>
+                                            <li>
+                                                <strong>Protección de privacidad:</strong> Utilizaré únicamente herramientas con políticas de privacidad transparentes, idealmente aquellas que procesen datos localmente en lugar de en la nube.
+                                            </li>
+                                            <li>
+                                                <strong>Compartir conocimiento:</strong> Si descubro tácticas éticas efectivas, las compartiré con otros profesionales para nivelar el campo de juego.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                    
+                                    <p>
+                                        Mi objetivo fundamental es usar la tecnología para superar la barrera artificial del ATS sin comprometer mi integridad profesional. Quiero asegurarme de que la persona que llegue a una entrevista sea exactamente la misma que está representada en el papel.
+                                    </p>
+                                    
+                                    <p>
+                                        Valoraría enormemente tu perspectiva sobre las siguientes preguntas:
+                                    </p>
+                                    
+                                    <ul class="list-disc list-inside pl-4 space-y-2">
+                                        <li>¿Consideras que este enfoque es ético y profesionalmente sólido?</li>
+                                        <li>¿Hay aspectos adicionales que debería considerar?</li>
+                                        <li>¿Has enfrentado dilemas similares en tu experiencia profesional?</li>
+                                    </ul>
+                                    
+                                    <p>
+                                        Agradezco de antemano tu tiempo y sabiduría. Tu guía ha sido invaluable en mi desarrollo profesional y confío en tu criterio para navegar este nuevo desafío ético.
+                                    </p>
+                                    
+                                    <p>
+                                        Un cordial saludo,<br>
+                                        <strong>Isabella Andrea</strong><br>
+                                        <span class="text-sm text-gray-500">[Información de contacto]</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 grid md:grid-cols-2 gap-6">
+                            <div class="card-highlight card p-6">
+                                <h4 class="font-bold text-lg text-purple-900 mb-3">✅ Fortalezas de este enfoque</h4>
+                                <ul class="text-sm text-gray-700 space-y-2">
+                                    <li>• Transparencia total con el mentor</li>
+                                    <li>• Propuesta proactiva de solución ética</li>
+                                    <li>• Reconocimiento explícito de dilemas morales</li>
+                                    <li>• Solicitud de retroalimentación constructiva</li>
+                                    <li>• Tono profesional y reflexivo</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card-warning card p-6">
+                                <h4 class="font-bold text-lg text-yellow-900 mb-3">💡 Valor pedagógico</h4>
+                                <ul class="text-sm text-gray-700 space-y-2">
+                                    <li>• Modelar la comunicación ética profesional</li>
+                                    <li>• Demostrar pensamiento crítico aplicado</li>
+                                    <li>• Ilustrar la importancia del mentorazgo</li>
+                                    <li>• Fomentar la reflexión antes de la acción</li>
+                                    <li>• Promover el diálogo ético intergeneracional</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reflexión final -->
+                <section id="reflexion" class="mb-16">
+                    <div class="card gradient-bg">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="checkpoint-icon">💭</div>
+                            <h2 class="text-3xl font-bold">Reflexión final y síntesis</h2>
+                        </div>
+                        
+                        <p class="text-gray-900  leading-relaxed mb-6 text-justify">
+                            El caso de Isabella Andrea no tiene una única respuesta "correcta". La ética de usar IA generativa en contextos de inserción laboral depende de múltiples factores situacionales, incluyendo las intenciones del usuario, el grado de modificación de la realidad, el contexto de desigualdad estructural y las consecuencias potenciales para todas las partes involucradas.
+                        </p>
+                        
+                        <div class="bg-white bg-opacity-90 rounded-lg p-6 mb-6">
+                            <h3 class="font-bold text-xl mb-4">🔑 Lecciones fundamentales</h3>
+                            <ul class="space-y-3 opacity-95">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">•</span>
+                                    <span><strong>La ética no es un estado binario:</strong> Existe un espectro entre usos claramente aceptables y claramente inaceptables. La mayoría de las situaciones reales caen en zonas grises que requieren juicio reflexivo.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">•</span>
+                                    <span><strong>El contexto importa:</strong> Una acción que podría ser problemática en un contexto puede ser justificable en otro. Sin embargo, esto no es una invitación al relativismo moral absoluto; siempre hay límites éticos no negociables.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">•</span>
+                                    <span><strong>La autenticidad es negociable, la veracidad no:</strong> Isabella Andrea puede adaptar su tono y lenguaje, pero no puede fabricar experiencias o habilidades inexistentes.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">•</span>
+                                    <span><strong>Los sistemas injustos no justifican respuestas igualmente problemáticas:</strong> Aunque los ATS contienen sesgos documentados, esto no otorga carta blanca para el engaño. La respuesta ética implica trabajar por cambios sistémicos mientras se mantiene integridad personal.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white bg-opacity-90 rounded-lg p-6">
+                            <h3 class="font-bold text-xl mb-4">🎓 Hacia una alfabetización crítica en IA</h3>
+                            <p class="text-gray-800 opacity-95 mb-4 text-justify">
+                                Este apunte ha intentado desarrollar no solo conocimiento factual sobre IA y ética, sino una disposición reflexiva: la capacidad de cuestionar, analizar y evaluar críticamente las tecnologías que utilizamos. Esta alfabetización crítica incluye:
+                            </p>
+                            <ul class="space-y-2 opacity-95">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">→</span>
+                                    <span><strong>Competencia técnica:</strong> Entender cómo funcionan los sistemas de IA a nivel conceptual</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">→</span>
+                                    <span><strong>Conciencia ética:</strong> Reconocer dilemas morales antes de que se materialicen en acciones</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">→</span>
+                                    <span><strong>Análisis sistémico:</strong> Ver más allá de decisiones individuales hacia estructuras de poder e inequidad</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-2xl">→</span>
+                                    <span><strong>Agencia informada:</strong> Capacidad de tomar decisiones conscientes sobre cuándo, cómo y por qué usar (o no usar) tecnologías de IA</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusión -->
+                <section id="conclusion" class="mb-16">
+                    <div class="card gradient-bg">
+                        <h2 class="text-3xl font-bold mb-8 text-gray-900">🎯 Conclusión: Hacia una práctica reflexiva de la tecnología</h2>
+                        
+                        <div class="space-y-6 opacity-95">
+                            <p class="text-lg leading-relaxed text-justify text-gray-900">
+                                Este apunte ha transformado el dilema de Isabella Andrea de una fuente de ansiedad a una oportunidad para la reflexión ética profunda. La conclusión fundamental es que <strong>es posible adoptar la IA generativa no como un atajo que compromete la integridad, sino como una herramienta que, utilizada con un marco ético claro, puede amplificar la voz y la experiencia de un profesional</strong>.
+                            </p>
+                            
+                            <div class="bg-white bg-opacity-90 rounded-lg p-6">
+                                <h3 class="font-bold text-xl mb-4">🔑 Conclusiones clave del análisis</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl text-gray-800">•</span>
+                                        <span>La autenticidad y la tecnología no son inherentemente incompatibles. Lo crucial es mantener la agencia sobre cómo nos representamos y asegurar la veracidad de esa representación.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl  text-gray-800">•</span>
+                                        <span>Los sesgos algorítmicos en ATS son una realidad documentada, no una paranoia. Isabella Andrea y otros candidatos tienen derecho a herramientas que nivelen un campo de juego ya sesgado.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl text-gray-900">•</span>
+                                        <span>La autenticidad no se opone al profesionalismo. Es posible usar lenguaje corporativo sin traicionar la propia voz.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl text-gray-900">•</span>
+                                        <span>La responsabilidad ética última siempre recae en el ser humano, no en la herramienta tecnológica.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white bg-opacity-90 rounded-lg p-6">
+                                <h3 class="font-bold text-xl mb-4">🚀 Llamado a la acción</h3>
+                                <p class="text-gray-800 opacity-95 mb-4 text-justify">
+                                    Se invita a todos los profesionales a convertirse en usuarios críticos y reflexivos de la IA. La ética en la IA comienza con las decisiones cotidianas que cada individuo toma al:
+                                </p>
+                                <ul class="space-y-2 opacity-95">
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl">→</span>
+                                        <span>Cuestionar las sugerencias automatizadas en lugar de aceptarlas pasivamente</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl">→</span>
+                                        <span>Exigir transparencia de las plataformas tecnológicas que utilizamos</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl">→</span>
+                                        <span>Abogar por procesos de contratación más humanos y equitativos</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="text-2xl">→</span>
+                                        <span>Compartir conocimientos sobre uso ético de IA con colegas y comunidades</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="text-center py-8 border-t-2 border-white border-opacity-30 mt-8">
+                                <p class="text-2xl font-bold mb-4">
+                                    "La verdadera tarea no es 'vencer' al algoritmo, sino navegar el sistema con una integridad que ningún algoritmo puede cuantificar."
+                                </p>
+                                <p class="text-lg opacity-90 text-gray-900">
+                                    Aseguremos que la tecnología sirva a la ambición humana sin disminuir su humanidad.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Referencias -->
+                <section id="referencias" class="mb-16">
+                    <div class="card">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-8">📚 Referencias</h2>
+                        
+                        <div class="reference-list">
+                            <p class="text-sm text-gray-600 mb-6 italic">
+                                Las referencias están formateadas según el Manual de Publicación de la American Psychological Association (7.ª ed.).
+                            </p>
+                            
+                            <ul class="space-y-4 text-gray-700">
+                                <li>
+                                    Dastin, J. (2022). <em>Amazon scraps secret AI recruiting tool that showed bias against women</em>. Reuters. https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G
+                                </li>
+                                
+                                <li>
+                                    Gigante, E., & Young, E. (2024, 26 de julio). Job applicant's algorithmic bias discrimination lawsuit survives motion to dismiss. <em>Law and the Workplace</em>. https://www.lawandtheworkplace.com/2024/07/job-applicants-algorithmic-bias-discrimination-lawsuit-survives-motion-to-dismiss/
+                                </li>
+                                
+                                <li>
+                                    Jackson, A. (2021). <em>Diversity in AI: The invisible men and women</em>. MIT Technology Review.
+                                </li>
+                                
+                                <li>
+                                    <em>Mobley v. Workday, Inc.</em>, No. 3:23-cv-00770 (N.D. Cal. 2024). https://caselaw.findlaw.com/court/us-dis-crt-n-d-cal/116378658.html
+                                </li>
+                                
+                                <li>
+                                    Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura. (2021). <em>Recomendación sobre la ética de la inteligencia artificial</em>. UNESCO. https://unesdoc.unesco.org/ark:/48223/pf0000381137_spa
+                                </li>
+                                
+                                <li>
+                                    Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura. (2024). <em>Guía para la inteligencia artificial generativa en educación e investigación</em>. UNESCO. https://unesdoc.unesco.org/ark:/48223/pf0000385146
+                                </li>
+                                
+                                <li>
+                                    Pombo, M. (2023). Modelo de integración de la ética en los sistemas de inteligencia artificial universitarios de educación. En <em>Uso y desarrollo ético de la IA en la UNAM</em> (pp. 42-45). Dirección General de Cómputo y de Tecnologías de Información y Comunicación, UNAM.
+                                </li>
+                                
+                                <li>
+                                    Raghavan, M., Barocas, S., Kleinberg, J., & Levy, K. (2023). Mitigating bias in algorithmic hiring: Evaluating claims and practices. En <em>Proceedings of the 2023 ACM Conference on Fairness, Accountability, and Transparency</em> (pp. 469-481). Association for Computing Machinery. https://doi.org/10.1145/3531146.3533106
+                                </li>
+                                
+                                <li>
+                                    Raso, F. A., Hilligoss, H., Krishnamurthy, V., Bavitz, C., & Kim, L. (2018). <em>Artificial intelligence & human rights: Opportunities & risks</em>. Berkman Klein Center for Internet & Society Research Publication.
+                                </li>
+                                
+                                <li>
+                                    Roth, S., & Delbos, B. (2024, 7 de abril). AI is causing massive hiring discrimination based on disability. <em>The Hill</em>. https://thehill.com/opinion/technology/4576649-ai-is-causing-massive-hiring-discrimination-based-on-disability/
+                                </li>
+                                
+                                <li>
+                                    Sadek, M., Olteanu, A., Bellet, A., & Castillo, C. (2024). <em>Fairness and bias in algorithmic hiring: A survey</em> [Preimpresión]. arXiv. https://arxiv.org/abs/2309.13933
+                                </li>
+                                
+                                <li>
+                                    Verbeek, P.-P. (2011). <em>Moralizing technology: Understanding and designing the morality of things</em>. University of Chicago Press.
+                                </li>
+                            </ul>
+                            
+                            <div class="mt-8 p-6 bg-purple-50 rounded-lg border-2 border-purple-300">
+                                <h3 class="font-bold text-lg text-purple-900 mb-3">📚 Recursos adicionales recomendados</h3>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li>• European Union. (2024). <em>Artificial Intelligence Act (AI Act)</em>. Ley sobre regulación de IA en la Unión Europea.</li>
+                                    <li>• ACLU. (2023). <em>How artificial intelligence might prevent you from getting hired</em>. Análisis sobre discriminación en contratación algorítmica.</li>
+                                    <li>• Hidden Workers Project, Harvard Business School. Investigación sobre trabajadores excluidos por sistemas automatizados.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="text-center py-12 text-gray-500 border-t-2 border-gray-200">
+                    
+                    
+                </div>
+            
+            
+            </main>
+        </div>
+
+        <!-- Footer moderno -->
+        <footer class="footer">
+            <div class="mb-4">
+                <div class="inline-block p-4 bg-gradient-to-br from-blue-600 to-green-600 rounded-2xl shadow-lg mb-4">
+                    <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="font-bold text-xl text-gray-800 mb-1">Oficina de Inteligencia Artificial</p>
+            <p class="text-sm text-gray-600 mb-1">Vicerrectoría de Tecnologías de la Información</p>
+            <p class="text-sm font-semibold text-gray-700">Universidad de Chile © 2025 • Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        // Funciones del modal de instrucciones
+        function openInstructions() {
+            document.getElementById('instructionsModal').classList.add('active');
+        }
+
+        function closeInstructions() {
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem('apunte_etica_instructions_seen', 'true');
+            }
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // Verificar si debe mostrar instrucciones al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasSeenInstructions = localStorage.getItem('apunte_etica_instructions_seen');
+            if (!hasSeenInstructions) {
+                setTimeout(() => {
+                    openInstructions();
+                }, 800);
+            }
+
+            // Animación de entrada para las tarjetas
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('instructionsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInstructions();
+            }
+        });
+
+        // Navegación suave mejorada
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Actualizar navegación activa con animación
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                event.target.classList.add('active');
+                
+                // Efecto de highlight en la sección
+                section.style.transform = 'scale(1.01)';
+                setTimeout(() => {
+                    section.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }
+
+        // Función para descargar PDF
+        function downloadPDF() {
+            const dateStr = new Date().toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const sections = [
+                { title: '1. Introducción', color: '#0055A5', content: 'La inteligencia artificial generativa plantea desafíos éticos fundamentales sobre autenticidad, sesgos algorítmicos y responsabilidades éticas en contextos profesionales.' },
+                { title: '2. Caso Isabella Andrea', color: '#E3000F', content: 'Caso de estudio que ilustra el dilema ético de usar IA generativa para optimizar currículums y materiales de postulación laboral.' },
+                { title: '3. Caso Mobley vs. Workday', color: '#00A859', content: 'Caso emblemático de discriminación algorítmica que establece precedente legal sobre responsabilidad en sistemas de contratación con IA.' },
+                { title: '4. Autenticidad profesional', color: '#E6BC00', content: 'Usar IA para amplificar visibilidad de competencias reales, nunca para fabricarlas. La autenticidad es el fundamento de la credibilidad profesional.' },
+                { title: '5. Marco ético UNESCO', color: '#0055A5', content: 'Principios fundamentales: proporcionalidad, transparencia, responsabilidad, derechos humanos e inclusión en el desarrollo y uso de IA.' },
+                { title: '6. Prácticas responsables', color: '#00A859', content: 'Verificación exhaustiva, prompts éticos, documentación con evidencia y transparencia contextual en el uso de herramientas de IA.' }
+            ];
+            
+            const sectionContent = sections.map(section => [
+                {
+                    table: { widths: ['*'], body: [[
+                        { text: section.title, fontSize: 12, bold: true, color: '#FFFFFF', fillColor: section.color, margin: [8, 6, 8, 6] }
+                    ]] },
+                    layout: 'noBorders',
+                    margin: [0, 10, 0, 0]
+                },
+                { text: section.content, fontSize: 10, color: '#333333', lineHeight: 1.4, margin: [0, 8, 0, 10] }
+            ]).flat();
+            
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                content: [
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Autenticidad y ética en la IA generativa', fontSize: 18, bold: true, color: '#FFFFFF', alignment: 'center' },
+                                    { text: 'Apunte académico completo', fontSize: 12, color: '#FFFFFF', alignment: 'center', margin: [0, 5, 0, 0] },
+                                    { text: 'Navegando dilemas éticos en contratación algorítmica', fontSize: 10, color: '#FFFFFF', alignment: 'center', margin: [0, 3, 0, 0] }
+                                ],
+                                fillColor: '#00274D',
+                                margin: [20, 18, 20, 18]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 0, 0, 15]
+                    },
+                    ...sectionContent,
+                    {
+                        table: { widths: ['*'], body: [[
+                            {
+                                stack: [
+                                    { text: 'Conclusión clave', fontSize: 12, bold: true, color: '#FFFFFF', margin: [0, 0, 0, 8] },
+                                    { text: 'La ética en IA generativa no es opcional: es el fundamento de la confianza profesional. Usar estas herramientas responsablemente significa amplificar competencias reales, mantener transparencia y priorizar siempre la autenticidad sobre la optimización artificial.', fontSize: 10, color: '#FFFFFF', italics: true, lineHeight: 1.4 }
+                                ],
+                                fillColor: '#0055A5',
+                                margin: [15, 12, 15, 12]
+                            }
+                        ]] },
+                        layout: 'noBorders',
+                        margin: [0, 15, 0, 0]
+                    }
+                ],
+                footer: function(currentPage, pageCount) {
+                    return {
+                        stack: [
+                            { text: 'Generado el ' + dateStr, fontSize: 7, color: '#888888', margin: [40, 0, 0, 0] },
+                            { text: 'Oficina de Inteligencia Artificial - Vicerrectoría de Tecnologías de la Información - Universidad de Chile', fontSize: 7, color: '#888888', alignment: 'center', margin: [0, 2, 0, 0] }
+                        ],
+                        margin: [0, 10, 0, 0]
+                    };
+                }
+            };
+            
+            pdfMake.createPdf(docDefinition).download('Etica_IA_Generativa_Apunte_Completo.pdf');
+        }
+
+        // Accesibilidad: navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInstructions();
+            }
+        });
+
+        // Efecto parallax sutil en el header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header-modern');
+            const scrolled = window.pageYOffset;
+            if (header && scrolled < 300) {
+                header.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Animación de entrada para acordeones
+        const accordions = document.querySelectorAll('.accordion-item');
+        accordions.forEach((accordion, index) => {
+            accordion.addEventListener('toggle', function() {
+                if (this.open) {
+                    this.querySelector('.accordion-content').style.animation = 'fadeInUp 0.4s ease';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

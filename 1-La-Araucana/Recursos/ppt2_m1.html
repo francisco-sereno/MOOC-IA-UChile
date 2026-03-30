@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZZWQZR8VQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZZWQZR8VQ');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Mitos, Oportunidades y Adopción de IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f5f7;
+            color: #172b4d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        :root {
+            --color-principal: #0033A0;
+            --color-acento: #009639;
+            --color-texto: #172b4d;
+            --color-fondo-claro: #f4f5f7;
+            --color-borde: #dfe1e6;
+            --font-main: 'Montserrat', sans-serif;
+        }
+        .presentation-container {
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 16 / 13;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--color-borde);
+            position: relative;
+        }
+        .slides-container {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+        }
+        .slide {
+            display: none;
+            flex-grow: 1;
+            padding: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+            overflow-y: auto;
+            animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.2px;
+            width: 100%;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-title {
+            font-family: var(--font-main);
+            font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 1.25rem;
+            color: var(--color-texto);
+            line-height: 1.25;
+        }
+        .slide-subtitle {
+            font-family: var(--font-main);
+            font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+            color: #42526e;
+            max-width: 85%;
+            line-height: 1.6;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, var(--color-principal), var(--color-acento));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: white;
+            color: var(--color-principal);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--color-borde);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #prevBtn { left: 1.5rem; }
+        #nextBtn { right: 1.5rem; }
+        .nav-button:hover {
+            background-color: var(--color-principal);
+            color: white;
+            border-color: var(--color-principal);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .nav-button:disabled {
+            background-color: #fafbfc;
+            color: #a5adba;
+            cursor: not-allowed;
+            transform: translateY(-50%) scale(1);
+            opacity: 0.8;
+        }
+        .slide-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #42526e;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--color-borde);
+        }
+        .info-card {
+            background-color: #ffffff;
+            border: 1px solid var(--color-borde);
+            border-radius: 0.75rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -10px rgba(0, 82, 204, 0.2);
+            border-color: var(--color-principal);
+        }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(23, 43, 77, 0.6);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: white; padding: 2rem; border-radius: 0.75rem;
+            max-width: 500px; width: 90%;
+            box-shadow: 0 20px 40px -15px rgba(0, 82, 204, 0.3);
+            transform: scale(0.95); transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-title { font-family: var(--font-main); font-weight: 900; font-size: 1.5rem; color: var(--color-principal); margin-bottom: 1rem; }
+        .modal-body { color: #42526e; line-height: 1.6; margin-bottom: 1.5rem; }
+        .modal-close-btn {
+            display: block; width: 100%; padding: 0.75rem; background-color: var(--color-principal);
+            color: white; border: none; border-radius: 0.5rem; font-weight: 700;
+            cursor: pointer; transition: background-color 0.2s;
+        }
+        .modal-close-btn:hover { background-color: #003f99; }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .presentation-container { 
+                border-radius: 0; height: 100vh; width: 100vw;
+                max-width: 100%; aspect-ratio: auto;
+            }
+            .slide-subtitle { max-width: 100%; }
+            .nav-button {
+                top: auto; bottom: 1rem; transform: none;
+                width: 50px; height: 40px; border-radius: 0.5rem;
+            }
+            #prevBtn { left: 1rem; }
+            #nextBtn { right: 1rem; }
+            .slide-counter { bottom: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <div class="slides-container">
+
+            <!-- Diapositiva 1: Título -->
+            <div class="slide active" style="background: radial-gradient(circle, rgba(255,255,255,1) 0%, #f4f5f7 100%);">
+                <div class="flex flex-col h-full text-center p-8 justify-center">
+                    <h1 class="font-black gradient-text mb-4" style="font-size: clamp(2.5rem, 8vw, 4.5rem);">Mitos, Oportunidades y Adopción de la IA</h1>
+                    <p class="max-w-4xl mx-auto" style="font-size: clamp(1.25rem, 4vw, 1.75rem); color: #42526e;">Módulo 1</p>
+                </div>
+            </div>
+
+            <!-- Diapositiva 2: Desmitificación -->
+            <div class="slide text-center">
+                 <h2 class="slide-title">1. Desmitificación y limitaciones críticas</h2>
+                 <p class="slide-subtitle mx-auto mb-10">Es crucial separar la realidad de la ficción para un uso efectivo y seguro.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal);">Mito: La IA "comprende"</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="mito1">Ver realidad</button>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal);">Mito: La IA es infalible</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="mito2">Ver realidad</button>
+                    </div>
+                    <div class="info-card flex flex-col items-center text-center">
+                        <h3 class="font-bold mb-2 flex-grow" style="color: var(--color-principal);">Mito: Reemplazará todos los trabajos</h3>
+                        <button class="mt-auto text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="mito3">Ver realidad</button>
+                    </div>
+                 </div>
+            </div>
+            
+            <!-- Diapositiva 3: Limitaciones -->
+            <div class="slide text-center">
+                <h2 class="slide-title">2. Limitaciones que debe conocer</h2>
+                <p class="slide-subtitle mx-auto mb-10">Entender estas limitaciones es clave para la supervisión humana.</p>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal);">Alucinaciones</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="limitacion1">Ver ejemplo</button>
+                    </div>
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal);">Conocimiento Desactualizado</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="limitacion2">Ver ejemplo</button>
+                    </div>
+                    <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal);">Inconsistencias</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="limitacion3">Ver ejemplo</button>
+                    </div>
+                     <div class="info-card text-center p-6">
+                        <h4 class="font-bold flex-grow" style="font-family: var(--font-main); font-weight: 900; color: var(--color-principal);">Sesgos Inherentes</h4>
+                        <button class="mt-4 text-sm font-bold text-gray-500 hover:text-blue-600 open-modal-btn" data-modal="limitacion4">Ver ejemplo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 4: Oportunidades en Chile -->
+            <div class="slide">
+                <h2 class="slide-title text-center">3. Oportunidades y adopción en Chile</h2>
+                <p class="slide-subtitle mx-auto text-center mb-8">La adopción de IA generativa en Chile varía significativamente según la industria.</p>
+                <div class="w-full max-w-4xl space-y-3 text-sm">
+                    <div class="p-4 bg-gray-50 rounded-lg border"><strong>Minería:</strong> Lidera en optimización de procesos, mantenimiento predictivo y reportes técnicos.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg border"><strong>Servicios Financieros:</strong> Se enfoca en la personalización de la experiencia del cliente y asistentes virtuales.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg border"><strong>Retail:</strong> Utilizada para optimizar inventarios y personalizar la experiencia de compra.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg border"><strong>Salud y Educación:</strong> Gran potencial, pero con una adopción más lenta por regulaciones y consideraciones éticas.</div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 5: Factores de Adopción -->
+            <div class="slide">
+                <h2 class="slide-title text-center">4. Factores de adopción</h2>
+                <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                    <div>
+                        <h3 class="font-bold text-2xl text-center mb-4 text-green-600">✅ Facilitadores</h3>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="p-3 bg-green-50 rounded-lg border border-green-200">Liderazgo comprometido de la alta gerencia.</li>
+                            <li class="p-3 bg-green-50 rounded-lg border border-green-200">Disponibilidad de talento "traductor" (negocio-tecnología).</li>
+                            <li class="p-3 bg-green-50 rounded-lg border border-green-200">Infraestructura digital y conectividad robusta.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-2xl text-center mb-4 text-red-600">❌ Barreras</h3>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="p-3 bg-red-50 rounded-lg border border-red-200">Resistencia cultural al cambio y escepticismo.</li>
+                            <li class="p-3 bg-red-50 rounded-lg border border-red-200">Ambigüedad regulatoria en privacidad de datos.</li>
+                            <li class="p-3 bg-red-50 rounded-lg border border-red-200">Costo y cálculo del retorno de inversión (ROI).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diapositiva 6: Metodología Práctica -->
+            <div class="slide">
+                <h2 class="slide-title text-center">5. Metodología práctica para la adopción</h2>
+                <p class="slide-subtitle mx-auto text-center mb-8">Un proceso efectivo sigue cinco fases iterativas:</p>
+                <div class="w-full max-w-3xl">
+                    <ol class="space-y-2 text-lg">
+                        <li class="p-3 bg-blue-50 border-l-4 border-blue-500"><strong>1. Diagnóstico:</strong> Mapear procesos e identificar tareas repetitivas.</li>
+                        <li class="p-3 bg-blue-50 border-l-4 border-blue-500"><strong>2. Diseño:</strong> Seleccionar herramientas y diseñar nuevos flujos de trabajo.</li>
+                        <li class="p-3 bg-blue-50 border-l-4 border-blue-500"><strong>3. Pilotaje:</strong> Iniciar con proyectos acotados y equipos pequeños.</li>
+                        <li class="p-3 bg-blue-50 border-l-4 border-blue-500"><strong>4. Escalamiento:</strong> Expandir el uso de manera gradual.</li>
+                        <li class="p-3 bg-blue-50 border-l-4 border-blue-500"><strong>5. Optimización Continua:</strong> Medir el impacto y refinar constantemente.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Diapositiva 7: Conclusión -->
+            <div class="slide text-white text-center" style="background: linear-gradient(45deg, var(--color-principal), #002b85);">
+                <h3 class="font-black mb-4" style="font-family: var(--font-main); font-weight: 900; font-size: clamp(2.5rem, 6vw, 3.5rem);">La IA como copiloto profesional</h3>
+                <p class="max-w-4xl mx-auto leading-relaxed" style="font-size: clamp(1.25rem, 3.5vw, 1.75rem);">La inteligencia artificial generativa no busca reemplazar la inteligencia humana, sino <b>aumentarla</b>. El futuro es la colaboración humano-máquina.</p>
+            </div>
+
+        </div>
+
+        <!-- Navegación Fija -->
+        <button id="prevBtn" class="nav-button" aria-label="Diapositiva anterior"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <button id="nextBtn" class="nav-button" aria-label="Siguiente diapositiva"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+        <div id="slideCounter" class="slide-counter"></div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title"></h3>
+            <p id="modalBody" class="modal-body"></p>
+            <button id="modalClose" class="modal-close-btn">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slideCounter');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                updateControls();
+            }
+
+            function updateControls() {
+                slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+
+            nextBtn.addEventListener('click', () => { if (currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+            prevBtn.addEventListener('click', () => { if (currentSlide > 0) showSlide(currentSlide - 1); });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextBtn.click();
+                else if (e.key === 'ArrowLeft') prevBtn.click();
+            });
+
+            updateControls();
+
+            // Modal Logic
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const modalCloseBtn = document.getElementById('modalClose');
+
+            const modalData = {
+                mito1: { title: 'Realidad', body: 'Sus respuestas se basan en patrones estadísticos, no en una comprensión real del mundo.' },
+                mito2: { title: 'Realidad', body: 'Los modelos son propensos a errores y "alucinaciones" (inventar datos). La verificación humana es indispensable.' },
+                mito3: { title: 'Realidad', body: 'La evidencia apunta a una transformación de roles y aumento de capacidades, no a una eliminación masiva de empleos.' },
+                limitacion1: { title: 'Ejemplo de Alucinación', body: 'Isabella le pide a la IA ideas de juegos para la kermesse y esta le sugiere "carreras de unicornios voladores", un concepto que no es factible en la realidad.' },
+                limitacion2: { title: 'Ejemplo de Conocimiento Desactualizado', body: 'Isabella pregunta por el proveedor de bebidas más económico y la IA recomienda una empresa que cerró el año pasado.' },
+                limitacion3: { title: 'Ejemplo de Inconsistencia', body: 'Al pedir ideas para el afiche, la IA primero sugiere un estilo "vintage" y luego, en la misma conversación, propone un diseño "futurista" sin relación.' },
+                limitacion4: { title: 'Ejemplo de Sesgo Inherente', body: 'Al solicitar imágenes de "personas organizando un evento", la IA podría generar predominantemente imágenes de mujeres, reflejando un sesgo social.' },
+                privacidad: { title: 'Recomendación: Privacidad', body: 'Nunca introduzca información sensible, personal o confidencial (RUT, direcciones, datos de contacto) en las versiones públicas de estas herramientas. Los datos pueden ser usados para entrenar el modelo.' },
+                verificacion: { title: 'Recomendación: Verificación', body: 'La IA puede "alucinar" e inventar datos, fechas o fuentes con total seguridad. Suena creíble, pero puede ser falso. Siempre verifique la información crítica antes de usarla.' },
+                revision: { title: 'Recomendación: Revisión', body: 'La IA es un copiloto, no un piloto automático. El juicio final siempre es suyo. Revise y edite siempre el contenido generado para asegurar que se alinee con el tono y los objetivos deseados.' }
+            };
+
+            const openModal = (type) => {
+                const data = modalData[type];
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalBody.textContent = data.body;
+                    modal.classList.add('active');
+                }
+            };
+
+            const closeModal = () => modal.classList.remove('active');
+
+            openModalBtns.forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.modal)));
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        });
+    </script>
+
+</body>
+</html>

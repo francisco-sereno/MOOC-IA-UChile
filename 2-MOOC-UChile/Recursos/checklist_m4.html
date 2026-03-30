@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJSF7BSNXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RJSF7BSNXP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 4: Autoevaluación Uso Ético y Responsable de la IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .checklist-container {
+            font-family: 'Montserrat', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .checklist-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #0033A0 0%, #0056b3 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.3);
+        }
+
+        .checklist-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: white !important;
+        }
+
+        .checklist-header .checklist-subtitle {
+            font-size: 1.1em;
+            margin: 0;
+            font-weight: 300;
+            color: white !important;
+            opacity: 1; 
+        }
+
+        .checklist-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .checklist-nav-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            color: #666;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .checklist-nav-btn:hover {
+            background-color: #f0f4ff;
+            color: #0033A0;
+        }
+
+        .checklist-nav-btn.checklist-active {
+            background-color: #0033A0;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 51, 160, 0.3);
+        }
+
+        .checklist-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .checklist-section {
+            display: none;
+        }
+
+        .checklist-section.checklist-active {
+            display: block;
+        }
+
+        .checklist-section h2 {
+            color: #0033A0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+            border-bottom: 3px solid #e3f2fd;
+            padding-bottom: 10px;
+        }
+        
+        .checklist-category-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #0056b3; /* Ajustado al tema */
+            margin-top: 25px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #f0f4ff;
+        }
+        
+        .checklist-category-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 10px;
+            border-left: 4px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background-color: #f0f4ff;
+            border-left-color: #0033A0;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            margin-top: 4px; 
+            transform: scale(1.3);
+            cursor: pointer;
+            accent-color: #009639; /* Color verde mantenido */
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            font-size: 1em;
+            line-height: 1.5;
+            font-weight: 400;
+            color: #333;
+            flex: 1;
+        }
+
+        .checklist-item.checklist-completed {
+            background-color: #f0fdf4;
+            border-left-color: #009639;
+        }
+
+        .checklist-progress-container {
+            margin: 20px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .checklist-progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .checklist-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #009639 0%, #007a2f 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .checklist-progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .checklist-evaluation {
+            text-align: center;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .checklist-excellent {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+
+        .checklist-good {
+            background-color: #dcedc8;
+            color: #558b2f;
+            border: 2px solid #8bc34a;
+        }
+
+        .checklist-solid {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border: 2px solid #ff9800;
+        }
+
+        .checklist-needs-improvement {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+
+        .checklist-form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .checklist-form-group {
+            margin-bottom: 20px;
+        }
+
+        .checklist-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .checklist-form-group input,
+        .checklist-form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box; 
+        }
+
+        .checklist-form-group input:focus,
+        .checklist-form-group textarea:focus {
+            outline: none;
+            border-color: #0033A0;
+            box-shadow: 0 0 0 3px rgba(0, 51, 160, 0.1);
+        }
+
+        .checklist-btn {
+            background: linear-gradient(135deg, #0033A0 0%, #0056b3 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+            box-shadow: 0 4px 15px rgba(0, 51, 160, 0.3);
+        }
+
+        .checklist-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 51, 160, 0.4);
+        }
+
+        .checklist-btn:active {
+            transform: translateY(0);
+        }
+
+        .checklist-btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .checklist-btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .checklist-instructions {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #0033A0;
+        }
+
+        .checklist-instructions h3 {
+            color: #0033A0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .checklist-instructions ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+
+        .checklist-instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .checklist-criteria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .checklist-criteria-item {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ESTILO "IMPORTANTE" ACTUALIZADO */
+        .checklist-warning {
+            background: #fff9e6; /* Softer yellow */
+            border: none;
+            border-left: 5px solid #ffc107; /* Accent border */
+            color: #856404;
+            padding: 25px; /* Increased padding */
+            border-radius: 12px; /* Matched to other containers */
+            margin: 20px 0;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2); /* Subtle shadow */
+            line-height: 1.6; /* Añadido para controlar el texto */
+        }
+
+        /* CORRECCIÓN: Se usa :first-of-type para aplicar 'display: block' solo al primer <strong> */
+        .checklist-warning strong:first-of-type {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+
+        .checklist-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .checklist-container { padding: 10px; }
+            .checklist-nav { flex-direction: column; }
+            .checklist-nav-btn { min-width: auto; margin: 2px 0; }
+            .checklist-content { padding: 20px; }
+            .checklist-header h1 { font-size: 1.8em; } /* Ajustado para M4 */
+            .checklist-header .checklist-subtitle { font-size: 1em; }
+            .checklist-criteria { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="checklist-container">
+        <div class="checklist-header">
+            <h1>Módulo 4: Uso Ético y Responsable de la IA</h1>
+            <p class="checklist-subtitle">Autoevaluación de competencias en la aplicación de principios éticos en IA generativa</p>
+        </div>
+
+        <div class="checklist-nav">
+            <button class="checklist-nav-btn checklist-active" onclick="showSection(0)">Indicaciones</button>
+            <button class="checklist-nav-btn" onclick="showSection(1)">Sección A</button>
+            <button class="checklist-nav-btn" onclick="showSection(2)">Sección B</button>
+            <button class="checklist-nav-btn" onclick="showSection(3)">Sección C</button>
+            <button class="checklist-nav-btn" onclick="showSection(4)">Sección D</button>
+            <button class="checklist-nav-btn" onclick="showSection(5)">Evaluación</button>
+        </div>
+
+        <div class="checklist-progress-container">
+            <div class="checklist-progress-bar">
+                <div class="checklist-progress-fill" id="progressFill"></div>
+            </div>
+            <!-- Total de 40 items para M4 -->
+            <div class="checklist-progress-text" id="progressText">Progreso: 0/40 completados (0%)</div>
+        </div>
+
+        <div class="checklist-content">
+            <!-- Sección Indicaciones -->
+            <div class="checklist-section checklist-active" id="section0">
+                <h2>Indicaciones para la autoevaluación</h2>
+                <div class="checklist-instructions">
+                    <h3>Proceso de autoevaluación en 4 pasos</h3>
+                    <ul>
+                        <li><strong>Paso 1: Navegación.</strong> Utiliza las pestañas superiores para moverte entre las secciones A, B, C, D y la evaluación final.</li>
+                        <li><strong>Paso 2: Evaluación honesta.</strong> Marca cada elemento solo si realmente dominas o has aplicado esa competencia.</li>
+                        <li><strong>Paso 3: Revisión global.</strong> Observa tu puntuación total y la categorización automática de tu nivel.</li>
+                        <!-- EDITADO: Se cambia el Paso 4 para reflejar que es opcional y para guardar, no para entrega -->
+                        <li><strong>Paso 4: Reporte opcional.</strong> Si lo deseas, puedes completar tus datos personales y generar un PDF para guardar tu autoevaluación.</li>
+                    </ul>
+                </div>
+                <div class="checklist-criteria">
+                    <div class="checklist-criteria-item checklist-excellent"><strong>Excelente</strong><br>36-40 puntos<br>Dominio avanzado</div>
+                    <div class="checklist-criteria-item checklist-good"><strong>Buena</strong><br>31-35 puntos<br>Competencia sólida</div>
+                    <div class="checklist-criteria-item checklist-solid"><strong>Sólida</strong><br>26-30 puntos<br>Base establecida</div>
+                    <div class="checklist-criteria-item checklist-needs-improvement"><strong>Requiere refuerzo</strong><br>Menos de 26 puntos<br>Necesita mejora</div>
+                </div>
+                <!-- EDITADO: Se modifica la advertencia para indicar que es formativo, sin calificación y el PDF es opcional -->
+                <div class="checklist-warning">
+                    <strong>Importante:</strong>
+                    Esta es una <strong>actividad formativa y sin calificación</strong>, diseñada como un diagnóstico para medir tu comprensión inicial. La generación del PDF es <strong>completamente opcional</strong> y sirve solo para tu registro personal, si así lo deseas.
+                </div>
+            </div>
+
+            <!-- Sección A: Comprensión conceptual -->
+            <div class="checklist-section" id="section1">
+                <h2>Sección A: Comprensión conceptual (10 elementos)</h2>
+                
+                <h3 class="checklist-category-title">Fundamentos Éticos</h3>
+                <div class="checklist-item"><input type="checkbox" id="a1" onchange="updateProgress()"><label for="a1">Comprendo el dilema ético central entre autenticidad y optimización al usar IA en el desarrollo profesional.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a2" onchange="updateProgress()"><label for="a2">Identifico y explico las distintas fuentes de sesgo algorítmico (datos, diseño, humano) en sistemas de contratación.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a3" onchange="updateProgress()"><label for="a3">Comprendo los riesgos específicos de privacidad y protección de datos al interactuar con plataformas de IA.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a4" onchange="updateProgress()"><label for="a4">Distingo entre los conceptos de transparencia y explicabilidad (XAI) y entiendo el problema de la "caja negra".</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a5" onchange="updateProgress()"><label for="a5">Comprendo los desafíos de asignar responsabilidad y rendición de cuentas cuando un sistema de IA causa daño.</label></div>
+                
+                <h3 class="checklist-category-title">Marcos de Gobernanza</h3>
+                <div class="checklist-item"><input type="checkbox" id="a6" onchange="updateProgress()"><label for="a6">Identifico amenazas de seguridad relevantes para la IA, como el envenenamiento de datos y ataques a la cadena de suministro.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a7" onchange="updateProgress()"><label for="a7">Conozco el propósito y los cuatro valores fundamentales del marco de la UNESCO para la ética de la IA.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a8" onchange="updateProgress()"><label for="a8">Puedo nombrar y describir al menos cinco de los diez principios rectores de la recomendación de la UNESCO.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a9" onchange="updateProgress()"><label for="a9">Comprendo cómo los mini-casos prácticos ilustran los riesgos de pérdida de autenticidad, sesgo y desinformación.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="a10" onchange="updateProgress()"><label for="a10">Entiendo el concepto de "práctica reflexiva de la tecnología" como un enfoque para el uso ético de la IA.</label></div>
+            </div>
+
+            <!-- Sección B: Habilidades de análisis ético -->
+            <div class="checklist-section" id="section2">
+                <h2>Sección B: Habilidades de análisis ético (10 elementos)</h2>
+                
+                <h3 class="checklist-category-title">Análisis de Casos</h3>
+                <div class="checklist-item"><input type="checkbox" id="b1" onchange="updateProgress()"><label for="b1">Soy capaz de analizar una situación de uso de IA (como el caso de Isabella) e identificar los dilemas éticos involucrados.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b2" onchange="updateProgress()"><label for="b2">Puedo aplicar los principios de la UNESCO para evaluar la eticidad de un sistema de IA en un contexto de contratación.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b3" onchange="updateProgress()"><label for="b3">Sé formular preguntas críticas para evaluar una herramienta de IA, cuestionando su transparencia, equidad y seguridad.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b4" onchange="updateProgress()"><label for="b4">Puedo identificar potenciales sesgos en el resultado generado por una IA y proponer formas de mitigarlos.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b5" onchange="updateProgress()"><label for="b5">Soy capaz de evaluar los términos de servicio de una plataforma de IA para identificar cláusulas relativas a la privacidad y uso de datos.</label></div>
+                
+                <h3 class="checklist-category-title">Habilidades de Juicio</h3>
+                <div class="checklist-item"><input type="checkbox" id="b6" onchange="updateProgress()"><label for="b6">Puedo analizar un texto generado por IA y evaluar su nivel de autenticidad y veracidad en comparación con la experiencia real.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b7" onchange="updateProgress()"><label for="b7">Sé argumentar a favor de la supervisión humana en un proceso automatizado, explicando los riesgos de la automatización total.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b8" onchange="updateProgress()"><label for="b8">Puedo aplicar el concepto de "proporcionalidad" para determinar si el uso de una tecnología de IA está justificado para una tarea específica.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b9" onchange="updateProgress()"><label for="b9">Sé cómo trazar la línea entre la optimización aceptable de un perfil profesional y la tergiversación o el engaño.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="b10" onchange="updateProgress()"><label for="b10">Puedo utilizar las preguntas de reflexión guiada para estructurar mi propio análisis ético sobre un nuevo uso de la IA.</label></div>
+            </div>
+
+            <!-- Sección C: Aplicación estratégica y responsable -->
+            <div class="checklist-section" id="section3">
+                <h2>Sección C: Aplicación estratégica y responsable (10 elementos)</h2>
+                
+                <h3 class="checklist-category-title">Aplicación Práctica</h3>
+                <div class="checklist-item"><input type="checkbox" id="c1" onchange="updateProgress()"><label for="c1">Puedo desarrollar un conjunto de principios personales para el uso ético de la IA, similar a la estrategia de Isabella.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c2" onchange="updateProgress()"><label for="c2">Sé cómo usar la IA como un "asistente de traducción" para reformular mis logros sin fabricar nueva información.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c3" onchange="updateProgress()"><label for="c3">Puedo mantener un control editorial total sobre el contenido generado por IA, asegurando que refleje mi voz y veracidad.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c4" onchange="updateProgress()"><label for="c4">Soy capaz de redactar una comunicación clara (como un correo electrónico) para explicar mi enfoque ético sobre la IA a un mentor o colega.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c5" onchange="updateProgress()"><label for="c5">Puedo aplicar el principio de honestidad, rechazando activamente las sugerencias de la IA que no se correspondan con mis habilidades reales.</label></div>
+                
+                <h3 class="checklist-category-title">Estrategia Organizacional</h3>
+                <div class="checklist-item"><input type="checkbox" id="c6" onchange="updateProgress()"><label for="c6">Sé cómo educar a otros sobre los riesgos de los ATS y abogar por procesos de contratación más justos y transparentes.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c7" onchange="updateProgress()"><label for="c7">Puedo proponer un marco simple de gobernanza de IA para un equipo pequeño, estableciendo reglas básicas de uso.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c8" onchange="updateProgress()"><label for="c8">Sé cómo tomar medidas básicas para proteger mis datos personales al utilizar herramientas de IA en línea (ej. no compartir información sensible).</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c9" onchange="updateProgress()"><label for="c9">Puedo utilizar el conocimiento sobre sesgos para ajustar mis prompts y solicitar a la IA que evite estereotipos o generalizaciones.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="c10" onchange="updateProgress()"><label for="c10">Soy capaz de articular una defensa de por qué mi enfoque de uso responsable de la IA es profesionalmente sólido y ético.</label></div>
+            </div>
+
+            <!-- Sección D: Compromiso con la práctica reflexiva -->
+            <div class="checklist-section" id="section4">
+                <h2>Sección D: Compromiso con la práctica reflexiva (10 elementos)</h2>
+                
+                <h3 class="checklist-category-title">Compromiso Personal</h3>
+                <div class="checklist-item"><input type="checkbox" id="d1" onchange="updateProgress()"><label for="d1">Me comprometo a ser un usuario crítico y reflexivo de la tecnología de IA, no solo un consumidor pasivo.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d2" onchange="updateProgress()"><label for="d2">Tengo un plan para mantenerme informado sobre los avances y debates en el campo de la ética de la IA.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d3" onchange="updateProgress()"><label for="d3">Busco activamente oportunidades para discutir dilemas éticos relacionados con la IA con colegas, mentores o en comunidades profesionales.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d4" onchange="updateProgress()"><label for="d4">Me comprometo a revisar y actualizar periódicamente mis propias directrices de uso ético de la IA a medida que la tecnología evoluciona.</label></div>
+                
+                <h3 class="checklist-category-title">Visión y Liderazgo</h3>
+                <div class="checklist-item"><input type="checkbox" id="d5" onchange="updateProgress()"><label for="d5">Documento mis interacciones significativas con la IA, reflexionando sobre los resultados y los desafíos éticos que se presentaron.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d6" onchange="updateProgress()"><label for="d6">Estoy dispuesto a abogar por la implementación de principios éticos de IA en mi lugar de trabajo o en mis proyectos.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d7" onchange="updateProgress()"><label for="d7">Reflexiono sobre el impacto más amplio de la IA en la sociedad, más allá de mis propios usos y beneficios.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d8" onchange="updateProgress()"><label for="d8">Me esfuerzo por mantener un equilibrio saludable, asegurando que la tecnología sirva a mis objetivos sin disminuir mi humanidad o autenticidad.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d9" onchange="updateProgress()"><label for="d9">Considero la sostenibilidad y el impacto ambiental del uso masivo de la IA en mis reflexiones a largo plazo.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="d10" onchange="updateProgress()"><label for="d10">Me veo a mí mismo como un agente de cambio, capaz de promover una cultura de innovación responsable en mi entorno profesional.</label></div>
+            </div>
+
+            <!-- Sección Evaluación -->
+            <div class="checklist-section" id="section5">
+                <h2>Evaluación final y generación de reporte</h2>
+                <div id="evaluationResult" class="checklist-evaluation">Completa las secciones anteriores para ver tu evaluación</div>
+                <div class="checklist-form-section">
+                    <!-- EDITADO: Título actualizado y campos opcionales -->
+                    <h3>Datos personales para el reporte (Opcional)</h3>
+                    
+                    <div class="checklist-form-group">
+                        <label for="studentName">Nombre completo:</label>
+                        <input type="text" id="studentName" placeholder="Ingresa tu nombre completo">
+                    </div>
+                    
+                    <div class="checklist-form-group">
+                        <label for="evaluationDate">Fecha de evaluación:</label>
+                        <input type="date" id="evaluationDate" required>
+                    </div>
+                    
+                    <div class="checklist-form-group">
+                        <label for="digitalSignature">Firma digital:</label>
+                        <input type="text" id="digitalSignature" placeholder="Escribe tu nombre como firma digital">
+                    </div>
+
+                    <div class="checklist-form-group">
+                        <label for="additionalComments">Comentarios adicionales (opcional):</label>
+                        <textarea id="additionalComments" rows="4" placeholder="Reflexiones sobre el proceso de aprendizaje, desafíos encontrados, metas futuras..."></textarea>
+                    </div>
+
+                    <div class="checklist-warning">
+                        <strong>Declaración de compromiso académico:</strong>
+                        Al generar este reporte, declaro que he completado esta autoevaluación de manera honesta y que me comprometo a aplicar los conocimientos adquiridos en el módulo de forma ética y responsable.
+                    </div>
+                    <div style="text-align: center; margin-top: 25px;">
+                        <!-- EDITADO: Se cambia el texto del botón para reflejar que es opcional -->
+                        <button class="checklist-btn" onclick="generatePDF()">Guardar reporte en PDF (Opcional)</button>
+                        <button class="checklist-btn checklist-btn-secondary" onclick="resetEvaluation()">Reiniciar evaluación</button>
+                    </div>
+                </div>
+                <div id="actionPlan" class="checklist-form-section" style="display: none;">
+                    <h3>Plan de acción personalizado</h3>
+                    <div id="actionPlanContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-footer">
+            <!-- EDITADO: Se elimina "Damaris Reinoso" -->
+            <p><strong>Desarrollo digital:</strong> Gemini (Google) | <strong>Contenido académico:</strong> Francisco Sereño</p>
+            <p><strong>Versión:</strong> 1.0 - Julio 2025 | <strong>Tecnologías:</strong> HTML5, CSS3, JavaScript, jsPDF</p>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const totalItems = 40; // Total de 40 items para M4
+        const sectionsData = [
+            { name: "Indicaciones", items: 0 },
+            { name: "Comprensión conceptual", items: 10 },
+            { name: "Habilidades de análisis ético", items: 10 },
+            { name: "Aplicación estratégica y responsable", items: 10 },
+            { name: "Compromiso con la práctica reflexiva", items: 10 },
+            { name: "Evaluación", items: 0 }
+        ];
+
+        function showSection(index) {
+            document.querySelectorAll('.checklist-section').forEach(s => s.classList.remove('checklist-active'));
+            document.querySelectorAll('.checklist-nav-btn').forEach(b => b.classList.remove('checklist-active'));
+            document.getElementById(`section${index}`).classList.add('checklist-active');
+            document.querySelectorAll('.checklist-nav-btn')[index].classList.add('checklist-active');
+            currentSection = index;
+            if (index === 5) {
+                updateProgress(); 
+            }
+        }
+
+        function updateProgress() {
+            const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `Progreso: ${checkedItems}/${totalItems} completados (${percentage}%)`;
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                item.classList.toggle('checklist-completed', checkbox && checkbox.checked);
+            });
+            if (currentSection === 5) updateEvaluation(checkedItems);
+        }
+
+        function updateEvaluation(score) {
+            const resultDiv = document.getElementById('evaluationResult');
+            const actionPlanDiv = document.getElementById('actionPlan');
+            const actionPlanContent = document.getElementById('actionPlanContent');
+            let evaluation, className, actionPlan;
+
+            if (score >= 36) {
+                evaluation = `¡Excelente! (${score}/${totalItems} puntos) - Demuestras un dominio avanzado de los principios y aplicaciones de la IA ética.`;
+                className = 'checklist-excellent';
+                actionPlan = `<p><strong>Próximos pasos:</strong></p><ul><li>Lidera discusiones sobre ética de IA en tu entorno profesional.</li><li>Desarrolla un caso de estudio sobre una aplicación ética de la IA.</li><li>Actúa como mentor para otros en el uso responsable de la tecnología.</li></ul>`;
+            } else if (score >= 31) {
+                evaluation = `Buena preparación (${score}/${totalItems} puntos) - Tienes una sólida competencia en el análisis y aplicación de la IA responsable.`;
+                className = 'checklist-good';
+                actionPlan = `<p><strong>Plan de mejora:</strong></p><ul><li>Aplica el marco de la UNESCO para analizar una herramienta de IA que uses regularmente.</li><li>Redacta un código de conducta personal para tu uso de IA generativa.</li><li>Practica la identificación de sesgos sutiles en textos generados por IA.</li></ul>`;
+            } else if (score >= 26) {
+                evaluation = `Base sólida (${score}/${totalItems} puntos) - Comprendes los conceptos fundamentales; enfócate en la aplicación práctica y el análisis crítico.`;
+                className = 'checklist-solid';
+                actionPlan = `<p><strong>Plan de desarrollo:</strong></p><ul><li>Revisa los 10 principios de la UNESCO y busca un ejemplo para cada uno.</li><li>Analiza en profundidad los términos de servicio de una plataforma de IA.</li><li>Escribe una reflexión sobre el dilema de autenticidad vs. optimización.</li></ul>`;
+            } else {
+                evaluation = `Requiere refuerzo (${score}/${totalItems} puntos) - Es recomendable revisar los conceptos clave del módulo para fortalecer tu base ética.`;
+                className = 'checklist-needs-improvement';
+                actionPlan = `<p><strong>Plan de refuerzo:</strong></p><ul><li>Revisa las definiciones de sesgo, transparencia y responsabilidad.</li><li>Estudia los mini-casos y explica los riesgos éticos con tus propias palabras.</li><li>Elabora un resumen de los cuatro valores de la UNESCO.</li></ul>`;
+            }
+            resultDiv.textContent = evaluation;
+            resultDiv.className = `checklist-evaluation ${className}`;
+            actionPlanContent.innerHTML = actionPlan;
+            actionPlanDiv.style.display = 'block';
+        }
+
+        function cleanText(text) {
+            return text.replace(/&/g, 'y').replace(/¡/g, '').replace(/¿/g, '').replace(/[^\w\s\.,;:\-\(\)%]/g, '');
+        }
+
+        // EDITADO: Función de PDF actualizada, basada en la del Módulo 3
+        function generatePDF() {
+            const name = document.getElementById('studentName').value.trim() || "Usuario Anónimo";
+            const date = document.getElementById('evaluationDate').value;
+            const signature = document.getElementById('digitalSignature').value.trim() || "Sin Firma";
+            
+            if (!date) {
+                 const modal = document.createElement('div');
+                 modal.style.position = 'fixed';
+                 modal.style.left = '0';
+                 modal.style.top = '0';
+                 modal.style.width = '100%';
+                 modal.style.height = '100%';
+                 modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                 modal.style.display = 'flex';
+                 modal.style.justifyContent = 'center';
+                 modal.style.alignItems = 'center';
+                 modal.style.zIndex = '1000';
+                 modal.innerHTML = `
+                    <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                        <p style="margin: 0 0 20px 0; font-family: 'Montserrat', sans-serif;">Por favor, asegúrate de que al menos la fecha esté seleccionada para generar el reporte.</p>
+                        <!-- Color de botón ajustado al tema de M4 -->
+                        <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #0033A0; color: white; cursor: pointer; font-family: 'Montserrat', sans-serif;">Entendido</button>
+                    </div>
+                 `;
+                 document.body.appendChild(modal);
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: 'a4'
+            });
+            
+            doc.setFont('helvetica');
+            
+            const pageWidth = doc.internal.pageSize.width;
+            const pageHeight = doc.internal.pageSize.height;
+            const margin = 15; 
+            const lineHeight = 5.5; 
+            let yPosition = margin;
+
+            function checkPageBreak(requiredSpace = lineHeight) {
+                if (yPosition + requiredSpace > pageHeight - margin) {
+                    doc.addPage();
+                    yPosition = margin;
+                    return true;
+                }
+                return false;
+            }
+
+            function addText(text, x, y, options = {}) {
+                const fontSize = options.fontSize || 10;
+                const maxWidth = options.maxWidth || (pageWidth - margin * 2);
+                const align = options.align || 'left';
+                
+                doc.setFontSize(fontSize);
+                doc.setFont(options.font || 'helvetica', options.style || 'normal');
+                
+                if (options.color) doc.setTextColor(options.color);
+                else doc.setTextColor(0, 0, 0);
+                
+                const lines = doc.splitTextToSize(cleanText(text), maxWidth);
+                
+                let textX = x;
+                if (align === 'center') {
+                    textX = pageWidth / 2;
+                }
+                
+                doc.text(lines, textX, y, { align: align });
+                yPosition = y + (lines.length * lineHeight);
+                
+                return yPosition;
+            }
+
+            // Título principal
+            yPosition = addText('MÓDULO 4: Uso Ético y Responsable de la IA', pageWidth/2, yPosition, {
+                fontSize: 18, style: 'bold', align: 'center'
+            });
+            yPosition = addText('Autoevaluación de competencias (Registro Formativo)', pageWidth/2, yPosition, {
+                fontSize: 12, align: 'center'
+            });
+
+            yPosition += 15;
+
+            // Información del estudiante
+            checkPageBreak(30);
+            yPosition = addText('INFORMACIÓN DE REGISTRO', margin, yPosition, { fontSize: 12, style: 'bold' });
+            yPosition += 7; 
+            yPosition = addText(`Nombre: ${cleanText(name)}`, margin, yPosition);
+            yPosition = addText(`Fecha de evaluacion: ${date}`, margin, yPosition);
+            yPosition = addText(`Firma digital: ${cleanText(signature)}`, margin, yPosition);
+
+            yPosition += 10;
+
+            // Resumen ejecutivo
+            const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checkedItems / totalItems) * 100);
+            
+            let level;
+            if (checkedItems >= 36) level = "Excelente";
+            else if (checkedItems >= 31) level = "Buena";
+            else if (checkedItems >= 26) level = "Solida";
+            else level = "Requiere refuerzo";
+
+            checkPageBreak(40);
+            yPosition = addText('RESUMEN EJECUTIVO', margin, yPosition, { fontSize: 12, style: 'bold' });
+            yPosition += 7;
+            yPosition = addText(`Elementos completados: ${checkedItems} de ${totalItems} (${percentage}%)`, margin, yPosition);
+            yPosition = addText(`Nivel alcanzado: ${level}`, margin, yPosition);
+
+            yPosition += 10;
+
+            // Resultados por sección
+            checkPageBreak(60);
+            yPosition = addText('RESULTADOS POR SECCION', margin, yPosition, { fontSize: 12, style: 'bold' });
+            yPosition += 7;
+
+            for (let i = 1; i <= 4; i++) {
+                const sectionChecked = document.querySelectorAll(`#section${i} input[type="checkbox"]:checked`).length;
+                const sectionTotal = sectionsData[i].items;
+                const sectionPercentage = sectionTotal > 0 ? Math.round((sectionChecked / sectionTotal) * 100) : 0;
+                
+                checkPageBreak();
+                yPosition = addText(`Seccion ${String.fromCharCode(64 + i)} (${sectionsData[i].name}): ${sectionChecked}/${sectionTotal} (${sectionPercentage}%)`, margin, yPosition);
+            }
+
+            yPosition += 10;
+            
+            // Plan de acción
+            const actionPlanHTML = document.getElementById('actionPlanContent').innerHTML;
+            if (actionPlanHTML) {
+                 checkPageBreak(30);
+                yPosition = addText('PLAN DE ACCIÓN PERSONALIZADO', margin, yPosition, { fontSize: 12, style: 'bold' });
+                yPosition += 7;
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = actionPlanHTML;
+                
+                tempDiv.querySelectorAll('p, strong').forEach(p => {
+                    checkPageBreak(10);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(p.textContent, margin, yPosition);
+                    yPosition += lineHeight;
+                });
+                
+                tempDiv.querySelectorAll('li').forEach(li => {
+                    checkPageBreak(10);
+                    doc.setFont('helvetica', 'normal');
+                    const lines = doc.splitTextToSize(`• ${li.textContent}`, pageWidth - margin * 2.5);
+                    doc.text(lines, margin + 2, yPosition);
+                    yPosition += (lines.length * (lineHeight - 1));
+                });
+                yPosition += 5;
+            }
+
+            yPosition += 5; 
+            
+            // Elementos completados
+            checkPageBreak(30);
+            yPosition = addText('DETALLE DE COMPETENCIAS ADQUIRIDAS', margin, yPosition, { fontSize: 12, style: 'bold' });
+            yPosition += 7;
+
+            for (let sectionIndex = 1; sectionIndex <= 4; sectionIndex++) {
+                const checkboxes = document.querySelectorAll(`#section${sectionIndex} input[type="checkbox"]:checked`);
+                if (checkboxes.length > 0) {
+                    checkPageBreak(15);
+                    doc.setFontSize(11);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(`Sección ${String.fromCharCode(64 + sectionIndex)}: ${sectionsData[sectionIndex].name}`, margin, yPosition);
+                    yPosition += 6;
+                    
+                    checkboxes.forEach(checkbox => {
+                        const label = checkbox.nextElementSibling.textContent;
+                        const text = `• ${label}`;
+                        const lines = doc.splitTextToSize(text, pageWidth - margin * 2.5);
+                        if (yPosition + (lines.length * (lineHeight - 1.5)) > pageHeight - margin) {
+                             doc.addPage(); 
+                             yPosition = margin; 
+                        }
+                        doc.setFontSize(9);
+                        doc.setFont('helvetica', 'normal');
+                        doc.text(lines, margin + 2, yPosition);
+                        yPosition += (lines.length * (lineHeight - 1.5));
+                    });
+                     yPosition += 4;
+                }
+            }
+
+            // Comentarios adicionales
+            const comments = document.getElementById('additionalComments').value.trim();
+            if (comments) {
+                checkPageBreak(30);
+                yPosition = addText('COMENTARIOS ADICIONALES', margin, yPosition, { fontSize: 12, style: 'bold' });
+                yPosition += 7;
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                const lines = doc.splitTextToSize(comments, pageWidth - margin * 2);
+                doc.text(lines, margin, yPosition);
+                yPosition += (lines.length * (lineHeight - 1.5)) + 5;
+            }
+
+            // Verificación y firma
+            checkPageBreak(40);
+            yPosition = addText('VERIFICACIÓN', margin, yPosition, { fontSize: 11, style: 'bold' });
+            yPosition += 6;
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            const declaration = 'Declaro que he completado esta autoevaluacion de manera honesta y me comprometo a aplicar los conocimientos adquiridos de forma etica y responsable.';
+            const lines = doc.splitTextToSize(declaration, pageWidth - margin * 2);
+            doc.text(lines, margin, yPosition);
+            yPosition += (lines.length * (lineHeight - 1.5)) + 10;
+
+            checkPageBreak(20);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`Firma digital: ${cleanText(signature)}`, margin, yPosition);
+            yPosition += lineHeight;
+            doc.text(`Fecha: ${date}`, margin, yPosition);
+
+            // Pie de página
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(150);
+            const footerY = pageHeight - 15;
+            // EDITADO: Se elimina "Damaris Reinoso" del footer del PDF
+            doc.text('Desarrollo digital: Gemini (Google) | Contenido academico: Francisco Sereno', pageWidth / 2, footerY, { align: 'center' });
+            doc.text('Version: 1.0 - Julio 2025', pageWidth / 2, footerY + 4, { align: 'center' });
+
+
+            doc.save(`Modulo4_Autoevaluacion_Etica_${cleanText(name).replace(/\s+/g, '_')}_${date}.pdf`);
+        }
+
+        // EDITADO: Se reemplaza confirm() por modal personalizado
+        function resetEvaluation() {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.left = '0';
+            modal.style.top = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-family: 'Montserrat', sans-serif;">
+                    <p style="margin: 0 0 20px 0;">¿Estás seguro de que quieres reiniciar la evaluación? Se perderán todos los datos.</p>
+                    <button id="confirmReset" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #c62828; color: white; cursor: pointer; margin-right: 10px;">Sí, reiniciar</button>
+                    <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #6c757d; color: white; cursor: pointer;">Cancelar</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            document.getElementById('confirmReset').onclick = function() {
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                document.getElementById('studentName').value = '';
+                document.getElementById('evaluationDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('digitalSignature').value = '';
+                document.getElementById('additionalComments').value = '';
+                document.getElementById('actionPlan').style.display = 'none';
+                
+                document.getElementById('evaluationResult').textContent = 'Completa las secciones anteriores para ver tu evaluación';
+                document.getElementById('evaluationResult').className = 'checklist-evaluation';
+                
+                updateProgress();
+                showSection(0);
+                
+                modal.remove();
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('evaluationDate').value = new Date().toISOString().split('T')[0];
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
