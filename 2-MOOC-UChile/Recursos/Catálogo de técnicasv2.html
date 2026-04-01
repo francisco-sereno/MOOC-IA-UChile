@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Técnicas de Prompting para IA Generativa</title>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Fallback Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+    
+    <style>
+        /* ========================================
+           VARIABLES CSS Y CONFIGURACIÓN BASE
+        ======================================== */
+        :root {
+            /* Paleta Pantone Principal */
+            --pantone-blue: #002F6C;
+            --pantone-green: #009639;
+            --pantone-yellow: #FFD100;
+            --pantone-red: #EF3340;
+            
+            /* Variaciones Tonales */
+            --blue-light: #1a4d87;
+            --blue-bg-light: #E6EAF6;
+            --green-light: #00b347;
+            --green-bg-light: #E6F5EB;
+            --yellow-dark: #ccaa00;
+            --yellow-bg-light: #FFF9E6;
+            --red-bg-light: #FDE6E7;
+            
+            /* Colores Neutros */
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #6c757d;
+            --dark-gray: #343a40;
+            --border-gray: #e9ecef;
+            
+            /* Sombras */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-green: 0 4px 6px -1px rgba(0, 150, 57, 0.1);
+            --shadow-green-lg: 0 8px 15px -3px rgba(0, 150, 57, 0.3);
+            
+            /* Transiciones */
+            --transition-base: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.2s ease;
+        }
+
+        /* Reset y Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #e9ecef 100%);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Fallback para iconos que no cargan */
+        .fa::before,
+        .fas::before,
+        .far::before,
+        .fal::before,
+        .fab::before {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", sans-serif;
+        }
+
+        /* Asegurar que los iconos sean visibles */
+        i[class*="fa-"] {
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 1;
+            min-width: 1em;
+            text-align: center;
+        }
+
+        /* Ocultar iconos Font Awesome que no cargan correctamente */
+        i[class*="fa-"]:before {
+            content: '' !important;
+        }
+        
+        i[class*="fa-"] {
+            font-size: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            display: inline-block !important;
+            overflow: hidden !important;
+        }
+
+        /* Permitir solo emojis específicos */
+        i.emoji-icon {
+            font-size: inherit !important;
+            width: auto !important;
+            height: auto !important;
+            display: inline-block !important;
+        }
+
+        /* Estilo para iconos emoji cuando Font Awesome no carga */
+        .emoji-icon {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            line-height: 1;
+        }
+
+        /* Ocultar iconos fallback específicos */
+        .hide-fallback-icon {
+            display: none !important;
+        }
+
+        /* ========================================
+           LAYOUT PRINCIPAL
+        ======================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* ========================================
+           COMPONENTES DE ENCABEZADO
+        ======================================== */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-container {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--pantone-green) 0%, var(--green-light) 100%);
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-green-lg);
+            margin-bottom: 1rem;
+        }
+
+        .logo-container img {
+            height: 80px;
+            filter: brightness(0) invert(1);
+        }
+
+        .main-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--pantone-blue);
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 47, 108, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .main-title i {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        /* ========================================
+           CAJA DE INSTRUCCIONES
+        ======================================== */
+        .instructions-box {
+            background: linear-gradient(135deg, var(--green-bg-light) 0%, #f0f8f2 100%);
+            border: 2px solid var(--pantone-green);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-green);
+            position: relative;
+            transition: opacity 0.5s ease;
+        }
+
+        .instructions-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .instructions-icon {
+            color: var(--pantone-green);
+            font-size: 1.5rem;
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .instructions-text {
+            flex-grow: 1;
+        }
+
+        .instructions-title {
+            font-weight: 700;
+            color: var(--pantone-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .instructions-description {
+            color: var(--green-light);
+            font-size: 0.9rem;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .close-instructions {
+            background: none;
+            border: none;
+            color: var(--pantone-green);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: var(--transition-fast);
+            flex-shrink: 0;
+        }
+
+        .close-instructions:hover {
+            background-color: rgba(0, 150, 57, 0.1);
+        }
+
+        /* ========================================
+           NAVEGACIÓN PRINCIPAL
+        ======================================== */
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            border-bottom: 3px solid var(--border-gray);
+            margin-bottom: 2rem;
+            background: var(--white);
+            border-radius: 0.75rem 0.75rem 0 0;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .main-nav-btn {
+            background: none;
+            border: none;
+            font-size: 1.125rem;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            color: var(--medium-gray);
+            border-bottom: 4px solid transparent;
+            transition: var(--transition-base);
+            position: relative;
+            flex: 1;
+            max-width: 250px;
+        }
+
+        .main-nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(0, 150, 57, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .main-nav-btn:hover::before {
+            opacity: 1;
+        }
+
+        .main-nav-btn.active {
+            color: var(--pantone-green);
+            border-bottom-color: var(--pantone-green);
+            background: linear-gradient(135deg, var(--green-bg-light) 0%, var(--white) 100%);
+        }
+
+        .main-nav-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* ========================================
+           VISTAS GENERALES
+        ======================================== */
+        .view {
+            transition: opacity 0.3s ease;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .view.hidden {
+            display: none;
+        }
+
+        /* ========================================
+           GUÍA DE INICIO
+        ======================================== */
+        .guide-content {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            border: 2px solid var(--pantone-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guide-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--pantone-blue) 0%, var(--pantone-green) 25%, var(--pantone-yellow) 50%, var(--pantone-red) 75%, var(--pantone-blue) 100%);
+        }
+
+        .guide-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--pantone-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .guide-intro {
+            color: var(--medium-gray);
+            text-align: justify;
+            hyphens: auto;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           ACORDEÓN
+        ======================================== */
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .accordion-item {
+            border: 2px solid var(--border-gray);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
+        }
+
+        .accordion-item:hover {
+            border-color: var(--pantone-green);
+            box-shadow: 0 4px 8px rgba(0, 150, 57, 0.15);
+        }
+
+        .accordion-button {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 1.25rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark-gray);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-fast);
+        }
+
+        .accordion-button:hover {
+            background: linear-gradient(135deg, var(--green-bg-light) 0%, var(--white) 100%);
+        }
+
+        .accordion-button i {
+            color: var(--pantone-green);
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-button i.rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-top: 1px solid var(--border-gray);
+        }
+
+        .accordion-content-inner {
+            padding: 1.25rem;
+            color: var(--medium-gray);
+        }
+
+        .accordion-content-inner p {
+            text-align: justify;
+            hyphens: auto;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-content-inner p:last-child {
+            margin-bottom: 0;
+        }
+
+        .accordion-content-inner ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .accordion-content-inner li {
+            margin-bottom: 0.75rem;
+            padding-left: 0;
+            position: relative;
+        }
+
+        .accordion-content-inner li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            color: var(--pantone-green);
+            font-weight: bold;
+        }
+
+        /* ========================================
+           CATÁLOGO DE TÉCNICAS
+        ======================================== */
+        .catalog-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Navegación de Técnicas */
+        .technique-navigation {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--pantone-blue);
+            position: sticky;
+            top: 1rem;
+        }
+
+        .technique-level-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-gray);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .technique-level-title i {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .technique-level-title:hover i {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        /* Colores por nivel */
+        .technique-level-title.level-basic {
+            color: var(--pantone-blue);
+        }
+
+        .technique-level-title.level-basic i {
+            color: var(--pantone-blue);
+        }
+
+        .technique-level-title.level-intermediate {
+            color: var(--yellow-dark);
+        }
+
+        .technique-level-title.level-intermediate i {
+            color: var(--yellow-dark);
+        }
+
+        .technique-level-title.level-advanced {
+            color: var(--pantone-red);
+        }
+
+        .technique-level-title.level-advanced i {
+            color: var(--pantone-red);
+        }
+
+        /* Botones de Técnicas */
+        .technique-button {
+            width: 100%;
+            text-align: left;
+            padding: 0.875rem;
+            border-radius: 0.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            transition: var(--transition-base);
+            color: var(--dark-gray);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .technique-button i {
+            font-size: 1rem;
+            width: 1.25rem;
+            text-align: center;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .technique-button:hover {
+            background: linear-gradient(135deg, var(--blue-bg-light) 0%, var(--white) 100%);
+            transform: translateX(5px);
+        }
+
+        .technique-button:hover i {
+            transform: scale(1.1);
+        }
+
+        .technique-button.active {
+            font-weight: 700;
+            transform: translateX(10px);
+            border-left: 4px solid var(--pantone-green);
+            padding-left: 0.675rem;
+        }
+
+        .technique-button.active i {
+            transform: scale(1.15);
+        }
+
+        /* Estados activos por color */
+        .technique-button.active.bg-pantone-blue-light {
+            background: linear-gradient(135deg, var(--blue-bg-light) 0%, var(--white) 100%);
+            color: var(--pantone-blue);
+        }
+
+        .technique-button.active.bg-pantone-yellow-light {
+            background: linear-gradient(135deg, var(--yellow-bg-light) 0%, var(--white) 100%);
+            color: var(--yellow-dark);
+        }
+
+        .technique-button.active.bg-pantone-green-light {
+            background: linear-gradient(135deg, var(--green-bg-light) 0%, var(--white) 100%);
+            color: var(--pantone-green);
+        }
+
+        .technique-button.active.bg-pantone-red-light {
+            background: linear-gradient(135deg, var(--red-bg-light) 0%, var(--white) 100%);
+            color: var(--pantone-red);
+        }
+
+        /* ========================================
+           CONTENIDO DE TÉCNICAS
+        ======================================== */
+        .technique-content-area {
+            min-height: 400px;
+        }
+
+        .technique-content {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-base);
+            border-left: 8px solid var(--pantone-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .technique-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Bordes por color de técnica */
+        .technique-content.border-pantone-blue {
+            border-left-color: var(--pantone-blue);
+        }
+
+        .technique-content.border-pantone-yellow {
+            border-left-color: var(--pantone-yellow);
+        }
+
+        .technique-content.border-pantone-green {
+            border-left-color: var(--pantone-green);
+        }
+
+        .technique-content.border-pantone-red {
+            border-left-color: var(--pantone-red);
+        }
+
+        /* Título de Técnica */
+        .technique-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .technique-title.text-pantone-blue { color: var(--pantone-blue); }
+        .technique-title.text-pantone-yellow { color: var(--yellow-dark); }
+        .technique-title.text-pantone-green { color: var(--pantone-green); }
+        .technique-title.text-pantone-red { color: var(--pantone-red); }
+
+        .technique-level {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--medium-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Secciones de Contenido */
+        .technique-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .technique-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-gray);
+            padding-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .technique-section h4 i {
+            font-size: 1rem;
+            color: var(--pantone-green);
+            transition: var(--transition-base);
+        }
+
+        .technique-section:hover h4 i {
+            transform: scale(1.1);
+            color: var(--pantone-blue);
+        }
+
+        .technique-section p {
+            color: var(--medium-gray);
+            text-align: justify;
+            hyphens: auto;
+            line-height: 1.7;
+        }
+
+        /* Caja de Metodología */
+        .technique-how-to {
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f1f3f4 100%);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--medium-gray);
+            font-style: italic;
+            color: var(--dark-gray);
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* Grid de Pros y Contras */
+        .technique-pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Listas de Técnicas */
+        .technique-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .technique-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .technique-list i {
+            margin-top: 0.375rem;
+            flex-shrink: 0;
+        }
+
+        .technique-list i.fa-check-circle,
+        .technique-list i.fa-plus-circle {
+            color: var(--pantone-green);
+        }
+
+        .technique-list i.fa-minus-circle {
+            color: var(--pantone-red);
+        }
+
+        .technique-list i.text-pantone-blue { color: var(--pantone-blue); }
+        .technique-list i.text-pantone-yellow { color: var(--yellow-dark); }
+        .technique-list i.text-pantone-green { color: var(--pantone-green); }
+        .technique-list i.text-pantone-red { color: var(--pantone-red); }
+
+        /* ========================================
+           PIE DE PÁGINA
+        ======================================== */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-gray);
+            color: var(--medium-gray);
+        }
+
+        .footer p {
+            margin: 0.25rem 0;
+            text-align: center;
+        }
+
+        .footer .copyright {
+            font-weight: 600;
+            color: var(--pantone-blue);
+        }
+
+        .footer .institution {
+            font-size: 0.875rem;
+            color: var(--medium-gray);
+        }
+
+        /* ========================================
+           ANIMACIONES
+        ======================================== */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .catalog-container {
+                grid-template-columns: 250px 1fr;
+                gap: 1.5rem;
+            }
+
+            .technique-navigation {
+                padding: 1rem;
+            }
+
+            .technique-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 1.5rem;
+            }
+
+            .catalog-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .technique-navigation {
+                position: static;
+                order: 2;
+            }
+
+            .technique-content-area {
+                order: 1;
+            }
+
+            .technique-pros-cons {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .main-nav {
+                flex-direction: column;
+                border-radius: 0.75rem;
+            }
+
+            .main-nav-btn {
+                max-width: none;
+                border-bottom: none;
+                border-left: 4px solid transparent;
+            }
+
+            .main-nav-btn.active {
+                border-left-color: var(--pantone-green);
+                border-bottom-color: transparent;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .instructions-content {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .technique-content {
+                padding: 1rem;
+            }
+
+            .technique-title {
+                font-size: 1.5rem;
+            }
+
+            .guide-content {
+                padding: 1.5rem;
+            }
+
+            .accordion-button {
+                padding: 1rem;
+            }
+
+            .accordion-content-inner {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.25rem;
+            }
+
+            .logo-container img {
+                height: 60px;
+            }
+
+            .technique-content {
+                padding: 0.75rem;
+            }
+
+            .guide-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Encabezado -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="https://vti-ia.uchile.cl/wp-content/uploads/2025/06/Diseno-sin-titulo-4.png" alt="Logo Oficina de Inteligencia Artificial">
+            </div>
+            <h1 class="main-title">
+                <i class="fas fa-comments" style="margin-right: 0.75rem; color: var(--pantone-green);"></i>
+                Catálogo de técnicas de prompting para IA Generativa
+            </h1>
+        </header>
+
+        <!-- INSTRUCCIONES DE USO -->
+        <section id="instructions-box" class="instructions-box">
+            <div class="instructions-content">
+                <i class="fas fa-info-circle instructions-icon"></i>
+                <div class="instructions-text">
+                    <div class="instructions-title">Instrucciones de uso</div>
+                    <p class="instructions-description">Utilice las pestañas superiores para alternar entre la "Guía de inicio" y el "Catálogo de técnicas". En el catálogo, seleccione una técnica del menú lateral para ver su descripción detallada.</p>
+                </div>
+                <button id="close-instructions" class="close-instructions" aria-label="Cerrar instrucciones">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- NAVEGACIÓN PRINCIPAL POR PESTAÑAS -->
+        <nav class="main-nav">
+            <button class="main-nav-btn" data-target="view-guia">
+                <i class="fas fa-book-open"></i>Guía de inicio
+            </button>
+            <button class="main-nav-btn" data-target="view-catalogo">
+                <i class="fas fa-list-ul"></i>Catálogo de técnicas
+            </button>
+        </nav>
+
+        <!-- CONTENEDOR DE VISTAS -->
+        <div id="views-container">
+
+            <!-- VISTA 1: GUÍA DE INICIO -->
+            <section id="view-guia" class="view">
+                <div class="guide-content">
+                    <h2 class="guide-title">
+                        <i class="fas fa-chalkboard-teacher" style="margin-right: 0.75rem; color: var(--pantone-green);"></i>
+                        Introducción
+                    </h2>
+                    <p class="guide-intro">Este catálogo le enseña cómo interactuar con una inteligencia artificial (como ChatGPT, Gemini o Claude) para obtener mejores respuestas. Un "prompt" es simplemente la pregunta o instrucción que usted le proporciona a la IA. Piense en la IA como un asistente de alta capacidad que requiere instrucciones claras para entregar resultados óptimos. Las técnicas se presentan en orden de complejidad creciente para facilitar un aprendizaje progresivo.</p>
+                    
+                    <div id="accordion-container" class="accordion-container">
+                        <!-- El acordeón se insertará aquí dinámicamente -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA 2: CATÁLOGO DE TÉCNICAS -->
+            <section id="view-catalogo" class="view hidden">
+                <main class="catalog-container">
+                    <nav class="technique-navigation">
+                        <div id="technique-navigation-content">
+                            <!-- La navegación de técnicas se insertará aquí dinámicamente -->
+                        </div>
+                    </nav>
+                    <section class="technique-content-area">
+                        <div id="technique-content" class="technique-content">
+                            <!-- El contenido de la técnica se insertará aquí dinámicamente -->
+                        </div>
+                    </section>
+                </main>
+            </section>
+        </div>
+
+        <!-- Pie de página -->
+        <footer class="footer">
+            <p class="copyright">&copy; 2025 Oficina de Inteligencia Artificial - Universidad de Chile</p>
+            <p class="institution">Vicerrectoría de Tecnologías de la Información</p>
+        </footer>
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIGURACIÓN Y DATOS
+        // ========================================
+        
+        const TECHNIQUES_DATA = [
+            // Técnicas Básicas
+            { 
+                id: 1, 
+                level: 'Básicas', 
+                title: 'Zero-shot prompting (pedir directamente)', 
+                icon: 'fas fa-bullseye', 
+                whatIs: 'Se solicita una tarea a la IA directamente, sin proporcionar ejemplos previos. Es análogo a consultar a un experto que posee conocimiento general.', 
+                whenToUse: ['Para preguntas simples.', 'Cuando se necesita información básica.', 'Para tareas comunes que no requieren un formato específico.', 'Cuando se requiere una respuesta rápida.'], 
+                howToDo: 'Formule directamente la acción que desea que la IA realice.', 
+                advantages: ['Facilidad de uso.', 'Rapidez en la obtención de respuestas.', 'Eficaz para consultas generales.'], 
+                disadvantages: ['Las respuestas pueden ser genéricas.', 'Control limitado sobre el formato o estilo del resultado.'], 
+                color: 'blue' 
+            },
+            { 
+                id: 2, 
+                level: 'Básicas', 
+                title: 'Few-shot prompting (dar ejemplos)', 
+                icon: 'fas fa-clone', 
+                whatIs: 'Se le presentan a la IA uno o más ejemplos del resultado deseado para que comprenda el estilo o formato requerido.', 
+                whenToUse: ['Cuando se busca un formato de salida específico.', 'Para imitar un estilo de redacción particular.', 'Cuando el resultado de una solicitud directa es inadecuado.', 'Para tareas de índole creativa.'], 
+                howToDo: 'Estructure su prompt explicando la tarea, seguido de pares de "EJEMPLO: [Situación]" y "EJEMPLO: [Respuesta deseada]", y finalice con su nueva situación.', 
+                advantages: ['Resultados más precisos y ajustados.', 'Mayor control sobre el estilo.', 'La IA aprende del contexto proporcionado.'], 
+                disadvantages: ['Requiere más tiempo de preparación.', 'Aumenta la longitud del prompt.'], 
+                color: 'blue' 
+            },
+            { 
+                id: 3, 
+                level: 'Básicas', 
+                title: 'System prompting (establecer reglas)', 
+                icon: 'fas fa-scroll', 
+                whatIs: 'Se establecen instrucciones o reglas generales que la IA debe seguir en todas sus respuestas subsecuentes, funcionando como un manual de comportamiento.', 
+                whenToUse: ['Para mantener un estilo consistente a lo largo de una conversación.', 'Cuando se realizarán múltiples preguntas sobre un mismo tema.', 'Para evitar la repetición de instrucciones.'], 
+                howToDo: 'Inicie con una "Instrucción general: Siempre [comportamiento deseado]". Luego, formule su "Pregunta específica: [su consulta]".', 
+                advantages: ['Asegura consistencia en las respuestas.', 'Ahorra tiempo al no tener que repetir instrucciones.', 'Permite "personalizar" el comportamiento de la IA.'], 
+                disadvantages: ['Puede resultar demasiado rígido para ciertas tareas.', 'Requiere una planificación cuidadosa de las reglas iniciales.'], 
+                color: 'blue' 
+            },
+            // Técnicas Intermedias
+            { 
+                id: 4, 
+                level: 'Intermedias', 
+                title: 'Role prompting (asignar un papel)', 
+                icon: 'fas fa-theater-masks', 
+                whatIs: 'Se le instruye a la IA que adopte la personalidad o el rol de un profesional específico para que sus respuestas se basen en el conocimiento asociado a dicho rol.', 
+                whenToUse: ['Cuando se necesita conocimiento de un área de experticia.', 'Para ajustar el tono de la respuesta a un contexto particular.', 'Para obtener una perspectiva específica sobre un tema.'], 
+                howToDo: 'Comience con "Actúa como [profesión o rol]" y luego realice su solicitud relacionada con ese papel.', 
+                advantages: ['Respuestas más especializadas y detalladas.', 'Tono adecuado a la situación planteada.', 'Acceso simulado a conocimiento experto.'], 
+                disadvantages: ['La IA no es un profesional real; la información crítica debe ser verificada.', 'Las respuestas se basan en información pública, no en experiencia real.'], 
+                color: 'yellow' 
+            },
+            { 
+                id: 5, 
+                level: 'Intermedias', 
+                title: 'Contextual prompting (dar información de fondo)', 
+                icon: 'fas fa-puzzle-piece', 
+                whatIs: 'Se proporciona a la IA información de contexto relevante sobre una situación particular para obtener una respuesta más personalizada y aplicable.', 
+                whenToUse: ['Para situaciones complejas o con múltiples variables.', 'Para recibir consejos adaptados a circunstancias personales.', 'Cuando el contexto es un factor determinante en la respuesta.'], 
+                howToDo: 'Estructure el prompt con "Contexto: [descripción detallada de su situación]" seguido de "Pregunta: [su consulta]".', 
+                advantages: ['Respuestas altamente personalizadas.', 'Considera las particularidades de su situación.', 'Consejos más prácticos y aplicables.'], 
+                disadvantages: ['Requiere la redacción de más información.', 'Aumenta la longitud y complejidad del prompt.'], 
+                color: 'yellow' 
+            },
+            { 
+                id: 6, 
+                level: 'Intermedias', 
+                title: 'Step-back prompting (pensar en general primero)', 
+                icon: 'fas fa-mountain', 
+                whatIs: 'Se le solicita a la IA que primero analice los principios generales o el marco teórico de un tema, y luego aplique dichos principios a una situación específica.', 
+                whenToUse: ['Para problemas complejos que requieren un análisis profundo.', 'Cuando no se está seguro del mejor enfoque a seguir.', 'Para comprender las bases de una recomendación.'], 
+                howToDo: 'Divida la consulta en dos partes: "1. En general, ¿cuáles son los principios/estrategias para [tema general]?" y "2. Considerando lo anterior, ¿cómo puedo abordar [su situación específica]?".', 
+                advantages: ['Ayuda a comprender el razonamiento detrás de la solución.', 'Facilita la toma de decisiones informadas.', 'Fomenta el aprendizaje de principios aplicables a futuro.'], 
+                disadvantages: ['Proceso más lento que una consulta directa.', 'Puede ser excesivo para problemas simples.'], 
+                color: 'yellow' 
+            },
+            // Técnicas Avanzadas
+            { 
+                id: 7, 
+                level: 'Avanzadas', 
+                title: 'Chain of thought (pedir que piense paso a paso)', 
+                icon: 'fas fa-stairs', 
+                whatIs: 'Se le pide a la IA que exponga su proceso de razonamiento de forma secuencial y lógica para llegar a la conclusión. Es análogo a "mostrar el desarrollo" en un problema matemático.', 
+                whenToUse: ['Para decisiones importantes o de alto impacto.', 'Cuando es crucial entender la lógica subyacente.', 'Para problemas complejos con múltiples etapas de análisis.'], 
+                howToDo: 'Formule su problema y añada la instrucción: "Piensa paso a paso para [objetivo de la consulta]".', 
+                advantages: ['Permite verificar la coherencia del razonamiento.', 'Aumenta la precisión en temas complejos.', 'Se aprende del proceso analítico de la IA.'], 
+                disadvantages: ['Genera respuestas considerablemente más largas.', 'Requiere más tiempo de procesamiento y lectura.'], 
+                color: 'green' 
+            },
+            { 
+                id: 8, 
+                level: 'Avanzadas', 
+                title: 'Self-consistency (pedir varias opiniones)', 
+                icon: 'fas fa-eye', 
+                whatIs: 'Se realiza la misma pregunta compleja varias veces (3-5) para identificar los elementos comunes en las respuestas, aumentando así la confianza en el resultado.', 
+                whenToUse: ['Para decisiones de alta importancia donde la fiabilidad es crítica.', 'Cuando se duda de la validez de una única respuesta.', 'Para problemas sin una solución única o evidente.'], 
+                howToDo: 'Formule la misma pregunta compleja varias veces y luego compare las respuestas para identificar los puntos de convergencia.', 
+                advantages: ['Aumenta la fiabilidad de la respuesta.', 'Reduce la probabilidad de errores o sesgos de una sola generación.', 'Ofrece múltiples perspectivas sobre un mismo problema.'], 
+                disadvantages: ['Es un proceso lento y repetitivo.', 'Justificado solo para decisiones de alto impacto.'], 
+                color: 'green' 
+            },
+            { 
+                id: 9, 
+                level: 'Avanzadas', 
+                title: 'Tree of thoughts (explorar varias opciones)', 
+                icon: 'fas fa-project-diagram', 
+                whatIs: 'Se le solicita a la IA que genere múltiples soluciones o caminos de acción, los evalúe según criterios definidos, y finalmente recomiende la mejor opción, justificando su elección.', 
+                whenToUse: ['Cuando existen múltiples enfoques para resolver un problema.', 'Para decisiones complejas con muchas variables interdependientes.', 'Para planificación estratégica o a largo plazo.'], 
+                howToDo: 'Estructure el prompt pidiendo: "Dame [número] opciones para [problema]. Para cada una, evalúa [criterios]. Recomienda la mejor y explica por qué".', 
+                advantages: ['Exploración exhaustiva de alternativas.', 'Comparación sistemática basada en criterios.', 'Toma de decisiones más robusta e informada.'], 
+                disadvantages: ['Puede generar respuestas muy extensas y complejas.', 'El análisis de múltiples opciones puede ser abrumador.'], 
+                color: 'red' 
+            },
+            { 
+                id: 10, 
+                level: 'Avanzadas', 
+                title: 'ReAct (buscar información mientras piensa)', 
+                icon: 'fas fa-brain', 
+                whatIs: 'La IA combina su proceso de razonamiento interno con la capacidad de realizar búsquedas de información externa en tiempo real para fundamentar su respuesta con datos actualizados.', 
+                whenToUse: ['Cuando la respuesta requiere información muy reciente.', 'Para verificar datos o hechos durante la resolución de un problema.', 'Para investigaciones que dependen de información cambiante.'], 
+                howToDo: 'Formule una pregunta que inherentemente necesite datos actuales. Los modelos avanzados con acceso a internet aplicarán esta técnica de forma automática.', 
+                advantages: ['Acceso a información actualizada y verificable.', 'Respuestas fundamentadas en datos recientes.', 'Capacidad para realizar investigaciones completas.'], 
+                disadvantages: ['El proceso es más lento debido a las búsquedas.', 'Requiere que el modelo de IA tenga acceso a internet.', 'La calidad de la respuesta depende de la calidad de las fuentes externas.'], 
+                color: 'red' 
+            }
+        ];
+
+        const ACCORDION_DATA = [
+            { 
+                title: 'Guía rápida: ¿qué técnica usar?', 
+                icon: 'fas fa-route', 
+                content: `
+                    <p><strong>Para principiantes absolutos:</strong> Comience con <i>Zero-shot</i> para consultas básicas, <i>Few-shot</i> cuando necesite un formato específico, y <i>Role prompting</i> para obtener consejos desde una perspectiva experta.</p>
+                    <p><strong>Cuando ya se sienta cómodo:</strong> Incorpore <i>System prompting</i> para mantener la consistencia en conversaciones largas, <i>Contextual prompting</i> para situaciones complejas, y <i>Step-back prompting</i> para analizar problemas de manera más profunda.</p>
+                    <p><strong>Para situaciones importantes:</strong> Utilice las técnicas avanzadas como <i>Chain of thought</i> para decisiones críticas, <i>Self-consistency</i> para mayor seguridad, <i>Tree of thoughts</i> para explorar alternativas, y <i>ReAct</i> cuando necesite información actualizada.</p>
+                ` 
+            },
+            { 
+                title: 'Errores típicos de principiantes', 
+                icon: 'fas fa-bug', 
+                content: `
+                    <ul>
+                        <li><strong>Ser muy vago:</strong> En lugar de "Ayúdame con mi trabajo", especifique: "Ayúdame a redactar un correo profesional para solicitar una reunión con mi jefe".</li>
+                        <li><strong>No dar suficiente contexto:</strong> En vez de "¿Cómo ahorro dinero?", detalle: "Con un ingreso de $500.000 y gastos fijos de $400.000, ¿cómo puedo ahorrar el resto sin sacrificar mi calidad de vida?".</li>
+                        <li><strong>Esperar perfección inmediata:</strong> Utilice la primera respuesta como un borrador y refínelo con preguntas adicionales en lugar de frustrarse.</li>
+                        <li><strong>Preguntar cosas muy complejas de una vez:</strong> En lugar de "Planifica mi vida financiera para los próximos 20 años", comience con "¿Cómo puedo organizar mi presupuesto mensual?".</li>
+                        <li><strong>No verificar información importante:</strong> Use la IA para obtener una comprensión general, pero siempre consulte a expertos para temas médicos, legales o financieros.</li>
+                    </ul>
+                ` 
+            },
+            { 
+                title: 'Consejos prácticos para empezar', 
+                icon: 'fas fa-dumbbell', 
+                content: `
+                    <p><strong>Semana 1 (Lo básico):</strong> Practique <i>Zero-shot</i> con preguntas simples, experimente con <i>Few-shot</i> para obtener formatos específicos, y pruebe <i>Role prompting</i> para distintos tipos de consejos.</p>
+                    <p><strong>Semana 2 (Personalización):</strong> Aprenda <i>System prompting</i> para conversaciones largas, use <i>Contextual prompting</i> para sus situaciones personales, y practique <i>Step-back</i> para problemas más complejos.</p>
+                    <p><strong>Semana 3 (Decisiones importantes):</strong> Use <i>Chain of thought</i> para decisiones relevantes, pruebe <i>Self-consistency</i> para mayor seguridad, y explore <i>Tree of thoughts</i> para planificación.</p>
+                ` 
+            },
+             { 
+                title: 'Recordatorios importantes', 
+                icon: 'fas fa-user-shield', 
+                content: `
+                    <ul>
+                        <li><strong>La IA es una herramienta, no un oráculo:</strong> Siempre verifique información crítica y use su propio criterio para evaluar las respuestas.</li>
+                        <li><strong>Proteja su privacidad:</strong> No comparta información personal sensible como números de cuenta, direcciones exactas o datos de identificación.</li>
+                        <li><strong>Siga aprendiendo:</strong> La tecnología de IA evoluciona constantemente. Mantenerse curioso y practicar es clave para dominarla.</li>
+                    </ul>
+                ` 
+            }
+        ];
+
+        const LEVEL_CONFIG = {
+            levels: ['Básicas', 'Intermedias', 'Avanzadas'],
+            icons: {
+                'Básicas': 'fas fa-foundation',
+                'Intermedias': 'fas fa-chart-line',
+                'Avanzadas': 'fas fa-gem'
+            },
+            classes: {
+                'Básicas': 'level-basic',
+                'Intermedias': 'level-intermediate',
+                'Avanzadas': 'level-advanced'
+            }
+        };
+
+        // ========================================
+        // FUNCIONES DE ICONOS
+        // ========================================
+        
+        // Función simple para eliminar contenido de iconos que no cargan
+        function cleanFailedIcons() {
+            // Eliminar cualquier contenido de iconos que no cargaron correctamente
+            document.querySelectorAll('i[class*="fa"]').forEach(icon => {
+                // Si el icono no tiene un emoji específico asignado, limpiarlo completamente
+                if (icon.textContent === '●' || icon.textContent === '•' || 
+                    (icon.textContent && !isEmoji(icon.textContent))) {
+                    icon.textContent = '';
+                    icon.style.display = 'none';
+                }
+            });
+        }
+
+        // Función para verificar si un carácter es un emoji
+        function isEmoji(char) {
+            const emojiList = ['💬', '👨‍🏫', 'ℹ️', '✕', '📖', '📋', '🗺️', '🐛', '🏋️', '🛡️', 
+                              '🎯', '📄', '📜', '🎭', '🧩', '⛰️', '🪜', '👁️', '🗂️', '🧠', 
+                              '🏗️', '📈', '💎', '💡', '🧭', '🛣️', '⭐', '⚠️', '✅', '➕', 
+                              '➖', '▼'];
+            return emojiList.includes(char);
+        }
+
+        // Función simple para aplicar emojis a todos los iconos
+        function applyEmojiIcons() {
+            const iconMap = {
+                'fa-comments': '💬',
+                'fa-chalkboard-teacher': '👨‍🏫',
+                'fa-info-circle': 'ℹ️',
+                'fa-times': '✕',
+                'fa-book-open': '📖',
+                'fa-list-ul': '📋',
+                'fa-route': '🗺️',
+                'fa-bug': '🐛',
+                'fa-dumbbell': '🏋️',
+                'fa-user-shield': '🛡️',
+                'fa-bullseye': '🎯',
+                'fa-clone': '📄',
+                'fa-scroll': '📜',
+                'fa-theater-masks': '🎭',
+                'fa-puzzle-piece': '🧩',
+                'fa-mountain': '⛰️',
+                'fa-stairs': '🪜',
+                'fa-eye': '👁️',
+                'fa-project-diagram': '🗂️',
+                'fa-brain': '🧠',
+                'fa-foundation': '🏗️',
+                'fa-chart-line': '📈',
+                'fa-gem': '💎',
+                'fa-lightbulb': '💡',
+                'fa-compass': '🧭',
+                'fa-road': '🛣️',
+                'fa-star': '⭐',
+                'fa-exclamation-circle': '⚠️',
+                'fa-check-circle': '✅',
+                'fa-plus-circle': '➕',
+                'fa-minus-circle': '➖',
+                'fa-chevron-down': '▼'
+            };
+
+            // Buscar todos los elementos con clases fa
+            document.querySelectorAll('i[class*="fa"]').forEach(icon => {
+                let emojiFound = false;
+                const classes = icon.className.split(' ');
+                
+                // Buscar coincidencia en las clases
+                for (let className of classes) {
+                    if (iconMap[className]) {
+                        icon.textContent = iconMap[className];
+                        icon.style.fontFamily = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif';
+                        icon.style.fontStyle = 'normal';
+                        icon.style.fontWeight = 'normal';
+                        icon.style.fontSize = 'inherit';
+                        emojiFound = true;
+                        break;
+                    }
+                }
+                
+                // Si no se encontró emoji específico, usar uno genérico
+                if (!emojiFound) {
+                    icon.textContent = '•';
+                    icon.style.fontFamily = 'sans-serif';
+                }
+            });
+        }
+
+        // Función simplificada para aplicar emojis a un contenedor específico
+        function applyEmojiToContainer(container) {
+            const iconMap = {
+                'fa-comments': '💬',
+                'fa-chalkboard-teacher': '👨‍🏫',
+                'fa-info-circle': 'ℹ️',
+                'fa-times': '✕',
+                'fa-book-open': '📖',
+                'fa-list-ul': '📋',
+                'fa-route': '🗺️',
+                'fa-bug': '🐛',
+                'fa-dumbbell': '🏋️',
+                'fa-user-shield': '🛡️',
+                'fa-bullseye': '🎯',
+                'fa-clone': '📄',
+                'fa-scroll': '📜',
+                'fa-theater-masks': '🎭',
+                'fa-puzzle-piece': '🧩',
+                'fa-mountain': '⛰️',
+                'fa-stairs': '🪜',
+                'fa-eye': '👁️',
+                'fa-project-diagram': '🗂️',
+                'fa-brain': '🧠',
+                'fa-foundation': '🏗️',
+                'fa-chart-line': '📈',
+                'fa-gem': '💎',
+                'fa-lightbulb': '💡',
+                'fa-compass': '🧭',
+                'fa-road': '🛣️',
+                'fa-star': '⭐',
+                'fa-exclamation-circle': '⚠️',
+                'fa-check-circle': '✅',
+                'fa-plus-circle': '➕',
+                'fa-minus-circle': '➖',
+                'fa-chevron-down': '▼'
+            };
+
+            container.querySelectorAll('i[class*="fa"]').forEach(icon => {
+                let emojiFound = false;
+                const classes = icon.className.split(' ');
+                
+                for (let className of classes) {
+                    if (iconMap[className]) {
+                        icon.textContent = iconMap[className];
+                        icon.style.fontFamily = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+                        icon.style.fontStyle = 'normal';
+                        icon.style.fontWeight = 'normal';
+                        emojiFound = true;
+                        break;
+                    }
+                }
+                
+                if (!emojiFound) {
+                    icon.textContent = '•';
+                    icon.style.fontFamily = 'sans-serif';
+                }
+            });
+        }
+
+        // Función para verificar si Font Awesome está disponible
+        function checkFontAwesome() {
+            const testElement = document.createElement('i');
+            testElement.className = 'fas fa-home';
+            testElement.style.position = 'absolute';
+            testElement.style.left = '-9999px';
+            testElement.style.visibility = 'hidden';
+            document.body.appendChild(testElement);
+            
+            setTimeout(() => {
+                const computedStyle = window.getComputedStyle(testElement, ':before');
+                const content = computedStyle.getPropertyValue('content');
+                
+                document.body.removeChild(testElement);
+                
+                // Si Font Awesome se cargó correctamente, limpiar iconos problemáticos
+                if (content && content !== 'none' && content !== '' && content !== 'normal') {
+                    console.log('Font Awesome cargado correctamente');
+                    window.fontAwesomeLoaded = true;
+                    // Solo limpiar iconos que muestren cuadrados
+                    cleanBrokenIcons();
+                } else {
+                    console.log('Font Awesome no disponible, usando emojis');
+                    window.fontAwesomeLoaded = false;
+                    // Aplicar emojis como fallback
+                    applyEmojiIcons();
+                }
+            }, 200);
+        }
+
+        // Función para limpiar solo iconos que muestran cuadrados/símbolos raros
+        function cleanBrokenIcons() {
+            document.querySelectorAll('i[class*="fa"]').forEach(icon => {
+                // Verificar si el icono muestra contenido problemático
+                const rect = icon.getBoundingClientRect();
+                const content = window.getComputedStyle(icon, ':before').getPropertyValue('content');
+                
+                // Si el icono no tiene contenido válido o muestra símbolos raros
+                if (!content || content === 'none' || content === '""' || rect.width === 0) {
+                    // Ver si hay un emoji de reemplazo disponible
+                    const iconMap = {
+                        'fa-comments': '💬',
+                        'fa-chalkboard-teacher': '👨‍🏫',
+                        'fa-info-circle': 'ℹ️',
+                        'fa-times': '✕',
+                        'fa-book-open': '📖',
+                        'fa-list-ul': '📋',
+                        'fa-route': '🗺️',
+                        'fa-bug': '🐛',
+                        'fa-dumbbell': '🏋️',
+                        'fa-user-shield': '🛡️',
+                        'fa-bullseye': '🎯',
+                        'fa-clone': '📄',
+                        'fa-scroll': '📜',
+                        'fa-theater-masks': '🎭',
+                        'fa-puzzle-piece': '🧩',
+                        'fa-mountain': '⛰️',
+                        'fa-stairs': '🪜',
+                        'fa-eye': '👁️',
+                        'fa-project-diagram': '🗂️',
+                        'fa-brain': '🧠',
+                        'fa-foundation': '🏗️',
+                        'fa-chart-line': '📈',
+                        'fa-gem': '💎',
+                        'fa-lightbulb': '💡',
+                        'fa-compass': '🧭',
+                        'fa-road': '🛣️',
+                        'fa-star': '⭐',
+                        'fa-exclamation-circle': '⚠️',
+                        'fa-check-circle': '✅',
+                        'fa-plus-circle': '➕',
+                        'fa-minus-circle': '➖',
+                        'fa-chevron-down': '▼'
+                    };
+                    
+                    let emojiFound = false;
+                    const classes = icon.className.split(' ');
+                    
+                    for (let className of classes) {
+                        if (iconMap[className]) {
+                            icon.textContent = iconMap[className];
+                            icon.classList.add('emoji-icon');
+                            icon.style.fontFamily = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+                            emojiFound = true;
+                            break;
+                        }
+                    }
+                    
+                    // Si no hay emoji de reemplazo, ocultar
+                    if (!emojiFound) {
+                        icon.classList.add('hide-fallback-icon');
+                    }
+                }
+            });
+        }
+
+        // Función para restaurar iconos Font Awesome si están disponibles
+        function restoreFontAwesome() {
+            document.querySelectorAll('i[class*="fa"]').forEach(icon => {
+                // Limpiar el contenido de texto para que Font Awesome funcione
+                icon.textContent = '';
+                icon.style.fontFamily = '';
+            });
+        }
+
+        // ========================================
+        // ELEMENTOS DOM
+        // ========================================
+        
+        const elements = {
+            instructionsBox: document.getElementById('instructions-box'),
+            closeInstructionsBtn: document.getElementById('close-instructions'),
+            mainNavButtons: document.querySelectorAll('.main-nav-btn'),
+            views: document.querySelectorAll('.view'),
+            techNavContainer: document.getElementById('technique-navigation-content'),
+            techContentArea: document.getElementById('technique-content'),
+            accordionContainer: document.getElementById('accordion-container')
+        };
+
+        // ========================================
+        // FUNCIONES DE UTILIDAD
+        // ========================================
+        
+        function createListHTML(items, iconClass) {
+            return items.map(item => 
+                `<li><i class="${iconClass}"></i><span>${item}</span></li>`
+            ).join('');
+        }
+
+        function setActiveButton(buttons, activeButton) {
+            buttons.forEach(btn => btn.classList.remove('active'));
+            activeButton.classList.add('active');
+        }
+
+        function switchView(targetId) {
+            elements.views.forEach(view => 
+                view.classList.toggle('hidden', view.id !== targetId)
+            );
+            elements.mainNavButtons.forEach(button => 
+                button.classList.toggle('active', button.dataset.target === targetId)
+            );
+        }
+
+        // ========================================
+        // FUNCIONES DE CONTENIDO
+        // ========================================
+        
+        function displayTechnique(techniqueId) {
+            const tech = TECHNIQUES_DATA.find(t => t.id === techniqueId);
+            if (!tech) return;
+
+            const whenToUseList = createListHTML(tech.whenToUse, `fas fa-check-circle text-pantone-${tech.color}`);
+            const advantagesList = createListHTML(tech.advantages, 'fas fa-plus-circle');
+            const disadvantagesList = createListHTML(tech.disadvantages, 'fas fa-minus-circle');
+
+            elements.techContentArea.innerHTML = `
+                <h3 class="technique-title text-pantone-${tech.color}">
+                    <i class="${tech.icon}" style="margin-right: 0.75rem; font-size: 1.5rem;"></i>
+                    ${tech.title}
+                </h3>
+                <p class="technique-level">Nivel: ${tech.level}</p>
+                
+                <div class="technique-sections">
+                    <div class="technique-section">
+                        <h4><i class="fas fa-lightbulb"></i>¿Qué es?</h4>
+                        <p>${tech.whatIs}</p>
+                    </div>
+                    <div class="technique-section">
+                        <h4><i class="fas fa-compass"></i>¿Cuándo usarlo?</h4>
+                        <ul class="technique-list">${whenToUseList}</ul>
+                    </div>
+                    <div class="technique-section">
+                        <h4><i class="fas fa-road"></i>¿Cómo hacerlo?</h4>
+                        <div class="technique-how-to">${tech.howToDo}</div>
+                    </div>
+                    <div class="technique-pros-cons">
+                        <div class="technique-section">
+                            <h4><i class="fas fa-star"></i>Ventajas</h4>
+                            <ul class="technique-list">${advantagesList}</ul>
+                        </div>
+                        <div class="technique-section">
+                            <h4><i class="fas fa-exclamation-circle"></i>Desventajas</h4>
+                            <ul class="technique-list">${disadvantagesList}</ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            elements.techContentArea.className = `technique-content border-pantone-${tech.color}`;
+            
+            // Actualizar estados de botones
+            document.querySelectorAll('.technique-button').forEach(btn => {
+                const btnTech = TECHNIQUES_DATA.find(t => t.id === parseInt(btn.dataset.techniqueId));
+                btn.classList.remove('active', `bg-pantone-${btnTech.color}-light`);
+                if (parseInt(btn.dataset.techniqueId) === techniqueId) {
+                    btn.classList.add('active', `bg-pantone-${tech.color}-light`);
+                }
+            });
+
+            // Aplicar emojis al nuevo contenido si es necesario
+            setTimeout(() => {
+                applyEmojiToContainer(elements.techContentArea);
+            }, 50);
+        }
+
+        function initializeTechniqueNavigation() {
+            LEVEL_CONFIG.levels.forEach(level => {
+                const levelContainer = document.createElement('div');
+                levelContainer.style.marginBottom = '1.5rem';
+                
+                const levelTitle = document.createElement('h3');
+                levelTitle.className = `technique-level-title ${LEVEL_CONFIG.classes[level]}`;
+                levelTitle.innerHTML = `<i class="${LEVEL_CONFIG.icons[level]}"></i>${level}`;
+                levelContainer.appendChild(levelTitle);
+                
+                const techInLevel = TECHNIQUES_DATA.filter(t => t.level === level);
+                techInLevel.forEach(tech => {
+                    const button = document.createElement('button');
+                    button.className = 'technique-button';
+                    button.dataset.techniqueId = tech.id;
+                    button.innerHTML = `
+                        <i class="${tech.icon}"></i>
+                        <span><span style="font-weight: 700;">${tech.id}.</span> ${tech.title.split('(')[0].trim()}</span>
+                    `;
+                    button.addEventListener('click', () => displayTechnique(tech.id));
+                    levelContainer.appendChild(button);
+                });
+                elements.techNavContainer.appendChild(levelContainer);
+            });
+
+            // Aplicar emojis a la navegación si es necesario
+            setTimeout(() => {
+                applyEmojiToContainer(elements.techNavContainer);
+            }, 50);
+        }
+
+        function initializeAccordion() {
+            const allAccordionButtons = [];
+            
+            ACCORDION_DATA.forEach(item => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'accordion-item';
+                
+                const button = document.createElement('button');
+                button.className = 'accordion-button';
+                button.innerHTML = `
+                    <span style="display: flex; align-items: center; gap: 0.75rem;">
+                        <i class="${item.icon}" style="color: var(--pantone-green); font-size: 1.125rem;"></i>
+                        ${item.title}
+                    </span>
+                    <i class="fas fa-chevron-down"></i>
+                `;
+                
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'accordion-content';
+                contentWrapper.innerHTML = `<div class="accordion-content-inner">${item.content}</div>`;
+                
+                wrapper.appendChild(button);
+                wrapper.appendChild(contentWrapper);
+                elements.accordionContainer.appendChild(wrapper);
+                allAccordionButtons.push(button);
+            });
+
+            // Configurar eventos de acordeón
+            allAccordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('i:last-child');
+                    const isOpening = !content.style.maxHeight;
+
+                    // Cerrar todos los demás acordeones
+                    allAccordionButtons.forEach(otherButton => {
+                        if (otherButton !== button) {
+                            const otherContent = otherButton.nextElementSibling;
+                            const otherIcon = otherButton.querySelector('i:last-child');
+                            otherContent.style.maxHeight = null;
+                            otherIcon.classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Abrir o cerrar el acordeón clickeado
+                    if (isOpening) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.classList.add('rotate-180');
+                    } else {
+                        content.style.maxHeight = null;
+                        icon.classList.remove('rotate-180');
+                    } 
+                });
+            });
+
+            // Aplicar emojis al acordeón si es necesario
+            setTimeout(() => {
+                applyEmojiToContainer(elements.accordionContainer);
+            }, 50);
+        }
+
+        // ========================================
+        // EVENTOS Y INICIALIZACIÓN
+        // ========================================
+        
+        function initializeEventListeners() {
+            // Cerrar instrucciones
+            if (elements.closeInstructionsBtn) {
+                elements.closeInstructionsBtn.addEventListener('click', () => {
+                    elements.instructionsBox.style.opacity = '0';
+                    setTimeout(() => {
+                        elements.instructionsBox.style.display = 'none';
+                    }, 500);
+                });
+            }
+
+            // Navegación principal
+            elements.mainNavButtons.forEach(button => 
+                button.addEventListener('click', () => switchView(button.dataset.target))
+            );
+        }
+
+        function initialize() {
+            initializeEventListeners();
+            initializeTechniqueNavigation();
+            initializeAccordion();
+            switchView('view-guia');
+            displayTechnique(1);
+            
+            // Aplicar emojis a todos los elementos existentes solo si es necesario
+            setTimeout(() => {
+                if (!window.fontAwesomeLoaded) {
+                    applyEmojiIcons();
+                }
+            }, 300);
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si Font Awesome se cargó correctamente
+            checkFontAwesome();
+            initialize();
+        });
+
+        // Función para aplicar iconos fallback al contenido recién generado
+        function applyFallbackToNewContent(container) {
+            if (!window.fontAwesomeLoaded) {
+                const iconMap = {
+                    'fa-comments': '💬',
+                    'fa-chalkboard-teacher': '👨‍🏫',
+                    'fa-info-circle': 'ℹ️',
+                    'fa-times': '✕',
+                    'fa-book-open': '📖',
+                    'fa-list-ul': '📋',
+                    'fa-route': '🗺️',
+                    'fa-bug': '🐛',
+                    'fa-dumbbell': '🏋️',
+                    'fa-user-shield': '🛡️',
+                    'fa-bullseye': '🎯',
+                    'fa-clone': '📄',
+                    'fa-scroll': '📜',
+                    'fa-theater-masks': '🎭',
+                    'fa-puzzle-piece': '🧩',
+                    'fa-mountain': '⛰️',
+                    'fa-stairs': '🪜',
+                    'fa-eye': '👁️',
+                    'fa-project-diagram': '🗂️',
+                    'fa-brain': '🧠',
+                    'fa-foundation': '🏗️',
+                    'fa-chart-line': '📈',
+                    'fa-gem': '💎',
+                    'fa-lightbulb': '💡',
+                    'fa-compass': '🧭',
+                    'fa-road': '🛣️',
+                    'fa-star': '⭐',
+                    'fa-exclamation-circle': '⚠️',
+                    'fa-check-circle': '✅',
+                    'fa-plus-circle': '➕',
+                    'fa-minus-circle': '➖',
+                    'fa-chevron-down': '▼'
+                };
+
+                container.querySelectorAll('i[class*="fa"]').forEach(icon => {
+                    const classes = icon.className.split(' ');
+                    let replaced = false;
+                    
+                    for (let className of classes) {
+                        if (iconMap[className]) {
+                            icon.innerHTML = iconMap[className];
+                            icon.classList.add('emoji-icon');
+                            icon.style.fontFamily = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+                            replaced = true;
+                            break;
+                        }
+                    }
+                    
+                    // Si no encontró el icono específico, usar un icono genérico
+                    if (!replaced) {
+                        icon.innerHTML = '•';
+                        icon.classList.add('emoji-icon');
+                    }
+                });
+            }
+        }
+
+        // Función para verificar si Font Awesome está disponible
+        function checkFontAwesome() {
+            const testElement = document.createElement('i');
+            testElement.className = 'fas fa-home';
+            testElement.style.position = 'absolute';
+            testElement.style.left = '-9999px';
+            document.body.appendChild(testElement);
+            
+            const computedStyle = window.getComputedStyle(testElement, ':before');
+            const content = computedStyle.getPropertyValue('content');
+            
+            document.body.removeChild(testElement);
+            
+            // Si Font Awesome no se cargó, usar iconos alternativos
+            if (!content || content === 'none' || content === '') {
+                console.warn('Font Awesome no se cargó correctamente, usando iconos alternativos');
+                window.fontAwesomeLoaded = false;
+                useFallbackIcons();
+            } else {
+                window.fontAwesomeLoaded = true;
+            }
+        }
+
+        // Función para usar iconos alternativos cuando Font Awesome no carga
+        function useFallbackIcons() {
+            window.fontAwesomeLoaded = false;
+            
+            const iconMap = {
+                'fa-comments': '💬',
+                'fa-chalkboard-teacher': '👨‍🏫',
+                'fa-info-circle': 'ℹ️',
+                'fa-times': '✕',
+                'fa-book-open': '📖',
+                'fa-list-ul': '📋',
+                'fa-route': '🗺️',
+                'fa-bug': '🐛',
+                'fa-dumbbell': '🏋️',
+                'fa-user-shield': '🛡️',
+                'fa-bullseye': '🎯',
+                'fa-clone': '📄',
+                'fa-scroll': '📜',
+                'fa-theater-masks': '🎭',
+                'fa-puzzle-piece': '🧩',
+                'fa-mountain': '⛰️',
+                'fa-stairs': '🪜',
+                'fa-eye': '👁️',
+                'fa-project-diagram': '🗂️',
+                'fa-brain': '🧠',
+                'fa-foundation': '🏗️',
+                'fa-chart-line': '📈',
+                'fa-gem': '💎',
+                'fa-lightbulb': '💡',
+                'fa-compass': '🧭',
+                'fa-road': '🛣️',
+                'fa-star': '⭐',
+                'fa-exclamation-circle': '⚠️',
+                'fa-check-circle': '✅',
+                'fa-plus-circle': '➕',
+                'fa-minus-circle': '➖',
+                'fa-chevron-down': '▼'
+            };
+
+            document.querySelectorAll('i[class*="fa"]').forEach(icon => {
+                const classes = icon.className.split(' ');
+                let replaced = false;
+                
+                for (let className of classes) {
+                    if (iconMap[className]) {
+                        icon.innerHTML = iconMap[className];
+                        icon.classList.add('emoji-icon');
+                        icon.style.fontFamily = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+                        replaced = true;
+                        break;
+                    }
+                }
+                
+                // Si no encontró el icono específico, usar un icono genérico
+                if (!replaced) {
+                    icon.innerHTML = '•';
+                    icon.classList.add('emoji-icon');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
